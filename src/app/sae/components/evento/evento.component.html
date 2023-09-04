@@ -1,0 +1,37 @@
+<div class="grid">
+    <div class="col-12">
+            <div class="card">
+                <h5>Eventos</h5>
+                <p-table [value]="eventos" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width:200px">Id</th>
+                            <th style="width:200px">numero ot</th>
+                            <th style="width:200px">tipo_evento</th>
+                            <th style="width:200px">rut_maestro</th>
+                            <th style="width:200px">rut_ayudante</th>
+                            <th style="width:200px">turno</th>
+                            <th style="width:200px">base</th>
+                            <th style="width:200px">requerimiento</th>
+                            <th style="width:200px">direccion</th>
+                            <th style="width:200px">fecha</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-evento>
+                        <tr>
+                            <td style="width:200px" class="font-bold">{{evento.id}}</td>
+                            <td style="width:200px" >{{evento.numero_ot}}</td>
+                            <td style="width:200px" >{{evento.tipo_evento}}</td>
+                            <td style="width:200px">{{evento.rut_maestro}}</td>
+                            <td style="width:200px">{{evento.rut_ayudante}}</td>
+                            <td style="width:200px">{{evento.turno}}</td>
+                            <td style="width:200px">{{evento.base}}</td>
+                            <td style="width:200px">{{evento.requerimiento}}</td>
+                            <td style="width:200px">{{evento.direccion}}</td>
+                            <td style="width:200px">{{evento.fecha_hora}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
