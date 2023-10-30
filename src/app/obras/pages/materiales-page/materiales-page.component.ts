@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
+import * as XLSX from 'xlsx';
+
+
 import { Obra, Zona, Delegacion, Tipotrabajos, Empresacontratistas, Coordinadorcontratistas, Comuna, Estado, Tipo_obra, Segmento } from '../../interfaces/obra.interface';
 
 import { Product } from '../../interfaces/product.interface';
@@ -117,6 +120,27 @@ export class MaterialesPageComponent implements OnInit {
             { label: 'OUTOFSTOCK', value: 'outofstock' }
         ];
     }
+
+
+
+
+    onFileUpload(event: any) {
+        const file = event.files[0]; // Obtén el archivo Excel desde el evento
+      
+        const reader = new FileReader();
+      
+        reader.onload = (e: any) => {
+          const bstr: string = e.target.result;
+          const workbook = XLSX.read(bstr, { type: 'binary' });
+      
+          // Aquí puedes procesar el archivo Excel (workbook) según tus necesidades.
+          // Por ejemplo, puedes recorrer las hojas, extraer datos, etc.
+        };
+      
+        reader.readAsBinaryString(file);
+      }
+
+      
 
     openNew() {
         this.mostrarGuardar = true;
