@@ -12,3 +12,41 @@ $gutter: 1rem; //for primeflex grid system
 @import "assets/demo/styles/flags/flags.css";
 @import "assets/demo/styles/badges.scss";
 @import "assets/demo/styles/code.scss";
+
+@import "primeicons/primeicons.css";
+
+
+
+/* You can add global styles to this file, and also import other style files */
+
+.calendar-container .p-datepicker {
+    width: 200px;
+    height: 270px;
+    /* Otros estilos personalizados según tus necesidades */
+}
+
+.p-datepicker table th {
+    padding: 0;
+}
+
+.p-datepicker table th,
+.p-datepicker table td {
+    padding: 0 !important;
+}
+
+.p-datepicker table td>span {
+    width: 2rem !important;
+    height: 2rem !important;
+}
+
+.p-datepicker .p-datepicker-header {
+    padding: 0;
+    border-top-right-radius: 1px;
+    border-top-left-radius: 1px;
+}
+
+
+/* .p-dropdown .p-dropdown-label {
+    background: #554ea6;
+    border: 1px solid #304562;
+} */

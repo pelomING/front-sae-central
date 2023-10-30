@@ -11,28 +11,21 @@ import { ProductService } from 'src/app/demo/service/product.service';
 export class CrudComponent implements OnInit {
 
     productDialog: boolean = false;
-
     deleteProductDialog: boolean = false;
-
     deleteProductsDialog: boolean = false;
 
     products: Product[] = [];
-
     product: Product = {};
-
     selectedProducts: Product[] = [];
-
     submitted: boolean = false;
-
     cols: any[] = [];
-
     statuses: any[] = [];
-
     rowsPerPageOptions = [5, 10, 20];
 
     constructor(private productService: ProductService, private messageService: MessageService) { }
 
     ngOnInit() {
+
         this.productService.getProducts().then(data => this.products = data);
 
         this.cols = [
@@ -64,6 +57,7 @@ export class CrudComponent implements OnInit {
         this.product = { ...product };
         this.productDialog = true;
     }
+
 
     deleteProduct(product: Product) {
         this.deleteProductDialog = true;

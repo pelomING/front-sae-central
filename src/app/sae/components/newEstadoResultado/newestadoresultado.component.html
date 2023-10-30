@@ -1,0 +1,261 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="form-group">
+                        <p-dropdown [options]="paquetes" [(ngModel)]="selectedPaquete" optionLabel="name"
+                            placeholder="Paquete"></p-dropdown>
+                    </div>
+                    <div class="form-group">
+                        <p-dropdown [options]="meses" [(ngModel)]="selectedMes" optionLabel="name"
+                            placeholder="Mes"></p-dropdown>
+                    </div>
+                    <div class="form-group">
+                        <p-calendar [(ngModel)]="FechaInicio" [showIcon]="true"
+                            placeholder="Ejecutados Desde"></p-calendar>
+                    </div>
+                    <div class="form-group">
+                        <p-calendar [(ngModel)]="FechaFinal" [showIcon]="true"
+                            placeholder="Ejecutados Hasta"></p-calendar>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+
+                    <button pButton pRipple label="Consultar" icon="pi pi-check" class="p-button-success"
+                        (click)="ConsultarEstadoResultado()"></button>
+
+                    <button [useExistingCss]="true" printSectionId="pdfContainer" ngxPrint pButton pRipple
+                        label="Generar PDF" icon="pi pi-search" class="p-button-help"></button>
+
+                </ng-template>
+            </p-toolbar>
+
+
+            <div class="card">
+                <div class="grid">
+                    <div class="col-fixed" style="width:100px">
+                        <div class="box">
+
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="box">
+                            <div id="pdfContainer" class="text-xs font-normal">
+
+                                <h5 class="cajatitulo">ESTADO DE PAGO</h5>
+
+                                <div class="grid">
+                                    <div class="col-fixed" style="width:50px">
+
+                                    </div>
+                                    <div class="col">
+
+                                        <p>
+                                            <strong>Periodo:</strong> Agosto
+                                        </p>
+
+                                        <p>
+                                            <strong>Zonal:</strong> Maule Norte
+                                        </p>
+
+                                        <p>
+                                            <strong>Paquete:</strong> Talca
+                                        </p>
+
+                                        <p>
+                                            <strong>Fecha inicial:</strong> 15-07-2023
+                                            <strong>Fecha final:</strong> 16-08-2023
+                                        </p>
+
+                                    </div>
+                                </div>
+
+                                <h6 class="cajatitulo">TURNOS CONTRATADOS</h6>
+
+                                <div class="grid">
+                                    <div class="col-fixed" style="width:50px">
+                                    </div>
+                                    <div class="col">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>PERMANENCIA SEMANAL</th>
+                                                    <th>CANTIDAD</th>
+                                                    <th>PRECIO</th>
+                                                    <th>USO SEMANAL</th>
+                                                    <th>MONTO</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of ListResumenTurno">
+                                                    <td style="text-align:left;padding-left:5px ; ">{{
+                                                        item.permanencia_semanal }}</td>
+                                                    <td>{{ item.cantidad_brigada }}</td>
+                                                    <td>{{ item.precio | currency:'CLP':'$':'1.0-0' | commaToDot }}</td>
+                                                    <td>{{ item.uso_semanal }}</td>
+                                                    <td>{{ item.monto | currency:'CLP':'$':'1.0-0' | commaToDot }}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="4"><strong> SUBTOTAL FIJO </strong></td>
+                                                    <td>{{ this.sumatoriaResumenTurno | currency:'CLP':'$':'1.0-0' |
+                                                        commaToDot }}</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="col-fixed" style="width:100px">
+                                    </div>
+                                </div>
+
+                                <h6 class="cajatitulo">EVENTOS</h6>
+
+                                <div class="grid">
+                                    <div class="col-fixed" style="width:50px">
+                                    </div>
+                                    <div class="col">
+
+                                        <table border="1">
+                                            <thead>
+                                                <tr>
+                                                    <th>EVENTOS</th>
+                                                    <th>CANTIDAD</th>
+                                                    <th>PRECIO</th>
+                                                    <th>MONTO</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr *ngFor="let item of ListResumenEvento">
+                                                    <td style="text-align:left;">{{ item.glosa_evento }}</td>
+                                                    <td>{{ item.cantidad }}</td>
+                                                    <td>{{ item.precio | currency:'CLP':'$':'1.0-0' | commaToDot }}</td>
+                                                    <td>{{ item.monto | currency:'CLP':'$':'1.0-0' | commaToDot }}</td>
+                                                </tr>
+
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="3"> <strong> SUB TOTAL VARIABLE </strong></td>
+                                                    <td>{{ this.sumatoriaResumenEvento | currency:'CLP':'$':'1.0-0' |
+                                                        commaToDot }}</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+
+                                    </div>
+                                    <div class="col-fixed" style="width:100px">
+                                    </div>
+                                </div>
+
+                                <h6 class="cajatitulo">CARGOS ADICIONALES</h6>
+
+                                <div class="grid">
+                                    <div class="col-fixed" style="width:50px">
+                                    </div>
+                                    <div class="col">
+
+                                        <table border="1">
+                                            <thead>
+                                                <tr>
+                                                    <th>DESCRIPCIÓN</th>
+                                                    <th>CANTIDAD</th>
+                                                    <th>PRECIO</th>
+                                                    <th>MONTO</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>-</td>
+                                                    <td>0</td>
+                                                    <td>-</td>
+                                                    <td>0</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="3"><strong> SUB TOTAL CARGOS ADICIONALES </strong></td>
+                                                    <td>0</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+
+                                    </div>
+                                    <div class="col-fixed" style="width:100px">
+                                    </div>
+                                </div>
+
+                                <h6 class="cajatitulo">TOTALES</h6>
+
+                                <div class="grid">
+                                    <div class="col-fixed" style="width:500px">
+                                    </div>
+                                    <div class="col">
+
+                                        <table border="1">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="text-align:left;">CARGOS FIJOS</td>
+                                                    <td>{{ this.sumatoriaResumenTurno | currency:'CLP':'$':'1.0-0' |
+                                                        commaToDot }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align:left;">CARGOS VARIABLES</td>
+                                                    <td>{{ this.sumatoriaResumenEvento | currency:'CLP':'$':'1.0-0' |
+                                                        commaToDot }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align:left;">CARGOS ADICIONALES</td>
+                                                    <td>0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align:left;">TOTAL</td>
+                                                    <td>{{ this.sumatoriaResumenTurno + this.sumatoriaResumenEvento |
+                                                        currency:'CLP':'$':'1.0-0' | commaToDot }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <div class="col-fixed" style="width:100px">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-fixed" style="width:100px">
+                        <div class="box">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card flex justify-content-center">
+                <p-button label="Cerrar Periodo" [loading]="loading" (onClick)="CrearEstadoResultado()"></p-button>
+            </div>
+
+        </div>
+
+
+        <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="product">Cerrar el Periodo?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+                    (click)="deleteProductDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sí"
+                    (click)="ConfirmoCerrarPeriodo()"></button>
+            </ng-template>
+        </p-dialog>
+
+
+    </div>
+</div>

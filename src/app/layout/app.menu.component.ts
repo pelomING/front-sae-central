@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LayoutService } from './service/app.layout.service';
+import { PrimeIcons } from 'primeng/api';
 
 @Component({
     selector: 'app-menu',
@@ -16,9 +17,68 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Gestión Sae',
                 items: [
-                    { label: 'Eventos', icon: 'pi pi-fw pi-home', routerLink: ['/evento'] },
-                    { label: 'Jornadas', icon: 'pi pi-fw pi-home', routerLink: ['/jornada'] }
+
+                    {
+                        label: 'Dashboard',
+                        icon: PrimeIcons.STAR_FILL,
+                        routerLink: '/obras/dashboard',
+                      },
+                    { label: 'Eventos', icon: 'pi pi-fw pi-angle-right', routerLink: ['/evento'] },
+                    { label: 'Jornadas', icon: 'pi pi-fw pi-angle-right', routerLink: ['/jornada'] },
+                    { label: 'Estado', icon: 'pi pi-fw pi-angle-right', routerLink: ['/estado'] },
+                    { label: 'NewEstado', icon: 'pi pi-fw pi-angle-right', routerLink: ['/NewEstado'] }
                 ]
+            },
+            {
+                label: 'Gestión Obras',
+                items: [
+                    {
+                      label: 'Dashboard',
+                      icon: PrimeIcons.STAR_FILL,
+                      routerLink: '/obras/dashboard',
+                    },
+          
+                    {
+                      label: 'Listado de Obras',
+                      icon: 'pi pi-fw pi-angle-right',
+                      routerLink: '/obras',
+                    },
+                    {
+                      label: 'Materiales Obras',
+                      icon: 'pi pi-fw pi-angle-right',
+                      routerLink: '/obras/materiales',
+                    },
+                    {
+                      label: 'Agenda Visita Terreno',
+                      icon: 'pi pi-fw pi-angle-right',
+                      routerLink: '/obras/agendas'
+                    },
+                    {
+                      label: 'Reporte Diario',
+                      icon: 'pi pi-fw pi-angle-right',
+                      routerLink: '/obras/reportediario'
+                    },
+                    {
+                      label: 'Materiales faltantes',
+                      icon: 'pi pi-fw pi-angle-right',
+                      routerLink: '/obras/materialesfaltantes'
+                    },
+                    {
+                      label: 'Cuadratura Materiales',
+                      icon: 'pi pi-fw pi-angle-right',
+                      routerLink: '/obras/cuadraturamateriales'
+                    },
+                    {
+                      label: 'Estado de Pago',
+                      icon: 'pi pi-fw pi-angle-right',
+                      routerLink: '/obras/estadopago'
+                    },
+                    {
+                      label: 'Estado de Obras',
+                      icon: 'pi pi-fw pi-angle-right',
+                      routerLink: '/obras/estadoobra'
+                    }
+                  ]
             },
             {
                 label: 'Personal',

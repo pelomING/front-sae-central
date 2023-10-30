@@ -16,11 +16,25 @@ import { HomeComponent } from './home/home.component';
                     { path: 'documentation', loadChildren: () => import('./demo/components/documentation/documentation.module').then(m => m.DocumentationModule) },
                     { path: 'blocks', loadChildren: () => import('./demo/components/primeblocks/primeblocks.module').then(m => m.PrimeBlocksModule) },
                     { path: 'pages', loadChildren: () => import('./demo/components/pages/pages.module').then(m => m.PagesModule) },
+                    
                     { path: 'jornada', loadChildren: () => import('./sae/components/jornada/jornada.module').then(m => m.JornadaModule) },
                     { path: 'evento', loadChildren: () => import('./sae/components/evento/evento.module').then(m => m.EventoModule) },
                     { path: 'persona', loadChildren: () => import('./sae/components/persona/persona.module').then(m => m.PersonaModule) },
+                    
+                    { path: 'estado', loadChildren: () => import('./sae/components/estadoResultado/estadoresultado.module').then(m => m.EstadoResultadoModule ) },
+                    { path: 'NewEstado', loadChildren: () => import('./sae/components/newEstadoResultado/newestadoresultado.module').then(m => m.NewEstadoResultadoModule   ) },
+
+
+                    {
+                        path: 'obras',
+                        loadChildren: () => import('./obras/obras.module').then(m => m.ObrasModule),
+                        //canActivate: [ AuthGuard ],
+                        //canMatch: [ AuthGuard ]
+                      },
+
+
                     { path: 'home', component: HomeComponent },
-                    { path: '', redirectTo: 'home', pathMatch: 'full' }
+                    { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
                 ]
             },
             { path: 'auth', loadChildren: () => import('./demo/components/auth/auth.module').then(m => m.AuthModule) },

@@ -13,9 +13,8 @@ import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-
-
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
+import { EstadoResultadoService } from 'src/app/sae/services/estadoResultado.service';
 
 @NgModule({
     declarations: [
@@ -29,7 +28,7 @@ import { httpInterceptorProviders } from './_helpers/http.interceptor';
         httpInterceptorProviders,
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService
+        PhotoService, ProductService, EstadoResultadoService
     ],
     bootstrap: [AppComponent]
 })

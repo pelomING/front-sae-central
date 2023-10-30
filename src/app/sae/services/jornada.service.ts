@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Jornada } from '../model/jornada.model';
+import { Turnos } from '../model/turnos.model';
 import { Observable } from 'rxjs';
 
 const API_URL = 'http://localhost:8080/api/reportes/v1';
@@ -10,7 +10,7 @@ const API_URL = 'http://localhost:8080/api/reportes/v1';
 })
 export class JornadaService {
     constructor(private http: HttpClient) { }
-    getJornada(): Observable <Jornada[]> {
-        return this.http.get<Jornada[]>(`${API_URL}/alljornada`);
+    getJornada(): Observable <Turnos[]> {
+        return this.http.get<Turnos[]>(`${API_URL}/alljornada`);
     }
 }

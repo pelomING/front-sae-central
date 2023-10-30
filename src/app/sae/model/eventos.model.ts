@@ -1,4 +1,4 @@
-export interface Evento {
+export interface Eventos {
     id?: number;
     numero_ot?: number;
     tipo_evento?: string;

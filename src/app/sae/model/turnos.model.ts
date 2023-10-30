@@ -1,4 +1,4 @@
-export interface Jornada {
+export interface Turnos {
     id?: number;
     rut_maestro?: string;
     rut_ayudante?: string;

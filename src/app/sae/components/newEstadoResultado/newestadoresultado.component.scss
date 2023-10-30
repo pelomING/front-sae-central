@@ -1,0 +1,66 @@
+/* Estilos CSS personalizados */
+#myDialog .ui-dialog-titlebar {
+    height: auto;
+    /* Ajusta la altura según tus necesidades */
+}
+
+#myDialog .ui-dialog-content {
+    overflow-y: auto;
+    /* Agregar barra de desplazamiento vertical al contenido si es necesario */
+}
+
+#myDialog .ui-datepicker {
+    top: calc(100% - 10px) !important;
+    /* Ajusta el valor según tus necesidades */
+    left: 0 !important;
+}
+
+
+.form-group {
+    margin-right: 15px;
+}
+
+div {
+    border-color: #92a8d1;
+}
+
+
+#pdfContainer {
+
+    /* Aplicar un borde sólido de 1px y color negro */
+    border: 1px solid #dddddd;
+    font-family: arial, sans-serif;
+
+
+    /* Centrar el div horizontalmente y verticalmente */
+    //margin: 0 auto;
+    /* Esto centra horizontalmente */
+    //display: flex;
+    //justify-content: center; /* Esto centra horizontalmente también */
+    //align-items: center; /* Esto centra verticalmente */
+
+    /* Especificar un ancho y altura si es necesario */
+    //width: 500;
+    /* Ajusta el ancho según tus necesidades */
+    //height: 900px;
+    /* Ajusta la altura según tus necesidades */
+}
+
+.cajatitulo {
+    border: 1px solid #dddddd;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: right;
+    padding: 0px;
+  }
