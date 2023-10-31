@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { Product } from '../model/product.model';
 import { EstadoResultado } from '../model/estadoResultado.model'
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
-const API_URL = 'http://localhost:8080/api/reportes/v1';
-
-const API_URL_2 = 'https://backend-sae-postgres-desarrollo.up.railway.app/api/reportes/v1';
+//const API_URL = 'http://localhost:8080/api/reportes/v1';
+//const API_URL_2 = 'https://backend-sae-postgres-desarrollo.up.railway.app/api/reportes/v1';
 
 interface ResumenEvento {
     cantidad: string;
@@ -31,6 +31,8 @@ interface ResumenTurno {
 @Injectable()
 export class EstadoResultadoService {
 
+    private API_URL = environment.baseUrl + '/api/reportes/v1';
+
     constructor(private http: HttpClient) { }
 
     getProductsSmall() {
@@ -41,7 +43,7 @@ export class EstadoResultadoService {
     }
 
     getEstadosResultados(): Observable<EstadoResultado[]> {
-        return this.http.get<EstadoResultado[]>(`${API_URL}/allestadosresultado`);
+        return this.http.get<EstadoResultado[]>(`${this.API_URL}/allestadosresultado`);
     }
 
     getResumenEventos(fechaInicial: string, fechaFinal: string, idPaquete: number): Observable<ResumenEvento[]> {
@@ -52,7 +54,7 @@ export class EstadoResultadoService {
             .set('id_paquete', idPaquete.toString()); // Convierte a cadena si es necesario
 
         // Realiza la solicitud GET con los parámetros en la URL
-        return this.http.get<ResumenEvento[]>(`${API_URL_2}/resumeneventos`, { params });
+        return this.http.get<ResumenEvento[]>(`${this.API_URL}/resumeneventos`, { params });
     }
 
     getResumenTurnos(fechaInicial: string, fechaFinal: string, idPaquete: number): Observable<ResumenTurno[]> {
@@ -63,7 +65,7 @@ export class EstadoResultadoService {
             .set('id_paquete', idPaquete.toString()); // Convierte a cadena si es necesario
 
         // Realiza la solicitud GET con los parámetros en la URL
-        return this.http.get<ResumenTurno[]>(`${API_URL_2}/resumenturnos`, { params });
+        return this.http.get<ResumenTurno[]>(`${this.API_URL}/resumenturnos`, { params });
     }
 
     getcreaEstadoResultado(fechaInicial: string, fechaFinal: string, idPaquete: number): Observable<any[]> {
@@ -86,7 +88,7 @@ export class EstadoResultadoService {
         });
 
         // Realiza la solicitud GET con los parámetros en la URL
-        return this.http.post<any[]>(`${API_URL}/creaEstadoResultado`, data, { headers });
+        return this.http.post<any[]>(`${this.API_URL}/creaEstadoResultado`, data, { headers });
 
     }
 

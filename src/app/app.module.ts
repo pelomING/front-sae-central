@@ -12,13 +12,13 @@ import { IconService } from './demo/service/icon.service';
 import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
 import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
+
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
 import { EstadoResultadoService } from 'src/app/sae/services/estadoResultado.service';
 
 @NgModule({
     declarations: [
-        AppComponent, NotfoundComponent, HomeComponent, LoginComponent
+        AppComponent, NotfoundComponent, HomeComponent
     ],
     imports: [
         AppRoutingModule,

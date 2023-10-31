@@ -1,12 +1,22 @@
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+
 import { NotfoundComponent } from './demo/components/notfound/notfound.component';
 import { AppLayoutComponent } from "./layout/app.layout.component";
-import { HomeComponent } from './home/home.component';
+
+import { AuthGuard } from './auth/guards/auth.guard';
+import { PublicGuard } from './auth/guards/public.guard';
 
 @NgModule({
     imports: [
         RouterModule.forRoot([
+
+            {
+                path: 'auth',
+                loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
+                canActivate: [PublicGuard],
+                canMatch: [PublicGuard]
+            },
             {
                 path: '', component: AppLayoutComponent,
                 children: [
@@ -16,27 +26,21 @@ import { HomeComponent } from './home/home.component';
                     { path: 'documentation', loadChildren: () => import('./demo/components/documentation/documentation.module').then(m => m.DocumentationModule) },
                     { path: 'blocks', loadChildren: () => import('./demo/components/primeblocks/primeblocks.module').then(m => m.PrimeBlocksModule) },
                     { path: 'pages', loadChildren: () => import('./demo/components/pages/pages.module').then(m => m.PagesModule) },
-                    
                     { path: 'jornada', loadChildren: () => import('./sae/components/jornada/jornada.module').then(m => m.JornadaModule) },
                     { path: 'evento', loadChildren: () => import('./sae/components/evento/evento.module').then(m => m.EventoModule) },
                     { path: 'persona', loadChildren: () => import('./sae/components/persona/persona.module').then(m => m.PersonaModule) },
-                    
-                    { path: 'estado', loadChildren: () => import('./sae/components/estadoResultado/estadoresultado.module').then(m => m.EstadoResultadoModule ) },
-                    { path: 'NewEstado', loadChildren: () => import('./sae/components/newEstadoResultado/newestadoresultado.module').then(m => m.NewEstadoResultadoModule   ) },
-
-
+                    { path: 'estado', loadChildren: () => import('./sae/components/estadoResultado/estadoresultado.module').then(m => m.EstadoResultadoModule) },
+                    { path: 'NewEstado', loadChildren: () => import('./sae/components/newEstadoResultado/newestadoresultado.module').then(m => m.NewEstadoResultadoModule) },
                     {
                         path: 'obras',
                         loadChildren: () => import('./obras/obras.module').then(m => m.ObrasModule),
-                        //canActivate: [ AuthGuard ],
-                        //canMatch: [ AuthGuard ]
-                      },
-
-
-                    { path: 'home', component: HomeComponent },
+                    },
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
-                ]
+                ],                       
+                canActivate: [ AuthGuard ],
+                canMatch: [ AuthGuard ]
             },
+            
             { path: 'auth', loadChildren: () => import('./demo/components/auth/auth.module').then(m => m.AuthModule) },
             { path: 'landing', loadChildren: () => import('./demo/components/landing/landing.module').then(m => m.LandingModule) },
             { path: 'notfound', component: NotfoundComponent },

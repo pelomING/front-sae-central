@@ -1,4 +1,7 @@
 import { NgModule } from '@angular/core';
+import { PrimeNGModule } from '../_primeng/primeng.module';
+
+
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -39,7 +42,8 @@ import { AppLayoutComponent } from "./app.layout.component";
         InputSwitchModule,
         RippleModule,
         RouterModule,
-        AppConfigModule
+        AppConfigModule,
+        PrimeNGModule
     ],
     exports: [AppLayoutComponent]
 })
