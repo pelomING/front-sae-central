@@ -3,6 +3,7 @@ export interface Turnos {
     rut_maestro?: string;
     rut_ayudante?: string;
     codigo_turno?: number;
+    turno?: string;
     patente?: string;
     base?: number;
     km_inicial?: number;

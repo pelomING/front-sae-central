@@ -6,7 +6,7 @@
                 <p-table [value]="eventos" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th style="width:100px">Id</th>
+                            <th style="width:50px">Id</th>
                             <th style="width:100px">N° Ot</th>
                             <th style="width:200px">Tipo Evento</th>
                             <th style="width:200px">Maestro</th>
@@ -20,8 +20,8 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-evento>
                         <tr>
-                            <td style="width:200px" class="font-bold">{{evento.id}}</td>
-                            <td style="width:200px" >{{evento.numero_ot}}</td>
+                            <td style="width:50px" class="font-bold">{{evento.id}}</td>
+                            <td style="width:100px" >{{evento.numero_ot}}</td>
                             <td style="width:200px" >{{evento.tipo_evento}}</td>
                             <td style="width:200px">{{evento.rut_maestro}}</td>
                             <td style="width:200px">{{evento.rut_ayudante}}</td>
