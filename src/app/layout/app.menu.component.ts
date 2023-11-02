@@ -21,15 +21,15 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Gestión Sae',
                 items: [
-                    {
-                        label: 'Dashboard',
-                        icon: PrimeIcons.STAR_FILL,
-                        routerLink: '/obras/dashboard',
-                      },
+                    // {
+                    //     label: 'Dashboard',
+                    //     icon: PrimeIcons.STAR_FILL,
+                    //     routerLink: '/obras/dashboard',
+                    //   },
                     { label: 'Eventos Ejecutados', icon: 'pi pi-fw pi-angle-right', routerLink: ['/evento'] },
                     { label: 'Turnos Ejecutados', icon: 'pi pi-fw pi-angle-right', routerLink: ['/jornada'] },
-                    { label: 'Historico Estados de Resultado', icon: 'pi pi-fw pi-angle-right', routerLink: ['/estado'] },
-                    { label: 'Crear Nuevo Estado', icon: 'pi pi-fw pi-angle-right', routerLink: ['/NewEstado'] }
+                    // { label: 'Historico Estados de Resultado', icon: 'pi pi-fw pi-angle-right', routerLink: ['/estado'] },
+                    // { label: 'Crear Nuevo Estado', icon: 'pi pi-fw pi-angle-right', routerLink: ['/NewEstado'] }
                 ]
             }
 
