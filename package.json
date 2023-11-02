@@ -4,7 +4,7 @@
     "license": "PrimeNG Commercial",
     "scripts": {
         "ng": "ng",
-        "start": "ng serve --port $PORT",
+        "start": "serve dist/sakai-ng -s -n -L -p $PORT",
         "build": "ng build",
         "test": "ng test",
         "lint": "ng lint",
