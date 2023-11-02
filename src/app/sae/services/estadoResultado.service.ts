@@ -4,6 +4,7 @@ import { Product } from '../model/product.model';
 import { EstadoResultado } from '../model/estadoResultado.model'
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { ConfigService } from '../../_services/config.service';
 
 //const API_URL = 'http://localhost:8080/api/reportes/v1';
 //const API_URL_2 = 'https://backend-sae-postgres-desarrollo.up.railway.app/api/reportes/v1';
@@ -31,9 +32,15 @@ interface ResumenTurno {
 @Injectable()
 export class EstadoResultadoService {
 
+    private baseUrl: string = '';
+    private UrlApi = '/api/reportes/v1';
+
     private API_URL = environment.baseUrl + '/api/reportes/v1';
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient,private configService: ConfigService) 
+    { 
+        this.baseUrl = this.configService.baseUrl + this.UrlApi;
+    }
 
     getProductsSmall() {
         return this.http.get<any>('assets/demo/data/products-small.json')
@@ -43,7 +50,7 @@ export class EstadoResultadoService {
     }
 
     getEstadosResultados(): Observable<EstadoResultado[]> {
-        return this.http.get<EstadoResultado[]>(`${this.API_URL}/allestadosresultado`);
+        return this.http.get<EstadoResultado[]>(`${this.baseUrl}/allestadosresultado`);
     }
 
     getResumenEventos(fechaInicial: string, fechaFinal: string, idPaquete: number): Observable<ResumenEvento[]> {
@@ -54,7 +61,7 @@ export class EstadoResultadoService {
             .set('id_paquete', idPaquete.toString()); // Convierte a cadena si es necesario
 
         // Realiza la solicitud GET con los parámetros en la URL
-        return this.http.get<ResumenEvento[]>(`${this.API_URL}/resumeneventos`, { params });
+        return this.http.get<ResumenEvento[]>(`${this.baseUrl}/resumeneventos`, { params });
     }
 
     getResumenTurnos(fechaInicial: string, fechaFinal: string, idPaquete: number): Observable<ResumenTurno[]> {
@@ -65,7 +72,7 @@ export class EstadoResultadoService {
             .set('id_paquete', idPaquete.toString()); // Convierte a cadena si es necesario
 
         // Realiza la solicitud GET con los parámetros en la URL
-        return this.http.get<ResumenTurno[]>(`${this.API_URL}/resumenturnos`, { params });
+        return this.http.get<ResumenTurno[]>(`${this.baseUrl}/resumenturnos`, { params });
     }
 
     getcreaEstadoResultado(fechaInicial: string, fechaFinal: string, idPaquete: number): Observable<any[]> {
@@ -88,7 +95,7 @@ export class EstadoResultadoService {
         });
 
         // Realiza la solicitud GET con los parámetros en la URL
-        return this.http.post<any[]>(`${this.API_URL}/creaEstadoResultado`, data, { headers });
+        return this.http.post<any[]>(`${this.baseUrl}/creaEstadoResultado`, data, { headers });
 
     }
 

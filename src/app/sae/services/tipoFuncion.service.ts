@@ -3,18 +3,23 @@ import { Injectable } from '@angular/core';
 import { TipoFuncion } from '../model/tipoFuncion.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-
-//const API_URL = 'http://localhost:8080/api/mantenedor/v1';
+import { ConfigService } from '../../_services/config.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class TipoFuncionService {
 
-    private API_URL = environment.baseUrl + '/api/mantenedor/v1';
-  
-    constructor(private http: HttpClient) { }
-    getTipoFuncions(): Observable <TipoFuncion[]> {
-        return this.http.get<TipoFuncion[]>(`${this.API_URL}/findalltipofuncionpersonal`);
+    private baseUrl: string = '';
+    private UrlApi = '/api/mantenedor/v1';
+
+    constructor(private http: HttpClient, private configService: ConfigService) {
+
+        this.baseUrl = this.configService.baseUrl + this.UrlApi;
+
+    }
+
+    getTipoFuncions(): Observable<TipoFuncion[]> {
+        return this.http.get<TipoFuncion[]>(`${this.baseUrl}/findalltipofuncionpersonal`);
     }
 }

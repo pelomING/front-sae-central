@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable, tap, of, map, catchError, throwError } from 'rxjs';
 
 import { Obra } from '../interfaces/obra.interface';
-import { VisitaTerreno,VisitaTerrenoCrear } from '../interfaces/visita-terreno.interface';
+import { VisitaTerreno, VisitaTerrenoCrear } from '../interfaces/visita-terreno.interface';
 
-import { environment } from '../../../environments/environment';
+import { ConfigService } from '../../_services/config.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,9 +14,14 @@ const httpOptions = {
 @Injectable({ providedIn: 'root' })
 export class AgendaService {
 
-  private baseUrl = environment.baseUrl + '/api/obras/backoffice/v1/';
+  private baseUrl: string = '';
+  private UrlApi = '/api/obras/backoffice/v1/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private configService: ConfigService) {
+
+    this.baseUrl = this.configService.baseUrl + this.UrlApi;
+
+  }
 
 
   createVisitaTerreno(newVisitaTerreno: VisitaTerreno): Observable<any[]> {
@@ -34,7 +39,7 @@ export class AgendaService {
       //fecha_modificacion: newVisitaTerreno.fecha_modificacion
     };
 
-    console.log("data enviada",data);
+    console.log("data enviada", data);
 
     return this.http.post<any[]>(`${this.baseUrl}creavisitaterreno`, data, httpOptions).pipe(
       map((response) => {
@@ -67,7 +72,7 @@ export class AgendaService {
 
     console.log("id visita terreno", newVisitaTerreno.id);
 
-    console.log("data enviada para actualizar",data);
+    console.log("data enviada para actualizar", data);
 
 
     return this.http.put<any[]>(`${this.baseUrl}actualizavisitaterreno/${newVisitaTerreno.id}`, data, httpOptions).pipe(
@@ -86,7 +91,7 @@ export class AgendaService {
         return throwError('Ha ocurrido un error en la solicitud.');
 
       })
-      
+
     );
 
   }
@@ -96,7 +101,7 @@ export class AgendaService {
 
     return this.http.delete<any[]>(`${this.baseUrl}eliminaobra/${Obra.id}`, httpOptions).pipe(
       map((response) => {
- 
+
         if (response) {
           return response;
         } else {
@@ -137,7 +142,7 @@ export class AgendaService {
 
 
 
-  getAllVisitasTerrenoPorObra(obra : Obra): Observable<any> {
+  getAllVisitasTerrenoPorObra(obra: Obra): Observable<any> {
 
     return this.http.get(`${this.baseUrl}visitaterreno?id_obra=${obra.id}`, httpOptions)
       .pipe(
@@ -155,7 +160,7 @@ export class AgendaService {
           return throwError('Ha ocurrido un error en la solicitud.');
         })
       );
-      
+
   }
 
 

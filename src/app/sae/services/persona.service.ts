@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Persona } from '../model/persona.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { ConfigService } from '../../_services/config.service';
 
 //const API_URL = 'http://localhost:8080/api/mantenedor/v1';
 
@@ -11,14 +12,20 @@ import { environment } from '../../../environments/environment';
 })
 export class PersonaService {
 
+    private baseUrl: string = '';
+    private UrlApi = '/api/mantenedor/v1';
+
     private API_URL = environment.baseUrl + '/api/mantenedor/v1';
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private configService: ConfigService) {
+        this.baseUrl = this.configService.baseUrl + this.UrlApi;
+    }
+    
     async getPersonas(): Promise<Observable<Persona[]>> {
-        return this.http.get<Persona[]>(`${this.API_URL}/findallpersonas`);
+        return this.http.get<Persona[]>(`${this.baseUrl}/findallpersonas`);
     }
 
-    creaPersona(persona: Persona): Observable <Persona> {
-        return this.http.post<Persona>(`${this.API_URL}/creapersona`, persona);
+    creaPersona(persona: Persona): Observable<Persona> {
+        return this.http.post<Persona>(`${this.baseUrl}/creapersona`, persona);
     }
 }

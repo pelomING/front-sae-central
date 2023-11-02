@@ -2,6 +2,7 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
+     
       "baseUrl": "./",
       "outDir": "./dist/out-tsc",
       "forceConsistentCasingInFileNames": true,
@@ -22,7 +23,8 @@
       "lib": [
         "ES2022",
         "dom"
-      ]
+      ],
+      "types": ["node"]
     },
     "exclude": ["node_modules", "**/node_modules/*"],
     "angularCompilerOptions": {

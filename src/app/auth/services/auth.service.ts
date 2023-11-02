@@ -4,6 +4,9 @@ import { Observable, tap, of, map, catchError } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 
+import { ConfigService } from '../../_services/config.service';
+
+
 import { User } from '../interfaces/user.interface';
 
 import { StorageService } from '../services/storage.service';
@@ -18,7 +21,11 @@ export class AuthService {
   private baseUrl = environment.baseUrl;
   private user?: User;
 
-  constructor(private http: HttpClient,private storageService: StorageService) { }
+  constructor(private http: HttpClient,private storageService: StorageService,private configService: ConfigService) {
+
+    this.baseUrl = this.configService.baseUrl;
+
+  }
 
   get currentUser(): User | undefined {
     if (!this.user) return undefined;

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, tap, of, map, catchError, throwError } from 'rxjs';
 import { Obra } from '../interfaces/obra.interface';
 import { environment } from '../../../environments/environment';
+import { ConfigService } from '../../_services/config.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -11,9 +12,13 @@ const httpOptions = {
 @Injectable({ providedIn: 'root' })
 export class ObrasService {
 
-  private baseUrl = environment.baseUrl + '/api/obras/backoffice/v1/';
+  private baseUrl: string = '';
+  private UrlApi = '/api/obras/backoffice/v1/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private configService: ConfigService) 
+  { 
+    this.baseUrl = this.configService.baseUrl + this.UrlApi;
+  }
 
 
 
