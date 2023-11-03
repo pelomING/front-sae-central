@@ -8,7 +8,7 @@ import { StorageService } from '../../services/storage.service';
 // Función para validar letras, números y guion bajo
 // Función para validar letras, números y guion bajo
 function validateUsername(control: AbstractControl): { [key: string]: any } | null {
-  const pattern = /^[a-zA-Z0-9_]+$/;
+  const pattern = /^[a-zA-Z0-9-]+$/;
   if (!pattern.test(control.value)) {
     return { invalidUsername: true };
   }
