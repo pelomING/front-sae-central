@@ -20,15 +20,15 @@
     margin-right: 15px;
 }
 
-div {
-    border-color: #92a8d1;
-}
+// div {
+//     border-color: #92a8d1;
+// }
 
 
 #pdfContainer {
 
     /* Aplicar un borde sólido de 1px y color negro */
-    border: 1px solid #dddddd;
+    //border: 1px solid #dddddd;
     font-family: arial, sans-serif;
 
 
@@ -47,11 +47,18 @@ div {
 }
 
 .cajatitulo {
-    border: 1px solid #dddddd;
+   // border: 1px solid #dddddd;
     justify-content: center;
     align-items: center;
     display: flex;
+    background: var(--surface-card);
+    border: 1px solid var(--surface-border);
+    padding: 2px;
+    //margin-bottom: 2rem;
+    box-shadow: var(--card-shadow);
+    border-radius: 9px;
 }
+
 
 table {
     font-family: arial, sans-serif;
@@ -60,7 +67,9 @@ table {
   }
 
   td, th {
-    border: 1px solid #dddddd;
+    //border: 1px solid #dddddd;
+
+    border: 1px solid var(--surface-border);
     text-align: right;
     padding: 0px;
   }

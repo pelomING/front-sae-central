@@ -2,6 +2,8 @@
     <div class="col-12">
         <div class="card px-6 py-6">
 
+            <p-toast></p-toast>
+
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="form-group">
@@ -43,7 +45,8 @@
                     </div>
                     <div class="col">
                         <div class="box">
-                            <div id="pdfContainer" class="text-xs font-normal">
+
+                            <div id="pdfContainer" class="card text-xs font-normal" >
 
                                 <h5 class="cajatitulo">ESTADO DE PAGO</h5>
 
@@ -242,7 +245,6 @@
 
         </div>
 
-
         <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
@@ -255,7 +257,6 @@
                     (click)="ConfirmoCerrarPeriodo()"></button>
             </ng-template>
         </p-dialog>
-
 
     </div>
 </div>

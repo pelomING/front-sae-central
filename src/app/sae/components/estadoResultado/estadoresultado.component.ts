@@ -108,8 +108,11 @@ export class EstadoResultadoComponent implements OnInit {
   date: Date | undefined;
 
   FechaInicio: Date | undefined;
- 
+
   FechaFinal: Date | undefined;
+
+  options: any;
+
 
   constructor(private estadoResultadoService: EstadoResultadoService, private messageService: MessageService) { }
 
@@ -180,11 +183,43 @@ export class EstadoResultadoComponent implements OnInit {
 
 
   recuperaEstadosResultados(): void {
-    this.estadoResultadoService.getEstadosResultados().subscribe({next: (data) => {
-      console.log("data",data);
-      this.ListEstadoResultado = data 
-    }, error: (e) => console.error(e)});
+    this.estadoResultadoService.getEstadosResultados().subscribe({
+      next: (data) => {
+        console.log("data", data);
+        this.ListEstadoResultado = data
+      }, error: (e) => console.error(e)
+    });
   }
+
+
+
+  filtrarFecha(fechaString: string) {
+
+    // Convierte la cadena en un objeto Date
+    const fecha = new Date(fechaString);
+
+    // Ahora puedes realizar operaciones con la fecha, por ejemplo, formatearla:
+    this.options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+
+    const fechaFormateada = fecha.toLocaleDateString('es-ES', this.options);
+
+    console.log(fechaFormateada); // Mostrará '1 de septiembre de 2023'
+
+    const fechaS = new Date(fechaFormateada);
+
+    // Obten los componentes de la fecha
+    const dia = fechaS.getDate().toString().padStart(2, '0'); // Añade ceros a la izquierda si es necesario
+    const mes = (fechaS.getMonth() + 1).toString().padStart(2, '0'); // Suma 1 porque los meses comienzan en 0
+    const anio = fechaS.getFullYear();
+
+    // Formatea la fecha en el formato deseado
+    return `${dia}-${mes}-${anio}`;
+
+  }
+
+
+
+
 
 
 
@@ -232,15 +267,15 @@ export class EstadoResultadoComponent implements OnInit {
 
     console.log("Agregar Reporte Estado");
 
-    console.log("selectedCliente",this.selectedCliente); 
-    console.log("selectedZona",this.selectedZona); 
-    console.log("selectedPaquete",this.selectedPaquete); 
-    console.log("selectedMes",this.selectedMes); 
-    
-    console.log("FechaInicio",this.FechaInicio);
-    console.log("FechaFinal",this.FechaFinal);
+    console.log("selectedCliente", this.selectedCliente);
+    console.log("selectedZona", this.selectedZona);
+    console.log("selectedPaquete", this.selectedPaquete);
+    console.log("selectedMes", this.selectedMes);
 
-    
+    console.log("FechaInicio", this.FechaInicio);
+    console.log("FechaFinal", this.FechaFinal);
+
+
 
   }
 
