@@ -12,6 +12,8 @@ import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
 import { InputTextModule } from 'primeng/inputtext';
 
+import { PrimeNGModule } from '../_primeng/primeng.module';
+
 @NgModule({
   declarations: [
     LayoutPageComponent,
@@ -21,11 +23,7 @@ import { InputTextModule } from 'primeng/inputtext';
   imports: [
     CommonModule,
     AuthRoutingModule,
-    ButtonModule,
-    DividerModule,
-    InputTextModule,
-    FormsModule,
-    ReactiveFormsModule
+    PrimeNGModule
   ]
 })
 export class AuthModule { }
