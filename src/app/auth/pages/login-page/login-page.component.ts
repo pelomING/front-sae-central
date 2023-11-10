@@ -5,6 +5,10 @@ import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/fo
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from '../../services/storage.service';
 
+
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
+
+
 // Función para validar letras, números y guion bajo
 // Función para validar letras, números y guion bajo
 function validateUsername(control: AbstractControl): { [key: string]: any } | null {
@@ -17,18 +21,30 @@ function validateUsername(control: AbstractControl): { [key: string]: any } | nu
 
 @Component({
   selector: 'app-login-page',
-  templateUrl: './login-page.component.html',
-  styles: [
-  ]
+  templateUrl: './login2-component.html',
+  styles: [`
+  :host ::ng-deep .pi-eye,
+  :host ::ng-deep .pi-eye-slash {
+      transform:scale(1.6);
+      margin-right: 1rem;
+      color: var(--primary-color) !important;
+  }
+`]
 })
 export class LoginPageComponent {
 
   errorMessage = '';
   loginForm: FormGroup;
 
+  valCheck: string[] = ['remember'];
+
+  password!: string;
+
+
   constructor(
     private authService: AuthService,
     private storageService: StorageService,
+    public layoutService: LayoutService,
     private router: Router,
     private fb: FormBuilder
   ) {
