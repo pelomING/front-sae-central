@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from '../../services/storage.service';
-
-
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { User } from '../../interfaces/user.interface';
 
 
-// Función para validar letras, números y guion bajo
+
 // Función para validar letras, números y guion bajo
 function validateUsername(control: AbstractControl): { [key: string]: any } | null {
   const pattern = /^[a-zA-Z0-9-]+$/;
@@ -22,16 +21,27 @@ function validateUsername(control: AbstractControl): { [key: string]: any } | nu
 @Component({
   selector: 'app-login-page',
   templateUrl: './login2-component.html',
+  styleUrls: ['./login2-component.scss'],
   styles: [`
   :host ::ng-deep .pi-eye,
   :host ::ng-deep .pi-eye-slash {
       transform:scale(1.6);
       margin-right: 1rem;
       color: var(--primary-color) !important;
-  }
-`]
+  }`]
 })
+
 export class LoginPageComponent {
+
+
+  spinnerStyles = {
+    'position': 'absolute',
+    'top': '50%',
+    'left': '50%',
+    'transform': 'translate(-50%, -50%)'
+  };
+
+
 
   errorMessage = '';
   loginForm: FormGroup;
@@ -40,40 +50,59 @@ export class LoginPageComponent {
 
   password!: string;
 
+  loading = false;
+  cargar = false;
+
+
 
   constructor(
     private authService: AuthService,
     private storageService: StorageService,
     public layoutService: LayoutService,
+    private messageService: MessageService,
     private router: Router,
     private fb: FormBuilder
   ) {
 
     this.loginForm = this.fb.group({
-      username: ['test_admin', [Validators.required, Validators.maxLength(12), validateUsername]],
-      password: ['test_admin', [Validators.required, Validators.maxLength(12), validateUsername]]
+      username: ['', [Validators.required, Validators.maxLength(12), validateUsername]],
+      password: ['', [Validators.required, Validators.maxLength(12), validateUsername]]
     });
   }
 
 
-  async onLogin(): Promise<void> {
+  async onLogin(): Promise<void> 
+  {
 
-    if (this.loginForm.valid) {
+    this.loading = true;
 
-      const username = this.loginForm.value.username;
-      const password = this.loginForm.value.password;
+      if (this.loginForm.valid) {
 
-      this.authService.login(username, password)
-        .subscribe({
-          next: data => {
-            this.storageService.saveUser(data);
-            this.router.navigate(['/']);
-          },
-          error: err => {
-            this.errorMessage = err.error.message;
-          }
-        });
-    }
+        const username = this.loginForm.value.username;
+        const password = this.loginForm.value.password;
+
+        this.authService.login(username, password)
+          .subscribe({
+            next: data => {
+
+              this.loading = false;
+              this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Bienvenido', life: 3000 })
+              this.storageService.saveUser(data);
+
+              setTimeout(() => {
+                this.router.navigate(['/']);
+              }, 3000);
+
+            },
+            error: err => {
+
+              this.messageService.add({ severity: 'error', summary: 'Error en la solicitud.', detail: err, life: 3000 });
+              this.loading = false;
+
+            }
+          })
+
+      }
 
   }
 

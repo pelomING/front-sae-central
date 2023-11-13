@@ -1,39 +1,58 @@
-<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
-    <div class="flex flex-column align-items-center justify-content-center">
+<div style="position: relative; height: 100px;">
 
-        <img src="assets/layout/images/logo_pelom_new.png" alt="logo" class="mb-5 w-25rem flex-shrink-0">
+    <p-progressSpinner *ngIf="loading" [ngStyle]="spinnerStyles" [style.width.px]="50" [style.height.px]="50"
+        strokeWidth="8" fill="#007ad9" animationDuration=".8s"></p-progressSpinner>
 
-        <div
-            style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
-            <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
-                <div>
 
-                    <form [formGroup]="loginForm">
+    <div
+        class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+        <div class="flex flex-column align-items-center justify-content-center">
 
-                        <label for="username" class="block text-900 text-xl font-medium mb-2">Username</label>
-                        <input pInputText id="username" type="text" formControlName="username" placeholder="Username"
-                            class="w-full md:w-30rem mb-5" style="padding:1rem">
+            <p-toast></p-toast>
 
-                        <label for="password" class="block text-900 font-medium text-xl mb-2">Password</label>
-                        <p-password id="password" formControlName="password" placeholder="Password" [toggleMask]="true"
-                            styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+            <img src="assets/layout/images/logo_pelom_new.png" alt="logo" class="mb-5 w-25rem flex-shrink-0">
 
-                        <div class="flex align-items-center justify-content-between mb-5 gap-5">
-                            <div class="flex align-items-center">
-                                <!-- <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
+            <div
+                style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+                <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+                    <div>
+
+                        <form [formGroup]="loginForm">
+
+                            <label htmlFor="username" class="block text-900 text-xl font-medium mb-2">Usuario:</label>
+                            <span class="p-input-icon-right search-container">
+                                <i class="pi pi-user"></i>
+                                <input pInputText id="username" type="text" formControlName="username" placeholder=""
+                                    class="w-full md:w-30rem mb-5" style="padding:1rem">
+                            </span>
+
+                            
+                            <label for="password" class="block text-900 font-medium text-xl mb-2">Contraseña:</label>
+                            <span class="p-input-icon-left ">
+                                <i class="pi pi-key"></i>
+                                <p-password id="password" formControlName="password" [feedback]="false" placeholder="" styleClass="mb-5" [toggleMask]="true"
+                                     inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+                            </span>
+
+
+                            <div class="flex align-items-center justify-content-between mb-5 gap-5">
+                                <div class="flex align-items-center">
+                                    <!-- <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
                                 <label for="rememberme1">Remember me</label> -->
-                            </div>
-                            <!-- <a class="font-medium no-underline ml-2 text-right cursor-pointer"
+                                </div>
+                                <!-- <a class="font-medium no-underline ml-2 text-right cursor-pointer"
                                 style="color: var(--primary-color)">Forgot password?</a> -->
-                        </div>
+                            </div>
 
-                        <button pButton pRipple label="Iniciar sesión" (click)="onLogin()" class="w-full p-3 text-xl"
-                            [disabled]="loginForm.invalid"></button>
+                            <button pButton pRipple label="Iniciar sesión" (click)="onLogin()"
+                                class="w-full p-3 text-xl" [disabled]="loginForm.invalid"></button>
 
-                    </form>
+                        </form>
 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
