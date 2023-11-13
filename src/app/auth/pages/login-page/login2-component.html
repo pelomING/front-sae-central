@@ -44,8 +44,14 @@
                                 style="color: var(--primary-color)">Forgot password?</a> -->
                             </div>
 
-                            <button pButton pRipple label="Iniciar sesión" (click)="onLogin()"
-                                class="w-full p-3 text-xl" [disabled]="loginForm.invalid"></button>
+                            <button *ngIf="mostrarGuardar"  [raised]="true" pButton pRipple label="Iniciar sesión" (click)="onLogin()"
+                                class="w-full p-3 text-xl" [disabled]="loginForm.invalid" ></button>
+
+
+                                
+                            <button *ngIf="mostrarCargando"  [raised]="true" pButton pRipple label="Cargando ..."
+                            class="w-full p-3 text-xl p-button-secondary" ></button>
+
 
                         </form>
 

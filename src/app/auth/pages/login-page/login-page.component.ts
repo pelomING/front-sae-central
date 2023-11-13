@@ -71,10 +71,18 @@ export class LoginPageComponent {
   }
 
 
+  mostrarGuardar: boolean = true;
+  mostrarCargando: boolean = false;
+
   async onLogin(): Promise<void> 
   {
 
     this.loading = true;
+
+    this.mostrarGuardar = false;
+
+    this.mostrarCargando = true;
+
 
       if (this.loginForm.valid) {
 
@@ -86,18 +94,21 @@ export class LoginPageComponent {
             next: data => {
 
               this.loading = false;
-              this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Bienvenido', life: 3000 })
+              
+              this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Bienvenido', life: 2000 })
               this.storageService.saveUser(data);
 
               setTimeout(() => {
                 this.router.navigate(['/']);
-              }, 3000);
+              }, 2000);
 
             },
             error: err => {
 
-              this.messageService.add({ severity: 'error', summary: 'Error en la solicitud.', detail: err, life: 3000 });
+              this.messageService.add({ severity: 'error', summary: 'Error en la solicitud.', detail: err, life: 2000 });
               this.loading = false;
+              this.mostrarGuardar = true;
+              this.mostrarCargando = false;
 
             }
           })
