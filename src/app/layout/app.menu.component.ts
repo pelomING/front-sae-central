@@ -51,57 +51,57 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Crear Nuevo Estado de Pago', icon: 'pi pi-fw pi-angle-right', routerLink: ['/NewEstado'] }
                 ]
             },
-            // {
-            //     label: 'Gestión Obras',
-            //     items: [
-            //         {
-            //           label: 'Dashboard',
-            //           icon: PrimeIcons.STAR_FILL,
-            //           routerLink: '/obras/dashboard',
-            //         },
+            {
+                label: 'Gestión Obras',
+                items: [
+                    {
+                      label: 'Dashboard',
+                      icon: PrimeIcons.STAR_FILL,
+                      routerLink: '/obras/dashboard',
+                    },
           
-            //         {
-            //           label: 'Listado de Obras',
-            //           icon: 'pi pi-fw pi-angle-right',
-            //           routerLink: '/obras',
-            //         },
-            //         {
-            //           label: 'Materiales Obras',
-            //           icon: 'pi pi-fw pi-angle-right',
-            //           routerLink: '/obras/materiales',
-            //         },
-            //         {
-            //           label: 'Agenda Visita Terreno',
-            //           icon: 'pi pi-fw pi-angle-right',
-            //           routerLink: '/obras/agendas'
-            //         },
-            //         {
-            //           label: 'Reporte Diario',
-            //           icon: 'pi pi-fw pi-angle-right',
-            //           routerLink: '/obras/reportediario'
-            //         },
-            //         {
-            //           label: 'Materiales faltantes',
-            //           icon: 'pi pi-fw pi-angle-right',
-            //           routerLink: '/obras/materialesfaltantes'
-            //         },
-            //         {
-            //           label: 'Cuadratura Materiales',
-            //           icon: 'pi pi-fw pi-angle-right',
-            //           routerLink: '/obras/cuadraturamateriales'
-            //         },
-            //         {
-            //           label: 'Estado de Pago',
-            //           icon: 'pi pi-fw pi-angle-right',
-            //           routerLink: '/obras/estadopago'
-            //         },
-            //         {
-            //           label: 'Estado de Obras',
-            //           icon: 'pi pi-fw pi-angle-right',
-            //           routerLink: '/obras/estadoobra'
-            //         }
-            //       ]
-            // },
+                    {
+                      label: 'Listado de Obras',
+                      icon: 'pi pi-fw pi-angle-right',
+                      routerLink: '/obras',
+                    },
+                    {
+                      label: 'Materiales Obras',
+                      icon: 'pi pi-fw pi-angle-right',
+                      routerLink: '/obras/materiales',
+                    },
+                    {
+                      label: 'Agenda Visita Terreno',
+                      icon: 'pi pi-fw pi-angle-right',
+                      routerLink: '/obras/agendas'
+                    },
+                    {
+                      label: 'Reporte Diario',
+                      icon: 'pi pi-fw pi-angle-right',
+                      routerLink: '/obras/reportediario'
+                    },
+                    {
+                      label: 'Materiales faltantes',
+                      icon: 'pi pi-fw pi-angle-right',
+                      routerLink: '/obras/materialesfaltantes'
+                    },
+                    {
+                      label: 'Cuadratura Materiales',
+                      icon: 'pi pi-fw pi-angle-right',
+                      routerLink: '/obras/cuadraturamateriales'
+                    },
+                    {
+                      label: 'Estado de Pago',
+                      icon: 'pi pi-fw pi-angle-right',
+                      routerLink: '/obras/estadopago'
+                    },
+                    {
+                      label: 'Estado de Obras',
+                      icon: 'pi pi-fw pi-angle-right',
+                      routerLink: '/obras/estadoobra'
+                    }
+                  ]
+            },
             // {
             //     label: 'Personal',
             //     items: [

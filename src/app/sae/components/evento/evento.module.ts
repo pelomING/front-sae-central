@@ -1,4 +1,8 @@
 import { NgModule } from '@angular/core';
+
+import { PrimeNGModule } from '../../../_primeng/primeng.module';
+
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EventoComponent } from './evento.component';
@@ -19,6 +23,7 @@ import { RatingModule } from 'primeng/rating';
 	imports: [
 		CommonModule,
 		EventoRoutingModule,
+		PrimeNGModule,
 		FormsModule,
 		TableModule,
 		RatingModule,

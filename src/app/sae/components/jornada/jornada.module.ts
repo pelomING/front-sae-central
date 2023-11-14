@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { PrimeNGModule } from '../../../_primeng/primeng.module';
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { JornadaComponent } from './jornada.component';
@@ -18,6 +20,7 @@ import { RatingModule } from 'primeng/rating';
 @NgModule({
 	imports: [
 		CommonModule,
+		PrimeNGModule,
 		JornadaRoutingModule,
 		FormsModule,
 		TableModule,

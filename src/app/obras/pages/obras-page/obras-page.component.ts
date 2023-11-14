@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
+
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { Table } from 'primeng/table';
 
 import { Product } from '../../interfaces/product.interface';
@@ -9,10 +11,6 @@ import { Obra, Zona, Delegacion, Tipotrabajos, Empresacontratistas, Coordinadorc
   
 import { ProductService } from '../../services/productservice';
 import { ObrasService } from '../../services/obras.service';
-
-
-
-
 
 @Component({
     selector: 'app-obras-page',
