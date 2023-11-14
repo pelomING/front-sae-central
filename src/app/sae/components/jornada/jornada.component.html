@@ -1,40 +1,400 @@
-<div class="grid">
-    <div class="col-12">
-            <div class="card">
-                <h5>Turnos</h5>
-                <p-table [value]="jornadas" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th style="width:200px" alignFrozen="left" pFrozenColumn [frozen]="idFrozen">Id</th>
-                            <th style="width:200px" pFrozenColumn>Maestro</th>
-                            
-                            <th style="width:200px">Ayudante</th>
-                            <th style="width:200px">Turno</th>
-                            <th style="width:200px">Patente</th>
-                            <th style="width:200px">Km inicial</th>
-                            <th style="width:200px">Km final</th>
-                            <th style="width:200px">Fecha Hora Inicio</th>
-                            <th style="width:200px" pFrozenColumn alignFrozen="right">Fecha Hora Fin</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-jornada>
-                        <tr>
-                            <td style="width:100px" alignFrozen="left" pFrozenColumn [frozen]="idFrozen" [ngClass]="{'font-bold': idFrozen}">{{jornada.id}}</td>
+<p-card header="Modulo de Jornadas">
+    <div class="card">
+        <p-toast></p-toast>
+        <p-toolbar styleClass="mb-4 gap-2">
+            <ng-template pTemplate="left">
+                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                    (click)="openNew()"></button>
+            </ng-template>
+            <ng-template pTemplate="right">
+                <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"
+                    (click)="dt.exportCSV()"></button>
+            </ng-template>
+        </p-toolbar>
 
-                            <td style="width:200px" pFrozenColumn class="font-bold">{{jornada.rut_maestro}}</td>
-                            
-                            <td style="width:200px">{{jornada.rut_ayudante}}</td>
-                            <td style="width:200px">{{jornada.turno}}</td>
-                            <td style="width:200px">
-                                <span [class]="'customer-badge status-' + jornada.patente">{{jornada.patente}}</span>
-                            </td>
-                            <td style="width:200px">{{jornada.km_inicial}}</td>
-                            <td style="width:200px">{{jornada.km_final}}</td>
-                            <td style="width:200px">{{jornada.fecha_hora_ini}}</td>
-                            <td style="width:200px">{{jornada.fecha_hora_fin}}</td>
-                        </tr>
-                    </ng-template>
-                </p-table>
-            </div>
-        </div>
+        <p-table #dt [value]="turnos" [columns]="cols" [rows]="10" [paginator]="true"
+            [globalFilterFields]="['rut_maestro', 'rut_ayudante', 'turno', 'patente']"
+            [tableStyle]="{ 'min-width': '75rem' }" responsiveLayout="scroll" [rowHover]="true" dataKey="id"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true">
+
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                    <h4 class="m-0">Listado de Turnos</h4>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width:50px">Id</th>
+                    <th pSortableColumn="rut_maestro" style="min-width:10rem">Maestro<p-sortIcon
+                            field="rut_maestro"></p-sortIcon></th>
+                    <th pSortableColumn="rut_ayudante" style="min-width:10rem">Ayudante <p-sortIcon
+                            field="rut_ayudante"></p-sortIcon></th>
+                    <th pSortableColumn="turno" style="min-width:10rem">Turno <p-sortIcon field="turno"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="patente" style="min-width:10rem">Patente <p-sortIcon
+                            field="patente"></p-sortIcon></th>
+                    <th pSortableColumn="km_inicial" style="min-width:10rem">Km inicial<p-sortIcon
+                            field="km_inicial"></p-sortIcon></th>
+                    <th pSortableColumn="km_final" style="min-width:10rem">Km final<p-sortIcon
+                            field="km_final"></p-sortIcon></th>
+                    <th pSortableColumn="fecha_hora_ini" style="min-width:10rem">Inicio <p-sortIcon
+                            field="fecha_hora_ini"></p-sortIcon></th>
+                    <th pSortableColumn="fecha_hora_fin" style="min-width:10rem">Fin<p-sortIcon
+                            field="fecha_hora_fin"></p-sortIcon></th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-turno>
+                <tr>
+                    <td class="font-bold">{{ turno.id }}</td>
+                    <td>{{ turno.rut_maestro }}</td>
+                    <td>{{ turno.rut_ayudante }}</td>
+                    <td>{{ turno.turno }}</td>
+                    <td>{{ turno.patente }}</td>
+                    <td>{{ turno.km_inicial }}</td>
+                    <td>{{ turno.km_final }}</td>
+                    <td>{{ turno.fecha_hora_ini }}</td>
+                    <td>{{ turno.fecha_hora_fin }}</td>
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                            (click)="editProduct(evento)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                            (click)="onEliminarClick(evento)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">In total there are {{ turnos ?
+                    turnos.length : 0 }}
+                    Turnos.</div>
+            </ng-template>
+        </p-table>
     </div>
+
+
+    <p-dialog [(visible)]="formObraDialog" [style]="{ width: '1000px' , height: '655px' }" header="Nueva Obra"
+        [modal]="true" styleClass="p-fluid">
+
+        <ng-template pTemplate="content">
+
+            <form [formGroup]="obraForm">
+
+                <div class="card">
+                    <p-tabView>
+                        <p-tabPanel header="Datos Principales">
+
+                            <div class="grid" style="height:100px;margin-top:2%;">
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+
+                                            <input type="hidden" pInputhidden id="id" class="form-control"
+                                                formControlName="id">
+
+                                            <input type="text" pInputText id="codigo_obra" class="form-control"
+                                                formControlName="codigo_obra">
+                                            <label htmlFor="codigo_obra">Código de Obra</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <input type="text" pInputText id="numero_ot" class="form-control"
+                                                formControlName="numero_ot">
+                                            <label htmlFor="numero_ot">Número de OT</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <input type="text" pInputText id="nombre_obra" class="form-control"
+                                                formControlName="nombre_obra">
+                                            <label htmlFor="nombre_obra">Nombre de la Obra</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-dropdown formControlName="zona" id="zona" class="form-control"
+                                                [options]="zonas" optionLabel="nombre"
+                                                placeholder="Seleccionar"></p-dropdown>
+                                            <label htmlFor="zona">Zona</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-dropdown formControlName="delegacion" class="form-control"
+                                                id="delegacion" [options]="delegacion" optionLabel="nombre"
+                                                placeholder="Seleccionar"></p-dropdown>
+                                            <label htmlFor="delegacion">Delegación</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <input type="text" pInputText id="gestor_cliente" class="form-control"
+                                                formControlName="gestor_cliente">
+                                            <label htmlFor="gestor_cliente">Gestor de Cliente</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <input type="text" pInputText id="numero_aviso" class="form-control"
+                                                formControlName="numero_aviso">
+                                            <label htmlFor="numero_aviso">Número de Aviso</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <input type="text" pInputText id="numero_oc" class="form-control"
+                                                formControlName="numero_oc">
+                                            <label htmlFor="numero_oc">Número de OC</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <input type="text" pInputText id="monto" class="form-control"
+                                                formControlName="monto">
+                                            <label htmlFor="monto">Monto</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </p-tabPanel>
+                        <p-tabPanel header="Fechas y Responsables">
+
+                            <div class="grid" style="height:100px;margin-top:2%;">
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <input type="text" pInputText id="cantidad_uc" class="form-control"
+                                                formControlName="cantidad_uc">
+                                            <label htmlFor="cantidad_uc">Cantidad UC</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <div class="calendar-container">
+                                            <span class="p-float-label">
+                                                <p-calendar id="fecha_llegada" formControlName="fecha_llegada"
+                                                    class="form-control" [showIcon]="true"></p-calendar>
+                                                <label htmlFor="fecha_llegada">Fecha de Llegada</label>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <div class="calendar-container">
+                                            <span class="p-float-label">
+                                                <p-calendar id="fecha_inicio" formControlName="fecha_inicio"
+                                                    class="form-control" [showIcon]="true"></p-calendar>
+                                                <label htmlFor="fecha_inicio">Fecha de Inicio</label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <div class="calendar-container">
+                                            <span class="p-float-label">
+                                                <p-calendar id="fecha_termino" formControlName="fecha_termino"
+                                                    class="form-control" [showIcon]="true"></p-calendar>
+                                                <label htmlFor="fecha_termino">Fecha de Término</label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-dropdown formControlName="tipo_trabajo" id="tipo_trabajo"
+                                                class="form-control" [options]="tipotrabajos" optionLabel="descripcion"
+                                                placeholder="Seleccionar"></p-dropdown>
+                                            <label htmlFor="tipo_trabajo">Tipo de Trabajo</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <input type="text" pInputText id="persona_envia_info" class="form-control"
+                                                formControlName="persona_envia_info">
+                                            <label htmlFor="persona_envia_info">Persona que Envía la Información</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <input type="text" pInputText id="cargo_persona_envia_info"
+                                                class="form-control" formControlName="cargo_persona_envia_info">
+                                            <label htmlFor="cargo_persona_envia_info">Cargo de la Persona que
+                                                Envía</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-dropdown formControlName="empresa_contratista" class="form-control"
+                                                id="empresa_contratista" [options]="empresacontratistas"
+                                                optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
+                                            <label htmlFor="empresa_contratista">Empresa Contratista</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-dropdown formControlName="coordinador_contratista" class="form-control"
+                                                id="coordinador_contratista" [options]="coordinadorcontratistas"
+                                                optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
+                                            <label htmlFor="coordinador_contratista">Coordinador Contratista</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </p-tabPanel>
+                        <p-tabPanel header="Ubicación y Tipo de Obra">
+
+                            <div class="grid" style="height:100px;margin-top:2%;">
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-dropdown formControlName="comuna" id="comuna" class="form-control"
+                                                [options]="comuna" optionLabel="nombre"
+                                                placeholder="Seleccionar"></p-dropdown>
+                                            <label htmlFor="comuna">Comuna</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <input type="text" pInputText id="ubicacion" class="form-control"
+                                                formControlName="ubicacion">
+                                            <label htmlFor="ubicacion">Ubicación</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-dropdown formControlName="estado" id="estado" class="form-control"
+                                                [options]="estado" optionLabel="nombre"
+                                                placeholder="Seleccionar"></p-dropdown>
+                                            <label htmlFor="estado">Estado</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-dropdown formControlName="tipo_obra" id="tipo_obra" class="form-control"
+                                                [options]="tipo_obra" optionLabel="descripcion"
+                                                placeholder="Seleccionar"></p-dropdown>
+                                            <label htmlFor="tipo_obra">Tipo de Obra</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-dropdown formControlName="segmento" id="segmento" class="form-control"
+                                                [options]="segmento" optionLabel="nombre"
+                                                placeholder="Seleccionar"></p-dropdown>
+                                            <label htmlFor="segmento">Segmento</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+
+                                </div>
+
+                            </div>
+
+                        </p-tabPanel>
+
+                    </p-tabView>
+                </div>
+
+
+                <div class="grid flex align-items-end" style="height:210px;margin-top:2%;">
+                    <div class="col-4"></div>
+
+                    <div class="col-4">
+                        <button *ngIf="mostrarGuardar" pButton pRipple label="Guardar" (click)="onGuardarClick()"
+                            visible="false" [loading]="loading" [disabled]="obraForm.invalid"
+                            class="p-button-rounded p-button-outlined p-mt-10"></button>
+
+                        <button *ngIf="mostrarActualizar" pButton pRipple label="Actualizar"
+                            (click)="onActualizarClick()" [loading]="loading" [disabled]="obraForm.invalid"
+                            class="p-button-rounded p-button-success p-button-outlined p-mt-10"></button>
+                    </div>
+                    <div class="col-4"></div>
+                </div>
+
+            </form>
+
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+                (click)="hideDialog()"></button>
+            <!-- <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button> -->
+        </ng-template>
+
+    </p-dialog>
+
+    <p-confirmDialog [style]="{ width: '650px' }"></p-confirmDialog>
+
+</p-card>
