@@ -6,6 +6,10 @@ import { Table } from 'primeng/table';
 import { Eventos } from 'src/app/sae/model/eventos.model';
 import { EventoService } from 'src/app/sae/services/evento.service';
 
+
+//conecta a desarrollo 
+
+
 @Component({
   selector: 'app-evento',
   templateUrl: './evento.component.html'
