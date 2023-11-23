@@ -31,6 +31,18 @@ import { PublicGuard } from './auth/guards/public.guard';
                     { path: 'persona', loadChildren: () => import('./sae/components/persona/persona.module').then(m => m.PersonaModule) },
                     { path: 'estado', loadChildren: () => import('./sae/components/estadoResultado/estadoresultado.module').then(m => m.EstadoResultadoModule) },
                     { path: 'NewEstado', loadChildren: () => import('./sae/components/newEstadoResultado/newestadoresultado.module').then(m => m.NewEstadoResultadoModule) },
+                    
+                    { path: 'detallepxq', loadChildren: () => import('./sae/components/detalle_pxq/detalle_pxq.module').then(m => m.Detalle_pxqModule) },
+
+                    { path: 'observaciones', loadChildren: () => import('./sae/components/observaciones/observaciones.module').then(m => m.ObservacionesModule) },
+
+                    { path: 'cobros_adicionales', loadChildren: () => import('./sae/components/cobros_adicionales/cobros_adicionales.module').then(m => m.Cobros_adicionalesModule) },
+
+                    { path: 'descuentos', loadChildren: () => import('./sae/components/descuentos/descuentos.module').then(m => m.DescuentosModule) },
+
+                    { path: 'horas_extras', loadChildren: () => import('./sae/components/horas_extras/horas_extras.module').then(m => m.Horas_extrasModule ) },
+
+
                     {
                         path: 'obras',
                         loadChildren: () => import('./obras/obras.module').then(m => m.ObrasModule),

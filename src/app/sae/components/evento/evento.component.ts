@@ -37,14 +37,21 @@ export class EventoComponent implements OnInit {
 
     this.cols = [
       { field: 'id', header: 'Id' },
+      
+      { field: 'despachador', header: 'Despachador' },
+
       { field: 'numero_ot', header: 'N° Ot' },
       { field: 'tipo_evento', header: 'Tipo Evento' },
       { field: 'rut_maestro', header: 'Maestro' },
       { field: 'rut_ayudante', header: 'Ayudante' },
-      { field: 'turno', header: 'Turno' },
-      { field: 'paquete', header: 'Oficina' },
+      
+      { field: 'brigada', header: 'Brigada' },
+      { field: 'tipo_turno', header: 'Tipo Turno' },
+
       { field: 'requerimiento', header: 'Requerimiento' },
       { field: 'direccion', header: 'Dirección' },
+      { field: 'comuna', header: 'Comuna' },
+      
       { field: 'fecha_hora', header: 'Fecha Hora Ejecución' }
     ];
 

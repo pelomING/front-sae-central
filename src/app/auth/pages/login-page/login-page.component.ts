@@ -93,14 +93,26 @@ export class LoginPageComponent {
           .subscribe({
             next: data => {
 
-              this.loading = false;
-              
-              this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Bienvenido', life: 2000 })
-              this.storageService.saveUser(data);
+              if(data.roles[0] !==  'ROLE_TECNICOSAE' )
+              {
 
-              setTimeout(() => {
-                this.router.navigate(['/']);
-              }, 2000);
+                this.loading = false;
+                
+                this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Bienvenido', life: 2000 })
+                this.storageService.saveUser(data);
+
+                setTimeout(() => {
+                  this.router.navigate(['/']);
+                }, 2000);
+
+              }else{
+
+                this.messageService.add({ severity: 'error', summary: 'Error en la solicitud.', detail: 'Usuario no autorizado.', life: 2000 });
+                this.loading = false;
+                this.mostrarGuardar = true;
+                this.mostrarCargando = false;
+
+              }
 
             },
             error: err => {

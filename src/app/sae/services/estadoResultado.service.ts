@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from '../model/product.model';
 import { EstadoResultado } from '../model/estadoResultado.model'
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ConfigService } from '../../_services/config.service';
 
@@ -37,8 +37,7 @@ export class EstadoResultadoService {
 
     private API_URL = environment.baseUrl + '/api/reportes/v1';
 
-    constructor(private http: HttpClient,private configService: ConfigService) 
-    { 
+    constructor(private http: HttpClient, private configService: ConfigService) {
         this.baseUrl = this.configService.baseUrl + this.UrlApi;
     }
 
@@ -75,6 +74,91 @@ export class EstadoResultadoService {
         return this.http.get<ResumenTurno[]>(`${this.baseUrl}/resumenturnos`, { params });
     }
 
+
+
+
+    CARGOFIJOSEMANALPORBRIGADA(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.baseUrl}/semanal_por_brigada`);
+    }
+
+
+    PERMANENICACARGOFIJOSEMANALPORBRIGADA(): Observable<any> {
+        return this.http.get<any>(`${this.baseUrl}/permanencia_por_brigada`).pipe(
+            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+          );
+    }
+
+
+    OBSERVACIONES(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.baseUrl}/observacionesnoprocesadas`);
+    }
+
+
+    HORASEXTRAS(): Observable<any> {
+        return this.http.get<any>(`${this.baseUrl}/horasextras`).pipe(
+            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+          );
+    }
+
+
+    TURNOSADICIONALES(): Observable<any> {
+        return this.http.get<any>(`${this.baseUrl}/turnosadicionales`).pipe(
+            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+          );
+    }
+
+
+    TURNOSCONTINGENCIA(): Observable<any> {
+        return this.http.get<any>(`${this.baseUrl}/turnoscontingencia`).pipe(
+            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+          );
+    }
+
+
+    PRODUCCIONPxQ(): Observable<any> {
+        return this.http.get<any>(`${this.baseUrl}/produccionpxq`).pipe(
+            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+          );
+    }
+
+
+    COBROSADICIONALES(): Observable<any> {
+        return this.http.get<any>(`${this.baseUrl}/reportecobroadicional`).pipe(
+            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+          );
+    }
+
+
+    DESCUENTOS(): Observable<any> {
+        return this.http.get<any>(`${this.baseUrl}/reportedescuentos`).pipe(
+            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+          );
+    }
+
+
+    RESUMEN(): Observable<any> {
+        return this.http.get<any>(`${this.baseUrl}/reporteresumen`).pipe(
+            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+          );
+    }
+
+
+
+    detallepxq(idPaquete: string): Observable<any> {
+
+        // Define los parámetros utilizando los argumentos de la función
+        const params = new HttpParams()
+        .set('id_paquete', idPaquete.toString()); // Convierte a cadena si es necesario
+
+        return this.http.get<any>(`${this.baseUrl}/detallepxq`, { params });
+
+    }
+
+
+
+
+
+
     getcreaEstadoResultado(fechaInicial: string, fechaFinal: string, idPaquete: number): Observable<any[]> {
 
         // Define los parámetros utilizando los argumentos de la función
@@ -95,7 +179,7 @@ export class EstadoResultadoService {
         });
 
         // Realiza la solicitud GET con los parámetros en la URL
-        return this.http.post<any[]>(`${this.baseUrl}/creaEstadoResultado`, data, { headers });
+        return this.http.post<any[]>(`${this.baseUrl} / creaEstadoResultado`, data, { headers });
 
     }
 

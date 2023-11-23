@@ -9,8 +9,8 @@ export class ConfigService {
     
     //baseUrl: string = 'https://backend-pelom-production.up.railway.app';
 
-    baseUrl: string = 'https://backend-pelom-desarrollo.up.railway.app';
-
-    //baseUrl: string = 'http://localhost:8080';
+    //baseUrl: string = 'https://backend-pelom-desarrollo.up.railway.app';
+ 
+    baseUrl: string = 'http://localhost:8080';
  
 }

@@ -1,0 +1,16 @@
+/* Estilos CSS personalizados */
+#myDialog .ui-dialog-titlebar {
+    height: auto;
+    /* Ajusta la altura según tus necesidades */
+}
+
+#myDialog .ui-dialog-content {
+    overflow-y: auto;
+    /* Agregar barra de desplazamiento vertical al contenido si es necesario */
+}
+
+#myDialog .ui-datepicker {
+    top: calc(100% - 10px) !important;
+    /* Ajusta el valor según tus necesidades */
+    left: 0 !important;
+}

@@ -1,19 +1,19 @@
-<p-card header="Modulo de Jornadas">
+<p-card header="Modulo de Turnos">
     <div class="card">
         <p-toast></p-toast>
         <p-toolbar styleClass="mb-4 gap-2">
-            <ng-template pTemplate="left">
-                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
-                    (click)="openNew()"></button>
+            <ng-template pTemplate="left"> 
+                <!-- <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button> -->
             </ng-template>
             <ng-template pTemplate="right">
-                <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"
-                    (click)="dt.exportCSV()"></button>
+                <!-- <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
             </ng-template>
         </p-toolbar>
 
         <p-table #dt [value]="turnos" [columns]="cols" [rows]="10" [paginator]="true"
-            [globalFilterFields]="['rut_maestro', 'rut_ayudante', 'turno', 'patente']"
+            
+            [globalFilterFields]="['rut_maestro','rut_ayudante','brigada','tipo_turno','patente','km_inicial','km_final','fecha_hora_ini','fecha_hora_fin']"
+
             [tableStyle]="{ 'min-width': '75rem' }" responsiveLayout="scroll" [rowHover]="true" dataKey="id"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true">
@@ -30,24 +30,27 @@
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th style="width:50px">Id</th>
-                    <th pSortableColumn="rut_maestro" style="min-width:10rem">Maestro<p-sortIcon
-                            field="rut_maestro"></p-sortIcon></th>
-                    <th pSortableColumn="rut_ayudante" style="min-width:10rem">Ayudante <p-sortIcon
-                            field="rut_ayudante"></p-sortIcon></th>
-                    <th pSortableColumn="turno" style="min-width:10rem">Turno <p-sortIcon field="turno"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="patente" style="min-width:10rem">Patente <p-sortIcon
-                            field="patente"></p-sortIcon></th>
-                    <th pSortableColumn="km_inicial" style="min-width:10rem">Km inicial<p-sortIcon
-                            field="km_inicial"></p-sortIcon></th>
-                    <th pSortableColumn="km_final" style="min-width:10rem">Km final<p-sortIcon
-                            field="km_final"></p-sortIcon></th>
-                    <th pSortableColumn="fecha_hora_ini" style="min-width:10rem">Inicio <p-sortIcon
-                            field="fecha_hora_ini"></p-sortIcon></th>
-                    <th pSortableColumn="fecha_hora_fin" style="min-width:10rem">Fin<p-sortIcon
-                            field="fecha_hora_fin"></p-sortIcon></th>
-                    <th></th>
+                    <th style="width:50px">Id</th> 
+
+                    <th pSortableColumn="rut_maestro" style="min-width:10rem">Maestro<p-sortIcon field="rut_maestro"></p-sortIcon></th>
+                    
+                    <th pSortableColumn="rut_ayudante" style="min-width:10rem">Ayudante <p-sortIcon field="rut_ayudante"></p-sortIcon></th>
+
+                    <th pSortableColumn="brigada" style="min-width:10rem">Brigada <p-sortIcon field="brigada"></p-sortIcon></th>
+
+                    <th pSortableColumn="tipo_turno" style="min-width:10rem">Tipo Turno <p-sortIcon field="tipo_turno"></p-sortIcon></th>                 
+
+                    <th pSortableColumn="patente" style="min-width:10rem">Patente <p-sortIcon field="patente"></p-sortIcon></th>
+
+                    <th pSortableColumn="km_inicial" style="min-width:10rem">Km inicial<p-sortIcon field="km_inicial"></p-sortIcon></th>
+
+                    <th pSortableColumn="km_final" style="min-width:10rem">Km final<p-sortIcon field="km_final"></p-sortIcon></th>
+
+                    <th pSortableColumn="fecha_hora_ini" style="min-width:10rem">Inicio <p-sortIcon field="fecha_hora_ini"></p-sortIcon></th>
+ 
+                    <th pSortableColumn="fecha_hora_fin" style="min-width:10rem">Fin<p-sortIcon field="fecha_hora_fin"></p-sortIcon></th>
+
+                    <!-- <th></th> -->
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-turno>
@@ -55,18 +58,22 @@
                     <td class="font-bold">{{ turno.id }}</td>
                     <td>{{ turno.rut_maestro }}</td>
                     <td>{{ turno.rut_ayudante }}</td>
-                    <td>{{ turno.turno }}</td>
+
+                    <td>{{ turno.brigada }}</td>
+                    
+                    <td>{{ turno.tipo_turno }}</td>
+                    
                     <td>{{ turno.patente }}</td>
                     <td>{{ turno.km_inicial }}</td>
                     <td>{{ turno.km_final }}</td>
                     <td>{{ turno.fecha_hora_ini }}</td>
                     <td>{{ turno.fecha_hora_fin }}</td>
-                    <td>
-                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-                            (click)="editProduct(evento)"></button>
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                            (click)="onEliminarClick(evento)"></button>
-                    </td>
+
+                    <!-- <td> 
+                       <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(evento)"></button>
+                       <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onEliminarClick(evento)"></button>
+                    </td> -->
+
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary">
