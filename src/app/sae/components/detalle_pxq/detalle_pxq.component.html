@@ -8,26 +8,42 @@
                 <ng-template pTemplate="left">
                     <div class="my-2">
                         
+                        <div class="flex flex-row flex-wrap">
+                            <div class="flex align-items-center justify-content-center">
 
-                        <div class="form-group">
-                            <p-dropdown [options]="paquetes" [(ngModel)]="selectedPaquete" optionLabel="name"
-                                placeholder="Paquete"></p-dropdown>
+                                <div class="form-group">
+                                    <p-dropdown [options]="paquetes" [(ngModel)]="selectedPaquete" optionLabel="name"
+                                        placeholder="Paquete"></p-dropdown>
+                                </div>
+
+
+                            </div>
+                            <div class="flex align-items-center justify-content-center my-2 mx-2">
+
+                            </div>
+                            <div class="flex align-items-center justify-content-center">
+
+                                <button pButton pRipple label="Consultar" icon="pi pi-check" class="p-button-success"
+                                (click)="ConsultarEstadoResultado()"></button>
+
+                            </div>
                         </div>
 
-                        <button pButton pRipple label="Consultar" icon="pi pi-check" class="p-button-success"
-                        (click)="ConsultarEstadoResultado()"></button>
+
 
                     </div>
                 </ng-template>
                 <ng-template pTemplate="right">
                 
-                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
+                    <!-- <button pButton pRipple label="Exportar a CSV" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+
+                    <button pButton pRipple label="Exportar a Excel" icon="pi pi-upload" class="p-button-help" (click)="exportToExcel1()"></button>
                 
                 </ng-template>
             </p-toolbar>
 
 
-            <p-table #dt [value]="ListEstadoResultado" 
+            <p-table #dt [value]="ListDetallepxq" 
             [columns]="cols" responsiveLayout="scroll" [rows]="10"
 
             [globalFilterFields]="['fecha','hora_termino','centrality','maestro','ayudante','patente','despachador','comuna','direccion','aviso','descripcion','valor_cobrar']"
@@ -48,7 +64,7 @@
 
                 <ng-template pTemplate="header">     
                     <tr>
-                        <th style="width:50px" pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+                        <!-- <th style="width:50px" pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th> -->
                         <th pSortableColumn="fecha">Fecha <p-sortIcon field="fecha"></p-sortIcon></th>
                         <th pSortableColumn="hora_termino">Hora término <p-sortIcon field="hora_termino"></p-sortIcon></th>
                         <th pSortableColumn="centrality">Centrality <p-sortIcon field="centrality"></p-sortIcon></th>
@@ -67,10 +83,10 @@
 
                 <ng-template pTemplate="body" let-estadoResultado>
                     <tr>
-                        <td style="width:50px" >
+                        <!-- <td style="width:50px" >
                             <span class="p-column-title">id</span>
                             {{estadoResultado.id}}
-                        </td>
+                        </td> -->
                         <td style="width:14%; min-width:10rem;">
                             <span class="p-column-title">fecha</span>
                             {{estadoResultado.fecha}}
@@ -135,7 +151,7 @@
             </p-table>
         </div>
 
-        <p-dialog  id="myDialog" [(visible)]="productDialog" [style]="{width: '550px' }" [contentStyle]="{ height: '550px' }" header="Consultar Estado de Pago" [modal]="true" class="p-fluid">
+        <!-- <p-dialog  id="myDialog" [(visible)]="productDialog" [style]="{width: '550px' }" [contentStyle]="{ height: '550px' }" header="Consultar Estado de Pago" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
 
             <div class="dialog-content">
@@ -176,9 +192,9 @@
                 <button pButton pRipple label="Consultar" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
             </ng-template>
 
-        </p-dialog>
+        </p-dialog> -->
 
-        <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <!-- <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
                 <span *ngIf="product">Are you sure you want to delete <b>{{product.name}}</b>?</span>
@@ -187,9 +203,9 @@
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
             </ng-template>
-        </p-dialog>
+        </p-dialog> -->
 
-        <p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <!-- <p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
                 <span>Are you sure you want to delete selected products?</span>
@@ -198,6 +214,6 @@
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductsDialog = false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
             </ng-template>
-        </p-dialog>
+        </p-dialog> -->
     </div>
 </div>
