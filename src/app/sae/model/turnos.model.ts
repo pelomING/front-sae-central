@@ -2,13 +2,26 @@ export interface Turnos {
     id?: number;
     rut_maestro?: string;
     rut_ayudante?: string;
-    codigo_turno?: number;
     turno?: string;
     patente?: string;
-    base?: number;
-    km_inicial?: number;
-    km_final?: number;
-    fecha_hora_inicio?: string;
+    paquete?: string;
+    km_inicial?: string;
+    km_final?: string;
+    fecha_hora_ini?: string;
     fecha_hora_fin?: string;
-    estado?: number;
+    estado?: string;
+    brigada?: string;
+    tipo_turno?: string;
+    coordenadas: Coordenadas;
 }
+
+export interface Coordenadas {
+    latitude?: string;
+    longitude?: string;
+  }
+
+
+
+    
+
+  
