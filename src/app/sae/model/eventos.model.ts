@@ -1,13 +1,27 @@
 export interface Eventos {
     id?: number;
-    numero_ot?: number;
+    numero_ot?: string;
     tipo_evento?: string;
     rut_maestro?: string;
     rut_ayudante?: string;
     turno?: string;
-    base?: string;
+    paquete?: string;
     requerimiento?: string;
     direccion?: string;
     fecha_hora?: string;
-    estado?: number;
+    estado?: string;
+    hora_inicio?: string;
+    hora_termino?: string;
+    brigada?: string;
+    tipo_turno?: string;
+    comuna?: string;
+    despachador?: string;
+    coordenadas?: Coordenadas;    
 }
+
+export interface Coordenadas {
+  latitude?: string;
+  longitude?: string;
+}
+
+
