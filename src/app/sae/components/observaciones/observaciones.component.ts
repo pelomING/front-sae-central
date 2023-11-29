@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 
 import { Product } from '../../model/product.model';
 import { EstadoResultado } from '../../model/estadoResultado.model'
 
 import { EstadoResultadoService } from 'src/app/sae/services/estadoResultado.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 interface City {
@@ -37,6 +38,13 @@ interface Paquete {
 interface Mes {
   name: string;
   code: string;
+}
+
+
+interface Observacion {
+  id: number,
+  fecha_hora: string,
+  detalle: string
 }
 
 
@@ -112,7 +120,29 @@ export class ObservacionesComponent implements OnInit {
   options: any;
 
 
-  constructor(private estadoResultadoService: EstadoResultadoService, private messageService: MessageService) { }
+
+  observacionesForm: FormGroup;
+
+
+  mostrarGuardar: boolean = true; // Mostrar el botón por defecto
+  mostrarActualizar: boolean = true;
+
+
+
+
+  constructor(
+    private fb: FormBuilder,
+    private estadoResultadoService: EstadoResultadoService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService) {
+
+    this.observacionesForm = this.fb.group({
+      id: [''],
+      detalle: ['', Validators.required],
+      fecha_hora: ['', Validators.required],
+    });
+
+  }
 
   ngOnInit() {
 
@@ -181,7 +211,7 @@ export class ObservacionesComponent implements OnInit {
 
 
   recuperaEstadosResultados(): void {
-    this.estadoResultadoService.getEstadosResultados().subscribe({
+    this.estadoResultadoService.observacionesnoprocesadas().subscribe({
       next: (data) => {
         console.log("data", data);
         this.ListEstadoResultado = data
@@ -220,21 +250,199 @@ export class ObservacionesComponent implements OnInit {
 
 
 
+  loading: boolean = false;
+
+  onGuardarClick() {
+
+      this.loading = true;
+
+      setTimeout(() => {
+          this.loading = false
+      }, 2000);
+
+
+      if (this.observacionesForm.valid) {
+
+          const nueva = this.observacionesForm.value;
+
+          console.log('Nueva:', nueva);
+
+          this.estadoResultadoService.createObservacion(nueva).subscribe(
+              (response) => {
+                  // Manejar la respuesta exitosa
+                  console.log('Obra guardada con éxito:', response);
+                  
+                  this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
+
+                  this.productDialog = false;
+                  
+                  this.estadoResultadoService.observacionesnoprocesadas().subscribe({
+                    next: (data) => {
+                      console.log("data", data);
+                      this.ListEstadoResultado = data
+                    }, error: (e) => console.error(e)
+                  });
+
+              },
+              (error) => {
+
+                  // Manejar errores
+                  console.error('Error al guardar la obra:', error);
+
+                  this.messageService.add({
+                      severity: 'error',
+                      summary: 'Error',
+                      detail: 'Por favor, intentar mas tarde problemas de servicio',
+                  });
+
+              }
+          );
+
+      } else {
+
+          // El formulario es inválido, muestra errores si es necesario
+          this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Por favor, completa el formulario correctamente',
+          });
+
+      }
+  }
+
+
+
+  onActualizarClick() {
+
+    this.loading = true;
+
+    setTimeout(() => {
+        this.loading = false
+    }, 2000);
+
+
+    if (this.observacionesForm.valid) {
+
+        const updatedObra = this.observacionesForm.value; // Obtén los datos del formulario
+
+        // Luego, puedes enviar los datos actualizados al servidor, por ejemplo, utilizando un servicio:
+        this.estadoResultadoService.updateObservacion(updatedObra).subscribe(
+            (response) => {
+
+                this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro actualizado', life: 3000 });
+
+                this.productDialog = false;
+
+                this.estadoResultadoService.observacionesnoprocesadas().subscribe({
+                  next: (data) => {
+                    console.log("data", data);
+                    this.ListEstadoResultado = data
+                  }, error: (e) => console.error(e)
+                });
+
+            },
+            (error) => {
+                // Manejar errores, por ejemplo, mostrar un mensaje de error
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: 'No se pudo actualizar la obra. Inténtelo de nuevo.',
+                });
+            }
+        );
+    }
+}
+
+
+
+
+onEliminarClick(observacion: Observacion) {
+
+  this.confirmationService.confirm({
+    message: 'Estás seguro de que deseas eliminar ID : ' + observacion.id + '?',
+    header: 'Confirmar',
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+
+      this.estadoResultadoService.deleteObservacion(observacion).subscribe(
+        (response) => {
+
+          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado', life: 3000 });
+
+          this.estadoResultadoService.observacionesnoprocesadas().subscribe({
+            next: (data) => {
+              console.log("data", data);
+              this.ListEstadoResultado = data
+            }, error: (e) => console.error(e)
+          });
+
+        },
+        (error) => {
+
+          // Manejar errores
+          console.error('Error :', error);
+
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Por favor, intentar mas tarde problemas de servicio',
+          });
+
+        }
+      );
+
+    }
+  });
+
+}
+
+
+
 
   openNew() {
+
+    this.mostrarGuardar = true;
+    this.mostrarActualizar = false;
+
+    this.observacionesForm.reset();
     this.product = {};
     this.submitted = false;
     this.productDialog = true;
   }
 
+
+
+
   deleteSelectedProducts() {
     this.deleteProductsDialog = true;
   }
 
-  editProduct(product: Product) {
-    this.product = { ...product };
+  formateoFecha(fechaOriginal: string): string {
+    const fechaParseada = new Date(fechaOriginal);
+    const dia = fechaParseada.getDate().toString().padStart(2, '0');
+    const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
+    const año = fechaParseada.getFullYear();
+    const fechaFormateada = `${mes}/${dia}/${año}`;
+    console.log(fechaFormateada); // Esto mostrará "10/03/2023" en la consola
+
+    return fechaFormateada;
+}
+
+
+editProduct(observacion: Observacion) {
+
+    this.observacionesForm.reset();
+
+    this.mostrarGuardar = false;
+    this.mostrarActualizar = true;
+
+    observacion.fecha_hora = this.formateoFecha(observacion.fecha_hora);
+    
+    this.observacionesForm.patchValue(observacion);
+
     this.productDialog = true;
-  }
+
+}
 
   deleteProduct(product: Product) {
     this.deleteProductDialog = true;

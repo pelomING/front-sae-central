@@ -1,169 +1,189 @@
 <div class="grid">
     <div class="col-12">
         <div class="card px-6 py-6">
-            
+
             <p-toast></p-toast>
 
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2">
-                        
-                        <!-- <button pButton pRipple label="Consultar Estado de Pago" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button> -->
+
+                        <button pButton pRipple label="Nueva Observación" icon="pi pi-plus"
+                            class="p-button-success mr-2" (click)="openNew()"></button>
 
                     </div>
                 </ng-template>
                 <ng-template pTemplate="right">
-                
+
                     <!-- <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
-                
+
                 </ng-template>
             </p-toolbar>
 
 
-            <p-table #dt [value]="ListEstadoResultado" 
-            [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['id']" 
-            [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" 
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
-            [(selection)]="selectedEstadoResultado" selectionMode="multiple" [rowHover]="true" dataKey="id">
+            <p-table #dt [value]="ListEstadoResultado" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+                
+                [globalFilterFields]="['id','detalle','fecha_hora']" 
+            
+                [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [(selection)]="selectedEstadoResultado" selectionMode="multiple" [rowHover]="true" dataKey="id">
 
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                        
-                        <h5 class="m-0">Observaciones</h5>
+
+                        <h5 class="m-0">Observación</h5>
 
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."  class="w-full sm:w-auto"/>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."
+                                class="w-full sm:w-auto" />
                         </span>
                     </div>
                 </ng-template>
 
                 <ng-template pTemplate="header">
                     <tr>
-                        <th style="width:50px" pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
-                        <th pSortableColumn="nombre_usuario">nombre_usuario <p-sortIcon field="nombre_usuario"></p-sortIcon></th>
-             
-                        <th pSortableColumn="nombre_zona">nombre_zona <p-sortIcon field="nombre_zona"></p-sortIcon></th>
-                        <th pSortableColumn="nombre_paquete">nombre_paquete <p-sortIcon field="nombre_paquete"></p-sortIcon></th>
-                        <th pSortableColumn="nombre_mes">nombre_mes <p-sortIcon field="nombre_mes"></p-sortIcon></th>
-                        <th pSortableColumn="fecha_inicio">fecha_inicio <p-sortIcon field="fecha_inicio"></p-sortIcon></th>
-                        <th pSortableColumn="fecha_final">fecha_final <p-sortIcon field="fecha_final"></p-sortIcon></th>
-                        <th pSortableColumn="nombre_doc">nombre_doc <p-sortIcon field="nombre_doc"></p-sortIcon></th>
-                        <th pSortableColumn="url_doc">url_doc <p-sortIcon field="url_doc"></p-sortIcon></th>
-                        <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
-                        <!-- <th></th> -->
+                        <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+                        <th pSortableColumn="detalle">Detalle <p-sortIcon field="detalle"></p-sortIcon></th>
+                        <th pSortableColumn="fecha_hora">Fecha <p-sortIcon field="fecha_hora"></p-sortIcon></th>
+                        <th>#</th>
                     </tr>
                 </ng-template>
 
                 <ng-template pTemplate="body" let-estadoResultado>
                     <tr>
-                        <td style="width:50px" >
+                        <td>
                             <span class="p-column-title">id</span>
                             {{estadoResultado.id}}
                         </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">nombre_usuario</span>
-                            {{estadoResultado.nombre_usuario}}
+                        
+                        <td>
+                            <span class="p-column-title">detalle</span>
+                            {{estadoResultado.detalle}}
                         </td>
 
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">nombre_zona</span>
-                            {{estadoResultado.nombre_zona}}
-                        </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">nombre_paquete</span>
-                            {{estadoResultado.nombre_paquete}}
-                        </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">nombre_mes</span>
-                            {{estadoResultado.nombre_mes}}
-                        </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">fecha_inicio</span>
-                            {{  filtrarFecha(estadoResultado.fecha_inicio) }}
-                        </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">fecha_final</span>
-                            {{ filtrarFecha(estadoResultado.fecha_final) }}
-                        </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">nombre_doc</span>
-                            {{estadoResultado.nombre_doc}}
-                        </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">url_doc</span>
-                            {{estadoResultado.url_doc}}
+                        <td>
+                            <span class="p-column-title">fecha_hora</span>
+                            {{estadoResultado.fecha_hora | date: 'dd-MM-yyyy' }}
                         </td>
 
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                                (click)="editProduct(estadoResultado)"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                (click)="onEliminarClick(estadoResultado)"></button>
+                        </td>
                     </tr>
                 </ng-template>
 
             </p-table>
         </div>
 
-        <p-dialog  id="myDialog" [(visible)]="productDialog" [style]="{width: '550px' }" [contentStyle]="{ height: '550px' }" header="Consultar Estado de Pago" [modal]="true" class="p-fluid">
+
+
+
+        <p-dialog id="myDialog" [(visible)]="productDialog" [style]="{width: '550px' }"
+            [contentStyle]="{ height: '300px' }" header="Ingresar Observación" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
 
-            <div class="dialog-content">
+                <form [formGroup]="observacionesForm">
 
-                <div class="field">
-                    <p-dropdown [options]="clientes" [(ngModel)]="selectedCliente" optionLabel="name" placeholder="Cliente" ></p-dropdown>
-                </div>
+                    <input type="hidden" pInputhidden id="id" class="form-control" formControlName="id">
 
-                <div class="field">
-                    <p-dropdown [options]="zonas" [(ngModel)]="selectedZona" optionLabel="name" placeholder="Zona" ></p-dropdown>
-                </div>
+                    <div class="grid" style="margin-top:1%;">
+                        <div class="col-6">
 
-                <div class="field">
-                    <p-dropdown [options]="paquetes" [(ngModel)]="selectedPaquete" optionLabel="name" placeholder="Paquete" ></p-dropdown>
-                </div>
+                            <span class="p-float-label">
+                                <p-calendar id="fecha_hora" formControlName="fecha_hora" class="form-control"
+                                    [showIcon]="true"></p-calendar>
+                                <label htmlFor="fecha_hora">Fecha</label>
+                            </span>
+                          
 
-                <div class="field">
-                    <p-dropdown [options]="meses" [(ngModel)]="selectedMes" optionLabel="name" placeholder="Mes" ></p-dropdown>
-                </div>
+                        </div>
+                        <div class="col-6">
 
-                <div class="formgrid grid">
-                    <div class="field col">
-                        <label for="price">Fecha Inicio</label>
-                        <p-calendar [(ngModel)]="FechaInicio" [showIcon]="true"></p-calendar>
+                        </div>
                     </div>
-                    <div class="field col">
-                        <label for="quantity">Fecha Final</label>
-                        <p-calendar [(ngModel)]="FechaFinal" [showIcon]="true"></p-calendar>
+
+
+                    <div class="grid" style="margin-top:1%;">
+                        <div class="col">
+
+                            <span class="p-float-label">
+                                <textarea rows="3" cols="30" pInputTextarea formControlName="detalle"></textarea>
+                                <label htmlFor="Observacion">Observación</label>
+                            </span>
+
+
+
+                        </div>
                     </div>
-                </div>
-            
-            </div>
+                    
+
+
+                    <div class="grid" style="margin-top:2%;">
+                        <div class="col-3"></div>
+                        <div class="col-6">
+
+                            <button *ngIf="mostrarGuardar" pButton pRipple label="Guardar" (click)="onGuardarClick()"
+                                visible="false" [loading]="loading" [disabled]="observacionesForm.invalid"
+                                class="p-button-rounded p-button-outlined p-mt-10"></button>
+
+                            <button *ngIf="mostrarActualizar" pButton pRipple label="Actualizar"
+                                (click)="onActualizarClick()" [loading]="loading" [disabled]="observacionesForm.invalid"
+                                class="p-button-rounded p-button-success p-button-outlined p-mt-10"></button>
+                        </div>
+                        <div class="col-3"></div>
+                    </div>
+
+
+                </form>
 
             </ng-template>
 
-            <ng-template pTemplate="footer">
-                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Consultar" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
-            </ng-template>
+            <!-- <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+                    (click)="hideDialog()"></button>
+                <button pButton pRipple label="Consultar" icon="pi pi-check" class="p-button-text"
+                    (click)="saveProduct()"></button>
+            </ng-template> -->
 
         </p-dialog>
 
-        <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+
+
+
+
+        <!-- <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
                 <span *ngIf="product">Are you sure you want to delete <b>{{product.name}}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+                    (click)="deleteProductDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+                    (click)="confirmDelete()"></button>
             </ng-template>
-        </p-dialog>
+        </p-dialog> -->
 
-        <p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <!-- <p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
                 <span>Are you sure you want to delete selected products?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductsDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+                    (click)="deleteProductsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+                    (click)="confirmDeleteSelected()"></button>
             </ng-template>
-        </p-dialog>
+        </p-dialog> -->
+
+        <p-confirmDialog [style]="{ width: '650px' }"></p-confirmDialog>
+
     </div>
 </div>

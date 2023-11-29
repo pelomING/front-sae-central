@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 
 import { Product } from '../../model/product.model';
 import { EstadoResultado } from '../../model/estadoResultado.model'
 
 import { EstadoResultadoService } from 'src/app/sae/services/estadoResultado.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 interface City {
@@ -38,6 +39,21 @@ interface Mes {
   name: string;
   code: string;
 }
+
+interface Observacion {
+  id: number,
+  fecha_hora: string,
+  detalle: string
+}
+
+interface CobrosAdicionales {
+  id: number,
+  fecha_hora: string,
+  detalle: string,
+  cantidad: string,
+  valor: string
+}
+
 
 
 @Component({
@@ -112,7 +128,29 @@ export class Cobros_adicionalesComponent implements OnInit {
   options: any;
 
 
-  constructor(private estadoResultadoService: EstadoResultadoService, private messageService: MessageService) { }
+  CobrosAdicionalesForm: FormGroup;
+
+
+  mostrarGuardar: boolean = true; // Mostrar el botón por defecto
+  mostrarActualizar: boolean = true;
+  
+
+
+  constructor(
+    private fb: FormBuilder,
+    private estadoResultadoService: EstadoResultadoService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService) {
+
+        this.CobrosAdicionalesForm = this.fb.group({
+          id: [''],
+          fecha_hora: ['', Validators.required],
+          detalle: ['', Validators.required],
+          cantidad: ['', Validators.required],
+          valor: ['', Validators.required],
+        });
+
+  }
 
   ngOnInit() {
 
@@ -181,7 +219,7 @@ export class Cobros_adicionalesComponent implements OnInit {
 
 
   recuperaEstadosResultados(): void {
-    this.estadoResultadoService.getEstadosResultados().subscribe({
+    this.estadoResultadoService.cobroadicionalnoprocesado().subscribe({
       next: (data) => {
         console.log("data", data);
         this.ListEstadoResultado = data
@@ -193,25 +231,42 @@ export class Cobros_adicionalesComponent implements OnInit {
 
   filtrarFecha(fechaString: string) {
 
+    //console.log(fechaString);
+
     // Convierte la cadena en un objeto Date
     const fecha = new Date(fechaString);
+
+    console.log("fecha", fecha);
 
     // Ahora puedes realizar operaciones con la fecha, por ejemplo, formatearla:
     this.options = { year: 'numeric', month: 'numeric', day: 'numeric' };
 
     const fechaFormateada = fecha.toLocaleDateString('es-ES', this.options);
 
-    console.log(fechaFormateada); // Mostrará '1 de septiembre de 2023'
+    console.log("formateada", fechaFormateada); // Mostrará '1 de septiembre de 2023'
 
     const fechaS = new Date(fechaFormateada);
+
+
+    console.log("fechaS", fechaS);
+
+
+    // return fechaS.toString();
 
     // Obten los componentes de la fecha
     const dia = fechaS.getDate().toString().padStart(2, '0'); // Añade ceros a la izquierda si es necesario
     const mes = (fechaS.getMonth() + 1).toString().padStart(2, '0'); // Suma 1 porque los meses comienzan en 0
+
     const anio = fechaS.getFullYear();
 
+
+    console.log("dia", dia);
+    console.log("mes", mes);
+    console.log("anio", anio);
+
+
     // Formatea la fecha en el formato deseado
-    return `${dia}-${mes}-${anio}`;
+    //return `${dia}-${mes}-${anio}`;
 
   }
 
@@ -219,21 +274,198 @@ export class Cobros_adicionalesComponent implements OnInit {
 
 
 
+
+  loading: boolean = false;
+
+  onGuardarClick() {
+
+    this.loading = true;
+
+    setTimeout(() => {
+      this.loading = false
+    }, 2000);
+
+
+    if (this.CobrosAdicionalesForm.valid) {
+
+      const nueva = this.CobrosAdicionalesForm.value;
+
+      console.log('Nueva:', nueva);
+
+      this.estadoResultadoService.createCobroAdicional(nueva).subscribe(
+        (response) => {
+          // Manejar la respuesta exitosa
+          console.log('Obra guardada con éxito:', response);
+
+          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
+
+          this.productDialog = false;
+
+          this.estadoResultadoService.cobroadicionalnoprocesado().subscribe({
+            next: (data) => {
+              console.log("data", data);
+              this.ListEstadoResultado = data
+            }, error: (e) => console.error(e)
+          });
+
+        },
+        (error) => {
+
+          // Manejar errores
+          console.error('Error al guardar la obra:', error);
+
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Por favor, intentar mas tarde problemas de servicio',
+          });
+
+        }
+      );
+
+    } else {
+
+      // El formulario es inválido, muestra errores si es necesario
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Por favor, completa el formulario correctamente',
+      });
+
+    }
+  }
+
+
+
+  onActualizarClick() {
+
+    this.loading = true;
+
+    setTimeout(() => {
+      this.loading = false
+    }, 2000);
+
+
+    if (this.CobrosAdicionalesForm.valid) {
+
+      const updatedObra = this.CobrosAdicionalesForm.value; // Obtén los datos del formulario
+
+      // Luego, puedes enviar los datos actualizados al servidor, por ejemplo, utilizando un servicio:
+      this.estadoResultadoService.updateCobroAdicional(updatedObra).subscribe(
+        (response) => {
+
+          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro actualizado', life: 3000 });
+
+          this.productDialog = false;
+
+          this.estadoResultadoService.cobroadicionalnoprocesado().subscribe({
+            next: (data) => {
+              console.log("data", data);
+              this.ListEstadoResultado = data
+            }, error: (e) => console.error(e)
+          });
+
+        },
+        (error) => {
+          // Manejar errores, por ejemplo, mostrar un mensaje de error
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'No se pudo actualizar la obra. Inténtelo de nuevo.',
+          });
+        }
+      );
+    }
+  }
+
+
+
+  onEliminarClick(cobroAdicional: CobrosAdicionales) {
+
+    this.confirmationService.confirm({
+      message: 'Estás seguro de que deseas eliminar ID : ' + cobroAdicional.id + '?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+
+        this.estadoResultadoService.deleteCobroAdicional(cobroAdicional).subscribe(
+          (response) => {
+
+            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado', life: 3000 });
+
+            this.estadoResultadoService.cobroadicionalnoprocesado().subscribe({
+              next: (data) => {
+                console.log("data", data);
+                this.ListEstadoResultado = data
+              }, error: (e) => console.error(e)
+            });
+
+          },
+          (error) => {
+
+            // Manejar errores
+            console.error('Error :', error);
+
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Por favor, intentar mas tarde problemas de servicio',
+            });
+
+          }
+        );
+
+      }
+    });
+
+  }
+
+  
 
 
   openNew() {
+
+    this.mostrarGuardar = true;
+    this.mostrarActualizar = false;
+
+    this.CobrosAdicionalesForm.reset();
     this.product = {};
     this.submitted = false;
+
     this.productDialog = true;
   }
+
+
 
   deleteSelectedProducts() {
     this.deleteProductsDialog = true;
   }
 
-  editProduct(product: Product) {
-    this.product = { ...product };
+  formateoFecha(fechaOriginal: string): string {
+    const fechaParseada = new Date(fechaOriginal);
+    const dia = fechaParseada.getDate().toString().padStart(2, '0');
+    const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
+    const año = fechaParseada.getFullYear();
+    const fechaFormateada = `${mes}/${dia}/${año}`;
+    console.log(fechaFormateada); // Esto mostrará "10/03/2023" en la consola
+
+    return fechaFormateada;
+  }
+
+
+  editProduct(cobroAdicional: CobrosAdicionales) {
+
+    this.CobrosAdicionalesForm.reset();
+
+    this.mostrarGuardar = false;
+    this.mostrarActualizar = true;
+
+    cobroAdicional.fecha_hora = this.formateoFecha(cobroAdicional.fecha_hora);
+
+    this.CobrosAdicionalesForm.patchValue(cobroAdicional);
+
     this.productDialog = true;
+
   }
 
   deleteProduct(product: Product) {

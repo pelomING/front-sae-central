@@ -2,12 +2,17 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from '../model/product.model';
 import { EstadoResultado } from '../model/estadoResultado.model'
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ConfigService } from '../../_services/config.service';
 
 //const API_URL = 'http://localhost:8080/api/reportes/v1';
 //const API_URL_2 = 'https://backend-sae-postgres-desarrollo.up.railway.app/api/reportes/v1';
+
+const httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
+
 
 interface ResumenEvento {
     cantidad: string;
@@ -28,6 +33,47 @@ interface ResumenTurno {
     precio: string;
     uso_semanal: string;
 }
+
+
+interface Observacion {
+    id: number,
+    fecha_hora: string,
+    detalle: string
+}
+
+
+interface CobrosAdicionales {
+    id: number,
+    fecha_hora: string,
+    detalle: string,
+    cantidad: string,
+    valor: string
+}
+
+
+interface Descuentos {
+    id: number,
+    fecha_hora: string,
+    detalle: string,
+    cantidad: string,
+    valor: string
+}
+
+
+interface InterfaceHoraExtra {
+    id: number,
+    fecha_hora: string,
+    brigada: InterfaceBrigada,
+    cantidad: string,
+    comentario: string
+}
+
+interface InterfaceBrigada {
+    id: Number;
+    brigada: string;
+  }
+
+
 
 @Injectable()
 export class EstadoResultadoService {
@@ -85,7 +131,7 @@ export class EstadoResultadoService {
     PERMANENICACARGOFIJOSEMANALPORBRIGADA(): Observable<any> {
         return this.http.get<any>(`${this.baseUrl}/permanencia_por_brigada`).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
-          );
+        );
     }
 
 
@@ -97,49 +143,49 @@ export class EstadoResultadoService {
     HORASEXTRAS(): Observable<any> {
         return this.http.get<any>(`${this.baseUrl}/horasextras`).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
-          );
+        );
     }
 
 
     TURNOSADICIONALES(): Observable<any> {
         return this.http.get<any>(`${this.baseUrl}/turnosadicionales`).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
-          );
+        );
     }
 
 
     TURNOSCONTINGENCIA(): Observable<any> {
         return this.http.get<any>(`${this.baseUrl}/turnoscontingencia`).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
-          );
+        );
     }
 
 
     PRODUCCIONPxQ(): Observable<any> {
         return this.http.get<any>(`${this.baseUrl}/produccionpxq`).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
-          );
+        );
     }
 
 
     COBROSADICIONALES(): Observable<any> {
         return this.http.get<any>(`${this.baseUrl}/reportecobroadicional`).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
-          );
+        );
     }
 
 
     DESCUENTOS(): Observable<any> {
         return this.http.get<any>(`${this.baseUrl}/reportedescuentos`).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
-          );
+        );
     }
 
 
     RESUMEN(): Observable<any> {
         return this.http.get<any>(`${this.baseUrl}/reporteresumen`).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
-          );
+        );
     }
 
 
@@ -148,13 +194,372 @@ export class EstadoResultadoService {
 
         // Define los parámetros utilizando los argumentos de la función
         const params = new HttpParams()
-        .set('id_paquete', idPaquete.toString()); // Convierte a cadena si es necesario
+            .set('id_paquete', idPaquete.toString()); // Convierte a cadena si es necesario
 
         return this.http.get<any>(`${this.baseUrl}/detallepxq`, { params });
 
     }
 
 
+
+    listabrigadassae() {
+        return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/listabrigadassae`);
+    }
+
+    horaextranoprocesados() {
+        return this.http.get<any>(`${this.baseUrl}/horaextranoprocesados`);
+    }
+
+    createHoraExtra(nuevo: InterfaceHoraExtra): Observable<any[]> {
+
+        const data = {
+            fecha_hora: nuevo.fecha_hora,
+            brigada: nuevo.brigada.id,
+            cantidad: nuevo.cantidad,
+            comentario: nuevo.comentario,
+        };
+
+        console.log("data enviada", data);
+
+        return this.http.post<any[]>(`${this.baseUrl}/creahoraextra`, data, httpOptions).pipe(
+            map((response) => {
+
+                if (response) {
+                    return response;
+                } else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+
+            }),
+            catchError((error) => {
+
+                console.error('Error en la solicitud:', error);
+                return throwError('Ha ocurrido un error en la solicitud.');
+
+            })
+        );
+
+    }
+
+    updateHoraExtra(nuevo: InterfaceHoraExtra): Observable<any[]> {
+
+        const data = {
+            fecha_hora: nuevo.fecha_hora,
+            brigada: nuevo.brigada.id,
+            cantidad: nuevo.cantidad,
+            comentario: nuevo.comentario,
+        };
+
+        return this.http.put<any[]>(`${this.baseUrl}/updatehoraextra/${nuevo.id}`, data, httpOptions).pipe(
+            map((response) => {
+
+                if (response) {
+                    return response;
+                } else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+
+            }),
+            catchError((error) => {
+
+                console.error('Error en la solicitud:', error);
+                return throwError('Ha ocurrido un error en la solicitud.');
+
+            })
+        );
+
+    }
+
+
+    deleteHoraExtra(ObjectDelete: InterfaceHoraExtra): Observable<any> {
+
+        return this.http.delete<any>(`${this.baseUrl}/deletehoraextra/${ObjectDelete.id}`,httpOptions).pipe(
+            map((response) => {
+
+                if (response) {
+                    return response;
+                } else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+
+            }),
+            catchError((error) => {
+
+                console.error('Error en la solicitud:', error);
+                return throwError('Ha ocurrido un error en la solicitud.');
+
+            })
+        );
+    
+    }
+
+
+
+    descuentosnoprocesados() {
+        return this.http.get<any>(`${this.baseUrl}/descuentosnoprocesados`);
+    }
+
+    createDescuentos(nuevo: Descuentos): Observable<any[]> {
+
+        const data = {
+            fecha_hora: nuevo.fecha_hora,
+            detalle: nuevo.detalle,
+            cantidad: nuevo.cantidad,
+            valor: nuevo.valor,
+        };
+
+        console.log("data enviada", data);
+
+        return this.http.post<any[]>(`${this.baseUrl}/creadescuentos`, data, httpOptions).pipe(
+            map((response) => {
+
+                if (response) {
+                    return response;
+                } else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+
+            }),
+            catchError((error) => {
+
+                console.error('Error en la solicitud:', error);
+                return throwError('Ha ocurrido un error en la solicitud.');
+
+            })
+        );
+
+    }
+
+
+    updateDescuentos(nuevo: Descuentos): Observable<any[]> {
+
+        const data = {
+            fecha_hora: nuevo.fecha_hora,
+            detalle: nuevo.detalle,
+            cantidad: nuevo.cantidad,
+            valor: nuevo.valor,
+        };
+
+        return this.http.put<any[]>(`${this.baseUrl}/updatedescuentos/${nuevo.id}`, data, httpOptions).pipe(
+            map((response) => {
+
+                if (response) {
+                    return response;
+                } else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+
+            }),
+            catchError((error) => {
+
+                console.error('Error en la solicitud:', error);
+                return throwError('Ha ocurrido un error en la solicitud.');
+
+            })
+        );
+
+    }
+
+
+
+    deleteDescuentos(ObjectDelete: Descuentos): Observable<any> {
+
+        return this.http.delete<any>(`${this.baseUrl}/deletedescuento/${ObjectDelete.id}`,httpOptions).pipe(
+            map((response) => {
+
+                if (response) {
+                    return response;
+                } else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+
+            }),
+            catchError((error) => {
+
+                console.error('Error en la solicitud:', error);
+                return throwError('Ha ocurrido un error en la solicitud.');
+
+            })
+        );
+    
+    }
+
+
+
+    cobroadicionalnoprocesado() {
+        return this.http.get<any>(`${this.baseUrl}/cobroadicionalnoprocesado`);
+    }
+
+
+    createCobroAdicional(nuevo: CobrosAdicionales): Observable<any[]> {
+
+        const data = {
+            fecha_hora: nuevo.fecha_hora,
+            detalle: nuevo.detalle,
+            cantidad: nuevo.cantidad,
+            valor: nuevo.valor,
+        };
+
+        console.log("data enviada", data);
+
+        return this.http.post<any[]>(`${this.baseUrl}/creacobroadicional`, data, httpOptions).pipe(
+            map((response) => {
+
+                if (response) {
+                    return response;
+                } else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+
+            }),
+            catchError((error) => {
+
+                console.error('Error en la solicitud:', error);
+                return throwError('Ha ocurrido un error en la solicitud.');
+
+            })
+        );
+
+    }
+
+
+    updateCobroAdicional(nuevo: CobrosAdicionales): Observable<any[]> {
+
+        const data = {
+            fecha_hora: nuevo.fecha_hora,
+            detalle: nuevo.detalle,
+            cantidad: nuevo.cantidad,
+            valor: nuevo.valor,
+        };
+
+        return this.http.put<any[]>(`${this.baseUrl}/updatecobroadicional/${nuevo.id}`, data, httpOptions).pipe(
+            map((response) => {
+
+                if (response) {
+                    return response;
+                } else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+
+            }),
+            catchError((error) => {
+
+                console.error('Error en la solicitud:', error);
+                return throwError('Ha ocurrido un error en la solicitud.');
+
+            })
+        );
+
+    }
+
+
+    deleteCobroAdicional(ObjectDelete: CobrosAdicionales): Observable<any> {
+
+        return this.http.delete<any>(`${this.baseUrl}/deletecobroadicional/${ObjectDelete.id}`,httpOptions).pipe(
+            map((response) => {
+
+                if (response) {
+                    return response;
+                } else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+
+            }),
+            catchError((error) => {
+
+                console.error('Error en la solicitud:', error);
+                return throwError('Ha ocurrido un error en la solicitud.');
+
+            })
+        );
+    
+    }
+
+
+
+    observacionesnoprocesadas() {
+        return this.http.get<any>(`${this.baseUrl}/observacionesnoprocesadas`);
+    }
+
+    createObservacion(nuevo: Observacion): Observable<any[]> {
+
+        const data = {
+            fecha_hora: nuevo.fecha_hora,
+            detalle: nuevo.detalle,
+        };
+
+        console.log("data enviada", data);
+
+        return this.http.post<any[]>(`${this.baseUrl}/creaobservaciones`, data, httpOptions).pipe(
+            map((response) => {
+
+                if (response) {
+                    return response;
+                } else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+
+            }),
+            catchError((error) => {
+
+                console.error('Error en la solicitud:', error);
+                return throwError('Ha ocurrido un error en la solicitud.');
+
+            })
+        );
+
+    }
+
+    updateObservacion(nuevo: Observacion): Observable<any[]> {
+
+        const data = {
+            fecha_hora: nuevo.fecha_hora,
+            detalle: nuevo.detalle,
+        };
+
+        return this.http.put<any[]>(`${this.baseUrl}/updateobservaciones/${nuevo.id}`, data, httpOptions).pipe(
+            map((response) => {
+
+                if (response) {
+                    return response;
+                } else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+
+            }),
+            catchError((error) => {
+
+                console.error('Error en la solicitud:', error);
+                return throwError('Ha ocurrido un error en la solicitud.');
+
+            })
+        );
+
+    }
+
+
+
+    deleteObservacion(nuevo: Observacion): Observable<any> {
+
+        return this.http.delete<any>(`${this.baseUrl}/deleteobservaciones/${nuevo.id}`,httpOptions).pipe(
+            map((response) => {
+
+                if (response) {
+                    return response;
+                } else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+
+            }),
+            catchError((error) => {
+
+                console.error('Error en la solicitud:', error);
+                return throwError('Ha ocurrido un error en la solicitud.');
+
+            })
+        );
+    
+    }
 
 
 

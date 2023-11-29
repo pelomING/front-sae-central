@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 
 import { Product } from '../../model/product.model';
 import { EstadoResultado } from '../../model/estadoResultado.model'
 
 import { EstadoResultadoService } from 'src/app/sae/services/estadoResultado.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 interface City {
@@ -40,6 +41,36 @@ interface Mes {
 }
 
 
+interface Observacion {
+  id: number,
+  fecha_hora: string,
+  detalle: string
+}
+
+
+interface CobrosAdicionales {
+  id: number,
+  fecha_hora: string,
+  detalle: string,
+  cantidad: string,
+  valor: string
+}
+
+
+interface InterfaceHoraExtra {
+  id: number,
+  fecha_hora: string,
+  brigada: InterfaceBrigada,
+  cantidad: string,
+  comentario: string
+}
+
+interface InterfaceBrigada {
+  id: Number;
+  brigada: string;
+}
+
+
 @Component({
   selector: 'app-horas_extras',
   templateUrl: './horas_extras.component.html',
@@ -63,6 +94,9 @@ export class Horas_extrasComponent implements OnInit {
 
 
   ListEstadoResultado: EstadoResultado[];
+
+  ListHorasExtra: InterfaceHoraExtra[];
+
 
   estadoResultado: EstadoResultado = {};
   selectedEstadoResultado: EstadoResultado[] = [];
@@ -112,7 +146,30 @@ export class Horas_extrasComponent implements OnInit {
   options: any;
 
 
-  constructor(private estadoResultadoService: EstadoResultadoService, private messageService: MessageService) { }
+  HoraExtraForm: FormGroup;
+  mostrarGuardar: boolean = true; // Mostrar el botón por defecto
+  mostrarActualizar: boolean = true;
+
+  brigadas: InterfaceBrigada[] | undefined;
+
+  selectedBrigada: InterfaceBrigada | undefined;
+
+  constructor(
+    private fb: FormBuilder,
+    private estadoResultadoService: EstadoResultadoService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService) {
+
+    this.HoraExtraForm = this.fb.group({
+      id: [''],
+      fecha_hora: ['', Validators.required],
+      brigada: ['', Validators.required],
+      cantidad: ['', Validators.required],
+      comentario: ['', Validators.required],
+    });
+
+  }
+
 
   ngOnInit() {
 
@@ -177,14 +234,22 @@ export class Horas_extrasComponent implements OnInit {
       { name: 'Diciembre', code: 'Dic' }
     ];
 
+
+    this.estadoResultadoService.listabrigadassae().subscribe({
+      next: (data) => {
+        console.log("brigadas : ", data);
+        this.brigadas = data
+      }, error: (e) => console.error(e)
+    });
+
+
   }
 
 
-  recuperaEstadosResultados(): void {
-    this.estadoResultadoService.getEstadosResultados().subscribe({
+  recuperaEstadosResultados() {
+    this.estadoResultadoService.horaextranoprocesados().subscribe({
       next: (data) => {
-        console.log("data", data);
-        this.ListEstadoResultado = data
+        this.ListHorasExtra = data.detalle;
       }, error: (e) => console.error(e)
     });
   }
@@ -218,23 +283,201 @@ export class Horas_extrasComponent implements OnInit {
 
 
 
+  loading: boolean = false;
+
+  onGuardarClick() {
+
+    this.loading = true;
+
+    setTimeout(() => {
+      this.loading = false
+    }, 2000);
+
+
+    if (this.HoraExtraForm.valid) {
+
+      const nueva = this.HoraExtraForm.value;
+
+      console.log('Nueva:', nueva);
+
+      this.estadoResultadoService.createHoraExtra(nueva).subscribe(
+        (response) => {
+
+          // Manejar la respuesta exitosa
+          console.log('Obra guardada con éxito:', response);
+
+          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
+
+          this.productDialog = false;
+
+          this.estadoResultadoService.horaextranoprocesados().subscribe({
+            next: (data) => {
+              console.log("data", data);
+              this.ListHorasExtra = data.detalle;
+            }, error: (e) => console.error(e)
+          });
+
+        },
+        (error) => {
+
+          // Manejar errores
+          console.error('Error al guardar la obra:', error);
+
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Por favor, intentar mas tarde problemas de servicio',
+          });
+
+        }
+      );
+
+    } else {
+
+      // El formulario es inválido, muestra errores si es necesario
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Por favor, completa el formulario correctamente',
+      });
+
+    }
+  }
+
+
+
+  onActualizarClick() {
+
+    this.loading = true;
+
+    setTimeout(() => {
+      this.loading = false
+    }, 2000);
+
+    if (this.HoraExtraForm.valid) {
+
+      const ObjetUpdated = this.HoraExtraForm.value; // Obtén los datos del formulario
+
+      // Luego, puedes enviar los datos actualizados al servidor, por ejemplo, utilizando un servicio:
+      this.estadoResultadoService.updateHoraExtra(ObjetUpdated).subscribe(
+        (response) => {
+
+          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro actualizado', life: 3000 });
+
+          this.productDialog = false;
+
+          this.estadoResultadoService.horaextranoprocesados().subscribe({
+            next: (data) => {
+              console.log("data", data);
+              this.ListHorasExtra = data.detalle;
+            }, error: (e) => console.error(e)
+          });
+
+        },
+        (error) => {
+          // Manejar errores, por ejemplo, mostrar un mensaje de error
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'No se pudo actualizar la obra. Inténtelo de nuevo.',
+          });
+        }
+      );
+    }
+  }
+
+
+
+
+  onEliminarClick(HoraExtra: InterfaceHoraExtra) {
+
+    this.confirmationService.confirm({
+      message: 'Estás seguro de que deseas eliminar ID : ' + HoraExtra.id + '?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+
+        this.estadoResultadoService.deleteHoraExtra(HoraExtra).subscribe(
+          (response) => {
+
+            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado', life: 3000 });
+
+            this.estadoResultadoService.horaextranoprocesados().subscribe({
+              next: (data) => {
+                console.log("data", data);
+                this.ListHorasExtra = data.detalle;
+              }, error: (e) => console.error(e)
+            });
+
+          },
+          (error) => {
+
+            // Manejar errores
+            console.error('Error :', error);
+
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Por favor, intentar mas tarde problemas de servicio',
+            });
+
+          }
+        );
+
+      }
+    });
+
+  }
+
 
 
 
   openNew() {
+
+    this.mostrarGuardar = true;
+    this.mostrarActualizar = false;
+
+    this.HoraExtraForm.reset();
     this.product = {};
     this.submitted = false;
+
     this.productDialog = true;
   }
+
 
   deleteSelectedProducts() {
     this.deleteProductsDialog = true;
   }
 
-  editProduct(product: Product) {
-    this.product = { ...product };
-    this.productDialog = true;
+  formateoFecha(fechaOriginal: string): string {
+    const fechaParseada = new Date(fechaOriginal);
+    const dia = fechaParseada.getDate().toString().padStart(2, '0');
+    const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
+    const año = fechaParseada.getFullYear();
+    const fechaFormateada = `${mes}/${dia}/${año}`;
+    console.log(fechaFormateada); // Esto mostrará "10/03/2023" en la consola
+
+    return fechaFormateada;
   }
+
+
+  editProduct(HoraExtra: InterfaceHoraExtra) {
+
+    console.log(HoraExtra);
+
+    this.HoraExtraForm.reset();
+
+    this.mostrarGuardar = false;
+    this.mostrarActualizar = true;
+
+    HoraExtra.fecha_hora = this.formateoFecha(HoraExtra.fecha_hora);
+
+    this.HoraExtraForm.patchValue(HoraExtra);
+
+    this.productDialog = true;
+
+  }
+
 
   deleteProduct(product: Product) {
     this.deleteProductDialog = true;

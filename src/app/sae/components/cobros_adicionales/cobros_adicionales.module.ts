@@ -24,6 +24,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { CalendarModule } from 'primeng/calendar';
+import { PrimeNGModule } from 'src/app/_primeng/primeng.module';
 
 
 
@@ -50,7 +51,8 @@ import { CalendarModule } from 'primeng/calendar';
         FileUploadModule,
         MessageModule,
         MessagesModule,
-		CalendarModule
+		CalendarModule,
+		PrimeNGModule
 	],
 	declarations: [Cobros_adicionalesComponent]
 })

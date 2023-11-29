@@ -25,12 +25,14 @@ import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { CalendarModule } from 'primeng/calendar';
 
+import { PrimeNGModule } from '../../../_primeng/primeng.module';
 
 
 @NgModule({
 	imports: [
 		CommonModule,
 		ObservacionesRoutingModule,
+		PrimeNGModule,
 		FormsModule,
 		TableModule,
 		RatingModule,
