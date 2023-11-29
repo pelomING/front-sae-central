@@ -21,10 +21,10 @@ export class JornadaComponent implements OnInit {
 
   formObraDialog: boolean;
 
-  constructor(private turnosService: TurnosService, 
-              private fb: FormBuilder,
-              private messageService: MessageService,
-              private confirmationService: ConfirmationService) { }
+  constructor(private turnosService: TurnosService,
+    private fb: FormBuilder,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
 
@@ -45,7 +45,14 @@ export class JornadaComponent implements OnInit {
   }
 
   recuperaJornadas(): void {
-    this.turnosService.getJornada().subscribe({ next: (data) => { this.turnos = data }, error: (e) => console.error(e) });
+    this.turnosService.getJornada().subscribe({ 
+      next: (data) => { 
+      
+        console.log("data:", data);
+      
+        this.turnos = data 
+      
+      }, error: (e) => console.error(e) });
   }
 
 

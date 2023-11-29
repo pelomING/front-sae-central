@@ -8,13 +8,13 @@
                 <ng-template pTemplate="left">
                     <div class="my-2">
                         
-                        <button pButton pRipple label="Consultar Estado de Pago" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                        <!-- <button pButton pRipple label="Consultar Estado de Pago" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button> -->
 
                     </div>
                 </ng-template>
                 <ng-template pTemplate="right">
                 
-                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
+                    <!-- <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
                 
                 </ng-template>
             </p-toolbar>
@@ -28,7 +28,7 @@
 
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                        <h5 class="m-0">Estados Resultados Historial</h5>
+                        <h5 class="m-0">Estados de Pago</h5>
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."  class="w-full sm:w-auto"/>
@@ -49,7 +49,7 @@
                         <th pSortableColumn="nombre_doc">nombre_doc <p-sortIcon field="nombre_doc"></p-sortIcon></th>
                         <th pSortableColumn="url_doc">url_doc <p-sortIcon field="url_doc"></p-sortIcon></th>
                         <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
-                        <th></th>
+                        <!-- <th></th> -->
                     </tr>
                 </ng-template>
 

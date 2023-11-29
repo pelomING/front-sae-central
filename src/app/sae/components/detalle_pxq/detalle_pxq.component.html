@@ -1,0 +1,219 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            
+            <p-toast></p-toast>
+
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        
+                        <div class="flex flex-row flex-wrap">
+                            <div class="flex align-items-center justify-content-center">
+
+                                <div class="form-group">
+                                    <p-dropdown [options]="paquetes" [(ngModel)]="selectedPaquete" optionLabel="name"
+                                        placeholder="Paquete"></p-dropdown>
+                                </div>
+
+
+                            </div>
+                            <div class="flex align-items-center justify-content-center my-2 mx-2">
+
+                            </div>
+                            <div class="flex align-items-center justify-content-center">
+
+                                <button pButton pRipple label="Consultar" icon="pi pi-check" class="p-button-success"
+                                (click)="ConsultarEstadoResultado()"></button>
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="right">
+                
+                    <!-- <button pButton pRipple label="Exportar a CSV" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+
+                    <button pButton pRipple label="Exportar a Excel" icon="pi pi-upload" class="p-button-help" (click)="exportToExcel1()"></button>
+                
+                </ng-template>
+            </p-toolbar>
+
+
+            <p-table #dt [value]="ListDetallepxq" 
+            [columns]="cols" responsiveLayout="scroll" [rows]="10"
+
+            [globalFilterFields]="['fecha','hora_termino','centrality','maestro','ayudante','patente','despachador','comuna','direccion','aviso','descripcion','valor_cobrar']"
+
+            [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" 
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+            [(selection)]="selectedEstadoResultado" selectionMode="multiple" [rowHover]="true" dataKey="id">
+
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Detalle PXQ</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."  class="w-full sm:w-auto"/>
+                        </span>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">     
+                    <tr>
+                        <!-- <th style="width:50px" pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th> -->
+                        <th pSortableColumn="fecha">Fecha <p-sortIcon field="fecha"></p-sortIcon></th>
+                        <th pSortableColumn="hora_termino">Hora término <p-sortIcon field="hora_termino"></p-sortIcon></th>
+                        <th pSortableColumn="centrality">Centrality <p-sortIcon field="centrality"></p-sortIcon></th>
+                        <th pSortableColumn="maestro">Brigada1 <p-sortIcon field="maestro"></p-sortIcon></th>
+                        <th pSortableColumn="ayudante">Brigada2 <p-sortIcon field="ayudante"></p-sortIcon></th>                     
+                        <th pSortableColumn="patente">Patente Móvil <p-sortIcon field="patente"></p-sortIcon></th>
+                        <th pSortableColumn="despachador">Despachador <p-sortIcon field="despachador"></p-sortIcon></th>
+                        <th pSortableColumn="comuna">Comuna <p-sortIcon field="comuna"></p-sortIcon></th>
+                        <th pSortableColumn="direccion">Dirección <p-sortIcon field="direccion"></p-sortIcon></th>
+                        <th pSortableColumn="aviso">Aviso <p-sortIcon field="aviso"></p-sortIcon></th>
+                        <th pSortableColumn="descripcion">Descripción trabajo realizado <p-sortIcon field="descripcion"></p-sortIcon></th>
+                        <th pSortableColumn="valor_cobrar">VALOR <p-sortIcon field="valor_cobrar"></p-sortIcon></th>
+                        <!-- <th></th> -->
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-estadoResultado>
+                    <tr>
+                        <!-- <td style="width:50px" >
+                            <span class="p-column-title">id</span>
+                            {{estadoResultado.id}}
+                        </td> -->
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">fecha</span>
+                            {{estadoResultado.fecha}}
+                        </td>
+
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">hora_termino</span>
+                            {{estadoResultado.hora_termino}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">centrality</span>
+                            {{estadoResultado.centrality}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">maestro</span>
+                            {{estadoResultado.maestro}}
+                        </td>
+
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">ayudante</span>
+                            {{estadoResultado.ayudante}}
+                        </td>
+
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">patente</span>
+                            {{estadoResultado.ayudante}}
+                        </td>
+
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">despachador</span>
+                            {{estadoResultado.despachador}}
+                        </td>
+                      
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">comuna</span>
+                            {{estadoResultado.comuna}}
+                        </td>
+
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">direccion</span>
+                            {{estadoResultado.direccion}}
+                        </td>
+
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">aviso</span>
+                            {{estadoResultado.aviso}}
+                        </td>
+
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">descripcion</span>
+                            {{estadoResultado.descripcion}}
+                        </td>
+
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">valor_cobrar</span>
+                            {{estadoResultado.valor_cobrar}}
+                        </td>
+
+                    </tr>
+                </ng-template>
+
+            </p-table>
+        </div>
+
+        <!-- <p-dialog  id="myDialog" [(visible)]="productDialog" [style]="{width: '550px' }" [contentStyle]="{ height: '550px' }" header="Consultar Estado de Pago" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+
+            <div class="dialog-content">
+
+                <div class="field">
+                    <p-dropdown [options]="clientes" [(ngModel)]="selectedCliente" optionLabel="name" placeholder="Cliente" ></p-dropdown>
+                </div>
+
+                <div class="field">
+                    <p-dropdown [options]="zonas" [(ngModel)]="selectedZona" optionLabel="name" placeholder="Zona" ></p-dropdown>
+                </div>
+
+                <div class="field">
+                    <p-dropdown [options]="paquetes" [(ngModel)]="selectedPaquete" optionLabel="name" placeholder="Paquete" ></p-dropdown>
+                </div>
+
+                <div class="field">
+                    <p-dropdown [options]="meses" [(ngModel)]="selectedMes" optionLabel="name" placeholder="Mes" ></p-dropdown>
+                </div>
+
+                <div class="formgrid grid">
+                    <div class="field col">
+                        <label for="price">Fecha Inicio</label>
+                        <p-calendar [(ngModel)]="FechaInicio" [showIcon]="true"></p-calendar>
+                    </div>
+                    <div class="field col">
+                        <label for="quantity">Fecha Final</label>
+                        <p-calendar [(ngModel)]="FechaFinal" [showIcon]="true"></p-calendar>
+                    </div>
+                </div>
+            
+            </div>
+
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton pRipple label="Consultar" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+            </ng-template>
+
+        </p-dialog> -->
+
+        <!-- <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="product">Are you sure you want to delete <b>{{product.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog> -->
+
+        <!-- <p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Are you sure you want to delete selected products?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
+            </ng-template>
+        </p-dialog> -->
+    </div>
+</div>

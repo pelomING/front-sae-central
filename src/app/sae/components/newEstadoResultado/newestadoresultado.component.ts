@@ -105,6 +105,23 @@ export class NewEstadoResultadoComponent implements OnInit {
   FechaInicio: Date | undefined;
   FechaFinal: Date | undefined;
 
+
+
+
+  CARGOFIJOSEMANALPORBRIGADA: any[] = [];
+  PERMANENICACARGOFIJOSEMANALPORBRIGADA: any[] = [];
+  OBSERVACIONES: any[] = [];
+  HORASEXTRAS: any[] = [];
+  TURNOSADICIONALES: any[] = [];
+  TURNOSCONTINGENCIA: any[] = [];
+  PRODUCCIONPxQ: any[] = [];
+  COBROSADICIONALES: any[] = [];
+  DESCUENTOS: any[] = [];
+  RESUMEN: any[] = [];
+
+
+
+
   constructor(
     private estadoResultadoService: EstadoResultadoService,
     private messageService: MessageService) { }
@@ -215,55 +232,117 @@ export class NewEstadoResultadoComponent implements OnInit {
     this.submitted = false;
   }
 
-  ConsultarEstadoResultado() {
+  async ConsultarEstadoResultado() {
 
     this.submitted = true;
+
     console.log("Agregar Reporte Estado");
 
-    console.log("selectedPaquete", this.selectedPaquete.code);
-    console.log("selectedMes", this.selectedMes);
-    console.log("FechaInicio", this.FechaInicio);
-    console.log("FechaFinal", this.FechaFinal);
+    //console.log("selectedPaquete", this.selectedPaquete.code);
+    //console.log("selectedMes", this.selectedMes);
+    //console.log("FechaInicio", this.FechaInicio);
+    //console.log("FechaFinal", this.FechaFinal);
 
     this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
 
-    let year = this.FechaInicio.getFullYear().toString().slice(-4); // Obtiene los dos últimos dígitos del año
-    let month = ('0' + (this.FechaInicio.getMonth() + 1)).slice(-2); // Añade un cero inicial si el mes es < 10
-    let day = ('0' + this.FechaInicio.getDate()).slice(-2); // Añade un cero inicial si el día es < 10
+    //let year = this.FechaInicio.getFullYear().toString().slice(-4); // Obtiene los dos últimos dígitos del año
+    //let month = ('0' + (this.FechaInicio.getMonth() + 1)).slice(-2); // Añade un cero inicial si el mes es < 10
+    //let day = ('0' + this.FechaInicio.getDate()).slice(-2); // Añade un cero inicial si el día es < 10
 
     // Formatea la fecha en el formato deseado
-    const fechaFormateada1 = `${year}-${month}-${day}`;
+    //const fechaFormateada1 = `${year}-${month}-${day}`;
 
-    year = this.FechaFinal.getFullYear().toString().slice(-4); // Obtiene los dos últimos dígitos del año
-    month = ('0' + (this.FechaFinal.getMonth() + 1)).slice(-2); // Añade un cero inicial si el mes es < 10
-    day = ('0' + this.FechaFinal.getDate()).slice(-2); // Añade un cero inicial si el día es < 10
+    //year = this.FechaFinal.getFullYear().toString().slice(-4); // Obtiene los dos últimos dígitos del año
+    //month = ('0' + (this.FechaFinal.getMonth() + 1)).slice(-2); // Añade un cero inicial si el mes es < 10
+    //day = ('0' + this.FechaFinal.getDate()).slice(-2); // Añade un cero inicial si el día es < 10
 
     // Formatea la fecha en el formato deseado
-    const fechaFormateada2 = `${year}-${month}-${day}`;
+    //const fechaFormateada2 = `${year}-${month}-${day}`;
 
-    this.estadoResultadoService.getResumenEventos(fechaFormateada1, fechaFormateada2, this.selectedPaquete.code).subscribe({
+        
+    await this.estadoResultadoService.CARGOFIJOSEMANALPORBRIGADA().subscribe({
       next: (data) => {
-        this.ListResumenEvento = data;
-        this.ListResumenEvento.forEach(item => {
-          const montoNumero = parseFloat(item.monto);
-          if (!isNaN(montoNumero)) {
-            this.sumatoriaResumenEvento += montoNumero;
-          }
-        });
+        console.log("DATOS CARGOFIJOSEMANALPORBRIGADA",data);
+        this.CARGOFIJOSEMANALPORBRIGADA = data;
       }, error: (e) => console.error(e)
     });
 
-    this.estadoResultadoService.getResumenTurnos(fechaFormateada1, fechaFormateada2, this.selectedPaquete.code).subscribe({
+
+
+    await this.estadoResultadoService.PERMANENICACARGOFIJOSEMANALPORBRIGADA().subscribe({
       next: (data) => {
-        this.ListResumenTurno = data;
-        this.ListResumenTurno.forEach(item => {
-          const montoNumero = parseFloat(item.monto);
-          if (!isNaN(montoNumero)) {
-            this.sumatoriaResumenTurno += montoNumero;
-          }
-        });
+        console.log("DATOS PERMANENICACARGOFIJOSEMANALPORBRIGADA",data);
+        this.PERMANENICACARGOFIJOSEMANALPORBRIGADA = data;
       }, error: (e) => console.error(e)
     });
+
+
+
+    await this.estadoResultadoService.OBSERVACIONES().subscribe({
+      next: (data) => {
+        console.log("DATOS OBSERVACIONES",data);
+        this.OBSERVACIONES = data;
+      }, error: (e) => console.error(e)
+    });
+
+
+
+    await this.estadoResultadoService.HORASEXTRAS().subscribe({
+      next: (data) => {
+        console.log("DATOS HORASEXTRAS",data);
+        this.HORASEXTRAS = data;
+      }, error: (e) => console.error(e)
+    });
+
+
+    await this.estadoResultadoService.TURNOSADICIONALES().subscribe({
+      next: (data) => {
+        console.log("DATOS TURNOSADICIONALES",data);
+        this.TURNOSADICIONALES = data; 
+      }, error: (e) => console.error(e)
+    });
+
+
+    await this.estadoResultadoService.TURNOSCONTINGENCIA().subscribe({
+      next: (data) => {
+        console.log("DATOS TURNOSCONTINGENCIA",data);
+        this.TURNOSCONTINGENCIA = data;
+      }, error: (e) => console.error(e)
+    });
+
+
+    await this.estadoResultadoService.PRODUCCIONPxQ().subscribe({
+      next: (data) => {
+        console.log("DATOS PRODUCCIÓNPxQ",data);
+        this.PRODUCCIONPxQ = data;
+      }, error: (e) => console.error(e)
+    });
+
+
+
+    await this.estadoResultadoService.COBROSADICIONALES().subscribe({
+      next: (data) => {
+        console.log("DATOS COBROSADICIONALES",data);
+        this.COBROSADICIONALES = data;
+      }, error: (e) => console.error(e)
+    });
+
+
+    await this.estadoResultadoService.DESCUENTOS().subscribe({
+      next: (data) => {
+        console.log("DATOS DESCUENTOS",data);
+        this.DESCUENTOS = data;
+      }, error: (e) => console.error(e)
+    });
+
+
+    await this.estadoResultadoService.RESUMEN().subscribe({
+      next: (data) => {
+        console.log("DATOS RESUMEN",data);
+        this.RESUMEN = data;
+      }, error: (e) => console.error(e)
+    });
+
 
   }
 
