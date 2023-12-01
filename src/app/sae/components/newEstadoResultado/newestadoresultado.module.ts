@@ -25,6 +25,8 @@ import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { CalendarModule } from 'primeng/calendar';
 import { CommaToDotPipe } from './comma-to-dot.pipe';
+import { PrimeNGModule } from 'src/app/_primeng/primeng.module';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -52,8 +54,10 @@ import { CommaToDotPipe } from './comma-to-dot.pipe';
         FileUploadModule,
         MessageModule,
         MessagesModule,
-		CalendarModule
+		CalendarModule,
+		PrimeNGModule,
 	],
-	declarations: [NewEstadoResultadoComponent, CommaToDotPipe]
+	declarations: [NewEstadoResultadoComponent, CommaToDotPipe],
+	providers: [TranslateService],
 })
 export class NewEstadoResultadoModule { }

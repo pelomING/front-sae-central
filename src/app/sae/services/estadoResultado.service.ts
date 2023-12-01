@@ -74,6 +74,25 @@ interface InterfaceBrigada {
   }
 
 
+  interface CierrePeriodoInterface {
+    periodo: string;
+    zonal: Zona;
+    fecha_inicial: string;
+    fecha_final: string;
+    coordinador_pelom: string;
+    supervisor_cge: string;
+    turnos_comprometidos: string;
+    fecha_generacion: string;
+  }
+
+
+  interface Zona {
+    name: string;
+    code: string;
+  }
+
+
+
 
 @Injectable()
 export class EstadoResultadoService {
@@ -94,8 +113,10 @@ export class EstadoResultadoService {
             .then(data => data);
     }
 
-    getEstadosResultados(): Observable<EstadoResultado[]> {
-        return this.http.get<EstadoResultado[]>(`${this.baseUrl}/allestadosresultado`);
+
+
+    getEstadosResultados(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.baseUrl}/historicoedp`);
     }
 
     getResumenEventos(fechaInicial: string, fechaFinal: string, idPaquete: number): Observable<ResumenEvento[]> {
@@ -128,8 +149,15 @@ export class EstadoResultadoService {
     }
 
 
-    PERMANENICACARGOFIJOSEMANALPORBRIGADA(): Observable<any> {
-        return this.http.get<any>(`${this.baseUrl}/permanencia_por_brigada`).pipe(
+    PERMANENICACARGOFIJOSEMANALPORBRIGADA(nuevaConsulta): Observable<any> {
+
+        console.log("PARAMETROS",nuevaConsulta);
+
+        const params = new HttpParams()
+        .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
+        .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
+
+        return this.http.get<any>(`${this.baseUrl}/permanencia_por_brigada`,{ params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -140,42 +168,72 @@ export class EstadoResultadoService {
     }
 
 
-    HORASEXTRAS(): Observable<any> {
+    HORASEXTRAS(nuevaConsulta): Observable<any> {
+
+        const params = new HttpParams()
+        .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
+        .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
+
         return this.http.get<any>(`${this.baseUrl}/horasextras`).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
 
 
-    TURNOSADICIONALES(): Observable<any> {
+    TURNOSADICIONALES(nuevaConsulta): Observable<any> {
+
+        const params = new HttpParams()
+        .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
+        .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
+
         return this.http.get<any>(`${this.baseUrl}/turnosadicionales`).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
 
 
-    TURNOSCONTINGENCIA(): Observable<any> {
+    TURNOSCONTINGENCIA(nuevaConsulta): Observable<any> {
+
+        const params = new HttpParams()
+        .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
+        .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
+
         return this.http.get<any>(`${this.baseUrl}/turnoscontingencia`).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
 
 
-    PRODUCCIONPxQ(): Observable<any> {
+    PRODUCCIONPxQ(nuevaConsulta): Observable<any> {
+
+        const params = new HttpParams()
+        .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
+        .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
+
         return this.http.get<any>(`${this.baseUrl}/produccionpxq`).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
 
 
-    COBROSADICIONALES(): Observable<any> {
+    COBROSADICIONALES(nuevaConsulta): Observable<any> {
+
+        const params = new HttpParams()
+        .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
+        .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
+
         return this.http.get<any>(`${this.baseUrl}/reportecobroadicional`).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
 
 
-    DESCUENTOS(): Observable<any> {
+    DESCUENTOS(nuevaConsulta): Observable<any> {
+
+        const params = new HttpParams()
+        .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
+        .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
+
         return this.http.get<any>(`${this.baseUrl}/reportedescuentos`).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
@@ -187,6 +245,7 @@ export class EstadoResultadoService {
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
+
 
 
 
@@ -290,7 +349,7 @@ export class EstadoResultadoService {
 
             })
         );
-    
+
     }
 
 
@@ -381,7 +440,7 @@ export class EstadoResultadoService {
 
             })
         );
-    
+
     }
 
 
@@ -472,7 +531,7 @@ export class EstadoResultadoService {
 
             })
         );
-    
+
     }
 
 
@@ -558,9 +617,46 @@ export class EstadoResultadoService {
 
             })
         );
-    
+
     }
 
+
+
+
+    createEstadoResultado(nuevo: CierrePeriodoInterface): Observable<any[]> {
+
+        const data = {
+            periodo: nuevo.periodo,
+            zonal: nuevo.zonal.name,
+            fecha_inicial: nuevo.fecha_inicial,
+            fecha_final: nuevo.fecha_final,
+            coordinador_pelom: nuevo.coordinador_pelom,
+            supervisor_cge: nuevo.supervisor_cge,
+            turnos_comprometidos: nuevo.turnos_comprometidos,
+            fecha_generacion: nuevo.fecha_generacion
+        };
+
+        console.log("data enviada", data);
+
+        return this.http.post<any[]>(`${this.baseUrl}/cierraedp`, data, httpOptions).pipe(
+            map((response) => {
+
+                if (response) {
+                    return response;
+                } else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+
+            }),
+            catchError((error) => {
+
+                console.error('Error en la solicitud:', error);
+                return throwError('Ha ocurrido un error en la solicitud.');
+
+            })
+        );
+
+    }
 
 
 

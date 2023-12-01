@@ -209,8 +209,8 @@ export class Horas_extrasComponent implements OnInit {
     ];
 
     this.zonas = [
-      { name: 'Maule Norte', code: 'MN' },
-      { name: 'Maule Sur', code: 'MS' }
+      { name: 'Maule sur - Maule norte', code: 'MN' },
+      { name: 'Central', code: 'MS' }
     ];
 
     this.paquetes = [
