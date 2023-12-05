@@ -472,18 +472,20 @@ export class Cobros_adicionalesComponent implements OnInit {
     // Divide el primer elemento (fecha) utilizando el guion como delimitador
     const arrayFecha = arrayFechaHora[0].split("-");
     // Formatea la fecha en el formato deseado
-    this.CobrosAdicionalesCopia.fecha_hora = `${arrayFecha[0]} - ${arrayFecha[1]} - ${arrayFecha[2]}`;
+    this.CobrosAdicionalesCopia.fecha_hora = `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]}`;
 
-    let fechaParseada = new Date(this.CobrosAdicionalesCopia.fecha_hora);
+    console.log("CobrosAdicionalesCopia",this.CobrosAdicionalesCopia.fecha_hora);
 
-    console.log("fechaParseada",fechaParseada);
+    //let fechaParseada = new Date(this.CobrosAdicionalesCopia.fecha_hora);
 
-    const dia = fechaParseada.getDate().toString().padStart(2, '0');
-    const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
-    const año = fechaParseada.getFullYear();
-    const fechaFormateada = `${dia}-${mes}-${año}`;
+    //console.log("fechaParseada",fechaParseada);
 
-    this.CobrosAdicionalesCopia.fecha_hora = fechaFormateada;
+    //const dia = fechaParseada.getDate().toString().padStart(2, '0');
+    //const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
+    //const año = fechaParseada.getFullYear();
+    //const fechaFormateada = `${dia}-${mes}-${año}`;
+
+    //this.CobrosAdicionalesCopia.fecha_hora = fechaFormateada;
 
     this.CobrosAdicionalesForm.patchValue(this.CobrosAdicionalesCopia);
 
