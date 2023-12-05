@@ -441,16 +441,28 @@ export class ObservacionesComponent implements OnInit {
 
     this.mostrarGuardar = false;
     this.mostrarActualizar = true;
-
+    
     //observacion.fecha_hora = this.formateoFecha(observacion.fecha_hora);
 
-    const fechaParseada = new Date(this.ObservacionCopia.fecha_hora);
-    const dia = fechaParseada.getDate().toString().padStart(2, '0');
-    const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
-    const año = fechaParseada.getFullYear();
-    const fechaFormateada = `${dia}-${mes}-${año}`;
+    //cobroAdicional.fecha_hora = this.formateoFecha(cobroAdicional.fecha_hora);
+    console.log("CobrosAdicionalesCopia",this.ObservacionCopia.fecha_hora);
 
-    this.ObservacionCopia.fecha_hora = fechaFormateada;
+    //"2023-04-12T00:00:00"
+    const arrayFechaHora = this.ObservacionCopia.fecha_hora.split("T");
+    // Divide el primer elemento (fecha) utilizando el guion como delimitador
+    const arrayFecha = arrayFechaHora[0].split("-");
+    // Formatea la fecha en el formato deseado
+    this.ObservacionCopia.fecha_hora = `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]}`;
+
+    console.log("CobrosAdicionalesCopia",this.ObservacionCopia.fecha_hora);
+
+    // const fechaParseada = new Date(this.ObservacionCopia.fecha_hora);
+    // const dia = fechaParseada.getDate().toString().padStart(2, '0');
+    // const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
+    // const año = fechaParseada.getFullYear();
+    // const fechaFormateada = `${dia}-${mes}-${año}`;
+
+    // this.ObservacionCopia.fecha_hora = fechaFormateada;
 
     this.observacionesForm.patchValue(this.ObservacionCopia);
 

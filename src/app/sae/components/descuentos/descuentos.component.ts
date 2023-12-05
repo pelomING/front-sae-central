@@ -292,13 +292,7 @@ export class DescuentosComponent implements OnInit {
 
           this.productDialog = false;
 
-          this.estadoResultadoService.descuentosnoprocesados().subscribe({
-            next: (data) => {
-              console.log("data", data);
-              this.ListDescuentos = data;
-              this.ListDescuentos.sort((a, b) => b.id - a.id);
-            }, error: (e) => console.error(e)
-          });
+          this.recuperaEstadosResultados();
 
         },
         (error) => {
@@ -374,13 +368,7 @@ export class DescuentosComponent implements OnInit {
 
           this.productDialog = false;
 
-          this.estadoResultadoService.descuentosnoprocesados().subscribe({
-            next: (data) => {
-              console.log("data", data);
-              this.ListDescuentos = data;
-              this.ListDescuentos.sort((a, b) => b.id - a.id);
-            }, error: (e) => console.error(e)
-          });
+          this.recuperaEstadosResultados();
 
         },
         (error) => {
@@ -411,13 +399,7 @@ export class DescuentosComponent implements OnInit {
 
             this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado', life: 3000 });
 
-            this.estadoResultadoService.descuentosnoprocesados().subscribe({
-              next: (data) => {
-                console.log("data", data);
-                this.ListDescuentos = data;
-                this.ListDescuentos.sort((a, b) => b.id - a.id);
-              }, error: (e) => console.error(e)
-            });
+            this.recuperaEstadosResultados();
 
           },
           (error) => {
@@ -486,13 +468,25 @@ export class DescuentosComponent implements OnInit {
 
     //descuentos.fecha_hora = this.formateoFecha(descuentos.fecha_hora);
 
-    const fechaParseada = new Date(this.DescuentosCopia.fecha_hora);
-    const dia = fechaParseada.getDate().toString().padStart(2, '0');
-    const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
-    const año = fechaParseada.getFullYear();
-    const fechaFormateada = `${dia}-${mes}-${año}`;
+    //cobroAdicional.fecha_hora = this.formateoFecha(cobroAdicional.fecha_hora);
+    console.log("CobrosAdicionalesCopia",this.DescuentosCopia.fecha_hora);
 
-    this.DescuentosCopia.fecha_hora = fechaFormateada;
+    //"2023-04-12T00:00:00"
+    const arrayFechaHora = this.DescuentosCopia.fecha_hora.split("T");
+    // Divide el primer elemento (fecha) utilizando el guion como delimitador
+    const arrayFecha = arrayFechaHora[0].split("-");
+    // Formatea la fecha en el formato deseado
+    this.DescuentosCopia.fecha_hora = `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]}`;
+
+    console.log("CobrosAdicionalesCopia",this.DescuentosCopia.fecha_hora);
+
+    // const fechaParseada = new Date(this.DescuentosCopia.fecha_hora);
+    // const dia = fechaParseada.getDate().toString().padStart(2, '0');
+    // const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
+    // const año = fechaParseada.getFullYear();
+    // const fechaFormateada = `${dia}-${mes}-${año}`;
+
+    // this.DescuentosCopia.fecha_hora = fechaFormateada;
 
     this.DescuentosForm.patchValue(this.DescuentosCopia);
 
