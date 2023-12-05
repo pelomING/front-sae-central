@@ -451,7 +451,13 @@ export class Cobros_adicionalesComponent implements OnInit {
 
     //cobroAdicional.fecha_hora = this.formateoFecha(cobroAdicional.fecha_hora);
 
+    console.log("CobrosAdicionalesCopia",this.CobrosAdicionalesCopia.fecha_hora);
+
     const fechaParseada = new Date(this.CobrosAdicionalesCopia.fecha_hora);
+
+    console.log("fechaParseada",fechaParseada);
+
+
     const dia = fechaParseada.getDate().toString().padStart(2, '0');
     const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
     const año = fechaParseada.getFullYear();
