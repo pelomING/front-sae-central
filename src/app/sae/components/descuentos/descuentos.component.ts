@@ -140,7 +140,14 @@ export class DescuentosComponent implements OnInit {
 
   options: any;
 
+
   DescuentosForm: FormGroup;
+
+  ListDescuentos: Descuentos[];
+
+  DescuentosCopia: Descuentos;
+
+
   mostrarGuardar: boolean = true; // Mostrar el botón por defecto
   mostrarActualizar: boolean = true;
 
@@ -231,35 +238,24 @@ export class DescuentosComponent implements OnInit {
   recuperaEstadosResultados(): void {
     this.estadoResultadoService.descuentosnoprocesados().subscribe({
       next: (data) => {
-        console.log("data", data);
-        this.ListEstadoResultado = data
+        this.ListDescuentos = data
+        this.ListDescuentos.sort((a, b) => b.id - a.id);
+        console.log("ListDescuentos", this.ListDescuentos);
       }, error: (e) => console.error(e)
     });
   }
 
 
 
-  filtrarFecha(fechaString: string) {
+  filtrarFecha(fechaString: string) 
+  {
 
-    // Convierte la cadena en un objeto Date
-    const fecha = new Date(fechaString);
-
-    // Ahora puedes realizar operaciones con la fecha, por ejemplo, formatearla:
-    this.options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-
-    const fechaFormateada = fecha.toLocaleDateString('es-ES', this.options);
-
-    console.log(fechaFormateada); // Mostrará '1 de septiembre de 2023'
-
-    const fechaS = new Date(fechaFormateada);
-
-    // Obten los componentes de la fecha
-    const dia = fechaS.getDate().toString().padStart(2, '0'); // Añade ceros a la izquierda si es necesario
-    const mes = (fechaS.getMonth() + 1).toString().padStart(2, '0'); // Suma 1 porque los meses comienzan en 0
-    const anio = fechaS.getFullYear();
-
+    //"2023-04-12 00:00:00"
+    const arrayFechaHora = fechaString.split("T");
+    // Divide el primer elemento (fecha) utilizando el guion como delimitador
+    const arrayFecha = arrayFechaHora[0].split("-");
     // Formatea la fecha en el formato deseado
-    return `${dia}-${mes}-${anio}`;
+    return `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]}`;
 
   }
 
@@ -280,9 +276,13 @@ export class DescuentosComponent implements OnInit {
 
       const nueva = this.DescuentosForm.value;
 
-      console.log('Nueva:', nueva);
+      let nuevaCopia = { ...nueva };
 
-      this.estadoResultadoService.createDescuentos(nueva).subscribe(
+      nuevaCopia.fecha_hora = this.formateoFecha(nuevaCopia.fecha_hora);
+
+      console.log('Nueva:', nuevaCopia);
+
+      this.estadoResultadoService.createDescuentos(nuevaCopia).subscribe(
         (response) => {
           
           // Manejar la respuesta exitosa
@@ -295,7 +295,8 @@ export class DescuentosComponent implements OnInit {
           this.estadoResultadoService.descuentosnoprocesados().subscribe({
             next: (data) => {
               console.log("data", data);
-              this.ListEstadoResultado = data
+              this.ListDescuentos = data;
+              this.ListDescuentos.sort((a, b) => b.id - a.id);
             }, error: (e) => console.error(e)
           });
 
@@ -339,10 +340,34 @@ export class DescuentosComponent implements OnInit {
 
     if (this.DescuentosForm.valid) {
 
-      const update = this.DescuentosForm.value; // Obtén los datos del formulario
+      const ObjetUpdated = this.DescuentosForm.value; // Obtén los datos del formulario
+
+      console.log("ObjetUpdated", ObjetUpdated);
+
+      let ObjetUpdatedCopia = { ...ObjetUpdated };
+
+      if (typeof ObjetUpdatedCopia.fecha_hora === 'string') {
+
+        // El campo es de tipo texto (string)
+        console.log('Es una cadena de texto');
+        const arrayFecha = ObjetUpdatedCopia.fecha_hora.split("-");
+        // Formatea la fecha en el formato deseado
+        ObjetUpdatedCopia.fecha_hora = `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]}`;
+
+        // Puedes realizar operaciones específicas para cadenas de texto si es necesario
+      } else if (ObjetUpdatedCopia.fecha_hora instanceof Date) {
+
+        // El campo es de tipo Date
+        console.log('Es un objeto Date');
+        ObjetUpdatedCopia.fecha_hora = this.formateoFecha(ObjetUpdatedCopia.fecha_hora);
+
+      }
+
+      console.log("ObjetUpdatedCopia", ObjetUpdatedCopia);
+
 
       // Luego, puedes enviar los datos actualizados al servidor, por ejemplo, utilizando un servicio:
-      this.estadoResultadoService.updateDescuentos(update).subscribe(
+      this.estadoResultadoService.updateDescuentos(ObjetUpdatedCopia).subscribe(
         (response) => {
 
           this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro actualizado', life: 3000 });
@@ -352,7 +377,8 @@ export class DescuentosComponent implements OnInit {
           this.estadoResultadoService.descuentosnoprocesados().subscribe({
             next: (data) => {
               console.log("data", data);
-              this.ListEstadoResultado = data
+              this.ListDescuentos = data;
+              this.ListDescuentos.sort((a, b) => b.id - a.id);
             }, error: (e) => console.error(e)
           });
 
@@ -388,7 +414,8 @@ export class DescuentosComponent implements OnInit {
             this.estadoResultadoService.descuentosnoprocesados().subscribe({
               next: (data) => {
                 console.log("data", data);
-                this.ListEstadoResultado = data
+                this.ListDescuentos = data;
+                this.ListDescuentos.sort((a, b) => b.id - a.id);
               }, error: (e) => console.error(e)
             });
 
@@ -433,28 +460,41 @@ export class DescuentosComponent implements OnInit {
     this.deleteProductsDialog = true;
   }
 
+
+
+
   formateoFecha(fechaOriginal: string): string {
     const fechaParseada = new Date(fechaOriginal);
     const dia = fechaParseada.getDate().toString().padStart(2, '0');
     const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
     const año = fechaParseada.getFullYear();
-    const fechaFormateada = `${mes}/${dia}/${año}`;
-    console.log(fechaFormateada); // Esto mostrará "10/03/2023" en la consola
-
+    const fechaFormateada = `${año}-${mes}-${dia}`;
+    console.log("fechaFormateada", fechaFormateada);
     return fechaFormateada;
   }
+
 
 
   editProduct(descuentos: Descuentos) {
 
     this.DescuentosForm.reset();
+    
+    this.DescuentosCopia = { ...descuentos };
 
     this.mostrarGuardar = false;
     this.mostrarActualizar = true;
 
-    descuentos.fecha_hora = this.formateoFecha(descuentos.fecha_hora);
+    //descuentos.fecha_hora = this.formateoFecha(descuentos.fecha_hora);
 
-    this.DescuentosForm.patchValue(descuentos);
+    const fechaParseada = new Date(this.DescuentosCopia.fecha_hora);
+    const dia = fechaParseada.getDate().toString().padStart(2, '0');
+    const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
+    const año = fechaParseada.getFullYear();
+    const fechaFormateada = `${dia}-${mes}-${año}`;
+
+    this.DescuentosCopia.fecha_hora = fechaFormateada;
+
+    this.DescuentosForm.patchValue(this.DescuentosCopia);
 
     this.productDialog = true;
 

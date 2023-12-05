@@ -79,11 +79,11 @@
                         </td>
                         <td>
                             <span class="p-column-title">fecha_hora</span>
-                            {{ HoraExtra.fecha_hora | date: 'dd-MM-yyyy' }}
+                            {{ filtrarFecha(HoraExtra.fecha_hora) }}
                         </td>
                         <td>
                             <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-                                (click)="editProduct(HoraExtra)"></button>
+                                (click)="editHoraExtra(HoraExtra)"></button>
                             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
                                 (click)="onEliminarClick(HoraExtra)"></button>
                         </td>
@@ -109,7 +109,7 @@
                         <div class="col-6">
 
                             <span class="p-float-label">
-                                <p-calendar id="fecha_hora" formControlName="fecha_hora" class="form-control"
+                                <p-calendar id="fecha_hora" formControlName="fecha_hora" class="form-control"  dateFormat="dd-mm-yy"
                                     [showIcon]="true"></p-calendar>
                                 <label htmlFor="fecha_hora">Fecha</label>
                             </span>

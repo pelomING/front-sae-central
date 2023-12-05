@@ -61,11 +61,11 @@ interface Descuentos {
 
 
 interface InterfaceHoraExtra {
-    id: number,
-    fecha_hora: string,
-    brigada: InterfaceBrigada,
-    cantidad: string,
-    comentario: string
+    id?: number,
+    fecha_hora?: string,
+    brigada?: InterfaceBrigada,
+    cantidad?: string,
+    comentario?: string
 }
 
 interface InterfaceBrigada {

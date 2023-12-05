@@ -35,7 +35,6 @@ registerLocaleData(localeEs);
     ],
     providers: [
         httpInterceptorProviders,
-        { provide: LOCALE_ID, useValue: 'es' },
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         CountryService, CustomerService, EventService, IconService, NodeService,
         PhotoService, ProductService, EstadoResultadoService

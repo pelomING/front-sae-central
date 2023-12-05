@@ -10,6 +10,7 @@ import { EstadoResultadoService } from 'src/app/sae/services/estadoResultado.ser
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
+
 interface City {
   name: string;
   code: string;
@@ -96,6 +97,9 @@ export class Horas_extrasComponent implements OnInit {
   ListEstadoResultado: EstadoResultado[];
 
   ListHorasExtra: InterfaceHoraExtra[];
+
+  HoraExtraCopia: InterfaceHoraExtra;
+
 
 
   estadoResultado: EstadoResultado = {};
@@ -237,7 +241,6 @@ export class Horas_extrasComponent implements OnInit {
 
     this.estadoResultadoService.listabrigadassae().subscribe({
       next: (data) => {
-        console.log("brigadas : ", data);
         this.brigadas = data
       }, error: (e) => console.error(e)
     });
@@ -250,33 +253,23 @@ export class Horas_extrasComponent implements OnInit {
     this.estadoResultadoService.horaextranoprocesados().subscribe({
       next: (data) => {
         this.ListHorasExtra = data.detalle;
+        this.ListHorasExtra.sort((a, b) => b.id - a.id);
+        console.log("ListHorasExtra",this.ListHorasExtra);
       }, error: (e) => console.error(e)
     });
   }
 
 
 
-  filtrarFecha(fechaString: string) {
+  filtrarFecha(fechaString: string) 
+  {
 
-    // Convierte la cadena en un objeto Date
-    const fecha = new Date(fechaString);
-
-    // Ahora puedes realizar operaciones con la fecha, por ejemplo, formatearla:
-    this.options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-
-    const fechaFormateada = fecha.toLocaleDateString('es-ES', this.options);
-
-    console.log(fechaFormateada); // Mostrará '1 de septiembre de 2023'
-
-    const fechaS = new Date(fechaFormateada);
-
-    // Obten los componentes de la fecha
-    const dia = fechaS.getDate().toString().padStart(2, '0'); // Añade ceros a la izquierda si es necesario
-    const mes = (fechaS.getMonth() + 1).toString().padStart(2, '0'); // Suma 1 porque los meses comienzan en 0
-    const anio = fechaS.getFullYear();
-
+    //"2023-04-12 00:00:00"
+    const arrayFechaHora = fechaString.split(" ");
+    // Divide el primer elemento (fecha) utilizando el guion como delimitador
+    const arrayFecha = arrayFechaHora[0].split("-");
     // Formatea la fecha en el formato deseado
-    return `${dia}-${mes}-${anio}`;
+    return `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]}`;
 
   }
 
@@ -298,9 +291,15 @@ export class Horas_extrasComponent implements OnInit {
 
       const nueva = this.HoraExtraForm.value;
 
-      console.log('Nueva:', nueva);
+      //console.log('Nueva:', nueva);
 
-      this.estadoResultadoService.createHoraExtra(nueva).subscribe(
+      let nuevaCopia = { ...nueva };
+
+      nuevaCopia.fecha_hora = this.formateoFecha(nuevaCopia.fecha_hora);
+
+      //console.log('Nueva Formato Fecha :', nuevaCopia);
+
+      this.estadoResultadoService.createHoraExtra(nuevaCopia).subscribe(
         (response) => {
 
           // Manejar la respuesta exitosa
@@ -314,6 +313,7 @@ export class Horas_extrasComponent implements OnInit {
             next: (data) => {
               console.log("data", data);
               this.ListHorasExtra = data.detalle;
+              this.ListHorasExtra.sort((a, b) => b.id - a.id);
             }, error: (e) => console.error(e)
           });
 
@@ -358,8 +358,31 @@ export class Horas_extrasComponent implements OnInit {
 
       const ObjetUpdated = this.HoraExtraForm.value; // Obtén los datos del formulario
 
+      console.log("ObjetUpdated", ObjetUpdated);
+
+      let ObjetUpdatedCopia = { ...ObjetUpdated };
+
+      if (typeof ObjetUpdatedCopia.fecha_hora === 'string') {
+
+        // El campo es de tipo texto (string)
+        console.log('Es una cadena de texto');
+        const arrayFecha = ObjetUpdatedCopia.fecha_hora.split("-");
+        // Formatea la fecha en el formato deseado
+        ObjetUpdatedCopia.fecha_hora = `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]}`;
+
+        // Puedes realizar operaciones específicas para cadenas de texto si es necesario
+      } else if (ObjetUpdatedCopia.fecha_hora instanceof Date) {
+
+        // El campo es de tipo Date
+        console.log('Es un objeto Date');
+        ObjetUpdatedCopia.fecha_hora = this.formateoFecha(ObjetUpdatedCopia.fecha_hora);
+
+      }
+
+      console.log("ObjetUpdatedCopia", ObjetUpdatedCopia);
+
       // Luego, puedes enviar los datos actualizados al servidor, por ejemplo, utilizando un servicio:
-      this.estadoResultadoService.updateHoraExtra(ObjetUpdated).subscribe(
+      this.estadoResultadoService.updateHoraExtra(ObjetUpdatedCopia).subscribe(
         (response) => {
 
           this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro actualizado', life: 3000 });
@@ -370,6 +393,8 @@ export class Horas_extrasComponent implements OnInit {
             next: (data) => {
               console.log("data", data);
               this.ListHorasExtra = data.detalle;
+              // Ordenar la lista por el campo 'id' de mayor a menor
+              this.ListHorasExtra.sort((a, b) => b.id - a.id);
             }, error: (e) => console.error(e)
           });
 
@@ -406,6 +431,8 @@ export class Horas_extrasComponent implements OnInit {
               next: (data) => {
                 console.log("data", data);
                 this.ListHorasExtra = data.detalle;
+                // Ordenar la lista por el campo 'id' de mayor a menor
+                this.ListHorasExtra.sort((a, b) => b.id - a.id);
               }, error: (e) => console.error(e)
             });
 
@@ -436,12 +463,11 @@ export class Horas_extrasComponent implements OnInit {
 
     this.mostrarGuardar = true;
     this.mostrarActualizar = false;
-
     this.HoraExtraForm.reset();
     this.product = {};
     this.submitted = false;
-
     this.productDialog = true;
+
   }
 
 
@@ -449,31 +475,39 @@ export class Horas_extrasComponent implements OnInit {
     this.deleteProductsDialog = true;
   }
 
+
+
   formateoFecha(fechaOriginal: string): string {
     const fechaParseada = new Date(fechaOriginal);
     const dia = fechaParseada.getDate().toString().padStart(2, '0');
     const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
     const año = fechaParseada.getFullYear();
-    const fechaFormateada = `${mes}/${dia}/${año}`;
-    console.log(fechaFormateada); // Esto mostrará "10/03/2023" en la consola
-
+    const fechaFormateada = `${año}-${mes}-${dia}`;
+    console.log("fechaFormateada", fechaFormateada);
     return fechaFormateada;
   }
 
 
-  editProduct(HoraExtra: InterfaceHoraExtra) {
 
-    console.log(HoraExtra);
+  editHoraExtra(HoraExtra: InterfaceHoraExtra) {
+
+    this.HoraExtraCopia = { ...HoraExtra };
 
     this.HoraExtraForm.reset();
-
     this.mostrarGuardar = false;
     this.mostrarActualizar = true;
 
-    HoraExtra.fecha_hora = this.formateoFecha(HoraExtra.fecha_hora);
+    const fechaParseada = new Date(this.HoraExtraCopia.fecha_hora);
 
-    this.HoraExtraForm.patchValue(HoraExtra);
+    const dia = fechaParseada.getDate().toString().padStart(2, '0');
+    const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
+    const año = fechaParseada.getFullYear();
 
+    const fechaFormateada = `${dia}-${mes}-${año}`;
+
+    this.HoraExtraCopia.fecha_hora = fechaFormateada;
+
+    this.HoraExtraForm.patchValue(this.HoraExtraCopia);
     this.productDialog = true;
 
   }

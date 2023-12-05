@@ -105,7 +105,7 @@ export class AppComponent implements OnInit {
                 "Nov",
                 "Dic"
             ],
-            "dateFormat": "dd-mm-yy"
+            // "dateFormat": "dd-mm-yy"
         });
 
         this.primengConfig.ripple = true;

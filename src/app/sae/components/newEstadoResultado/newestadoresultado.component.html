@@ -74,7 +74,7 @@
 
                             <div id="pdfContainer" class="card text-xs font-normal">
 
-                                <h5 class="cajatitulo">ESTADO DE PAGO</h5>
+                                <h5 class="cajatitulo">PRELIMINAR ESTADO DE PAGO SERVICIO ATENCION EMERGENCIAS</h5>
 
                                 <!-- <div class="grid">
                                     <div class="col-fixed" style="width:50px">
@@ -117,8 +117,9 @@
                                             <tbody>
                                                 <tr *ngFor="let item of CARGOFIJOSEMANALPORBRIGADA">
                                                     <td style="text-align:left;padding-left:2%;">{{
-                                                        item.localidad }}</td>
-                                                    <td style="padding-right:2%;">
+                                                        item.localidad }}
+                                                    </td>
+                                                    <td style="padding-right:2%;">                                                        
                                                         {{ item.valor_cargo | currency:'CLP':'$':'1.0-0' | commaToDot }}
                                                     </td>
                                                 </tr>
