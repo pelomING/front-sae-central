@@ -236,7 +236,7 @@ export class Cobros_adicionalesComponent implements OnInit {
   filtrarFecha(fechaString: string) 
   {
 
-    //"2023-04-12 00:00:00"
+    //"2023-04-12T00:00:00"
     const arrayFechaHora = fechaString.split("T");
     // Divide el primer elemento (fecha) utilizando el guion como delimitador
     const arrayFecha = arrayFechaHora[0].split("-");
@@ -440,6 +440,21 @@ export class Cobros_adicionalesComponent implements OnInit {
   }
 
 
+
+  detectarFormatoFecha(fecha) {
+
+    if (fecha.includes("T")) {
+      // Si la cadena de fecha incluye "T", probablemente sea del formato "2023-12-05T00:00:00.000Z"
+      return "formato1";
+    } else {
+      // Si no incluye "T", probablemente sea del formato "2023-12-13 00:00:00"
+      return "formato2";
+    }
+
+  }
+
+
+
   editProduct(cobroAdicional: CobrosAdicionales) {
 
     this.CobrosAdicionalesForm.reset();
@@ -450,13 +465,18 @@ export class Cobros_adicionalesComponent implements OnInit {
     this.mostrarActualizar = true;
 
     //cobroAdicional.fecha_hora = this.formateoFecha(cobroAdicional.fecha_hora);
-
     console.log("CobrosAdicionalesCopia",this.CobrosAdicionalesCopia.fecha_hora);
 
-    const fechaParseada = new Date(this.CobrosAdicionalesCopia.fecha_hora);
+    //"2023-04-12T00:00:00"
+    const arrayFechaHora = this.CobrosAdicionalesCopia.fecha_hora.split("T");
+    // Divide el primer elemento (fecha) utilizando el guion como delimitador
+    const arrayFecha = arrayFechaHora[0].split("-");
+    // Formatea la fecha en el formato deseado
+    this.CobrosAdicionalesCopia.fecha_hora = `${arrayFecha[0]} - ${arrayFecha[1]} - ${arrayFecha[2]}`;
+
+    let fechaParseada = new Date(this.CobrosAdicionalesCopia.fecha_hora);
 
     console.log("fechaParseada",fechaParseada);
-
 
     const dia = fechaParseada.getDate().toString().padStart(2, '0');
     const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
