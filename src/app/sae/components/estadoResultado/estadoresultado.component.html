@@ -1,56 +1,95 @@
 <div class="grid">
     <div class="col-12">
         <div class="card px-6 py-6">
-            
+
             <p-toast></p-toast>
 
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2">
-                        
+
                         <!-- <button pButton pRipple label="Consultar Estado de Pago" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button> -->
 
                     </div>
                 </ng-template>
                 <ng-template pTemplate="right">
-                
+
                     <!-- <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
-                
+
                 </ng-template>
             </p-toolbar>
 
 
-            <p-table #dt [value]="ListEstadoResultado"  whidth="100%"
-            [columns]="cols" responsiveLayout="scroll" [rows]="10" 
-            
-            [globalFilterFields]="['id','codigo_estado','fecha_generacion','periodo','zonal','fecha_inicial','fecha_final','estado','observaciones']" 
-            
-            [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" 
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
-            [(selection)]="selectedEstadoResultado" selectionMode="multiple" [rowHover]="true" dataKey="id">
+            <p-table #dt [value]="ListEstadoResultado" whidth="100%" [columns]="cols" responsiveLayout="scroll"
+                [rows]="10"
+                [globalFilterFields]="['id','codigo_estado','fecha_generacion','periodo','zonal','fecha_inicial','fecha_final','estado','observaciones']"
+                [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [(selection)]="selectedEstadoResultado" selectionMode="multiple" [rowHover]="true" dataKey="id">
 
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                         <h5 class="m-0">Estados de Pago</h5>
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."  class="w-full sm:w-auto"/>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."
+                                class="w-full sm:w-auto" />
                         </span>
                     </div>
                 </ng-template>
 
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
-                        <th pSortableColumn="codigo_estado">codigo_estado <p-sortIcon field="codigo_estado"></p-sortIcon></th>
-                        <th pSortableColumn="fecha_generacion">fecha_generacion <p-sortIcon field="fecha_generacion"></p-sortIcon></th>
-                        <th pSortableColumn="periodo">periodo <p-sortIcon field="periodo"></p-sortIcon></th>
-                        <th pSortableColumn="zonal">zonal <p-sortIcon field="zonal"></p-sortIcon></th>
-                        <th pSortableColumn="fecha_inicial">fecha_inicial <p-sortIcon field="fecha_inicial"></p-sortIcon></th>
-                        <th pSortableColumn="fecha_final">fecha_final <p-sortIcon field="fecha_final"></p-sortIcon></th>
-                        <th pSortableColumn="coordinador_pelom">coordinador_pelom <p-sortIcon field="coordinador_pelom"></p-sortIcon></th>
-                        <th pSortableColumn="supervisor_cge">supervisor_cge <p-sortIcon field="supervisor_cge"></p-sortIcon></th>
-                        <th pSortableColumn="turnos_comprometidos">turnos_comprometidos <p-sortIcon field="turnos_comprometidos"></p-sortIcon></th>
+                        <th pSortableColumn="id">
+                            <div style="width: auto; white-space: nowrap;">
+                                Id <p-sortIcon field="id"></p-sortIcon>
+                            </div>
+                        </th>
+                        <th pSortableColumn="codigo_estado">
+                            <div style="width: auto; white-space: nowrap;">
+                                codigo_estado <p-sortIcon field="codigo_estado"></p-sortIcon>
+                            </div>
+                        </th>
+                        <th pSortableColumn="fecha_generacion">
+                            <div style="width: auto; white-space: nowrap;">
+                                fecha_generacion <p-sortIcon field="fecha_generacion"></p-sortIcon>
+                            </div>
+                        </th>
+                        <th pSortableColumn="periodo">
+                            <div style="width: auto; white-space: nowrap;">
+                                periodo <p-sortIcon field="periodo"></p-sortIcon>
+                            </div>
+                        </th>
+                        <th pSortableColumn="zonal">
+                            <div style="width: auto; white-space: nowrap;">
+                                zonal <p-sortIcon field="zonal"></p-sortIcon>
+                            </div>
+                        </th>
+                        <th pSortableColumn="fecha_inicial">
+                            <div style="width: auto; white-space: nowrap;">
+                                fecha_inicial <p-sortIcon field="fecha_inicial"></p-sortIcon>
+                            </div>
+                        </th>
+                        <th pSortableColumn="fecha_final">
+                            <div style="width: auto; white-space: nowrap;">
+                                fecha_final <p-sortIcon field="fecha_final"></p-sortIcon>
+                            </div>
+                        </th>
+                        <th pSortableColumn="coordinador_pelom">
+                            <div style="width: auto; white-space: nowrap;">
+                                coordinador_pelom <p-sortIcon field="coordinador_pelom"></p-sortIcon>
+                            </div>
+                        </th>
+                        <th pSortableColumn="supervisor_cge">
+                            <div style="width: auto; white-space: nowrap;">
+                                supervisor_cge <p-sortIcon field="supervisor_cge"></p-sortIcon>
+                            </div>
+                        </th>
+                        <th pSortableColumn="turnos_comprometidos">
+                            <div style="width: auto; white-space: nowrap;">
+                                turnos_comprometidos <p-sortIcon field="turnos_comprometidos"></p-sortIcon>
+                            </div>
+                        </th>
                         <th>#</th>
                     </tr>
                 </ng-template>
@@ -111,13 +150,15 @@
 
                             <div class="formgrid grid">
                                 <div class="field col">
-                                    <button pButton pRipple icon="pi pi-file-pdf" class="p-button-rounded p-button-success"></button>
+                                    <button pButton pRipple icon="pi pi-file-pdf"
+                                        class="p-button-rounded p-button-success"></button>
                                 </div>
                                 <div class="field col">
-                                    <button pButton pRipple icon="pi pi-database" class="p-button-rounded p-button-warning"></button>                                
+                                    <button pButton pRipple icon="pi pi-database"
+                                        class="p-button-rounded p-button-warning"></button>
                                 </div>
                             </div>
- 
+
                         </td>
 
                     </tr>
@@ -126,45 +167,52 @@
             </p-table>
         </div>
 
-        <p-dialog  id="myDialog" [(visible)]="productDialog" [style]="{width: '550px' }" [contentStyle]="{ height: '550px' }" header="Consultar Estado de Pago" [modal]="true" class="p-fluid">
+        <p-dialog id="myDialog" [(visible)]="productDialog" [style]="{width: '550px' }"
+            [contentStyle]="{ height: '550px' }" header="Consultar Estado de Pago" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
 
-            <div class="dialog-content">
+                <div class="dialog-content">
 
-                <div class="field">
-                    <p-dropdown [options]="clientes" [(ngModel)]="selectedCliente" optionLabel="name" placeholder="Cliente" ></p-dropdown>
-                </div>
-
-                <div class="field">
-                    <p-dropdown [options]="zonas" [(ngModel)]="selectedZona" optionLabel="name" placeholder="Zona" ></p-dropdown>
-                </div>
-
-                <div class="field">
-                    <p-dropdown [options]="paquetes" [(ngModel)]="selectedPaquete" optionLabel="name" placeholder="Paquete" ></p-dropdown>
-                </div>
-
-                <div class="field">
-                    <p-dropdown [options]="meses" [(ngModel)]="selectedMes" optionLabel="name" placeholder="Mes" ></p-dropdown>
-                </div>
-
-                <div class="formgrid grid">
-                    <div class="field col">
-                        <label for="price">Fecha Inicio</label>
-                        <p-calendar [(ngModel)]="FechaInicio" [showIcon]="true"></p-calendar>
+                    <div class="field">
+                        <p-dropdown [options]="clientes" [(ngModel)]="selectedCliente" optionLabel="name"
+                            placeholder="Cliente"></p-dropdown>
                     </div>
-                    <div class="field col">
-                        <label for="quantity">Fecha Final</label>
-                        <p-calendar [(ngModel)]="FechaFinal" [showIcon]="true"></p-calendar>
+
+                    <div class="field">
+                        <p-dropdown [options]="zonas" [(ngModel)]="selectedZona" optionLabel="name"
+                            placeholder="Zona"></p-dropdown>
                     </div>
+
+                    <div class="field">
+                        <p-dropdown [options]="paquetes" [(ngModel)]="selectedPaquete" optionLabel="name"
+                            placeholder="Paquete"></p-dropdown>
+                    </div>
+
+                    <div class="field">
+                        <p-dropdown [options]="meses" [(ngModel)]="selectedMes" optionLabel="name"
+                            placeholder="Mes"></p-dropdown>
+                    </div>
+
+                    <div class="formgrid grid">
+                        <div class="field col">
+                            <label for="price">Fecha Inicio</label>
+                            <p-calendar [(ngModel)]="FechaInicio" [showIcon]="true"></p-calendar>
+                        </div>
+                        <div class="field col">
+                            <label for="quantity">Fecha Final</label>
+                            <p-calendar [(ngModel)]="FechaFinal" [showIcon]="true"></p-calendar>
+                        </div>
+                    </div>
+
                 </div>
-            
-            </div>
 
             </ng-template>
 
             <ng-template pTemplate="footer">
-                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Consultar" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+                    (click)="hideDialog()"></button>
+                <button pButton pRipple label="Consultar" icon="pi pi-check" class="p-button-text"
+                    (click)="saveProduct()"></button>
             </ng-template>
 
         </p-dialog>
@@ -175,8 +223,10 @@
                 <span *ngIf="product">Are you sure you want to delete <b>{{product.name}}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+                    (click)="deleteProductDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+                    (click)="confirmDelete()"></button>
             </ng-template>
         </p-dialog>
 
@@ -186,8 +236,10 @@
                 <span>Are you sure you want to delete selected products?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductsDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+                    (click)="deleteProductsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+                    (click)="confirmDeleteSelected()"></button>
             </ng-template>
         </p-dialog>
     </div>
