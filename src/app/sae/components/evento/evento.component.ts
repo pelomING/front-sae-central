@@ -18,8 +18,11 @@ import * as XLSX from 'xlsx-js-style';
 
 @Component({
   selector: 'app-evento',
-  templateUrl: './evento.component.html'
+  templateUrl: './evento.component.html',
+  styleUrls: ['./evento.component.scss']
 })
+
+
 export class EventoComponent implements OnInit {
 
   cols: any[] = [];
@@ -48,8 +51,10 @@ export class EventoComponent implements OnInit {
 
       { field: 'numero_ot', header: 'N° Ot' },
       { field: 'tipo_evento', header: 'Tipo Evento' },
-      { field: 'rut_maestro', header: 'Maestro' },
-      { field: 'rut_ayudante', header: 'Ayudante' },
+
+      { field: 'nombre_maestro', header: 'Maestro' },
+      
+      { field: 'nombre_ayudante', header: 'Ayudante' },
       
       { field: 'brigada', header: 'Brigada' },
       { field: 'tipo_turno', header: 'Tipo Turno' },
@@ -63,14 +68,13 @@ export class EventoComponent implements OnInit {
 
   }
 
+
+
   recuperaEventos(): void {
     this.eventoService.getEventos().subscribe({
       next: (data) => {
-
         console.log("data eventos:", data);
-
         this.eventos = data
-
       }, error: (e) => console.error(e)
     });
   }
@@ -87,8 +91,8 @@ export class EventoComponent implements OnInit {
         { v: "despachador", t: 's', s: this.headerStyle },
         { v: "numero_ot", t: 's', s: this.headerStyle },
         { v: "tipo_evento", t: 's', s: this.headerStyle },
-        { v: "rut_maestro", t: 's', s: this.headerStyle },
-        { v: "rut_ayudante", t: 's', s: this.headerStyle },
+        { v: "maestro", t: 's', s: this.headerStyle },
+        { v: "ayudante", t: 's', s: this.headerStyle },
         { v: "brigada", t: 's', s: this.headerStyle },
         { v: "tipo_turno", t: 's', s: this.headerStyle },
         { v: "requerimiento", t: 's', s: this.headerStyle },
@@ -102,8 +106,8 @@ export class EventoComponent implements OnInit {
         item.despachador,
         item.numero_ot,
         item.tipo_evento,
-        item.rut_maestro,
-        item.rut_ayudante,
+        item.nombre_maestro,
+        item.nombre_ayudante,
         item.brigada,
         item.tipo_turno,
         item.requerimiento,

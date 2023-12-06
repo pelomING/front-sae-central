@@ -2,6 +2,8 @@ export interface Turnos {
     id?: number;
     rut_maestro?: string;
     rut_ayudante?: string;
+    nombre_maestro?: string;
+    nombre_ayudante?: string;
     turno?: string;
     patente?: string;
     paquete?: string;
