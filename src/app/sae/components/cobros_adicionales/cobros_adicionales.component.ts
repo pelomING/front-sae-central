@@ -130,6 +130,9 @@ export class Cobros_adicionalesComponent implements OnInit {
 
   CobrosAdicionalesForm: FormGroup;
 
+  ListCobrosAdicionales: CobrosAdicionales[];
+
+  CobrosAdicionalesCopia: CobrosAdicionales;
 
   mostrarGuardar: boolean = true; // Mostrar el botón por defecto
   mostrarActualizar: boolean = true;
@@ -222,51 +225,23 @@ export class Cobros_adicionalesComponent implements OnInit {
     this.estadoResultadoService.cobroadicionalnoprocesado().subscribe({
       next: (data) => {
         console.log("data", data);
-        this.ListEstadoResultado = data
+        this.ListCobrosAdicionales = data;
+        this.ListCobrosAdicionales.sort((a, b) => b.id - a.id);
       }, error: (e) => console.error(e)
     });
   }
 
 
 
-  filtrarFecha(fechaString: string) {
+  filtrarFecha(fechaString: string) 
+  {
 
-    //console.log(fechaString);
-
-    // Convierte la cadena en un objeto Date
-    const fecha = new Date(fechaString);
-
-    console.log("fecha", fecha);
-
-    // Ahora puedes realizar operaciones con la fecha, por ejemplo, formatearla:
-    this.options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-
-    const fechaFormateada = fecha.toLocaleDateString('es-ES', this.options);
-
-    console.log("formateada", fechaFormateada); // Mostrará '1 de septiembre de 2023'
-
-    const fechaS = new Date(fechaFormateada);
-
-
-    console.log("fechaS", fechaS);
-
-
-    // return fechaS.toString();
-
-    // Obten los componentes de la fecha
-    const dia = fechaS.getDate().toString().padStart(2, '0'); // Añade ceros a la izquierda si es necesario
-    const mes = (fechaS.getMonth() + 1).toString().padStart(2, '0'); // Suma 1 porque los meses comienzan en 0
-
-    const anio = fechaS.getFullYear();
-
-
-    console.log("dia", dia);
-    console.log("mes", mes);
-    console.log("anio", anio);
-
-
+    //"2023-04-12T00:00:00"
+    const arrayFechaHora = fechaString.split("T");
+    // Divide el primer elemento (fecha) utilizando el guion como delimitador
+    const arrayFecha = arrayFechaHora[0].split("-");
     // Formatea la fecha en el formato deseado
-    //return `${dia}-${mes}-${anio}`;
+    return `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]}`;
 
   }
 
@@ -290,9 +265,13 @@ export class Cobros_adicionalesComponent implements OnInit {
 
       const nueva = this.CobrosAdicionalesForm.value;
 
-      console.log('Nueva:', nueva);
+      let nuevaCopia = { ...nueva };
 
-      this.estadoResultadoService.createCobroAdicional(nueva).subscribe(
+      nuevaCopia.fecha_hora = this.formateoFecha(nuevaCopia.fecha_hora);
+
+      console.log('Nueva:', nuevaCopia);
+
+      this.estadoResultadoService.createCobroAdicional(nuevaCopia).subscribe(
         (response) => {
           // Manejar la respuesta exitosa
           console.log('Obra guardada con éxito:', response);
@@ -301,12 +280,7 @@ export class Cobros_adicionalesComponent implements OnInit {
 
           this.productDialog = false;
 
-          this.estadoResultadoService.cobroadicionalnoprocesado().subscribe({
-            next: (data) => {
-              console.log("data", data);
-              this.ListEstadoResultado = data
-            }, error: (e) => console.error(e)
-          });
+          this.recuperaEstadosResultados();
 
         },
         (error) => {
@@ -348,23 +322,40 @@ export class Cobros_adicionalesComponent implements OnInit {
 
     if (this.CobrosAdicionalesForm.valid) {
 
-      const updatedObra = this.CobrosAdicionalesForm.value; // Obtén los datos del formulario
+      const ObjetUpdated = this.CobrosAdicionalesForm.value; // Obtén los datos del formulario
+
+      console.log("ObjetUpdated", ObjetUpdated);
+
+      let ObjetUpdatedCopia = { ...ObjetUpdated };
+
+      if (typeof ObjetUpdatedCopia.fecha_hora === 'string') {
+
+        // El campo es de tipo texto (string)
+        console.log('Es una cadena de texto');
+        const arrayFecha = ObjetUpdatedCopia.fecha_hora.split("-");
+        // Formatea la fecha en el formato deseado
+        ObjetUpdatedCopia.fecha_hora = `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]}`;
+
+        // Puedes realizar operaciones específicas para cadenas de texto si es necesario
+      } else if (ObjetUpdatedCopia.fecha_hora instanceof Date) {
+
+        // El campo es de tipo Date
+        console.log('Es un objeto Date');
+        ObjetUpdatedCopia.fecha_hora = this.formateoFecha(ObjetUpdatedCopia.fecha_hora);
+
+      }
+
+      console.log("ObjetUpdatedCopia", ObjetUpdatedCopia);
 
       // Luego, puedes enviar los datos actualizados al servidor, por ejemplo, utilizando un servicio:
-      this.estadoResultadoService.updateCobroAdicional(updatedObra).subscribe(
+      this.estadoResultadoService.updateCobroAdicional(ObjetUpdatedCopia).subscribe(
         (response) => {
 
           this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro actualizado', life: 3000 });
 
           this.productDialog = false;
 
-          this.estadoResultadoService.cobroadicionalnoprocesado().subscribe({
-            next: (data) => {
-              console.log("data", data);
-              this.ListEstadoResultado = data
-            }, error: (e) => console.error(e)
-          });
-
+          this.recuperaEstadosResultados();
         },
         (error) => {
           // Manejar errores, por ejemplo, mostrar un mensaje de error
@@ -393,12 +384,7 @@ export class Cobros_adicionalesComponent implements OnInit {
 
             this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado', life: 3000 });
 
-            this.estadoResultadoService.cobroadicionalnoprocesado().subscribe({
-              next: (data) => {
-                console.log("data", data);
-                this.ListEstadoResultado = data
-              }, error: (e) => console.error(e)
-            });
+            this.recuperaEstadosResultados();
 
           },
           (error) => {
@@ -441,28 +427,67 @@ export class Cobros_adicionalesComponent implements OnInit {
     this.deleteProductsDialog = true;
   }
 
+
+
   formateoFecha(fechaOriginal: string): string {
     const fechaParseada = new Date(fechaOriginal);
     const dia = fechaParseada.getDate().toString().padStart(2, '0');
     const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
     const año = fechaParseada.getFullYear();
-    const fechaFormateada = `${mes}/${dia}/${año}`;
-    console.log(fechaFormateada); // Esto mostrará "10/03/2023" en la consola
-
+    const fechaFormateada = `${año}-${mes}-${dia}`;
+    console.log("fechaFormateada", fechaFormateada);
     return fechaFormateada;
   }
+
+
+
+  detectarFormatoFecha(fecha) {
+
+    if (fecha.includes("T")) {
+      // Si la cadena de fecha incluye "T", probablemente sea del formato "2023-12-05T00:00:00.000Z"
+      return "formato1";
+    } else {
+      // Si no incluye "T", probablemente sea del formato "2023-12-13 00:00:00"
+      return "formato2";
+    }
+
+  }
+
 
 
   editProduct(cobroAdicional: CobrosAdicionales) {
 
     this.CobrosAdicionalesForm.reset();
+    
+    this.CobrosAdicionalesCopia = { ...cobroAdicional };
 
     this.mostrarGuardar = false;
     this.mostrarActualizar = true;
 
-    cobroAdicional.fecha_hora = this.formateoFecha(cobroAdicional.fecha_hora);
+    //cobroAdicional.fecha_hora = this.formateoFecha(cobroAdicional.fecha_hora);
+    console.log("CobrosAdicionalesCopia",this.CobrosAdicionalesCopia.fecha_hora);
 
-    this.CobrosAdicionalesForm.patchValue(cobroAdicional);
+    //"2023-04-12T00:00:00"
+    const arrayFechaHora = this.CobrosAdicionalesCopia.fecha_hora.split("T");
+    // Divide el primer elemento (fecha) utilizando el guion como delimitador
+    const arrayFecha = arrayFechaHora[0].split("-");
+    // Formatea la fecha en el formato deseado
+    this.CobrosAdicionalesCopia.fecha_hora = `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]}`;
+
+    console.log("CobrosAdicionalesCopia",this.CobrosAdicionalesCopia.fecha_hora);
+
+    //let fechaParseada = new Date(this.CobrosAdicionalesCopia.fecha_hora);
+
+    //console.log("fechaParseada",fechaParseada);
+
+    //const dia = fechaParseada.getDate().toString().padStart(2, '0');
+    //const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
+    //const año = fechaParseada.getFullYear();
+    //const fechaFormateada = `${dia}-${mes}-${año}`;
+
+    //this.CobrosAdicionalesCopia.fecha_hora = fechaFormateada;
+
+    this.CobrosAdicionalesForm.patchValue(this.CobrosAdicionalesCopia);
 
     this.productDialog = true;
 

@@ -1,10 +1,14 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { MessageService } from 'primeng/api';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Product } from '../../model/product.model';
 import { EstadoResultado } from '../../model/estadoResultado.model'
 
 import { EstadoResultadoService } from 'src/app/sae/services/estadoResultado.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { TranslateService } from '@ngx-translate/core';
+
 
 interface City {
   name: string;
@@ -51,6 +55,19 @@ interface ResumenTurno {
   uso_semanal: string;
 }
 
+
+interface CierrePeriodoInterface {
+  periodo: string;
+  zonal: Zona;
+  fecha_inicial: string;
+  fecha_final: string;
+  coordinador_pelom: string;
+  supervisor_cge: string;
+  turnos_comprometidos: string;
+  fecha_generacion: string;
+}
+
+
 @Component({
   selector: 'app-estadoresultado',
   templateUrl: './newestadoresultado.component.html',
@@ -61,11 +78,14 @@ interface ResumenTurno {
 export class NewEstadoResultadoComponent implements OnInit {
 
   loading: boolean = false;
-  
+
   productDialog: boolean = false;
-  
+
   deleteProductDialog: boolean = false;
-  
+
+  CerrarPeriodoDialog: boolean = false;
+
+
   deleteProductsDialog: boolean = false;
   products: Product[] = [];
   product: Product = {};
@@ -106,6 +126,8 @@ export class NewEstadoResultadoComponent implements OnInit {
   FechaFinal: Date | undefined;
 
 
+  cierrePeriodoInterface: CierrePeriodoInterface | undefined;
+
 
 
   CARGOFIJOSEMANALPORBRIGADA: any[] = [];
@@ -120,14 +142,50 @@ export class NewEstadoResultadoComponent implements OnInit {
   RESUMEN: any[] = [];
 
 
+  formularioPeriodoForm: FormGroup;
 
+  CerrarPeriodoForm: FormGroup;
+
+
+
+  //private config: PrimeNGConfig,
+  //private translateService: TranslateService
 
   constructor(
+    private fb: FormBuilder,
     private estadoResultadoService: EstadoResultadoService,
-    private messageService: MessageService) { }
+    private messageService: MessageService
+  ) {
+
+    this.formularioPeriodoForm = this.fb.group({
+      FechaInicio: ['', Validators.required],
+      FechaFinal: ['', Validators.required],
+    });
+
+
+    this.CerrarPeriodoForm = this.fb.group({
+      periodo: ['', Validators.required],
+      zonal: new FormControl(),
+      fecha_inicial: ['', Validators.required],
+      fecha_final: ['', Validators.required],
+      coordinador_pelom: ['', Validators.required],
+      supervisor_cge: ['', Validators.required],
+      turnos_comprometidos: ['', Validators.required],
+      fecha_generacion: ['', Validators.required],
+    });
+
+  }
+
+
+  //   translate(lang: string) {
+  //     this.translateService.use(lang);
+  //     this.translateService.get('primeng').subscribe(res => this.config.setTranslation(res));
+  // }
 
 
   ngOnInit() {
+
+    //this.translateService.setDefaultLang('es');
 
     this.cols = [
       { field: 'id', header: 'id' },
@@ -163,8 +221,8 @@ export class NewEstadoResultadoComponent implements OnInit {
     ];
 
     this.zonas = [
-      { name: 'Maule Norte', code: 'MN' },
-      { name: 'Maule Sur', code: 'MS' }
+      { name: 'Maule sur - Maule norte', code: 'MN' },
+      { name: 'Central', code: 'MS' }
     ];
 
     this.paquetes = [
@@ -189,8 +247,23 @@ export class NewEstadoResultadoComponent implements OnInit {
       { name: 'Diciembre', code: 'Dic' }
     ];
 
+
+
   }
 
+
+
+  customMonthFormatter(date: Date): string {
+
+    console.log(date);
+
+    const monthNames = [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
+
+    return `${monthNames[date.getMonth()]}-${date.getFullYear()}`;
+  }
 
 
   openNew() {
@@ -240,38 +313,50 @@ export class NewEstadoResultadoComponent implements OnInit {
 
     //console.log("selectedPaquete", this.selectedPaquete.code);
     //console.log("selectedMes", this.selectedMes);
-    //console.log("FechaInicio", this.FechaInicio);
-    //console.log("FechaFinal", this.FechaFinal);
+    console.log("FechaInicio", this.FechaInicio);
+    console.log("FechaFinal", this.FechaFinal);
 
-    this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
 
-    //let year = this.FechaInicio.getFullYear().toString().slice(-4); // Obtiene los dos últimos dígitos del año
-    //let month = ('0' + (this.FechaInicio.getMonth() + 1)).slice(-2); // Añade un cero inicial si el mes es < 10
-    //let day = ('0' + this.FechaInicio.getDate()).slice(-2); // Añade un cero inicial si el día es < 10
+    let nuevaConsulta = this.formularioPeriodoForm.value;
+
+    console.log('nuevaConsulta:', nuevaConsulta);
+
+
+    this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Buscando...', life: 3000 });
+
+
+    let year = nuevaConsulta.FechaInicio.getFullYear().toString().slice(-4); // Obtiene los dos últimos dígitos del año
+    let month = ('0' + (nuevaConsulta.FechaInicio.getMonth() + 1)).slice(-2); // Añade un cero inicial si el mes es < 10
+    let day = ('0' + nuevaConsulta.FechaInicio.getDate()).slice(-2); // Añade un cero inicial si el día es < 10
 
     // Formatea la fecha en el formato deseado
-    //const fechaFormateada1 = `${year}-${month}-${day}`;
+    const fechaFormateada1 = `${month}-${day}-${year}`;
 
-    //year = this.FechaFinal.getFullYear().toString().slice(-4); // Obtiene los dos últimos dígitos del año
-    //month = ('0' + (this.FechaFinal.getMonth() + 1)).slice(-2); // Añade un cero inicial si el mes es < 10
-    //day = ('0' + this.FechaFinal.getDate()).slice(-2); // Añade un cero inicial si el día es < 10
+    nuevaConsulta.FechaInicio = fechaFormateada1;
+
+    year = nuevaConsulta.FechaFinal.getFullYear().toString().slice(-4); // Obtiene los dos últimos dígitos del año
+    month = ('0' + (nuevaConsulta.FechaFinal.getMonth() + 1)).slice(-2); // Añade un cero inicial si el mes es < 10
+    day = ('0' + nuevaConsulta.FechaFinal.getDate()).slice(-2); // Añade un cero inicial si el día es < 10
 
     // Formatea la fecha en el formato deseado
-    //const fechaFormateada2 = `${year}-${month}-${day}`;
+    const fechaFormateada2 = `${month}-${day}-${year}`;
 
-        
+    nuevaConsulta.FechaFinal = fechaFormateada2;
+
+
+
     await this.estadoResultadoService.CARGOFIJOSEMANALPORBRIGADA().subscribe({
       next: (data) => {
-        console.log("DATOS CARGOFIJOSEMANALPORBRIGADA",data);
+        console.log("DATOS CARGOFIJOSEMANALPORBRIGADA", data);
         this.CARGOFIJOSEMANALPORBRIGADA = data;
       }, error: (e) => console.error(e)
     });
 
 
 
-    await this.estadoResultadoService.PERMANENICACARGOFIJOSEMANALPORBRIGADA().subscribe({
+    await this.estadoResultadoService.PERMANENICACARGOFIJOSEMANALPORBRIGADA(nuevaConsulta).subscribe({
       next: (data) => {
-        console.log("DATOS PERMANENICACARGOFIJOSEMANALPORBRIGADA",data);
+        console.log("DATOS PERMANENICACARGOFIJOSEMANALPORBRIGADA", data);
         this.PERMANENICACARGOFIJOSEMANALPORBRIGADA = data;
       }, error: (e) => console.error(e)
     });
@@ -280,57 +365,57 @@ export class NewEstadoResultadoComponent implements OnInit {
 
     await this.estadoResultadoService.OBSERVACIONES().subscribe({
       next: (data) => {
-        console.log("DATOS OBSERVACIONES",data);
+        console.log("DATOS OBSERVACIONES", data);
         this.OBSERVACIONES = data;
       }, error: (e) => console.error(e)
     });
 
 
 
-    await this.estadoResultadoService.HORASEXTRAS().subscribe({
+    await this.estadoResultadoService.HORASEXTRAS(nuevaConsulta).subscribe({
       next: (data) => {
-        console.log("DATOS HORASEXTRAS",data);
+        console.log("DATOS HORASEXTRAS", data);
         this.HORASEXTRAS = data;
       }, error: (e) => console.error(e)
     });
 
 
-    await this.estadoResultadoService.TURNOSADICIONALES().subscribe({
+    await this.estadoResultadoService.TURNOSADICIONALES(nuevaConsulta).subscribe({
       next: (data) => {
-        console.log("DATOS TURNOSADICIONALES",data);
-        this.TURNOSADICIONALES = data; 
+        console.log("DATOS TURNOSADICIONALES", data);
+        this.TURNOSADICIONALES = data;
       }, error: (e) => console.error(e)
     });
 
 
-    await this.estadoResultadoService.TURNOSCONTINGENCIA().subscribe({
+    await this.estadoResultadoService.TURNOSCONTINGENCIA(nuevaConsulta).subscribe({
       next: (data) => {
-        console.log("DATOS TURNOSCONTINGENCIA",data);
+        console.log("DATOS TURNOSCONTINGENCIA", data);
         this.TURNOSCONTINGENCIA = data;
       }, error: (e) => console.error(e)
     });
 
 
-    await this.estadoResultadoService.PRODUCCIONPxQ().subscribe({
+    await this.estadoResultadoService.PRODUCCIONPxQ(nuevaConsulta).subscribe({
       next: (data) => {
-        console.log("DATOS PRODUCCIÓNPxQ",data);
+        console.log("DATOS PRODUCCIÓNPxQ", data);
         this.PRODUCCIONPxQ = data;
       }, error: (e) => console.error(e)
     });
 
 
 
-    await this.estadoResultadoService.COBROSADICIONALES().subscribe({
+    await this.estadoResultadoService.COBROSADICIONALES(nuevaConsulta).subscribe({
       next: (data) => {
-        console.log("DATOS COBROSADICIONALES",data);
+        console.log("DATOS COBROSADICIONALES", data);
         this.COBROSADICIONALES = data;
       }, error: (e) => console.error(e)
     });
 
 
-    await this.estadoResultadoService.DESCUENTOS().subscribe({
+    await this.estadoResultadoService.DESCUENTOS(nuevaConsulta).subscribe({
       next: (data) => {
-        console.log("DATOS DESCUENTOS",data);
+        console.log("DATOS DESCUENTOS", data);
         this.DESCUENTOS = data;
       }, error: (e) => console.error(e)
     });
@@ -338,7 +423,7 @@ export class NewEstadoResultadoComponent implements OnInit {
 
     await this.estadoResultadoService.RESUMEN().subscribe({
       next: (data) => {
-        console.log("DATOS RESUMEN",data);
+        console.log("DATOS RESUMEN", data);
         this.RESUMEN = data;
       }, error: (e) => console.error(e)
     });
@@ -347,21 +432,118 @@ export class NewEstadoResultadoComponent implements OnInit {
   }
 
 
-  CrearEstadoResultado() 
-  {
 
-    this.deleteProductDialog = true;
-    this.loading = true;
 
-    setTimeout(() => {
-        this.loading = false
-    }, 2000);
+  CrearEstadoResultado(formularioPeriodoForm) {
+
+    console.log("FORMULARIO:", formularioPeriodoForm.value)
+
+    const today = new Date();
+
+    let year = today.getFullYear().toString().slice(-4); // Obtiene los dos últimos dígitos del año
+    let month = ('0' + (today.getMonth() + 1)).slice(-2); // Añade un cero inicial si el mes es < 10
+    let day = ('0' + today.getDate()).slice(-2); // Añade un cero inicial si el día es < 10
+
+    const formattedDate = `${month}-${day}-${year}`;
+
+    this.CerrarPeriodoForm.reset();
+
+    this.cierrePeriodoInterface = {
+      periodo: '',
+      zonal: this.zonas[0],
+      fecha_inicial: formularioPeriodoForm.value.FechaInicio,
+      fecha_final: formularioPeriodoForm.value.FechaFinal,
+      coordinador_pelom: '',
+      supervisor_cge: '',
+      turnos_comprometidos: '',
+      fecha_generacion: formattedDate,
+    }
+
+    console.log("this.cierrePeriodoInterface", this.cierrePeriodoInterface);
+
+    this.CerrarPeriodoForm.patchValue(this.cierrePeriodoInterface);
+
+    this.CerrarPeriodoDialog = true;
 
   }
 
 
-  ConfirmoCerrarPeriodo()
-  {
+
+  onGuardarClick() {
+
+    this.loading = true;
+
+    if (this.CerrarPeriodoForm.valid) {
+
+      const datoscerrarperiodo = this.CerrarPeriodoForm.value;
+
+      const periodoValue = this.CerrarPeriodoForm.get('periodo')?.value;
+
+      // Mapear el número del mes a su nombre correspondiente
+      const monthNames = [
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+      ];
+      
+      const monthNumber = periodoValue.getMonth();
+      const monthName = monthNames[monthNumber];
+      
+      // Extraer el año
+      const year = periodoValue.getFullYear();
+      
+      // Formatear el valor para el servidor (por ejemplo, "Noviembre-2023")
+      const formattedValue = `${monthName}-${year}`;
+      
+      datoscerrarperiodo.periodo = formattedValue;
+
+      console.log('Nueva:', datoscerrarperiodo);
+
+      this.estadoResultadoService.createEstadoResultado(datoscerrarperiodo).subscribe(
+        (response) => {
+
+          // Manejar la respuesta exitosa
+          console.log('Obra guardada con éxito:', response);
+
+          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
+
+          this.loading = false
+
+          this.CerrarPeriodoDialog = false;
+
+        },
+        (error) => {
+
+          // Manejar errores
+          console.error('Error al guardar la obra:', error);
+
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Por favor, intentar mas tarde problemas de servicio',
+          });
+
+        }
+      );
+
+    } else {
+
+      // El formulario es inválido, muestra errores si es necesario
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Por favor, completa el formulario correctamente',
+      });
+
+    }
+
+    this.loading = false
+
+  }
+
+
+  ConfirmoCerrarPeriodo() {
+
+    this.loading = true;
 
     console.log("selectedPaquete", this.selectedPaquete.code);
     console.log("selectedMes", this.selectedMes);
@@ -383,10 +565,11 @@ export class NewEstadoResultadoComponent implements OnInit {
     // Formatea la fecha en el formato deseado
     const fechaFormateada2 = `${year}-${month}-${day}`;
 
-    
+
     this.estadoResultadoService.getcreaEstadoResultado(fechaFormateada1, fechaFormateada2, this.selectedPaquete.code).subscribe({
-      next: (data) => {       
+      next: (data) => {
         console.log(data);
+        this.loading = false
       }, error: (e) => console.error(e)
     });
 

@@ -21,7 +21,7 @@
             </p-toolbar>
 
 
-            <p-table #dt [value]="ListEstadoResultado" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+            <p-table #dt [value]="ListCobrosAdicionales" [columns]="cols" responsiveLayout="scroll" [rows]="10"
 
                 [globalFilterFields]="['id','detalle','cantidad','valor','fecha_hora']" 
 
@@ -60,38 +60,38 @@
                     </tr>
                 </ng-template>
 
-                <ng-template pTemplate="body" let-estadoResultado>
+                <ng-template pTemplate="body" let-CobroAdicional>
                     <tr>
                         <td>
                             <span class="p-column-title">id</span>
-                            {{estadoResultado.id}}
+                            {{CobroAdicional.id}}
                         </td>
 
                         <td>
                             <span class="p-column-title">detalle</span>
-                            {{estadoResultado.detalle}}
+                            {{CobroAdicional.detalle}}
                         </td>
 
                         <td>
                             <span class="p-column-title">cantidad</span>
-                            {{estadoResultado.cantidad}}
+                            {{CobroAdicional.cantidad}}
                         </td>
 
                         <td>
                             <span class="p-column-title">valor</span>
-                            {{estadoResultado.valor}}
+                            {{CobroAdicional.valor}}
                         </td>
 
                         <td>
                             <span class="p-column-title">fecha_inicio</span>
-                            {{ estadoResultado.fecha_hora | date: 'dd-MM-yyyy' }}
+                            {{ filtrarFecha(CobroAdicional.fecha_hora) }}
                         </td>
 
                         <td>
                             <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-                                (click)="editProduct(estadoResultado)"></button>
+                                (click)="editProduct(CobroAdicional)"></button>
                             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                                (click)="onEliminarClick(estadoResultado)"></button>
+                                (click)="onEliminarClick(CobroAdicional)"></button>
                         </td>
 
                     </tr>
@@ -115,7 +115,7 @@
                         <div class="col-6">
 
                             <span class="p-float-label">
-                                <p-calendar id="fecha_hora" formControlName="fecha_hora" class="form-control"
+                                <p-calendar id="fecha_hora" formControlName="fecha_hora" class="form-control" dateFormat="dd-mm-yy"
                                     [showIcon]="true"></p-calendar>
                                 <label htmlFor="fecha_hora">Fecha</label>
                             </span>

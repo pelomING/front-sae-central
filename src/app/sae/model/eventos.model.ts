@@ -4,6 +4,8 @@ export interface Eventos {
     tipo_evento?: string;
     rut_maestro?: string;
     rut_ayudante?: string;
+    nombre_maestro?: string;
+    nombre_ayudante?: string;
     turno?: string;
     paquete?: string;
     requerimiento?: string;

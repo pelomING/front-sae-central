@@ -21,7 +21,7 @@
             </p-toolbar>
 
 
-            <p-table #dt [value]="ListEstadoResultado" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+            <p-table #dt [value]="ListObservacion" [columns]="cols" responsiveLayout="scroll" [rows]="10"
                 
                 [globalFilterFields]="['id','detalle','fecha_hora']" 
             
@@ -52,28 +52,28 @@
                     </tr>
                 </ng-template>
 
-                <ng-template pTemplate="body" let-estadoResultado>
+                <ng-template pTemplate="body" let-Observacion>
                     <tr>
                         <td>
                             <span class="p-column-title">id</span>
-                            {{estadoResultado.id}}
+                            {{Observacion.id}}
                         </td>
                         
                         <td>
                             <span class="p-column-title">detalle</span>
-                            {{estadoResultado.detalle}}
+                            {{Observacion.detalle}}
                         </td>
 
                         <td>
                             <span class="p-column-title">fecha_hora</span>
-                            {{estadoResultado.fecha_hora | date: 'dd-MM-yyyy' }}
+                            {{ filtrarFecha(Observacion.fecha_hora) }}
                         </td>
 
                         <td>
                             <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-                                (click)="editProduct(estadoResultado)"></button>
+                                (click)="editProduct(Observacion)"></button>
                             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                                (click)="onEliminarClick(estadoResultado)"></button>
+                                (click)="onEliminarClick(Observacion)"></button>
                         </td>
                     </tr>
                 </ng-template>
@@ -96,7 +96,7 @@
                         <div class="col-6">
 
                             <span class="p-float-label">
-                                <p-calendar id="fecha_hora" formControlName="fecha_hora" class="form-control"
+                                <p-calendar id="fecha_hora" formControlName="fecha_hora" class="form-control" dateFormat="dd-mm-yy"
                                     [showIcon]="true"></p-calendar>
                                 <label htmlFor="fecha_hora">Fecha</label>
                             </span>

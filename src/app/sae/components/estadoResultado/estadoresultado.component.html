@@ -20,8 +20,11 @@
             </p-toolbar>
 
 
-            <p-table #dt [value]="ListEstadoResultado" 
-            [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['id']" 
+            <p-table #dt [value]="ListEstadoResultado"  whidth="100%"
+            [columns]="cols" responsiveLayout="scroll" [rows]="10" 
+            
+            [globalFilterFields]="['id','codigo_estado','fecha_generacion','periodo','zonal','fecha_inicial','fecha_final','estado','observaciones']" 
+            
             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" 
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
             [(selection)]="selectedEstadoResultado" selectionMode="multiple" [rowHover]="true" dataKey="id">
@@ -38,59 +41,83 @@
 
                 <ng-template pTemplate="header">
                     <tr>
-                        <th style="width:50px" pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
-                        <th pSortableColumn="nombre_usuario">nombre_usuario <p-sortIcon field="nombre_usuario"></p-sortIcon></th>
-             
-                        <th pSortableColumn="nombre_zona">nombre_zona <p-sortIcon field="nombre_zona"></p-sortIcon></th>
-                        <th pSortableColumn="nombre_paquete">nombre_paquete <p-sortIcon field="nombre_paquete"></p-sortIcon></th>
-                        <th pSortableColumn="nombre_mes">nombre_mes <p-sortIcon field="nombre_mes"></p-sortIcon></th>
-                        <th pSortableColumn="fecha_inicio">fecha_inicio <p-sortIcon field="fecha_inicio"></p-sortIcon></th>
+                        <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+                        <th pSortableColumn="codigo_estado">codigo_estado <p-sortIcon field="codigo_estado"></p-sortIcon></th>
+                        <th pSortableColumn="fecha_generacion">fecha_generacion <p-sortIcon field="fecha_generacion"></p-sortIcon></th>
+                        <th pSortableColumn="periodo">periodo <p-sortIcon field="periodo"></p-sortIcon></th>
+                        <th pSortableColumn="zonal">zonal <p-sortIcon field="zonal"></p-sortIcon></th>
+                        <th pSortableColumn="fecha_inicial">fecha_inicial <p-sortIcon field="fecha_inicial"></p-sortIcon></th>
                         <th pSortableColumn="fecha_final">fecha_final <p-sortIcon field="fecha_final"></p-sortIcon></th>
-                        <th pSortableColumn="nombre_doc">nombre_doc <p-sortIcon field="nombre_doc"></p-sortIcon></th>
-                        <th pSortableColumn="url_doc">url_doc <p-sortIcon field="url_doc"></p-sortIcon></th>
-                        <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
-                        <!-- <th></th> -->
+                        <th pSortableColumn="coordinador_pelom">coordinador_pelom <p-sortIcon field="coordinador_pelom"></p-sortIcon></th>
+                        <th pSortableColumn="supervisor_cge">supervisor_cge <p-sortIcon field="supervisor_cge"></p-sortIcon></th>
+                        <th pSortableColumn="turnos_comprometidos">turnos_comprometidos <p-sortIcon field="turnos_comprometidos"></p-sortIcon></th>
+                        <th>#</th>
                     </tr>
                 </ng-template>
 
                 <ng-template pTemplate="body" let-estadoResultado>
                     <tr>
-                        <td style="width:50px" >
+                        <td>
                             <span class="p-column-title">id</span>
                             {{estadoResultado.id}}
                         </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">nombre_usuario</span>
-                            {{estadoResultado.nombre_usuario}}
+                        <td>
+                            <span class="p-column-title">codigo_estado</span>
+                            {{estadoResultado.codigo_estado}}
                         </td>
 
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">nombre_zona</span>
-                            {{estadoResultado.nombre_zona}}
+                        <td>
+                            <span class="p-column-title">fecha_generacion</span>
+                            {{estadoResultado.fecha_generacion | date: 'dd-MM-yyyy'}}
                         </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">nombre_paquete</span>
-                            {{estadoResultado.nombre_paquete}}
+
+                        <td>
+                            <span class="p-column-title">periodo</span>
+                            {{estadoResultado.encabezado.periodo }}
                         </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">nombre_mes</span>
-                            {{estadoResultado.nombre_mes}}
+
+                        <td>
+                            <span class="p-column-title">zonal</span>
+                            {{estadoResultado.encabezado.zonal}}
                         </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">fecha_inicio</span>
-                            {{  filtrarFecha(estadoResultado.fecha_inicio) }}
+
+                        <td>
+                            <span class="p-column-title">fecha_inicial</span>
+                            {{ estadoResultado.encabezado.fecha_inicial | date: 'dd-MM-yyyy' }}
                         </td>
-                        <td style="width:14%; min-width:10rem;">
+
+                        <td>
                             <span class="p-column-title">fecha_final</span>
-                            {{ filtrarFecha(estadoResultado.fecha_final) }}
+                            {{ estadoResultado.encabezado.fecha_final | date: 'dd-MM-yyyy' }}
                         </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">nombre_doc</span>
-                            {{estadoResultado.nombre_doc}}
+
+                        <td>
+                            <span class="p-column-title">coordinador_pelom</span>
+                            {{estadoResultado.encabezado.coordinador_pelom}}
                         </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">url_doc</span>
-                            {{estadoResultado.url_doc}}
+
+                        <td>
+                            <span class="p-column-title">supervisor_cge</span>
+                            {{estadoResultado.encabezado.supervisor_cge}}
+                        </td>
+
+                        <td>
+                            <span class="p-column-title">turnos_comprometidos</span>
+                            {{estadoResultado.encabezado.turnos_comprometidos}}
+                        </td>
+
+                        <td>
+
+
+                            <div class="formgrid grid">
+                                <div class="field col">
+                                    <button pButton pRipple icon="pi pi-file-pdf" class="p-button-rounded p-button-success"></button>
+                                </div>
+                                <div class="field col">
+                                    <button pButton pRipple icon="pi pi-database" class="p-button-rounded p-button-warning"></button>                                
+                                </div>
+                            </div>
+ 
                         </td>
 
                     </tr>

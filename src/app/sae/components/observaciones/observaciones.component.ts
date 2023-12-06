@@ -120,6 +120,10 @@ export class ObservacionesComponent implements OnInit {
   options: any;
 
 
+  ListObservacion: Observacion[];
+
+  ObservacionCopia: Observacion;
+
 
   observacionesForm: FormGroup;
 
@@ -214,7 +218,8 @@ export class ObservacionesComponent implements OnInit {
     this.estadoResultadoService.observacionesnoprocesadas().subscribe({
       next: (data) => {
         console.log("data", data);
-        this.ListEstadoResultado = data
+        this.ListObservacion = data
+        this.ListObservacion.sort((a, b) => b.id - a.id);
       }, error: (e) => console.error(e)
     });
   }
@@ -223,25 +228,12 @@ export class ObservacionesComponent implements OnInit {
 
   filtrarFecha(fechaString: string) {
 
-    // Convierte la cadena en un objeto Date
-    const fecha = new Date(fechaString);
-
-    // Ahora puedes realizar operaciones con la fecha, por ejemplo, formatearla:
-    this.options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-
-    const fechaFormateada = fecha.toLocaleDateString('es-ES', this.options);
-
-    console.log(fechaFormateada); // Mostrará '1 de septiembre de 2023'
-
-    const fechaS = new Date(fechaFormateada);
-
-    // Obten los componentes de la fecha
-    const dia = fechaS.getDate().toString().padStart(2, '0'); // Añade ceros a la izquierda si es necesario
-    const mes = (fechaS.getMonth() + 1).toString().padStart(2, '0'); // Suma 1 porque los meses comienzan en 0
-    const anio = fechaS.getFullYear();
-
+    //"2023-04-12 00:00:00"
+    const arrayFechaHora = fechaString.split("T");
+    // Divide el primer elemento (fecha) utilizando el guion como delimitador
+    const arrayFecha = arrayFechaHora[0].split("-");
     // Formatea la fecha en el formato deseado
-    return `${dia}-${mes}-${anio}`;
+    return `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]}`;
 
   }
 
@@ -254,133 +246,39 @@ export class ObservacionesComponent implements OnInit {
 
   onGuardarClick() {
 
-      this.loading = true;
-
-      setTimeout(() => {
-          this.loading = false
-      }, 2000);
-
-
-      if (this.observacionesForm.valid) {
-
-          const nueva = this.observacionesForm.value;
-
-          console.log('Nueva:', nueva);
-
-          this.estadoResultadoService.createObservacion(nueva).subscribe(
-              (response) => {
-                  // Manejar la respuesta exitosa
-                  console.log('Obra guardada con éxito:', response);
-                  
-                  this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
-
-                  this.productDialog = false;
-                  
-                  this.estadoResultadoService.observacionesnoprocesadas().subscribe({
-                    next: (data) => {
-                      console.log("data", data);
-                      this.ListEstadoResultado = data
-                    }, error: (e) => console.error(e)
-                  });
-
-              },
-              (error) => {
-
-                  // Manejar errores
-                  console.error('Error al guardar la obra:', error);
-
-                  this.messageService.add({
-                      severity: 'error',
-                      summary: 'Error',
-                      detail: 'Por favor, intentar mas tarde problemas de servicio',
-                  });
-
-              }
-          );
-
-      } else {
-
-          // El formulario es inválido, muestra errores si es necesario
-          this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Por favor, completa el formulario correctamente',
-          });
-
-      }
-  }
-
-
-
-  onActualizarClick() {
-
     this.loading = true;
 
     setTimeout(() => {
-        this.loading = false
+      this.loading = false
     }, 2000);
 
 
     if (this.observacionesForm.valid) {
 
-        const updatedObra = this.observacionesForm.value; // Obtén los datos del formulario
+      const nueva = this.observacionesForm.value;
 
-        // Luego, puedes enviar los datos actualizados al servidor, por ejemplo, utilizando un servicio:
-        this.estadoResultadoService.updateObservacion(updatedObra).subscribe(
-            (response) => {
+      let nuevaCopia = { ...nueva };
 
-                this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro actualizado', life: 3000 });
+      nuevaCopia.fecha_hora = this.formateoFecha(nuevaCopia.fecha_hora);
 
-                this.productDialog = false;
+      console.log('Nueva:', nuevaCopia);
 
-                this.estadoResultadoService.observacionesnoprocesadas().subscribe({
-                  next: (data) => {
-                    console.log("data", data);
-                    this.ListEstadoResultado = data
-                  }, error: (e) => console.error(e)
-                });
-
-            },
-            (error) => {
-                // Manejar errores, por ejemplo, mostrar un mensaje de error
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: 'No se pudo actualizar la obra. Inténtelo de nuevo.',
-                });
-            }
-        );
-    }
-}
-
-
-
-
-onEliminarClick(observacion: Observacion) {
-
-  this.confirmationService.confirm({
-    message: 'Estás seguro de que deseas eliminar ID : ' + observacion.id + '?',
-    header: 'Confirmar',
-    icon: 'pi pi-exclamation-triangle',
-    accept: () => {
-
-      this.estadoResultadoService.deleteObservacion(observacion).subscribe(
+      this.estadoResultadoService.createObservacion(nuevaCopia).subscribe(
         (response) => {
+          // Manejar la respuesta exitosa
+          console.log('Obra guardada con éxito:', response);
 
-          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado', life: 3000 });
+          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
 
-          this.estadoResultadoService.observacionesnoprocesadas().subscribe({
-            next: (data) => {
-              console.log("data", data);
-              this.ListEstadoResultado = data
-            }, error: (e) => console.error(e)
-          });
+          this.productDialog = false;
+
+          this.recuperaEstadosResultados();
 
         },
         (error) => {
 
           // Manejar errores
-          console.error('Error :', error);
+          console.error('Error al guardar la obra:', error);
 
           this.messageService.add({
             severity: 'error',
@@ -391,10 +289,116 @@ onEliminarClick(observacion: Observacion) {
         }
       );
 
-    }
-  });
+    } else {
 
-}
+      // El formulario es inválido, muestra errores si es necesario
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Por favor, completa el formulario correctamente',
+      });
+
+    }
+  }
+
+
+
+  onActualizarClick() {
+
+    this.loading = true;
+
+    setTimeout(() => {
+      this.loading = false
+    }, 2000);
+
+
+    if (this.observacionesForm.valid) {
+
+      const ObjetUpdated = this.observacionesForm.value; // Obtén los datos del formulario
+
+      console.log("ObjetUpdated", ObjetUpdated);
+
+      let ObjetUpdatedCopia = { ...ObjetUpdated };
+
+      if (typeof ObjetUpdatedCopia.fecha_hora === 'string') {
+
+        // El campo es de tipo texto (string)
+        console.log('Es una cadena de texto');
+        const arrayFecha = ObjetUpdatedCopia.fecha_hora.split("-");
+        // Formatea la fecha en el formato deseado
+        ObjetUpdatedCopia.fecha_hora = `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]}`;
+
+        // Puedes realizar operaciones específicas para cadenas de texto si es necesario
+      } else if (ObjetUpdatedCopia.fecha_hora instanceof Date) {
+
+        // El campo es de tipo Date
+        console.log('Es un objeto Date');
+        ObjetUpdatedCopia.fecha_hora = this.formateoFecha(ObjetUpdatedCopia.fecha_hora);
+
+      }
+
+      console.log("ObjetUpdatedCopia", ObjetUpdatedCopia);
+
+      // Luego, puedes enviar los datos actualizados al servidor, por ejemplo, utilizando un servicio:
+      this.estadoResultadoService.updateObservacion(ObjetUpdatedCopia).subscribe(
+        (response) => {
+
+          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro actualizado', life: 3000 });
+
+          this.productDialog = false;
+
+          this.recuperaEstadosResultados();
+
+        },
+        (error) => {
+          // Manejar errores, por ejemplo, mostrar un mensaje de error
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'No se pudo actualizar la obra. Inténtelo de nuevo.',
+          });
+        }
+      );
+    }
+  }
+
+
+
+
+  onEliminarClick(observacion: Observacion) {
+
+    this.confirmationService.confirm({
+      message: 'Estás seguro de que deseas eliminar ID : ' + observacion.id + '?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+
+        this.estadoResultadoService.deleteObservacion(observacion).subscribe(
+          (response) => {
+
+            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado', life: 3000 });
+
+            this.recuperaEstadosResultados();
+
+          },
+          (error) => {
+
+            // Manejar errores
+            console.error('Error :', error);
+
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Por favor, intentar mas tarde problemas de servicio',
+            });
+
+          }
+        );
+
+      }
+    });
+
+  }
 
 
 
@@ -417,32 +421,54 @@ onEliminarClick(observacion: Observacion) {
     this.deleteProductsDialog = true;
   }
 
+
   formateoFecha(fechaOriginal: string): string {
     const fechaParseada = new Date(fechaOriginal);
     const dia = fechaParseada.getDate().toString().padStart(2, '0');
     const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
     const año = fechaParseada.getFullYear();
-    const fechaFormateada = `${mes}/${dia}/${año}`;
-    console.log(fechaFormateada); // Esto mostrará "10/03/2023" en la consola
-
+    const fechaFormateada = `${año}-${mes}-${dia}`;
+    console.log("fechaFormateada", fechaFormateada);
     return fechaFormateada;
-}
+  }
 
 
-editProduct(observacion: Observacion) {
+  editProduct(observacion: Observacion) {
 
     this.observacionesForm.reset();
 
+    this.ObservacionCopia = { ...observacion };
+
     this.mostrarGuardar = false;
     this.mostrarActualizar = true;
-
-    observacion.fecha_hora = this.formateoFecha(observacion.fecha_hora);
     
-    this.observacionesForm.patchValue(observacion);
+    //observacion.fecha_hora = this.formateoFecha(observacion.fecha_hora);
+
+    //cobroAdicional.fecha_hora = this.formateoFecha(cobroAdicional.fecha_hora);
+    console.log("CobrosAdicionalesCopia",this.ObservacionCopia.fecha_hora);
+
+    //"2023-04-12T00:00:00"
+    const arrayFechaHora = this.ObservacionCopia.fecha_hora.split("T");
+    // Divide el primer elemento (fecha) utilizando el guion como delimitador
+    const arrayFecha = arrayFechaHora[0].split("-");
+    // Formatea la fecha en el formato deseado
+    this.ObservacionCopia.fecha_hora = `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]}`;
+
+    console.log("CobrosAdicionalesCopia",this.ObservacionCopia.fecha_hora);
+
+    // const fechaParseada = new Date(this.ObservacionCopia.fecha_hora);
+    // const dia = fechaParseada.getDate().toString().padStart(2, '0');
+    // const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
+    // const año = fechaParseada.getFullYear();
+    // const fechaFormateada = `${dia}-${mes}-${año}`;
+
+    // this.ObservacionCopia.fecha_hora = fechaFormateada;
+
+    this.observacionesForm.patchValue(this.ObservacionCopia);
 
     this.productDialog = true;
 
-}
+  }
 
   deleteProduct(product: Product) {
     this.deleteProductDialog = true;

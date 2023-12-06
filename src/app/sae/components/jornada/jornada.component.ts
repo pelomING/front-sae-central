@@ -39,8 +39,8 @@ export class JornadaComponent implements OnInit {
 
     this.cols = [
       { field: 'id', header: 'Id' },
-      { field: 'rut_maestro', header: 'Maestro' },
-      { field: 'rut_ayudante', header: 'Ayudante' },
+      { field: 'nombre_maestro', header: 'Maestro' },
+      { field: 'nombre_ayudante', header: 'Ayudante' },
       { field: 'turno', header: 'Turno' },
       { field: 'patente', header: 'Patente' },
       { field: 'km_inicial', header: 'Km inicial' },
@@ -71,8 +71,8 @@ export class JornadaComponent implements OnInit {
       // Encabezados con estilos
       [
         { v: "Id", t: 's', s: this.headerStyle },
-        { v: "rut_maestro", t: 's', s: this.headerStyle },
-        { v: "rut_ayudante", t: 's', s: this.headerStyle },
+        { v: "nombre_maestro", t: 's', s: this.headerStyle },
+        { v: "nombre_ayudante", t: 's', s: this.headerStyle },
         { v: "brigada", t: 's', s: this.headerStyle },
         { v: "tipo_turno", t: 's', s: this.headerStyle },
         { v: "patente", t: 's', s: this.headerStyle },
@@ -84,8 +84,8 @@ export class JornadaComponent implements OnInit {
       // Datos
       ...this.turnos.map(item => [
         item.id,
-        item.rut_maestro,
-        item.rut_ayudante,
+        item.nombre_maestro,
+        item.nombre_ayudante,
         item.brigada,
         item.tipo_turno,
         item.patente,
