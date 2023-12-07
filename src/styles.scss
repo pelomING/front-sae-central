@@ -16,6 +16,10 @@ $gutter: 1rem; //for primeflex grid system
 @import "primeicons/primeicons.css";
 
 
+/* Importa el estilo de Leaflet en tu archivo de estilos global o en tu componente */
+@import "~leaflet/dist/leaflet.css";
+
+
 
 /* You can add global styles to this file, and also import other style files */
 

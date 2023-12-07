@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
+import * as XLSX from 'xlsx-js-style';
+import { saveAs } from 'file-saver';
+
+import { ConfirmationService } from 'primeng/api';
 
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -10,6 +14,7 @@ import { EstadoResultado } from '../../model/estadoResultado.model'
 import { ProductService } from 'src/app/demo/service/product.service';
 
 import { EstadoResultadoService } from 'src/app/sae/services/estadoResultado.service';
+import { map } from 'rxjs';
 
 
 interface City {
@@ -42,6 +47,23 @@ interface Mes {
   code: string;
 }
 
+export interface Detallepxq {
+  id?: string;
+  aviso?: string;
+  ayudante?: string;
+  centrality?: string;
+  comuna?: string;
+  patente?: string;
+  descripcion?: string;
+  despachador?: string;
+  direccion?: string;
+  fecha?: string;
+  hora_termino?: string;
+  maestro?: string;
+  tipo_turno?: string;
+  valor_cobrar?: string;
+}
+
 
 @Component({
   selector: 'app-estadoresultado',
@@ -49,6 +71,8 @@ interface Mes {
   styleUrls: ['./estadoresultado.component.scss'],
   providers: [MessageService]
 })
+
+
 export class EstadoResultadoComponent implements OnInit {
 
   productDialog: boolean = false;
@@ -67,6 +91,7 @@ export class EstadoResultadoComponent implements OnInit {
   ListEstadoResultado: EstadoResultado[];
 
   estadoResultado: EstadoResultado = {};
+
   selectedEstadoResultado: EstadoResultado[] = [];
 
 
@@ -218,8 +243,272 @@ export class EstadoResultadoComponent implements OnInit {
   }
 
 
+  columnOrder = [
+    "fecha",
+    "hora_termino",
+    "centrality",
+    "maestro",
+    "ayudante",
+    "patente",
+    "despachador",
+    "comuna",
+    "direccion",
+    "aviso",
+    "descripcion",
+    "valor_cobrar"
+  ];
+
+  reorganizarData(data: any[]): any[] {
+    return data.map(item => {
+      const reorderedItem: any = {};
+      this.columnOrder.forEach(column => {
+        reorderedItem[column] = item[column];
+      });
+      return reorderedItem;
+    });
+  }
 
 
+
+  ListDetallepxq: Detallepxq[] = [];
+
+  async ejecutarConsultaDetallepxqhistorial(idPaquete: number, id_estado_pago: number) {
+    try {
+
+      const data = await this.estadoResultadoService.detallepxqhistorial(idPaquete, id_estado_pago).toPromise();
+
+      console.log("data", data);
+
+      const reorderedData = this.reorganizarData(data);
+
+      this.ListDetallepxq = reorderedData;
+
+      // Aquí puedes ejecutar cualquier código que deba ejecutarse después de que la consulta se haya completado.
+
+    } catch (error) {
+
+      console.error(error)
+
+    }
+  }
+
+
+
+  async descargaReporteEstadodePago(estadoPago) {
+
+    try {
+
+
+      console.log("estadoPago", estadoPago);
+
+      // Crear hoja de trabajo
+      const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet([]);
+
+
+
+      XLSX.utils.sheet_add_aoa(ws, [['ESTADO DE PAGO SAE - PROYECTO INTEGRAL MAULE NORTE']], { origin: 'B2' });
+
+      
+      XLSX.utils.sheet_add_aoa(ws, [['FECHA E.D.P: 03-11-2023']], { origin: 'H5' });
+
+      XLSX.utils.sheet_add_aoa(ws, [['No ESTADO DE PAGO: Z1-Z3-SAE-001-10/23']], { origin: 'H6' });
+
+      
+      XLSX.utils.sheet_add_aoa(ws, [['ZONA CONTRATO PELOM:Zona 1-3 / Curicó - Hualañe']], { origin: 'B11' });
+
+      XLSX.utils.sheet_add_aoa(ws, [['COORDINADOR SUPERVISOR PELOM:	Omar Hinojosa Carreño']], { origin: 'B12' });
+
+      XLSX.utils.sheet_add_aoa(ws, [['FECHA INICIAL	01-10-2023']], { origin: 'B13' });
+
+      XLSX.utils.sheet_add_aoa(ws, [['FECHA FINAL	31-10-2023']], { origin: 'B14' });
+
+      XLSX.utils.sheet_add_aoa(ws, [['ZONAL CGE: Maule sur - Maule Norte']], { origin: 'B15' });
+
+      XLSX.utils.sheet_add_aoa(ws, [['SUPERVISOR CGE: José León']], { origin: 'B16' });
+
+      XLSX.utils.sheet_add_aoa(ws, [['Turnos comprometido mes 31']], { origin: 'B17' });
+
+
+      XLSX.utils.sheet_add_aoa(ws, [['Localidad']], { origin: 'B20' });
+
+
+      // Combinar celdas desde A1 hasta C1
+      ws['!merges'] = [{ s: { r: 19, c: 1 }, e: { r: 19, c: 2 } }];
+
+
+      console.log("ws", ws);
+
+      // Consulta PARRAL
+      await this.ejecutarConsultaDetallepxqhistorial(3, estadoPago.id);
+
+      // Crear hoja de trabajo
+      const ws1: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet([
+        // Encabezados con estilos
+        [
+          { v: "Fecha", t: 's', s: this.headerStyle },
+          { v: "Hora término", t: 's', s: this.headerStyle },
+          { v: "Centrality", t: 's', s: this.headerStyle },
+          { v: "Maestro", t: 's', s: this.headerStyle },
+          { v: "Ayudante", t: 's', s: this.headerStyle },
+          { v: "Patente", t: 's', s: this.headerStyle },
+          { v: "Despachador", t: 's', s: this.headerStyle },
+          { v: "Comuna", t: 's', s: this.headerStyle },
+          { v: "Direccion", t: 's', s: this.headerStyle },
+          { v: "Aviso", t: 's', s: this.headerStyle },
+          { v: "Descripción", t: 's', s: this.headerStyle },
+          { v: "Valor Cobrar", t: 's', s: this.headerStyle },
+        ],
+        // Datos
+        ...this.ListDetallepxq.map(item => [
+          item.fecha,
+          item.hora_termino,
+          item.centrality,
+          item.maestro,
+          item.ayudante,
+          item.patente,
+          item.despachador,
+          item.comuna,
+          item.direccion,
+          item.aviso,
+          item.descripcion,
+          item.valor_cobrar
+        ])
+      ]);
+
+
+      const columnas1 = [
+        "Fecha",
+        "Hora término",
+        "Centrality",
+        "Maestro",
+        "Ayudante",
+        "Patente",
+        "Despachador",
+        "Comuna",
+        "Direccion",
+        "Aviso",
+        "Descripción",
+        "Valor Cobrar"
+      ];
+
+      // Establecer el ancho de la columna para cada columna
+      ws1['!cols'] = columnas1.map(columna => ({ wch: 25 })); // Ancho de columna predeterminado
+
+
+
+
+      // Consulta CURICÓ
+      await this.ejecutarConsultaDetallepxqhistorial(2, estadoPago.id);
+
+
+      // Crear hoja de trabajo
+      const ws2: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet([
+        // Encabezados con estilos
+        [
+          { v: "Fecha", t: 's', s: this.headerStyle },
+          { v: "Hora término", t: 's', s: this.headerStyle },
+          { v: "Centrality", t: 's', s: this.headerStyle },
+          { v: "Maestro", t: 's', s: this.headerStyle },
+          { v: "Ayudante", t: 's', s: this.headerStyle },
+          { v: "Patente", t: 's', s: this.headerStyle },
+          { v: "Despachador", t: 's', s: this.headerStyle },
+          { v: "Comuna", t: 's', s: this.headerStyle },
+          { v: "Direccion", t: 's', s: this.headerStyle },
+          { v: "Aviso", t: 's', s: this.headerStyle },
+          { v: "Descripción", t: 's', s: this.headerStyle },
+          { v: "Valor Cobrar", t: 's', s: this.headerStyle },
+        ],
+        // Datos
+        ...this.ListDetallepxq.map(item => [
+          item.fecha,
+          item.hora_termino,
+          item.centrality,
+          item.maestro,
+          item.ayudante,
+          item.patente,
+          item.despachador,
+          item.comuna,
+          item.direccion,
+          item.aviso,
+          item.descripcion,
+          item.valor_cobrar
+        ])
+      ]);
+
+
+      const columnas2 = [
+        "Fecha",
+        "Hora término",
+        "Centrality",
+        "Maestro",
+        "Ayudante",
+        "Patente",
+        "Despachador",
+        "Comuna",
+        "Direccion",
+        "Aviso",
+        "Descripción",
+        "Valor Cobrar"
+      ];
+
+      // Establecer el ancho de la columna para cada columna
+      ws2['!cols'] = columnas2.map(columna => ({ wch: 25 })); // Ancho de columna predeterminado
+
+
+
+      // Crear libro de trabajo
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+
+      // Agregar hoja de trabajo al libro
+      XLSX.utils.book_append_sheet(wb, ws, 'Estado de Pago');
+
+      XLSX.utils.book_append_sheet(wb, ws1, 'PxQ Parral');
+
+      XLSX.utils.book_append_sheet(wb, ws2, 'PxQ Curicó');
+
+      // Convertir a array buffer
+      const arrayBuffer: ArrayBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+
+      // Crear objeto Blob y descargar
+      const blob: Blob = new Blob([arrayBuffer], { type: 'application/octet-stream' });
+
+      const fecha = new Date();
+      const fechatotal =
+        fecha.getDate() +
+        '-' +
+        (fecha.getMonth() + 1) +
+        '-' +
+        fecha.getFullYear() +
+        '_' +
+        fecha.getHours() +
+        '-' +
+        fecha.getMinutes() +
+        '-' +
+        fecha.getSeconds();
+
+
+      const nombreArchivo = `reporte_estado_de_pago_${estadoPago.codigo_estado}_${fechatotal}.xlsx`;
+
+      saveAs(blob, nombreArchivo);
+
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
+  }
+
+
+
+  // Establecer el estilo de los encabezados
+  private headerStyle = {
+    fill: { fgColor: { rgb: "87CEEB" } }, // Fondo celeste opaco
+    font: { color: { rgb: "000000" }, bold: true }, // Texto negro y negrita
+    alignment: { wrapText: true, vertical: 'bottom', horizontal: 'center' },
+    width: 50
+  };
 
 
 
@@ -306,3 +595,4 @@ export class EstadoResultadoComponent implements OnInit {
 
 
 }
+

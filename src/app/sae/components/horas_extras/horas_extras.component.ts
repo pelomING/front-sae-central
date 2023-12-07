@@ -321,7 +321,7 @@ export class Horas_extrasComponent implements OnInit {
         (error) => {
 
           // Manejar errores
-          console.error('Error al guardar la obra:', error);
+          console.error('Error al guardar:', error);
 
           this.messageService.add({
             severity: 'error',
@@ -404,7 +404,7 @@ export class Horas_extrasComponent implements OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'No se pudo actualizar la obra. Inténtelo de nuevo.',
+            detail: 'No se pudo actualizar el registro. Inténtelo de nuevo.',
           });
         }
       );

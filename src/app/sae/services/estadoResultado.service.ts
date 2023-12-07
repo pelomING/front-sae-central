@@ -260,6 +260,19 @@ export class EstadoResultadoService {
     }
 
 
+    ///api/reportes/v1/detallepxqhistorial
+    detallepxqhistorial(idPaquete: number, id_estado_pago: number): Observable<any> {
+
+        // Define los parámetros utilizando los argumentos de la función
+        const params = new HttpParams()
+            .set('id_paquete', idPaquete.toString())
+            .set('id_estado_pago', id_estado_pago.toString()); // Convierte a cadena si es necesario
+
+        return this.http.get<any>(`${this.baseUrl}/detallepxqhistorial`, { params });
+
+    }
+
+
 
     listabrigadassae() {
         return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/listabrigadassae`);

@@ -361,32 +361,38 @@ export class Detalle_pxqComponent implements OnInit {
     const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet([
       // Encabezados con estilos
       [
-        { v: "Fecha", t: 's', s: this.headerStyle },
-        { v: "Hora término", t: 's', s: this.headerStyle },
-        { v: "Centrality", t: 's', s: this.headerStyle },
+        { v: "Despachador", t: 's', s: this.headerStyle },
+        { v: "N° OT", t: 's', s: this.headerStyle },
+        { v: "Dirección", t: 's', s: this.headerStyle },
+        { v: "Comuna", t: 's', s: this.headerStyle },
+        { v: "Requerimiento", t: 's', s: this.headerStyle },
+        { v: "Evento", t: 's', s: this.headerStyle },
+        
         { v: "Maestro", t: 's', s: this.headerStyle },
         { v: "Ayudante", t: 's', s: this.headerStyle },
         { v: "Patente", t: 's', s: this.headerStyle },
-        { v: "Despachador", t: 's', s: this.headerStyle },
-        { v: "Comuna", t: 's', s: this.headerStyle },
-        { v: "Direccion", t: 's', s: this.headerStyle },
-        { v: "Aviso", t: 's', s: this.headerStyle },
-        { v: "Descripción", t: 's', s: this.headerStyle },
-        { v: "Valor Cobrar", t: 's', s: this.headerStyle },
+        { v: "Fecha", t: 's', s: this.headerStyle },
+        
+        { v: "Hora Término", t: 's', s: this.headerStyle },
+        { v: "Valor", t: 's', s: this.headerStyle },
       ],
       // Datos
       ...this.ListDetallepxq.map(item => [
-        item.fecha,
-        item.hora_termino,
+        
+        item.despachador,
         item.centrality,
+        
+        item.direccion,
+        item.comuna,
+        item.aviso,
+        item.descripcion,
+
         item.maestro,
         item.ayudante,
         item.patente,
-        item.despachador,
-        item.comuna,
-        item.direccion,
-        item.aviso,
-        item.descripcion,
+        item.fecha,
+        item.hora_termino,
+
         item.valor_cobrar
       ])
     ]);
