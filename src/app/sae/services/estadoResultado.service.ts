@@ -122,7 +122,7 @@ export class EstadoResultadoService {
     getResumenEventos(fechaInicial: string, fechaFinal: string, idPaquete: number): Observable<ResumenEvento[]> {
         // Define los parámetros utilizando los argumentos de la función
         const params = new HttpParams()
-            .set('fecha_inicial', fechaInicial)
+            .set('fecha_inicial', fechaInicial) 
             .set('fecha_final', fechaFinal)
             .set('id_paquete', idPaquete.toString()); // Convierte a cadena si es necesario
 
@@ -151,8 +151,6 @@ export class EstadoResultadoService {
 
     PERMANENICACARGOFIJOSEMANALPORBRIGADA(nuevaConsulta): Observable<any> {
 
-        console.log("PARAMETROS",nuevaConsulta);
-
         const params = new HttpParams()
         .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
         .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
@@ -174,7 +172,7 @@ export class EstadoResultadoService {
         .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
         .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
 
-        return this.http.get<any>(`${this.baseUrl}/horasextras`).pipe(
+        return this.http.get<any>(`${this.baseUrl}/horasextras`,{ params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -186,7 +184,7 @@ export class EstadoResultadoService {
         .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
         .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
 
-        return this.http.get<any>(`${this.baseUrl}/turnosadicionales`).pipe(
+        return this.http.get<any>(`${this.baseUrl}/turnosadicionales`,{ params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -198,7 +196,7 @@ export class EstadoResultadoService {
         .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
         .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
 
-        return this.http.get<any>(`${this.baseUrl}/turnoscontingencia`).pipe(
+        return this.http.get<any>(`${this.baseUrl}/turnoscontingencia`,{ params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -210,7 +208,7 @@ export class EstadoResultadoService {
         .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
         .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
 
-        return this.http.get<any>(`${this.baseUrl}/produccionpxq`).pipe(
+        return this.http.get<any>(`${this.baseUrl}/produccionpxq`,{ params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -222,7 +220,7 @@ export class EstadoResultadoService {
         .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
         .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
 
-        return this.http.get<any>(`${this.baseUrl}/reportecobroadicional`).pipe(
+        return this.http.get<any>(`${this.baseUrl}/reportecobroadicional`,{ params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -234,7 +232,7 @@ export class EstadoResultadoService {
         .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
         .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
 
-        return this.http.get<any>(`${this.baseUrl}/reportedescuentos`).pipe(
+        return this.http.get<any>(`${this.baseUrl}/reportedescuentos`,{ params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
