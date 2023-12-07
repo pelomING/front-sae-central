@@ -421,7 +421,7 @@ export class NewEstadoResultadoComponent implements OnInit {
     });
 
 
-    await this.estadoResultadoService.RESUMEN().subscribe({
+    await this.estadoResultadoService.RESUMEN(nuevaConsulta).subscribe({
       next: (data) => {
         console.log("DATOS RESUMEN", data);
         this.RESUMEN = data;
