@@ -330,7 +330,7 @@ export class NewEstadoResultadoComponent implements OnInit {
     let day = ('0' + nuevaConsulta.FechaInicio.getDate()).slice(-2); // Añade un cero inicial si el día es < 10
 
     // Formatea la fecha en el formato deseado
-    const fechaFormateada1 = `${month}-${day}-${year}`;
+    const fechaFormateada1 = `${year}-${month}-${day}`;
 
     nuevaConsulta.FechaInicio = fechaFormateada1;
 
@@ -339,7 +339,7 @@ export class NewEstadoResultadoComponent implements OnInit {
     day = ('0' + nuevaConsulta.FechaFinal.getDate()).slice(-2); // Añade un cero inicial si el día es < 10
 
     // Formatea la fecha en el formato deseado
-    const fechaFormateada2 = `${month}-${day}-${year}`;
+    const fechaFormateada2 = `${year}-${month}-${day}`;
 
     nuevaConsulta.FechaFinal = fechaFormateada2;
 
