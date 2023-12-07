@@ -460,7 +460,7 @@ export class EstadoResultadoComponent implements OnInit {
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
 
       // Agregar hoja de trabajo al libro
-      XLSX.utils.book_append_sheet(wb, ws, 'Estado de Pago');
+      //XLSX.utils.book_append_sheet(wb, ws, 'Estado de Pago');
 
       XLSX.utils.book_append_sheet(wb, ws1, 'PxQ Parral');
 
