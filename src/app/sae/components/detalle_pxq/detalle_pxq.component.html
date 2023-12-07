@@ -66,61 +66,74 @@
                          
                         <!-- <th style="width:50px" pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th> -->
 
-                        <th pSortableColumn="fecha">
-                            <div style="width: auto; white-space: nowrap;">
-                                Fecha <p-sortIcon field="fecha"></p-sortIcon>
-                            </div>
-                        </th>
-                        <th pSortableColumn="hora_termino">
-                            <div style="width: auto; white-space: nowrap;">
-                                Hora término <p-sortIcon field="hora_termino"></p-sortIcon>
-                            </div>
-                        </th>
-                        <th pSortableColumn="centrality">
-                            <div style="width: auto; white-space: nowrap;">
-                                Centrality <p-sortIcon field="centrality"></p-sortIcon>
-                            </div>
-                        </th>
-                        <th pSortableColumn="maestro">
-                            <div style="width: auto; white-space: nowrap;">
-                                Maestro <p-sortIcon field="maestro"></p-sortIcon>
-                            </div>
-                        </th>
-                        <th pSortableColumn="ayudante">
-                            <div style="width: auto; white-space: nowrap;">
-                                Ayudante <p-sortIcon field="ayudante"></p-sortIcon>
-                            </div>
-                        </th>
-                        <th pSortableColumn="patente">
-                            <div style="width: auto; white-space: nowrap;">
-                                Patente <p-sortIcon field="patente"></p-sortIcon>
-                            </div>
-                        </th>
                         <th pSortableColumn="despachador">
                             <div style="width: auto; white-space: nowrap;">
                                 Despachador <p-sortIcon field="despachador"></p-sortIcon>
                             </div>
                         </th>
-                        <th pSortableColumn="comuna">
+
+                        <th pSortableColumn="centrality">
                             <div style="width: auto; white-space: nowrap;">
-                                Comuna <p-sortIcon field="comuna"></p-sortIcon>
+                                N° OT <p-sortIcon field="centrality"></p-sortIcon>
                             </div>
                         </th>
+
                         <th pSortableColumn="direccion">
                             <div style="width: auto; white-space: nowrap;">
                                 Dirección <p-sortIcon field="direccion"></p-sortIcon>
                             </div>
                         </th>
+
+                        <th pSortableColumn="comuna">
+                            <div style="width: auto; white-space: nowrap;">
+                                Comuna <p-sortIcon field="comuna"></p-sortIcon>
+                            </div>
+                        </th>
+                        
                         <th pSortableColumn="aviso">
                             <div style="width: auto; white-space: nowrap;">
-                                Aviso <p-sortIcon field="aviso"></p-sortIcon>
+                                Requerimiento <p-sortIcon field="aviso"></p-sortIcon>
                             </div>
                         </th>
+
+                        
                         <th pSortableColumn="descripcion">
                             <div style="width: auto; white-space: nowrap;">
-                                Descripción <p-sortIcon field="descripcion"></p-sortIcon>
+                                Evento <p-sortIcon field="descripcion"></p-sortIcon>
                             </div>
                         </th>
+
+                        <th pSortableColumn="maestro">
+                            <div style="width: auto; white-space: nowrap;">
+                                Maestro <p-sortIcon field="maestro"></p-sortIcon>
+                            </div>
+                        </th>
+
+                        <th pSortableColumn="ayudante">
+                            <div style="width: auto; white-space: nowrap;">
+                                Ayudante <p-sortIcon field="ayudante"></p-sortIcon>
+                            </div>
+                        </th>
+
+                        <th pSortableColumn="patente">
+                            <div style="width: auto; white-space: nowrap;">
+                                Patente <p-sortIcon field="patente"></p-sortIcon>
+                            </div>
+                        </th>
+
+                        <th pSortableColumn="fecha">
+                            <div style="width: auto; white-space: nowrap;">
+                                Fecha <p-sortIcon field="fecha"></p-sortIcon>
+                            </div>
+                        </th>
+
+
+                        <th pSortableColumn="hora_termino">
+                            <div style="width: auto; white-space: nowrap;">
+                                Hora término <p-sortIcon field="hora_termino"></p-sortIcon>
+                            </div>
+                        </th>
+                        
                         <th pSortableColumn="valor_cobrar">
                             <div style="width: auto; white-space: nowrap;">
                                 VALOR <p-sortIcon field="valor_cobrar"></p-sortIcon>
@@ -132,24 +145,43 @@
 
                 <ng-template pTemplate="body" let-estadoResultado>
                     <tr>
+
                         <!-- <td style="width:50px" >
                             <span class="p-column-title">id</span>
                             {{estadoResultado.id}}
                         </td> -->
-                        <td>
-                            <span class="p-column-title">fecha</span>
-                            {{estadoResultado.fecha}}
-                        </td>
 
                         <td>
-                            <span class="p-column-title">hora_termino</span>
-                            {{estadoResultado.hora_termino}}
+                            <span class="p-column-title">despachador</span>
+                            {{estadoResultado.despachador}}
                         </td>
-                        
+
                         <td>
                             <span class="p-column-title">centrality</span>
                             {{estadoResultado.centrality}}
                         </td>
+
+                        <td>
+                            <span class="p-column-title">direccion</span>
+                            {{estadoResultado.direccion}}
+                        </td>
+
+                        <td>
+                            <span class="p-column-title">comuna</span>
+                            {{estadoResultado.comuna}}
+                        </td>
+
+                        <td>
+                            <span class="p-column-title">aviso</span>
+                            {{estadoResultado.aviso}}
+                        </td>
+
+                        
+                        <td>
+                            <span class="p-column-title">descripcion</span>
+                            {{estadoResultado.descripcion}}
+                        </td>
+                        
 
                         <td>
                             <span class="p-column-title">maestro</span>
@@ -167,28 +199,14 @@
                         </td>
 
                         <td>
-                            <span class="p-column-title">despachador</span>
-                            {{estadoResultado.despachador}}
+                            <span class="p-column-title">fecha</span>
+                            {{estadoResultado.fecha}}
                         </td>
 
-                        <td>
-                            <span class="p-column-title">comuna</span>
-                            {{estadoResultado.comuna}}
-                        </td>
 
                         <td>
-                            <span class="p-column-title">direccion</span>
-                            {{estadoResultado.direccion}}
-                        </td>
-
-                        <td>
-                            <span class="p-column-title">aviso</span>
-                            {{estadoResultado.aviso}}
-                        </td>
-
-                        <td>
-                            <span class="p-column-title">descripcion</span>
-                            {{estadoResultado.descripcion}}
+                            <span class="p-column-title">hora_termino</span>
+                            {{estadoResultado.hora_termino}}
                         </td>
 
                         <td>
