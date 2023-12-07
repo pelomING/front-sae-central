@@ -238,8 +238,13 @@ export class EstadoResultadoService {
     }
 
 
-    RESUMEN(): Observable<any> {
-        return this.http.get<any>(`${this.baseUrl}/reporteresumen`).pipe(
+    RESUMEN(nuevaConsulta): Observable<any> {
+
+        const params = new HttpParams()
+        .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
+        .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
+
+        return this.http.get<any>(`${this.baseUrl}/reporteresumen`,{ params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
