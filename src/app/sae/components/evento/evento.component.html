@@ -183,7 +183,7 @@
 
 
 
-  <p-dialog header="Mapa" [style]="{ width: '655px', height: '655px' }" [(visible)]="display" (onHide)="hideDialog()">
+  <p-dialog header="Mapa" [style]="{ width: '655px', height: '655px' }" [(visible)]="display" (onHide)="hideDialog()" (onShow)="onDialogShow()">
     
     <div #map id="map" style="height: 100%;"></div>
 

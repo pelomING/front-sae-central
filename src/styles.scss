@@ -20,6 +20,8 @@ $gutter: 1rem; //for primeflex grid system
 @import "~leaflet/dist/leaflet.css";
 
 
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -54,3 +56,15 @@ $gutter: 1rem; //for primeflex grid system
     background: #554ea6;
     border: 1px solid #304562;
 } */
+
+
+
+  /* Estilos específicos para la impresión */
+  @media print {
+  
+
+
+      
+  
+  }
+

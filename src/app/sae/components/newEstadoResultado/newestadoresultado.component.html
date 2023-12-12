@@ -54,8 +54,21 @@
 
                 <ng-template pTemplate="right">
 
-                    <button [useExistingCss]="true" printSectionId="pdfContainer" ngxPrint pButton pRipple
-                        label="Generar PDF" icon="pi pi-search" class="p-button-help"></button>
+
+                    <!-- Importa la directiva ngxPrint en tu componente -->
+
+                    <!-- printTitle="Estado de Pago Servicio Atención Emergencias" -->
+
+                    <!-- <div ngxPrint [printStyleFile]="'assets/print-style.css'" > -->
+                    <!-- Contenido de la página que quieres imprimir -->
+                    <!-- <button pButton icon="pi pi-print"  printSectionId="pdfContainer" (click)="print()">Imprimir</button> -->
+                    <!-- </div> -->
+
+                    <button printTitle="Estado de Pago" styleSheetFile="assets/pdf.css" printSectionId="pdfContainer"
+                        ngxPrint pButton pRipple label="Generar PDF" icon="pi pi-file-pdf"
+                        class="p-button-help"></button>
+
+                    <!-- <button  (click)="print()"  pButton pRipple label="Generar PDF" icon="pi pi-search" class="p-button-help"></button> -->
 
                 </ng-template>
             </p-toolbar>
@@ -72,9 +85,31 @@
                     <div class="col">
                         <div class="box">
 
-                            <div id="pdfContainer" class="card text-xs font-normal">
+                            <!-- text-xs font-normal -->
 
-                                <h5 class="cajatitulo">PRELIMINAR ESTADO DE PAGO SERVICIO ATENCION EMERGENCIAS</h5>
+                            <div id="pdfContainer" class="card">
+
+                                <div class="grid grid1">
+                                    <div class="col col1 logo-col">
+                                        <img src="assets/layout/images/logo_pelom_new.png">
+                                    </div>
+                                    <div class="col col1 date-col">
+                                        {{ obtenerFechaActualConDiaYCiudad() }}
+                                    </div>
+                                </div>
+
+
+                                <div class="titu1">
+
+                                    <h5 style="text-align:center;color:black;">
+                                        PRELIMINAR ESTADO DE PAGO SERVICIO DE ATENCIÓN DE EMERGENCIAS
+                                    </h5>
+
+                                </div>
+
+
+                                <hr>
+                                <br>
 
                                 <!-- <div class="grid">
                                     <div class="col-fixed" style="width:50px">
@@ -119,7 +154,7 @@
                                                     <td style="text-align:left;padding-left:2%;">{{
                                                         item.localidad }}
                                                     </td>
-                                                    <td style="padding-right:2%;">                                                        
+                                                    <td style="padding-right:2%;">
                                                         {{ item.valor_cargo | currency:'CLP':'$':'1.0-0' | commaToDot }}
                                                     </td>
                                                 </tr>
@@ -139,7 +174,7 @@
 
 
                                 <div class="grid">
-                                    <div class="col-fixed" style="width:50px">
+                                    <div class="col-fixed" style="width:12%">
                                     </div>
                                     <div class="col">
 
@@ -154,15 +189,23 @@
 
                                                 <tr>
                                                     <th style="text-align:center;">BRIGADA</th>
-                                                    <th style="text-align:center;">TURNOS PRESENTADOS</th>
+                                                    <th style="text-align:center;">
+                                                        <div style="width: auto; white-space: nowrap;">
+                                                            TURNOS
+                                                        </div>
+                                                    </th>
                                                     <th style="text-align:center;">VALOR DÍA</th>
-                                                    <th style="text-align:center;">VALOR TOTAL BRIGADA MES</th>
+                                                    <th style="text-align:center;">VALOR TOTAL</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
 
                                                 <tr *ngFor="let item of PERMANENICACARGOFIJOSEMANALPORBRIGADA">
-                                                    <td style="text-align:left;padding-left:2%;">{{ item.brigada }}</td>
+                                                    <td style="text-align:left;padding-left:2%;">
+                                                        <div style="width: auto; white-space: nowrap;">
+                                                            {{ item.brigada }}
+                                                        </div>
+                                                    </td>
                                                     <td style="padding-right:2%;">{{ item.turnos }}</td>
                                                     <td style="padding-right:2%;">{{ item.valor_dia |
                                                         currency:'CLP':'$':'1.0-0' | commaToDot }}
@@ -187,7 +230,7 @@
                                         </table>
 
                                     </div>
-                                    <div class="col-fixed" style="width:5%">
+                                    <div class="col-fixed" style="width:12%">
                                     </div>
                                 </div>
 
@@ -222,7 +265,7 @@
 
 
                                 <div class="grid">
-                                    <div class="col-fixed" style="width:15%">
+                                    <div class="col-fixed" style="width:12%">
                                     </div>
                                     <div class="col">
 
@@ -271,13 +314,13 @@
                                         </table>
 
                                     </div>
-                                    <div class="col-fixed" style="width:15%">
+                                    <div class="col-fixed" style="width:12%">
                                     </div>
                                 </div>
 
 
                                 <div class="grid">
-                                    <div class="col-fixed" style="width:15%">
+                                    <div class="col-fixed" style="width:12%">
                                     </div>
                                     <div class="col">
 
@@ -326,13 +369,13 @@
                                         </table>
 
                                     </div>
-                                    <div class="col-fixed" style="width:15%">
+                                    <div class="col-fixed" style="width:12%">
                                     </div>
                                 </div>
 
 
                                 <div class="grid">
-                                    <div class="col-fixed" style="width:15%">
+                                    <div class="col-fixed" style="width:12%">
                                     </div>
                                     <div class="col">
 
@@ -381,13 +424,13 @@
                                         </table>
 
                                     </div>
-                                    <div class="col-fixed" style="width:15%">
+                                    <div class="col-fixed" style="width:12%">
                                     </div>
                                 </div>
 
 
                                 <div class="grid">
-                                    <div class="col-fixed" style="width:15%">
+                                    <div class="col-fixed" style="width:12%;">
                                     </div>
                                     <div class="col">
 
@@ -400,13 +443,29 @@
                                                 </tr>
                                                 <tr>
                                                     <th style="text-align:center;">TIPO DE EVENTO</th>
+
+                                                    <th style="text-align:center;">CANTIDAD </th>
+
+                                                    <th style="text-align:center;">VALOR UNIDAD</th>
+
                                                     <th style="text-align:center;">VALOR TOTAL</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
 
                                                 <tr *ngFor="let item of PRODUCCIONPxQ">
-                                                    <td style="text-align:left;padding-left:2%;">{{ item.tipo_evento }}
+                                                    <td class="text-xs" style="text-align:left;padding-left:2%;">
+                                                        {{ convertirAFormatoTitulo(item.tipo_evento) }}
+                                                    </td>
+                                                    <td style="padding-right:2%;">
+                                                        {{ item.cantidad }}
+                                                    </td>
+                                                    <td style="padding-right:2%;">
+                                                        {{
+                                                        (item.valor_unitario !== null ? item.valor_unitario : '0') |
+                                                        currency:'CLP':'$':'1.0-0' |
+                                                        commaToDot
+                                                        }}
                                                     </td>
                                                     <td style="padding-right:2%;">
                                                         {{
@@ -428,13 +487,13 @@
                                         </table>
 
                                     </div>
-                                    <div class="col-fixed" style="width:15%">
+                                    <div class="col-fixed" style="width:12%">
                                     </div>
                                 </div>
 
 
                                 <div class="grid">
-                                    <div class="col-fixed" style="width:15%">
+                                    <div class="col-fixed" style="width:12%;break-after: page;">
                                     </div>
                                     <div class="col">
 
@@ -476,13 +535,13 @@
                                         </table>
 
                                     </div>
-                                    <div class="col-fixed" style="width:15%">
+                                    <div class="col-fixed" style="width:12%">
                                     </div>
                                 </div>
 
 
                                 <div class="grid">
-                                    <div class="col-fixed" style="width:15%">
+                                    <div class="col-fixed" style="width:12%">
                                     </div>
                                     <div class="col">
 
@@ -524,12 +583,12 @@
                                         </table>
 
                                     </div>
-                                    <div class="col-fixed" style="width:15%">
+                                    <div class="col-fixed" style="width:12%">
                                     </div>
                                 </div>
 
 
-                                <div class="grid">
+                                <div class="grid content">
                                     <div class="col-fixed" style="width:25%">
                                     </div>
                                     <div class="col">
@@ -575,19 +634,14 @@
                                     </div>
                                 </div>
 
-                                <br>
 
-                                <div class="grid">
-                                    <div class="col-4"></div>
-                                    <div class="col-4">
-
-                                    </div>
-                                    <div class="col-4"></div>
-                                    <div class="col-4"></div>
-                                    <div class="col-4">
-                                        <hr> Nombre - R.U.N - Firma
-                                    </div>
-                                    <div class="col-4"></div>
+                                <!-- Al final del contenido del informe -->
+                                <div class="footer">
+                                    <hr>
+                                    <br>
+                                    <p>Nombre: _______________________</p>
+                                    <p>R.U.N: _______________________</p>
+                                    <p>Firma: _______________________</p>
                                 </div>
 
                             </div>
@@ -637,7 +691,7 @@
 
                     <span class="p-float-label">
                         <p-calendar id="fecha_inicial" formControlName="fecha_inicial" class="form-control"
-                            [showIcon]="true" dateFormat="mm-dd-yy" [readonlyInput]="true" ></p-calendar>
+                            [showIcon]="true" dateFormat="yy-mm-dd" [readonlyInput]="true"></p-calendar>
                         <label htmlFor="fecha_inicial">Fecha Inicial</label>
                     </span>
 
@@ -646,7 +700,7 @@
 
                     <span class="p-float-label">
                         <p-calendar id="fecha_final" formControlName="fecha_final" class="form-control"
-                            [showIcon]="true" dateFormat="mm-dd-yy" [readonlyInput]="true" ></p-calendar>
+                            [showIcon]="true" dateFormat="yy-mm-dd" [readonlyInput]="true"></p-calendar>
                         <label htmlFor="fecha_final">Fecha Final</label>
                     </span>
 
@@ -657,9 +711,9 @@
                 <div class="col-6">
 
                     <span class="p-float-label">
-                        <p-calendar id="periodo" formControlName="periodo" [showIcon]="true" view="month" dateFormat="MM-yy" [readonlyInput]="true"
-                            [monthNavigator]="true" [monthFormat]="longMonth" [yearNavigator]="true" yearRange="2023:2100"
-                            ></p-calendar>
+                        <p-calendar id="periodo" formControlName="periodo" [showIcon]="true" view="month"
+                            dateFormat="MM-yy" [readonlyInput]="true" [monthNavigator]="true" [monthFormat]="longMonth"
+                            [yearNavigator]="true" yearRange="2023:2100"></p-calendar>
                         <label htmlFor="periodo">Periodo</label>
                     </span>
 
@@ -667,8 +721,8 @@
                 <div class="col-6">
 
                     <span class="p-float-label">
-                        <p-dropdown formControlName="zonal" id="zonal" class="form-control"
-                            [options]="this.zonas" optionLabel="name" placeholder="Seleccionar"></p-dropdown>
+                        <p-dropdown formControlName="zonal" id="zonal" class="form-control" [options]="this.zonas"
+                            optionLabel="name" placeholder="Seleccionar"></p-dropdown>
                         <label htmlFor="zonal">Zonal</label>
                     </span>
 
@@ -720,7 +774,7 @@
             <div class="grid" style="margin-top:1%;">
                 <div class="col">
 
-                <!-- <span class="p-float-label">
+                    <!-- <span class="p-float-label">
                     <textarea rows="3" cols="30" pInputTextarea formControlName="comentario"></textarea>
                     <label htmlFor="comentario">Comentario</label>
                 </span> -->
