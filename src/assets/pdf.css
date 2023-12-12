@@ -1,0 +1,91 @@
+body {
+    font-family: "Times New Roman", serif;
+    color: #000;
+}
+
+
+table {
+    font-family: "Times New Roman", serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,
+th {
+    border: 1px solid #dddddd;
+    border: 1px solid var(--surface-border);
+    text-align: right;
+    padding: 0px;
+    width: 100px;
+}
+
+
+.grid1 {
+    display: flex;
+}
+
+.col1 {
+    flex: 1;
+    /* border-color: #000;
+    border-style: solid;
+    border-width: 1px; */
+}
+
+.col1 {
+    flex: 1;
+    margin: 0 10px;
+    text-align: left;
+    /* Alinea el texto a la izquierda */
+}
+
+
+.logo-col {
+    /* flex-basis: 80px; */
+    /* Ancho fijo para la columna del logo */
+    align-items: left;
+}
+
+.logo-col img {
+    width: 180px;
+    height: 30px;
+}
+
+.title-col {
+    color: black;
+}
+
+.date-col {
+    font-size: 14px;
+    text-align: right;
+    /* Alinea el texto a la derecha */
+}
+
+
+#pdfContainer {
+    /* position: relative;
+    overflow: auto; /* Permite el desplazamiento si el contenido es demasiado grande */
+    padding-bottom: 40px;
+    margin-bottom: 40px;
+}
+
+.footer {
+    /* position: absolute; */
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    height: 40px;
+    margin-top: 20px;
+}
+
+.footer hr {
+    margin: 5px 0;
+}
+
+.footer p {
+    margin: 5px 0;
+}
+
+.content {
+    margin-bottom: 40px;
+    /* Ajusta el valor según el espacio que desees entre el contenido y el pie de página */
+}

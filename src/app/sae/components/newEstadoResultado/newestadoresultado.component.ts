@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Product } from '../../model/product.model';
@@ -8,6 +8,7 @@ import { EstadoResultadoService } from 'src/app/sae/services/estadoResultado.ser
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { TranslateService } from '@ngx-translate/core';
+import { NgxPrintService } from 'ngx-print';
 
 
 interface City {
@@ -76,6 +77,10 @@ interface CierrePeriodoInterface {
 })
 
 export class NewEstadoResultadoComponent implements OnInit {
+
+
+  @ViewChild('pdfContainer') pdfContainer!: ElementRef;
+
 
   loading: boolean = false;
 
@@ -146,6 +151,7 @@ export class NewEstadoResultadoComponent implements OnInit {
 
   CerrarPeriodoForm: FormGroup;
 
+  
 
 
   //private config: PrimeNGConfig,
@@ -153,8 +159,10 @@ export class NewEstadoResultadoComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
     private estadoResultadoService: EstadoResultadoService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private printService: NgxPrintService
   ) {
 
     this.formularioPeriodoForm = this.fb.group({
@@ -176,6 +184,63 @@ export class NewEstadoResultadoComponent implements OnInit {
 
   }
 
+
+  nombreLocalidadCiudad = 'Santiago de Chile'; 
+
+  opcionesFecha: Intl.DateTimeFormatOptions = {
+    weekday: 'long', // Nombre del día de la semana
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+
+
+  obtenerFechaActualConDiaYCiudad(): string {
+    const fecha = new Date();
+
+    this.opcionesFecha = {
+      weekday: 'long', // Nombre del día de la semana
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+    const fechaFormateada = fecha.toLocaleDateString(undefined, this.opcionesFecha);
+
+    return `${fechaFormateada} - ${this.nombreLocalidadCiudad}`;
+  }
+
+
+  convertirAFormatoTitulo(oracion: string): string {
+    // Divide la oración en palabras
+    const palabras = oracion.split(' ');
+
+    // Convierte cada palabra a formato de título (mayúscula inicial, minúsculas restantes)
+    const formatoTitulo = palabras.map(word =>
+      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    );
+
+    // Une las palabras en una cadena
+    return formatoTitulo.join(' ');
+  }
+
+
+
+  // ngAfterViewInit() {
+  //   // Asegúrate de que la vista se haya inicializado antes de llamar al servicio de impresión
+  //   this.printService.print(this.pdfContainer.nativeElement);
+  // }
+
+  // print() {
+  //   this.printService.print(this.pdfContainer.nativeElement);
+  // }
+ 
+
+  print() {
+    // Llama a la función de impresión del servicio ngxPrint
+    //this.printService.print();
+  }
+  
+ 
 
   //   translate(lang: string) {
   //     this.translateService.use(lang);
@@ -307,6 +372,8 @@ export class NewEstadoResultadoComponent implements OnInit {
 
   async ConsultarEstadoResultado() {
 
+    this.cdr.detectChanges();
+
     this.submitted = true;
 
     console.log("Agregar Reporte Estado");
@@ -436,6 +503,9 @@ export class NewEstadoResultadoComponent implements OnInit {
 
   CrearEstadoResultado(formularioPeriodoForm) {
 
+    this.cdr.detectChanges();
+
+
     console.log("FORMULARIO:", formularioPeriodoForm.value)
 
     const today = new Date();
@@ -470,6 +540,9 @@ export class NewEstadoResultadoComponent implements OnInit {
 
 
   onGuardarClick() {
+
+    this.cdr.detectChanges();
+
 
     this.loading = true;
 
@@ -542,6 +615,9 @@ export class NewEstadoResultadoComponent implements OnInit {
 
 
   ConfirmoCerrarPeriodo() {
+
+    this.cdr.detectChanges();
+
 
     this.loading = true;
 

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
@@ -11,14 +11,16 @@ import { ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 
 import * as L from 'leaflet';
 
+import { PrimeIcons } from 'primeng/api';
+
 
 //import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-// import * as XLSX from 'sheetjs-style'; 
+// import * as XLSX from 'sheetjs-style';
 import * as XLSX from 'xlsx-js-style';
 
 
-//conecta a desarrollo 
+//conecta a desarrollo
 
 
 @Component({
@@ -28,9 +30,17 @@ import * as XLSX from 'xlsx-js-style';
 })
 
 
-export class EventoComponent implements OnInit,AfterViewInit {
+export class EventoComponent implements OnInit, AfterViewInit {
 
   @ViewChild('map') mapContainer!: ElementRef;
+
+
+
+  iconConfig = {
+    icon: PrimeIcons.MAP_MARKER,
+    markerColor: 'green',
+    size: '2.5rem'
+  };
 
 
   display = false;
@@ -46,7 +56,7 @@ export class EventoComponent implements OnInit,AfterViewInit {
   mostrarActualizar: boolean = true;
 
   formObraDialog: boolean;
-  
+
 
   EventosForm: FormGroup;
 
@@ -69,11 +79,11 @@ export class EventoComponent implements OnInit,AfterViewInit {
   ngAfterViewInit(): void {
 
     this.cdr.detectChanges();
-    
+
     console.log(this.mapContainer?.nativeElement);
 
-     // Espera a que se cargue completamente Leaflet antes de inicializar el mapa
-     setTimeout(() => {
+    // Espera a que se cargue completamente Leaflet antes de inicializar el mapa
+    setTimeout(() => {
       // Inicializa el mapa cuando se carga la vista
       this.initializeMap();
     });
@@ -81,27 +91,91 @@ export class EventoComponent implements OnInit,AfterViewInit {
   }
 
 
+  onDialogShow() {
+    // Asegúrate de que el mapa se ajuste al tamaño correcto después de que se muestre el diálogo
+    setTimeout(() => {
+      this.map.invalidateSize();
+    }, 0);
+  }
+
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    // Ajustar el tamaño del mapa cuando cambie el tamaño de la ventana
+    this.map.invalidateSize();
+  }
+
+
 
   initializeMap() {
+
+    this.cdr.detectChanges();
 
     console.log('Contenedor del mapa:', this.mapContainer?.nativeElement);
 
     if (!this.mapContainer) {
       return;
     }
-    
+
+
+    // Antes de crear un nuevo mapa, destruye el mapa existente si existe
+    if (this.map) {
+      this.map.remove();
+    }
+
+
     // Inicializa el mapa (puedes ajustar esto según tus necesidades)
     this.map = L.map(this.mapContainer.nativeElement, {
       center: [this.lat, this.lng],
       zoom: 13
     });
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
+    const key = 'v4IS8KH4bX8ed9q1WXii';
+
+    //'https://api.maptiler.com/maps/satellite/style.json?key=v4IS8KH4bX8ed9q1WXii'
+
+    L.tileLayer(`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${key}`, {
+      tileSize: 512,
+      zoomOffset: -1,
+      minZoom: 1,
+      attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
+      crossOrigin: true
     }).addTo(this.map);
 
-    L.marker([this.lat, this.lng]).addTo(this.map)
-      .bindPopup('Hola, este es un marcador de ejemplo.');
+    // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //   attribution: '© OpenStreetMap contributors'
+    // }).addTo(this.map);
+
+    // L.marker([this.lat, this.lng]).addTo(this.map)
+    // .bindPopup('Hola, este es un marcador de ejemplo.');
+
+    // Añade marcador en Santiago
+    // L.marker([this.lat, this.lng]).addTo(this.map)
+    // .bindPopup('Santiago, Chile')
+    // .openPopup();
+
+    // Crea un icono personalizado para el marcador
+    //const customIcon = L.divIcon({ className: 'custom-marker', html: 'Santiago, Chile' });
+
+    // Añade el marcador con el icono personalizado al mapa
+    //L.marker([this.lat, this.lng], { icon: customIcon }).addTo(this.map);
+
+    //L.marker([this.lat, this.lng]).addTo(this.map);
+
+    // const customIcon = L.divIcon({
+    //   className: 'custom-marker',
+    //   html: '<i class="fa-solid fa-location-dot"></i>',
+    // });
+
+    // Crea un icono de Leaflet utilizando el icono de PrimeNG
+    const customIcon = L.divIcon({
+      className: 'custom-marker',
+      html: `<i class="pi ${this.iconConfig.icon}" style="color: ${this.iconConfig.markerColor}; font-size: ${this.iconConfig.size};"></i>`
+    });
+
+    // Añade el marcador al mapa con el icono personalizado
+    L.marker([this.lat, this.lng], { icon: customIcon }).addTo(this.map);
+
 
   }
 
@@ -152,15 +226,14 @@ export class EventoComponent implements OnInit,AfterViewInit {
   lng: number = -70.6347008;
 
 
-  showDialog(evento : Eventos) {
+  showDialog(evento: Eventos) {
 
     console.log("show", evento);
 
     this.lat = parseFloat(evento.coordenadas.latitude);
     this.lng = parseFloat(evento.coordenadas.longitude);
 
-    console.log("lat", this.lat);
-    console.log("lng", this.lng);
+    this.initializeMap();
 
     this.display = true;
 
@@ -174,7 +247,7 @@ export class EventoComponent implements OnInit,AfterViewInit {
   eventoDialog = false;
   OT = null;
 
-  editEvento(evento : Eventos) {
+  editEvento(evento: Eventos) {
 
     console.log("edit", evento);
 
@@ -210,21 +283,20 @@ export class EventoComponent implements OnInit,AfterViewInit {
 
 
 
-  filtrarFecha(fechaString: string) 
-  {
+  filtrarFecha(fechaString: string) {
 
     // Formatea la fecha en el formato deseado
     // 2023-12-01 17:21:00
     let arrayFechaHora = fechaString.split(" ");
-    
+
     let arrayFecha = arrayFechaHora[0].split("-");
-    
+
     let arrayHora = arrayFechaHora[1].split(":");
-      
+
     return `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]} ${arrayHora[0]}:${arrayHora[1]}:${arrayHora[2]}`;
 
   }
-  
+
 
   loading: boolean = false;
 
@@ -311,7 +383,7 @@ export class EventoComponent implements OnInit,AfterViewInit {
     console.log("fechaFormateada", fechaFormateada);
 
     return fechaFormateada;
-  
+
   }
 
 
@@ -327,11 +399,11 @@ export class EventoComponent implements OnInit,AfterViewInit {
 
     if (this.EventosForm.valid) {
 
-       const ObjetUpdated = this.EventosForm.value; // Obtén los datos del formulario
+      const ObjetUpdated = this.EventosForm.value; // Obtén los datos del formulario
 
-       console.log("ObjetUpdated", ObjetUpdated);
+      console.log("ObjetUpdated", ObjetUpdated);
 
-       let ObjetUpdatedCopia = { ...ObjetUpdated };
+      let ObjetUpdatedCopia = { ...ObjetUpdated };
 
       if (typeof ObjetUpdatedCopia.fecha_hora === 'string') {
 
@@ -346,7 +418,7 @@ export class EventoComponent implements OnInit,AfterViewInit {
 
         // Formatea la fecha en el formato deseado
         ObjetUpdatedCopia.fecha_hora = `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]} ${arrayHora[0]}:${arrayHora[1]}`;
-        
+
         // Puedes realizar operaciones específicas para cadenas de texto si es necesario
       } else if (ObjetUpdatedCopia.fecha_hora instanceof Date) {
 
@@ -356,7 +428,7 @@ export class EventoComponent implements OnInit,AfterViewInit {
 
       }
 
-       console.log("ObjetUpdatedCopia", ObjetUpdatedCopia);
+      console.log("ObjetUpdatedCopia", ObjetUpdatedCopia);
 
       // Luego, puedes enviar los datos actualizados al servidor, por ejemplo, utilizando un servicio:
       this.eventoService.updateEvento(ObjetUpdatedCopia).subscribe(
@@ -378,7 +450,7 @@ export class EventoComponent implements OnInit,AfterViewInit {
           });
         }
       );
-     
+
     }
 
   }
@@ -404,17 +476,17 @@ export class EventoComponent implements OnInit,AfterViewInit {
         { v: "maestro", t: 's', s: this.headerStyle },
         { v: "ayudante", t: 's', s: this.headerStyle },
         { v: "brigada", t: 's', s: this.headerStyle },
-        
+
         { v: "tipo_turno", t: 's', s: this.headerStyle },
         { v: "tipo_evento", t: 's', s: this.headerStyle },
-        
+
         { v: "fecha_hora", t: 's', s: this.headerStyle },
         { v: "hora_inicio", t: 's', s: this.headerStyle },
         { v: "hora_termino", t: 's', s: this.headerStyle },
-        
+
         { v: "coordenadas.latitude", t: 's', s: this.headerStyle },
         { v: "coordenadas.longitude", t: 's', s: this.headerStyle },
-        
+
       ],
       // Datos
       ...this.eventos.map(item => [
@@ -425,13 +497,13 @@ export class EventoComponent implements OnInit,AfterViewInit {
         item.direccion,
         item.comuna,
         item.requerimiento,
-        
+
         item.nombre_maestro,
         item.nombre_ayudante,
         item.brigada,
         item.tipo_turno,
         item.tipo_evento,
-                
+
         item.fecha_hora,
         item.hora_inicio,
         item.hora_termino,
