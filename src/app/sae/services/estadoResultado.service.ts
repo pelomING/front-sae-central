@@ -253,18 +253,18 @@ export class EstadoResultadoService {
 
     /*CONSUTAS HISTORICAS de ESTADO DE PAGO*/
 
+
     PERMANENICACARGOFIJOSEMANALPORBRIGADA_HISTORIAL(id_estado_pago:string): Observable<any> {
 
         const params = new HttpParams()
         .set('id_estado_pago', id_estado_pago.toString());
 
-        return this.http.get<any>(`${this.baseUrl}/permanencia_por_brigada`,{ params }).pipe(
+        return this.http.get<any>(`${this.baseUrl}/permanencia_por_brigada_historial`,{ params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
 
 
-    ///api/reportes/v1/findobservacioneshistorial
     OBSERVACIONES_HISTORIAL(id_estado_pago:string): Observable<any[]> {
 
         const params = new HttpParams()
@@ -282,7 +282,7 @@ export class EstadoResultadoService {
         const params = new HttpParams()
         .set('id_estado_pago', id_estado_pago.toString());      
 
-        return this.http.get<any>(`${this.baseUrl}/horasextras`,{ params }).pipe(
+        return this.http.get<any>(`${this.baseUrl}/horasextrafindHorasExtrasHistorial`,{ params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -293,7 +293,7 @@ export class EstadoResultadoService {
         const params = new HttpParams()
         .set('id_estado_pago', id_estado_pago.toString());
         
-        return this.http.get<any>(`${this.baseUrl}/turnosadicionales`,{ params }).pipe(
+        return this.http.get<any>(`${this.baseUrl}/turnosadicionaleshistorial`,{ params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -304,7 +304,7 @@ export class EstadoResultadoService {
         const params = new HttpParams()
         .set('id_estado_pago', id_estado_pago.toString());
         
-        return this.http.get<any>(`${this.baseUrl}/turnoscontingencia`,{ params }).pipe(
+        return this.http.get<any>(`${this.baseUrl}/turnoscontingenciahistorial`,{ params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -315,7 +315,7 @@ export class EstadoResultadoService {
         const params = new HttpParams()
         .set('id_estado_pago', id_estado_pago.toString());
         
-        return this.http.get<any>(`${this.baseUrl}/produccionpxq`,{ params }).pipe(
+        return this.http.get<any>(`${this.baseUrl}/produccionpxqhistorial`,{ params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -326,7 +326,7 @@ export class EstadoResultadoService {
         const params = new HttpParams()
         .set('id_estado_pago', id_estado_pago.toString());
         
-        return this.http.get<any>(`${this.baseUrl}/reportecobroadicional`,{ params }).pipe(
+        return this.http.get<any>(`${this.baseUrl}/reportecobroadicionalhistorial`,{ params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -337,7 +337,7 @@ export class EstadoResultadoService {
         const params = new HttpParams()
         .set('id_estado_pago', id_estado_pago.toString());
         
-        return this.http.get<any>(`${this.baseUrl}/reportedescuentos`,{ params }).pipe(
+        return this.http.get<any>(`${this.baseUrl}/reportedescuentoshistorial`,{ params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -348,11 +348,10 @@ export class EstadoResultadoService {
         const params = new HttpParams()
         .set('id_estado_pago', id_estado_pago.toString());
         
-        return this.http.get<any>(`${this.baseUrl}/reporteresumen`,{ params }).pipe(
+        return this.http.get<any>(`${this.baseUrl}/reporteresumenhistorial`,{ params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
-
 
 
     /*====================================================*/

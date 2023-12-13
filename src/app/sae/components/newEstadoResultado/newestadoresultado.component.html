@@ -63,9 +63,18 @@
                     <!-- <button pButton icon="pi pi-print"  printSectionId="pdfContainer" (click)="print()">Imprimir</button> -->
                     <!-- </div> -->
 
-                    <button printTitle="Estado de Pago" styleSheetFile="assets/pdf.css" printSectionId="pdfContainer"
-                        ngxPrint pButton pRipple label="Generar PDF" icon="pi pi-file-pdf"
-                        class="p-button-help"></button>
+                    
+
+                    <button 
+                        download="PRELIMINAR_ESTADO_DE_PAGO_SERVICIO_DE_ATENCIÓN_DE_EMERGENCIAS.pdf"  
+                        printTitle="Estado de Pago" 
+                        styleSheetFile="assets/pdf.css" 
+                        printSectionId="pdfContainer"
+                        ngxPrint pButton pRipple 
+                        label="Generar PDF" 
+                        icon="pi pi-file-pdf"
+                        class="p-button-help">
+                    </button>
 
                     <!-- <button  (click)="print()"  pButton pRipple label="Generar PDF" icon="pi pi-search" class="p-button-help"></button> -->
 
