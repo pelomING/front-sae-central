@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EstadoResultadoComponent } from './estadoresultado.component';
 import { EstadoResultadoRoutingModule } from './estadoresultado-routing.module';
+import { NgxPrintModule } from 'ngx-print';
 
 import { TableModule } from 'primeng/table';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -24,12 +25,17 @@ import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { CalendarModule } from 'primeng/calendar';
 
+import { CommaToDotPipe } from './comma-to-dot.pipe';
+import { PrimeNGModule } from 'src/app/_primeng/primeng.module';
 
 
 @NgModule({
 	imports: [
 		CommonModule,
 		EstadoResultadoRoutingModule,
+		PrimeNGModule,
+		NgxPrintModule,
+		
 		FormsModule,
 		TableModule,
 		RatingModule,
@@ -51,6 +57,6 @@ import { CalendarModule } from 'primeng/calendar';
         MessagesModule,
 		CalendarModule
 	],
-	declarations: [EstadoResultadoComponent]
+	declarations: [EstadoResultadoComponent,CommaToDotPipe]
 })
 export class EstadoResultadoModule { }
