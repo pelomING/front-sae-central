@@ -721,7 +721,7 @@ export class EstadoResultadoComponent implements OnInit {
 
 
 
-  nombreLocalidadCiudad = 'Santiago de Chile';
+  nombreLocalidadCiudad = 'Santiago';
 
   opcionesFecha: Intl.DateTimeFormatOptions = {
     weekday: 'long', // Nombre del día de la semana
@@ -732,6 +732,7 @@ export class EstadoResultadoComponent implements OnInit {
 
 
   obtenerFechaActualConDiaYCiudad(): string {
+    
     const fecha = new Date();
 
     this.opcionesFecha = {
@@ -742,7 +743,8 @@ export class EstadoResultadoComponent implements OnInit {
     };
     const fechaFormateada = fecha.toLocaleDateString(undefined, this.opcionesFecha);
 
-    return `${fechaFormateada} - ${this.nombreLocalidadCiudad}`;
+    return `${this.nombreLocalidadCiudad}, ${fechaFormateada}`;
+
   }
 
 
