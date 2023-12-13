@@ -54,7 +54,6 @@
 
                 <ng-template pTemplate="right">
 
-
                     <!-- Importa la directiva ngxPrint en tu componente -->
 
                     <!-- printTitle="Estado de Pago Servicio Atención Emergencias" -->
@@ -437,11 +436,13 @@
                                         <table border="1">
                                             <thead>
                                                 <tr>
-                                                    <th style="text-align: center;" colspan="4">
+                                                    <th style="text-align: center;" colspan="5">
                                                         PRODUCCIÓN PxQ
                                                     </th>
                                                 </tr>
                                                 <tr>
+                                                    <th style="text-align:center;">BRIGADA</th>
+
                                                     <th style="text-align:center;">TIPO DE EVENTO</th>
 
                                                     <th style="text-align:center;">CANTIDAD </th>
@@ -454,12 +455,17 @@
                                             <tbody>
 
                                                 <tr *ngFor="let item of PRODUCCIONPxQ">
+                                                    
+                                                    <td style="text-align:left;padding-left:2%;">{{ item.zonal }}</td>
+
                                                     <td class="text-xs" style="text-align:left;padding-left:2%;">
                                                         {{ convertirAFormatoTitulo(item.tipo_evento) }}
                                                     </td>
+
                                                     <td style="padding-right:2%;">
                                                         {{ item.cantidad }}
                                                     </td>
+
                                                     <td style="padding-right:2%;">
                                                         {{
                                                         (item.valor_unitario !== null ? item.valor_unitario : '0') |
@@ -467,6 +473,7 @@
                                                         commaToDot
                                                         }}
                                                     </td>
+
                                                     <td style="padding-right:2%;">
                                                         {{
                                                         (item.valor_total !== null ? item.valor_total : '0') |
@@ -474,6 +481,7 @@
                                                         commaToDot
                                                         }}
                                                     </td>
+
                                                 </tr>
 
                                             </tbody>

@@ -139,6 +139,11 @@ export class EstadoResultadoComponent implements OnInit {
   options: any;
 
 
+
+  display = false;
+
+
+
   constructor(private estadoResultadoService: EstadoResultadoService, private messageService: MessageService) { }
 
   ngOnInit() {
@@ -270,6 +275,127 @@ export class EstadoResultadoComponent implements OnInit {
 
 
 
+  onDialogShow() {
+
+    console.log("onDialogShow");
+
+
+    /*Consultas a Historico de Estado de Pago*/
+
+    this.estadoResultadoService.CARGOFIJOSEMANALPORBRIGADA().subscribe({
+      next: (data) => {
+        console.log("DATOS CARGOFIJOSEMANALPORBRIGADA", data);
+        this.CARGOFIJOSEMANALPORBRIGADA = data;
+      }, error: (e) => console.error(e)
+    });
+
+
+
+    this.estadoResultadoService.PERMANENICACARGOFIJOSEMANALPORBRIGADA_HISTORIAL(this.estadoResultado.id).subscribe({
+      next: (data) => {
+        console.log("DATOS PERMANENICACARGOFIJOSEMANALPORBRIGADA", data);
+        this.PERMANENICACARGOFIJOSEMANALPORBRIGADA = data;
+      }, error: (e) => console.error(e)
+    });
+
+
+
+    this.estadoResultadoService.OBSERVACIONES_HISTORIAL(this.estadoResultado.id).subscribe({
+      next: (data) => {
+        console.log("DATOS OBSERVACIONES", data);
+        this.OBSERVACIONES = data;
+      }, error: (e) => console.error(e)
+    });
+
+
+
+    this.estadoResultadoService.HORASEXTRAS_HISTORIAL(this.estadoResultado.id).subscribe({
+      next: (data) => {
+        console.log("DATOS HORASEXTRAS", data);
+        this.HORASEXTRAS = data;
+      }, error: (e) => console.error(e)
+    });
+
+
+    this.estadoResultadoService.TURNOSADICIONALES_HISTORIAL(this.estadoResultado.id).subscribe({
+      next: (data) => {
+        console.log("DATOS TURNOSADICIONALES", data);
+        this.TURNOSADICIONALES = data;
+      }, error: (e) => console.error(e)
+    });
+
+
+    this.estadoResultadoService.TURNOSCONTINGENCIA_HISTORIAL(this.estadoResultado.id).subscribe({
+      next: (data) => {
+        console.log("DATOS TURNOSCONTINGENCIA", data);
+        this.TURNOSCONTINGENCIA = data;
+      }, error: (e) => console.error(e)
+    });
+
+
+    this.estadoResultadoService.PRODUCCIONPxQ_HISTORIAL(this.estadoResultado.id).subscribe({
+      next: (data) => {
+        console.log("DATOS PRODUCCIÓNPxQ", data);
+        this.PRODUCCIONPxQ = data;
+      }, error: (e) => console.error(e)
+    });
+
+
+
+    this.estadoResultadoService.COBROSADICIONALES_HISTORIAL(this.estadoResultado.id).subscribe({
+      next: (data) => {
+        console.log("DATOS COBROSADICIONALES", data);
+        this.COBROSADICIONALES = data;
+      }, error: (e) => console.error(e)
+    });
+
+
+    this.estadoResultadoService.DESCUENTOS_HISTORIAL(this.estadoResultado.id).subscribe({
+      next: (data) => {
+        console.log("DATOS DESCUENTOS", data);
+        this.DESCUENTOS = data;
+      }, error: (e) => console.error(e)
+    });
+
+
+    this.estadoResultadoService.RESUMEN_HISTORIAL(this.estadoResultado.id).subscribe({
+      next: (data) => {
+        console.log("DATOS RESUMEN", data);
+        this.RESUMEN = data;
+      }, error: (e) => console.error(e)
+    });
+
+
+    /*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+
+
+  }
+
+
+
+  CARGOFIJOSEMANALPORBRIGADA: any[] = [];
+  PERMANENICACARGOFIJOSEMANALPORBRIGADA: any[] = [];
+  OBSERVACIONES: any[] = [];
+  HORASEXTRAS: any[] = [];
+  TURNOSADICIONALES: any[] = [];
+  TURNOSCONTINGENCIA: any[] = [];
+  PRODUCCIONPxQ: any[] = [];
+  COBROSADICIONALES: any[] = [];
+  DESCUENTOS: any[] = [];
+  RESUMEN: any[] = [];
+
+
+  showDialog(estadoResultado: EstadoResultado) {
+
+    this.estadoResultado = estadoResultado;
+
+    console.log("this.estadoResultado", this.estadoResultado);
+
+    this.display = true;
+
+  }
+
+
   ListDetallepxq: Detallepxq[] = [];
 
   async ejecutarConsultaDetallepxqhistorial(idPaquete: number, id_estado_pago: number) {
@@ -308,12 +434,12 @@ export class EstadoResultadoComponent implements OnInit {
 
       XLSX.utils.sheet_add_aoa(ws, [['ESTADO DE PAGO SAE - PROYECTO INTEGRAL MAULE NORTE']], { origin: 'B2' });
 
-      
+
       XLSX.utils.sheet_add_aoa(ws, [['FECHA E.D.P: 03-11-2023']], { origin: 'H5' });
 
       XLSX.utils.sheet_add_aoa(ws, [['No ESTADO DE PAGO: Z1-Z3-SAE-001-10/23']], { origin: 'H6' });
 
-      
+
       XLSX.utils.sheet_add_aoa(ws, [['ZONA CONTRATO PELOM:Zona 1-3 / Curicó - Hualañe']], { origin: 'B11' });
 
       XLSX.utils.sheet_add_aoa(ws, [['COORDINADOR SUPERVISOR PELOM:	Omar Hinojosa Carreño']], { origin: 'B12' });
@@ -592,6 +718,47 @@ export class EstadoResultadoComponent implements OnInit {
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
+
+
+
+  nombreLocalidadCiudad = 'Santiago de Chile';
+
+  opcionesFecha: Intl.DateTimeFormatOptions = {
+    weekday: 'long', // Nombre del día de la semana
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+
+
+  obtenerFechaActualConDiaYCiudad(): string {
+    const fecha = new Date();
+
+    this.opcionesFecha = {
+      weekday: 'long', // Nombre del día de la semana
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+    const fechaFormateada = fecha.toLocaleDateString(undefined, this.opcionesFecha);
+
+    return `${fechaFormateada} - ${this.nombreLocalidadCiudad}`;
+  }
+
+
+  convertirAFormatoTitulo(oracion: string): string {
+    // Divide la oración en palabras
+    const palabras = oracion.split(' ');
+
+    // Convierte cada palabra a formato de título (mayúscula inicial, minúsculas restantes)
+    const formatoTitulo = palabras.map(word =>
+      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    );
+
+    // Une las palabras en una cadena
+    return formatoTitulo.join(' ');
+  }
+
 
 
 }

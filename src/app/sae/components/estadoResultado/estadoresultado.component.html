@@ -90,7 +90,8 @@
                                 turnos_comprometidos <p-sortIcon field="turnos_comprometidos"></p-sortIcon>
                             </div>
                         </th>
-                        <th>#</th>
+                        <th>PDF</th>
+                        <th>XLSX</th>
                     </tr>
                 </ng-template>
 
@@ -145,9 +146,16 @@
                             {{estadoResultado.encabezado.turnos_comprometidos}}
                         </td>
 
+
+                        <td>
+                            <button pButton pRipple icon="pi pi-file-pdf" class="p-button-rounded p-button-info mr-2"
+                                (click)="showDialog(estadoResultado)"></button>
+                        </td>
+
                         <td>
 
-                            <button pButton pRipple icon="pi pi-database" class="p-button-rounded p-button-warning" (click)="descargaReporteEstadodePago(estadoResultado)" ></button>
+                            <button pButton pRipple icon="pi pi-database" class="p-button-rounded p-button-warning"
+                                (click)="descargaReporteEstadodePago(estadoResultado)"></button>
 
                         </td>
 
@@ -157,7 +165,7 @@
             </p-table>
         </div>
 
-        <p-dialog id="myDialog" [(visible)]="productDialog" [style]="{width: '550px' }"
+        <!-- <p-dialog id="myDialog" [(visible)]="productDialog" [style]="{width: '550px' }"
             [contentStyle]="{ height: '550px' }" header="Consultar Estado de Pago" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
 
@@ -231,6 +239,625 @@
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
                     (click)="confirmDeleteSelected()"></button>
             </ng-template>
-        </p-dialog>
+        </p-dialog> -->
+
+
     </div>
 </div>
+
+
+<p-dialog header="Estado de Pago" [style]="{ width: '90%', height: '90%' }" [(visible)]="display"
+    (onHide)="hideDialog()" (onShow)="onDialogShow()">
+
+        <p-toolbar styleClass="mb-4">
+            <ng-template pTemplate="left">
+            </ng-template>
+            <ng-template pTemplate="right">
+                <button printTitle="Estado de Pago" styleSheetFile="assets/pdf.css" printSectionId="pdfContainer"
+                    ngxPrint pButton pRipple label="Generar PDF" icon="pi pi-file-pdf" class="p-button-help"></button>
+            </ng-template>
+        </p-toolbar>
+
+
+    <ng-template pTemplate="content">
+
+        <div class="card">
+            <div class="grid">
+
+                <div class="col-fixed" style="width:10%">
+                    <div class="box">
+
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="box">
+
+                        <!-- text-xs font-normal -->
+
+                        <div id="pdfContainer" class="card">
+
+                            <div class="grid grid1">
+                                <div class="col col1 logo-col">
+                                    <img src="assets/layout/images/logo_pelom_new.png">
+                                </div>
+                                <div class="col col1 date-col">
+                                    {{ obtenerFechaActualConDiaYCiudad() }}
+                                </div>
+                            </div>
+
+
+                            <div class="titu1">
+
+                                <h5 style="text-align:center;color:black;">
+                                    ESTADO DE PAGO SERVICIO DE ATENCIÓN DE EMERGENCIAS
+                                </h5>
+
+                            </div>
+
+                            <hr>
+                            
+                            <div class="grid">
+                                <div class="col-fixed" style="width:50px">
+
+                                </div>
+                                <div class="col">
+                                    <p>
+                                      <strong>N° ESTADO DE PAGO::</strong> {{ estadoResultado.codigo_estado }}
+                                    </p>
+                                    <p>
+                                      <strong>COORDINADOR SUPERVISOR PELOM:</strong> {{ estadoResultado.encabezado.coordinador_pelom }}
+                                    </p>
+                                    <p>
+                                      <strong>FECHA INICIAL:</strong> {{ estadoResultado.encabezado.fecha_inicial }}
+                                    </p>
+                                    <p>
+                                      <strong>FECHA FINAL:</strong> {{ estadoResultado.encabezado.fecha_final }}
+                                    </p>
+                                </div>
+                                <div class="col">
+                                    <p>
+                                      <strong>ZONAL CGE:</strong> {{ estadoResultado.encabezado.zonal }}
+                                    </p>
+                                    <p>
+                                      <strong>SUPERVISOR CGE:</strong> {{ estadoResultado.encabezado.supervisor_cge }}
+                                    </p>
+                                    <p>
+                                      <strong>Turnos comprometido mes:</strong> {{ estadoResultado.encabezado.turnos_comprometidos }}
+                                    </p>
+                                    <p>
+                                      <strong>PERIODO:</strong> {{ estadoResultado.encabezado.periodo }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="grid">
+                                <div class="col-fixed" style="width:20%">
+                                </div>
+                                <div class="col">
+                                    <table border="1">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:center;">LOCALIDAD</th>
+                                                <th style="text-align:center;">CARGO FIJO SEMANAL POR BRIGADA</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of CARGOFIJOSEMANALPORBRIGADA">
+                                                <td style="text-align:left;padding-left:2%;">{{
+                                                    item.localidad }}
+                                                </td>
+                                                <td style="padding-right:2%;">
+                                                    {{ item.valor_cargo | currency:'CLP':'$':'1.0-0' | commaToDot }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <!-- <tfoot>
+                                            <tr>
+                                                <td colspan="4"><strong> SUBTOTAL FIJO </strong></td>
+                                                <td>{{ this.sumatoriaResumenTurno | currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot }}</td>
+                                            </tr>
+                                        </tfoot> -->
+                                    </table>
+                                </div>
+                                <div class="col-fixed" style="width:20%">
+                                </div>
+                            </div>
+
+
+                            <div class="grid">
+                                <div class="col-fixed" style="width:12%">
+                                </div>
+                                <div class="col">
+
+                                    <table border="1">
+                                        <thead>
+
+                                            <tr>
+                                                <th style="text-align: center;" colspan="4">
+                                                    PERMANENCIA: CARGO FIJO SEMANAL POR BRIGADA.
+                                                </th>
+                                            </tr>
+
+                                            <tr>
+                                                <th style="text-align:center;">BRIGADA</th>
+                                                <th style="text-align:center;">
+                                                    <div style="width: auto; white-space: nowrap;">
+                                                        TURNOS
+                                                    </div>
+                                                </th>
+                                                <th style="text-align:center;">VALOR DÍA</th>
+                                                <th style="text-align:center;">VALOR TOTAL</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr *ngFor="let item of PERMANENICACARGOFIJOSEMANALPORBRIGADA">
+                                                <td style="text-align:left;padding-left:2%;">
+                                                    <div style="width: auto; white-space: nowrap;">
+                                                        {{ item.brigada }}
+                                                    </div>
+                                                </td>
+                                                <td style="padding-right:2%;">{{ item.turnos }}</td>
+                                                <td style="padding-right:2%;">{{ item.valor_dia |
+                                                    currency:'CLP':'$':'1.0-0' | commaToDot }}
+                                                </td>
+                                                <td style="padding-right:2%;">
+                                                    {{
+                                                    (item.valor_mes !== null ? item.valor_mes : '0') |
+                                                    currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot
+                                                    }}
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                        <tfoot>
+                                            <!-- <tr>
+                                                <td colspan="3"> <strong> SUB TOTAL VARIABLE </strong></td>
+                                                <td>{{ this.sumatoriaResumenEvento | currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot }}</td>
+                                            </tr> -->
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                                <div class="col-fixed" style="width:12%">
+                                </div>
+                            </div>
+
+
+                            <div class="grid">
+                                <div class="col-fixed" style="width:12%">
+                                </div>
+                                <div class="col">
+                                    <table border="1">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:center;">OBSERVACIONES</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of OBSERVACIONES">
+                                                <td style="text-align:left;padding-left:2%;">{{ item.detalle }}</td>
+                                            </tr>
+                                        </tbody>
+                                        <!-- <tfoot>
+                                            <tr>
+                                                <td colspan="4"><strong> SUBTOTAL FIJO </strong></td>
+                                                <td>{{ this.sumatoriaResumenTurno | currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot }}</td>
+                                            </tr>
+                                        </tfoot> -->
+                                    </table>
+                                </div>
+                                <div class="col-fixed" style="width:12%">
+                                </div>
+                            </div>
+
+
+                            <div class="grid">
+                                <div class="col-fixed" style="width:12%">
+                                </div>
+                                <div class="col">
+
+                                    <table border="1">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;" colspan="4">
+                                                    HORAS EXTRAS
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align:center;">BRIGADA</th>
+                                                <th style="text-align:center;">CANTIDAD HORAS</th>
+                                                <th style="text-align:center;">VALOR BASE HH</th>
+                                                <th style="text-align:center;">TOTAL</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr *ngFor="let item of HORASEXTRAS">
+                                                <td style="text-align:left;padding-left:2%;">{{ item.brigada }}</td>
+                                                <td style="padding-right:2%;">{{ item.horas }}</td>
+                                                <td style="padding-right:2%;">{{ item.valor_base |
+                                                    currency:'CLP':'$':'1.0-0' | commaToDot }}
+                                                </td>
+
+                                                <td style="padding-right:2%;">
+                                                    {{
+                                                    (item.valor_total !== null ? item.valor_total : '0') |
+                                                    currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot
+                                                    }}
+                                                </td>
+
+
+                                            </tr>
+
+                                        </tbody>
+                                        <tfoot>
+                                            <!-- <tr>
+                                                <td colspan="3"> <strong> SUB TOTAL VARIABLE </strong></td>
+                                                <td>{{ this.sumatoriaResumenEvento | currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot }}</td>
+                                            </tr> -->
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                                <div class="col-fixed" style="width:12%">
+                                </div>
+                            </div>
+
+
+                            <div class="grid">
+                                <div class="col-fixed" style="width:12%">
+                                </div>
+                                <div class="col">
+
+                                    <table border="1">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;" colspan="4">
+                                                    TURNOS ADICIONALES
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align:center;">BRIGADA</th>
+                                                <th style="text-align:center;">TURNOS PRESENTADOS</th>
+                                                <th style="text-align:center;">VALOR DÍA</th>
+                                                <th style="text-align:center;">VALOR TOTAL</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr *ngFor="let item of TURNOSADICIONALES">
+                                                <td style="text-align:left;padding-left:2%;">{{ item.brigada }}</td>
+                                                <td style="padding-right:2%;">{{ item.turnos }}</td>
+                                                <td style="padding-right:2%;">{{ item.valor_dia |
+                                                    currency:'CLP':'$':'1.0-0' | commaToDot }}
+                                                </td>
+
+                                                <td style="padding-right:2%;">
+                                                    {{
+                                                    (item.valor_mes !== null ? item.valor_mes : '0') |
+                                                    currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot
+                                                    }}
+                                                </td>
+
+
+                                            </tr>
+
+                                        </tbody>
+                                        <tfoot>
+                                            <!-- <tr>
+                                                <td colspan="3"> <strong> SUB TOTAL VARIABLE </strong></td>
+                                                <td>{{ this.sumatoriaResumenEvento | currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot }}</td>
+                                            </tr> -->
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                                <div class="col-fixed" style="width:12%">
+                                </div>
+                            </div>
+
+
+                            <div class="grid">
+                                <div class="col-fixed" style="width:12%">
+                                </div>
+                                <div class="col">
+
+                                    <table border="1">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;" colspan="4">
+                                                    TURNOS CONTINGENCIA
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align:center;">BRIGADA</th>
+                                                <th style="text-align:center;">TURNOS PRESENTADOS</th>
+                                                <th style="text-align:center;">VALOR DÍA</th>
+                                                <th style="text-align:center;">VALOR TOTAL</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr *ngFor="let item of TURNOSCONTINGENCIA">
+                                                <td style="text-align:left;padding-left:2%;">{{ item.brigada }}</td>
+                                                <td style="padding-right:2%;">{{ item.turnos }}</td>
+                                                <td style="padding-right:2%;">{{ item.valor_dia |
+                                                    currency:'CLP':'$':'1.0-0' | commaToDot }}
+                                                </td>
+
+                                                <td style="padding-right:2%;">
+                                                    {{
+                                                    (item.valor_mes !== null ? item.valor_mes : '0') |
+                                                    currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot
+                                                    }}
+                                                </td>
+
+
+                                            </tr>
+
+                                        </tbody>
+                                        <tfoot>
+                                            <!-- <tr>
+                                                <td colspan="3"> <strong> SUB TOTAL VARIABLE </strong></td>
+                                                <td>{{ this.sumatoriaResumenEvento | currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot }}</td>
+                                            </tr> -->
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                                <div class="col-fixed" style="width:12%">
+                                </div>
+                            </div>
+
+
+                            <div class="grid">
+                                <div class="col-fixed" style="width:12%;break-after:page;">
+                                </div>
+                                <div class="col">
+
+                                    <table border="1">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;" colspan="5">
+                                                    PRODUCCIÓN PxQ
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align:center;">BRIGADA</th>
+
+                                                <th style="text-align:center;">TIPO DE EVENTO</th>
+
+                                                <th style="text-align:center;">CANTIDAD </th>
+
+                                                <th style="text-align:center;">VALOR UNIDAD</th>
+
+                                                <th style="text-align:center;">VALOR TOTAL</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr *ngFor="let item of PRODUCCIONPxQ">
+
+                                                <td style="text-align:left;padding-left:2%;">{{ item.zonal }}</td>
+
+                                                <td class="text-xs" style="text-align:left;padding-left:2%;">
+                                                    {{ convertirAFormatoTitulo(item.tipo_evento) }}
+                                                </td>
+
+                                                <td style="padding-right:2%;">
+                                                    {{ item.cantidad }}
+                                                </td>
+
+                                                <td style="padding-right:2%;">
+                                                    {{
+                                                    (item.valor_unitario !== null ? item.valor_unitario : '0') |
+                                                    currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot
+                                                    }}
+                                                </td>
+
+                                                <td style="padding-right:2%;">
+                                                    {{
+                                                    (item.valor_total !== null ? item.valor_total : '0') |
+                                                    currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot
+                                                    }}
+                                                </td>
+
+                                            </tr>
+
+                                        </tbody>
+                                        <tfoot>
+                                            <!-- <tr>
+                                                <td colspan="3"> <strong> SUB TOTAL VARIABLE </strong></td>
+                                                <td>{{ this.sumatoriaResumenEvento | currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot }}</td>
+                                            </tr> -->
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                                <div class="col-fixed" style="width:12%">
+                                </div>
+                            </div>
+
+
+                            <div class="grid">
+                                <div class="col-fixed" style="width:12%;">
+                                </div>
+                                <div class="col">
+
+                                    <table border="1">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;" colspan="4">
+                                                    COBROS ADICIONALES
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align:center;">DETALLE</th>
+                                                <th style="text-align:center;">Q</th>
+                                                <th style="text-align:center;">TOTAL</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr *ngFor="let item of COBROSADICIONALES">
+                                                <td style="text-align:left;padding-left:2%;">{{ item.detalle }}</td>
+                                                <td style="padding-right:2%;">{{ item.cantidad }}</td>
+                                                <td style="padding-right:2%;">
+                                                    {{
+                                                    (item.valor !== null ? item.valor : '0') |
+                                                    currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot
+                                                    }}
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                        <tfoot>
+                                            <!-- <tr>
+                                                <td colspan="3"> <strong> SUB TOTAL VARIABLE </strong></td>
+                                                <td>{{ this.sumatoriaResumenEvento | currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot }}</td>
+                                            </tr> -->
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                                <div class="col-fixed" style="width:12%">
+                                </div>
+                            </div>
+
+
+                            <div class="grid">
+                                <div class="col-fixed" style="width:12%">
+                                </div>
+                                <div class="col">
+
+                                    <table border="1">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;" colspan="4">
+                                                    DESCUENTOS
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align:center;">DETALLE</th>
+                                                <th style="text-align:center;">Q</th>
+                                                <th style="text-align:center;">TOTAL</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr *ngFor="let item of DESCUENTOS">
+                                                <td style="text-align:left;padding-left:2%;">{{ item.detalle }}</td>
+                                                <td style="padding-right:2%;">{{ item.cantidad }}</td>
+                                                <td style="padding-right:2%;">
+                                                    {{
+                                                    (item.valor !== null ? item.valor : '0') |
+                                                    currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot
+                                                    }}
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                        <tfoot>
+                                            <!-- <tr>
+                                                <td colspan="3"> <strong> SUB TOTAL VARIABLE </strong></td>
+                                                <td>{{ this.sumatoriaResumenEvento | currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot }}</td>
+                                            </tr> -->
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                                <div class="col-fixed" style="width:12%">
+                                </div>
+                            </div>
+
+
+                            <div class="grid content">
+                                <div class="col-fixed" style="width:25%">
+                                </div>
+                                <div class="col">
+
+                                    <table border="1">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;" colspan="4">
+                                                    RESUMEN
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align:center;">ITEM</th>
+                                                <th style="text-align:center;">VALOR</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr *ngFor="let item of RESUMEN">
+                                                <td style="text-align:left;padding-left:2%;margin-right:15%;">{{
+                                                    item.item }}</td>
+                                                <td style="padding-right:2%;">
+                                                    {{
+                                                    (item.valor !== null ? item.valor : '0') |
+                                                    currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot
+                                                    }}
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                        <tfoot>
+                                            <!-- <tr>
+                                                <td colspan="3"> <strong> SUB TOTAL VARIABLE </strong></td>
+                                                <td>{{ this.sumatoriaResumenEvento | currency:'CLP':'$':'1.0-0' |
+                                                    commaToDot }}</td>
+                                            </tr> -->
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                                <div class="col-fixed" style="width:25%">
+                                </div>
+                            </div>
+
+
+                            <!-- Al final del contenido del informe -->
+                            <div class="footer">
+                                <hr>
+                                <br>
+                                <p>Nombre: _______________________</p>
+                                <p>R.U.N: _______________________</p>
+                                <p>Firma: _______________________</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-fixed" style="width:10%">
+                    <div class="box">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ng-template>
+
+</p-dialog>

@@ -251,6 +251,114 @@ export class EstadoResultadoService {
 
 
 
+    /*CONSUTAS HISTORICAS de ESTADO DE PAGO*/
+
+    PERMANENICACARGOFIJOSEMANALPORBRIGADA_HISTORIAL(id_estado_pago:string): Observable<any> {
+
+        const params = new HttpParams()
+        .set('id_estado_pago', id_estado_pago.toString());
+
+        return this.http.get<any>(`${this.baseUrl}/permanencia_por_brigada`,{ params }).pipe(
+            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+        );
+    }
+
+
+    ///api/reportes/v1/findobservacioneshistorial
+    OBSERVACIONES_HISTORIAL(id_estado_pago:string): Observable<any[]> {
+
+        const params = new HttpParams()
+        .set('id_estado_resultado', id_estado_pago.toString());
+        
+        return this.http.get<any[]>(`${this.baseUrl}/findobservacioneshistorial`,{ params }).pipe(
+            map(response => response)
+        );
+
+    }
+
+
+    HORASEXTRAS_HISTORIAL(id_estado_pago:string): Observable<any> {
+
+        const params = new HttpParams()
+        .set('id_estado_pago', id_estado_pago.toString());      
+
+        return this.http.get<any>(`${this.baseUrl}/horasextras`,{ params }).pipe(
+            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+        );
+    }
+
+
+    TURNOSADICIONALES_HISTORIAL(id_estado_pago:string): Observable<any> {
+
+        const params = new HttpParams()
+        .set('id_estado_pago', id_estado_pago.toString());
+        
+        return this.http.get<any>(`${this.baseUrl}/turnosadicionales`,{ params }).pipe(
+            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+        );
+    }
+
+
+    TURNOSCONTINGENCIA_HISTORIAL(id_estado_pago:string): Observable<any> {
+
+        const params = new HttpParams()
+        .set('id_estado_pago', id_estado_pago.toString());
+        
+        return this.http.get<any>(`${this.baseUrl}/turnoscontingencia`,{ params }).pipe(
+            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+        );
+    }
+
+
+    PRODUCCIONPxQ_HISTORIAL(id_estado_pago:string): Observable<any> {
+
+        const params = new HttpParams()
+        .set('id_estado_pago', id_estado_pago.toString());
+        
+        return this.http.get<any>(`${this.baseUrl}/produccionpxq`,{ params }).pipe(
+            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+        );
+    }
+
+
+    COBROSADICIONALES_HISTORIAL(id_estado_pago:string): Observable<any> {
+
+        const params = new HttpParams()
+        .set('id_estado_pago', id_estado_pago.toString());
+        
+        return this.http.get<any>(`${this.baseUrl}/reportecobroadicional`,{ params }).pipe(
+            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+        );
+    }
+
+
+    DESCUENTOS_HISTORIAL(id_estado_pago: string): Observable<any> {
+
+        const params = new HttpParams()
+        .set('id_estado_pago', id_estado_pago.toString());
+        
+        return this.http.get<any>(`${this.baseUrl}/reportedescuentos`,{ params }).pipe(
+            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+        );
+    }
+
+
+    RESUMEN_HISTORIAL(id_estado_pago: string): Observable<any> {
+
+        const params = new HttpParams()
+        .set('id_estado_pago', id_estado_pago.toString());
+        
+        return this.http.get<any>(`${this.baseUrl}/reporteresumen`,{ params }).pipe(
+            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+        );
+    }
+
+
+
+    /*====================================================*/
+
+
+
 
     detallepxq(idPaquete: string): Observable<any> {
 
