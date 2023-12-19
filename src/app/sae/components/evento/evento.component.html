@@ -15,7 +15,7 @@
     </p-toolbar>
 
     <p-table #dt [value]="eventos" [columns]="cols" [rows]="10" [paginator]="true"
-      [globalFilterFields]="['despachador','numero_ot','tipo_evento','nombre_maestro','nombre_ayudante','brigada','tipo_turno','requerimiento','direccion','comuna','fecha_hora']"
+      [globalFilterFields]="['despachador','numero_ot','tipo_evento','nombre_maestro','nombre_ayudante','brigada','tipo_turno','trabajo_solicitado','trabajo_realizado' ,'direccion','comuna','fecha_hora']"
       [tableStyle]="{ 'min-width': '75rem' }" responsiveLayout="scroll" [rowHover]="true" dataKey="id"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
 
@@ -67,12 +67,18 @@
             </div>
           </th>
 
-          <th pSortableColumn="requerimiento">
+          <th pSortableColumn="trabajo_solicitado">
             <div style="width: auto; white-space: nowrap;">
-              Requerimiento<p-sortIcon field="requerimiento"></p-sortIcon>
+              Trabajo Solicitado<p-sortIcon field="trabajo_solicitado"></p-sortIcon>
             </div>
           </th>
 
+          <th pSortableColumn="trabajo_realizado">
+            <div style="width: auto; white-space: nowrap;">
+              Trabajo Realizado<p-sortIcon field="trabajo_realizado"></p-sortIcon>
+            </div>
+          </th>
+          
           <th pSortableColumn="nombre_maestro">
             <div style="width: auto; white-space: nowrap;">
               Maestro<p-sortIcon field="nombre_maestro"></p-sortIcon>
@@ -140,7 +146,9 @@
 
           <td>{{evento.comuna}}</td>
 
-          <td>{{evento.requerimiento}}</td>
+          <td>{{evento.trabajo_solicitado}} </td>  
+
+          <td>{{evento.trabajo_realizado}}</td>
           
           <td>{{evento.nombre_maestro}}</td>
 
@@ -159,8 +167,8 @@
           <td>{{evento.hora_termino}}</td>
 
           <td>
-            <button pButton pRipple icon="pi pi-map-marker" class="p-button-rounded p-button-info mr-2"
-              (click)="showDialog(evento)"></button>
+            <!-- <button pButton pRipple icon="pi pi-map-marker" class="p-button-rounded p-button-info mr-2"
+              (click)="showDialog(evento)"></button> -->
           </td>
 
           <td>

@@ -53,6 +53,9 @@ export interface Detallepxq {
   ayudante?: string;
   centrality?: string;
   comuna?: string;
+  trabajo_solicitado?: string;
+  trabajo_realizado?: string;
+
   patente?: string;
   descripcion?: string;
   despachador?: string;
@@ -168,6 +171,10 @@ export class Detalle_pxqComponent implements OnInit {
       { field: 'descripcion', header: 'Descripción trabajo realizado' },
       { field: 'valor_cobrar', header: 'VALOR' },
 
+      { field: 'trabajo_solicitado', header: 'Trabajo solicitado' },
+      { field: 'trabajo_realizado', header: 'Trabajo realizado' },
+
+
     ];
 
 
@@ -218,6 +225,7 @@ export class Detalle_pxqComponent implements OnInit {
 
   }
 
+
   columnOrder = [
     "fecha",
     "hora_termino",
@@ -228,10 +236,12 @@ export class Detalle_pxqComponent implements OnInit {
     "despachador",
     "comuna",
     "direccion",
-    "aviso",
+    "trabajo_solicitado",
+    "trabajo_realizado",
     "descripcion",
     "valor_cobrar"
   ];
+
 
   reorganizarData(data: any[]): any[] {
     return data.map(item => {
@@ -365,7 +375,10 @@ export class Detalle_pxqComponent implements OnInit {
         { v: "N° OT", t: 's', s: this.headerStyle },
         { v: "Dirección", t: 's', s: this.headerStyle },
         { v: "Comuna", t: 's', s: this.headerStyle },
-        { v: "Requerimiento", t: 's', s: this.headerStyle },
+
+        { v: "Trabajo solicitado", t: 's', s: this.headerStyle },
+        { v: "Trabajo realizado", t: 's', s: this.headerStyle },
+
         { v: "Evento", t: 's', s: this.headerStyle },
         
         { v: "Maestro", t: 's', s: this.headerStyle },
@@ -378,21 +391,18 @@ export class Detalle_pxqComponent implements OnInit {
       ],
       // Datos
       ...this.ListDetallepxq.map(item => [
-        
         item.despachador,
         item.centrality,
-        
         item.direccion,
         item.comuna,
-        item.aviso,
+        item.trabajo_solicitado,
+        item.trabajo_realizado,
         item.descripcion,
-
         item.maestro,
         item.ayudante,
         item.patente,
         item.fecha,
         item.hora_termino,
-
         item.valor_cobrar
       ])
     ]);

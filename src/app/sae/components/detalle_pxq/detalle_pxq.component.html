@@ -45,7 +45,7 @@
 
 
             <p-table #dt [value]="ListDetallepxq" [columns]="cols" responsiveLayout="scroll" [rows]="10"
-                [globalFilterFields]="['fecha','hora_termino','centrality','maestro','ayudante','patente','despachador','comuna','direccion','aviso','descripcion','valor_cobrar']"
+                [globalFilterFields]="['fecha','hora_termino','centrality','maestro','ayudante','patente','despachador','comuna','direccion','trabajo_solicitado','trabajo_realizado','descripcion','valor_cobrar']"
                 [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [(selection)]="selectedEstadoResultado" selectionMode="multiple" [rowHover]="true" dataKey="id">
@@ -90,9 +90,17 @@
                             </div>
                         </th>
                         
-                        <th pSortableColumn="aviso">
+
+                        
+                        <th pSortableColumn="trabajo_solicitado">
                             <div style="width: auto; white-space: nowrap;">
-                                Requerimiento <p-sortIcon field="aviso"></p-sortIcon>
+                                Trabajo Solicitado <p-sortIcon field="trabajo_solicitado"></p-sortIcon>
+                            </div>
+                        </th>
+
+                        <th pSortableColumn="trabajo_realizado">
+                            <div style="width: auto; white-space: nowrap;">
+                                Trabajo Realizado <p-sortIcon field="trabajo_realizado"></p-sortIcon>
                             </div>
                         </th>
 
@@ -172,16 +180,19 @@
                         </td>
 
                         <td>
-                            <span class="p-column-title">aviso</span>
-                            {{estadoResultado.aviso}}
+                            <span class="p-column-title">trabajo_solicitado</span>
+                            {{estadoResultado.trabajo_solicitado}}
                         </td>
 
+                        <td>
+                            <span class="p-column-title">trabajo_realizado</span>
+                            {{estadoResultado.trabajo_realizado}}
+                        </td>
                         
                         <td>
                             <span class="p-column-title">descripcion</span>
                             {{estadoResultado.descripcion}}
                         </td>
-                        
 
                         <td>
                             <span class="p-column-title">maestro</span>
@@ -202,7 +213,6 @@
                             <span class="p-column-title">fecha</span>
                             {{estadoResultado.fecha}}
                         </td>
-
 
                         <td>
                             <span class="p-column-title">hora_termino</span>
