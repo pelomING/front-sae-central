@@ -69,7 +69,7 @@ export class EventoComponent implements OnInit, AfterViewInit {
     // Espera a que se cargue completamente Leaflet antes de inicializar el mapa
     setTimeout(() => {
       // Inicializa el mapa cuando se carga la vista
-      //this.initializeMap();
+      this.initializeMap();
     });
 
   }
