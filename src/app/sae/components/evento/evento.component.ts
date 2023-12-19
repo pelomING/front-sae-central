@@ -2,18 +2,11 @@ import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/cor
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
-
 import { Eventos } from 'src/app/sae/model/eventos.model';
 import { EventoService } from 'src/app/sae/services/evento.service';
-
-
 import { ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-
 import * as L from 'leaflet';
-
 import { PrimeIcons } from 'primeng/api';
-
-
 //import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 // import * as XLSX from 'sheetjs-style';
@@ -21,8 +14,6 @@ import * as XLSX from 'xlsx-js-style';
 
 
 //conecta a desarrollo
-
-
 @Component({
   selector: 'app-evento',
   templateUrl: './evento.component.html',
@@ -33,8 +24,6 @@ import * as XLSX from 'xlsx-js-style';
 export class EventoComponent implements OnInit, AfterViewInit {
 
   @ViewChild('map') mapContainer!: ElementRef;
-
-
 
   iconConfig = {
     icon: PrimeIcons.MAP_MARKER,
@@ -48,16 +37,11 @@ export class EventoComponent implements OnInit, AfterViewInit {
 
   cols: any[] = [];
   eventos?: Eventos[];
-
   eventoCopia?: Eventos;
   eventoSeleccionado?: Eventos;
-
   mostrarGuardar: boolean = true; // Mostrar el botón por defecto
   mostrarActualizar: boolean = true;
-
   formObraDialog: boolean;
-
-
   EventosForm: FormGroup;
 
   constructor(
@@ -85,7 +69,7 @@ export class EventoComponent implements OnInit, AfterViewInit {
     // Espera a que se cargue completamente Leaflet antes de inicializar el mapa
     setTimeout(() => {
       // Inicializa el mapa cuando se carga la vista
-      this.initializeMap();
+      //this.initializeMap();
     });
 
   }
@@ -184,26 +168,19 @@ export class EventoComponent implements OnInit, AfterViewInit {
 
     this.recuperaEventos();
 
-
     this.cols = [
       { field: 'id', header: 'Id' },
-
       { field: 'despachador', header: 'Despachador' },
-
       { field: 'numero_ot', header: 'N° Ot' },
       { field: 'tipo_evento', header: 'Tipo Evento' },
-
       { field: 'nombre_maestro', header: 'Maestro' },
-
       { field: 'nombre_ayudante', header: 'Ayudante' },
-
       { field: 'brigada', header: 'Brigada' },
       { field: 'tipo_turno', header: 'Tipo Turno' },
-
-      { field: 'requerimiento', header: 'Requerimiento' },
+      { field: 'trabajo_solicitado', header: 'trabajo_solicitado' },
+      { field: 'trabajo_realizado', header: 'trabajo_realizado' },
       { field: 'direccion', header: 'Dirección' },
       { field: 'comuna', header: 'Comuna' },
-
       { field: 'fecha_hora', header: 'Fecha Hora Ejecución' }
     ];
 
@@ -214,9 +191,12 @@ export class EventoComponent implements OnInit, AfterViewInit {
   recuperaEventos(): void {
     this.eventoService.getEventos().subscribe({
       next: (data) => {
+        
         console.log("data eventos:", data);
+        
         this.eventos = data;
         this.eventos.sort((a, b) => b.id - a.id);
+
       }, error: (e) => console.error(e)
     });
   }
@@ -467,43 +447,35 @@ export class EventoComponent implements OnInit, AfterViewInit {
         { v: "Id", t: 's', s: this.headerStyle },
         { v: "despachador", t: 's', s: this.headerStyle },
         { v: "numero_ot", t: 's', s: this.headerStyle },
-
         { v: "direccion", t: 's', s: this.headerStyle },
         { v: "comuna", t: 's', s: this.headerStyle },
-        { v: "requerimiento", t: 's', s: this.headerStyle },
-
-
+        { v: "trabajo_solicitado", t: 's', s: this.headerStyle },
+        { v: "trabajo_realizado", t: 's', s: this.headerStyle },
         { v: "maestro", t: 's', s: this.headerStyle },
         { v: "ayudante", t: 's', s: this.headerStyle },
         { v: "brigada", t: 's', s: this.headerStyle },
-
         { v: "tipo_turno", t: 's', s: this.headerStyle },
         { v: "tipo_evento", t: 's', s: this.headerStyle },
-
         { v: "fecha_hora", t: 's', s: this.headerStyle },
         { v: "hora_inicio", t: 's', s: this.headerStyle },
         { v: "hora_termino", t: 's', s: this.headerStyle },
-
         { v: "coordenadas.latitude", t: 's', s: this.headerStyle },
         { v: "coordenadas.longitude", t: 's', s: this.headerStyle },
-
       ],
       // Datos
       ...this.eventos.map(item => [
         item.id,
         item.despachador,
         item.numero_ot,
-
         item.direccion,
         item.comuna,
-        item.requerimiento,
-
+        item.trabajo_solicitado,
+        item.trabajo_realizado,
         item.nombre_maestro,
         item.nombre_ayudante,
         item.brigada,
         item.tipo_turno,
         item.tipo_evento,
-
         item.fecha_hora,
         item.hora_inicio,
         item.hora_termino,
@@ -520,7 +492,8 @@ export class EventoComponent implements OnInit, AfterViewInit {
       "numero_ot",
       "direccion",
       "comuna",
-      "requerimiento",
+      "trabajo_solicitado",
+      "trabajo_realizado",
       "nombre_maestro",
       "nombre_ayudante",
       "brigada",

@@ -9,6 +9,9 @@ export interface Eventos {
     turno?: string;
     paquete?: string;
     requerimiento?: string;
+    trabajo_solicitado?: string;
+    trabajo_realizado?: string;
+        
     direccion?: string;
     fecha_hora?: string;
     estado?: string;
