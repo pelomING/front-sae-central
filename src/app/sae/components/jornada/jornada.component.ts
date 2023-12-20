@@ -1,16 +1,45 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
 
 import { Turnos } from 'src/app/sae/model/turnos.model';
 import { TurnosService } from 'src/app/sae/services/turnos.service';
+
+import { EstadoResultadoService } from 'src/app/sae/services/estadoResultado.service';
+
 
 
 //import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 // import * as XLSX from 'sheetjs-style'; 
 import * as XLSX from 'xlsx-js-style';
+
+
+interface InterfaceBrigada {
+  id: Number;
+  brigada: string;
+}
+
+interface InterfaceTipoTurno {
+  id: Number;
+  nombre: string;
+}
+
+interface InterfaceAyudantes {
+  rut: string;
+  nombre: string;
+}
+
+interface InterfaceMaestro {
+  rut: string;
+  nombre: string;
+}
+
+interface InterfaceCamioneta {
+  id: Number;
+  patente: string;
+}
 
 
 @Component({
@@ -31,18 +60,112 @@ export class JornadaComponent implements OnInit {
 
   TurnosForm: FormGroup;
 
-  constructor(private turnosService: TurnosService,
+
+  lista_objs_brigadas: InterfaceBrigada[] | undefined;
+
+  lista_objs_tipoTurno: InterfaceTipoTurno[] | undefined;
+
+  lista_objs_ayudantes: InterfaceAyudantes[] | undefined;
+
+  lista_objs_maestros: InterfaceMaestro[] | undefined;
+
+  lista_objs_camionetas: InterfaceCamioneta[] | undefined;
+  alertController: any;
+
+
+
+  constructor(
+    private turnosService: TurnosService,
     private fb: FormBuilder,
     private messageService: MessageService,
+    private estadoResultadoService: EstadoResultadoService,
     private confirmationService: ConfirmationService) {
 
-      this.TurnosForm = this.fb.group({
-        id: [''],
-        fecha_hora_ini: ['', Validators.required],
-        fecha_hora_fin: ['', Validators.required]
-      });
+    this.TurnosForm = this.fb.group({
+      id: [''],
+      fecha_hora_ini: ['', Validators.required],
+      fecha_hora_fin: ['', Validators.required],
+      obj_brigada: ['', Validators.required],
+      obj_tipo_turno: ['', Validators.required],
+      obj_maestro: ['', Validators.required],
+      obj_ayudante: ['', Validators.required],
+      obj_camionetas: ['', Validators.required],
+      km_inicial: ['', Validators.required],
+      km_final: ['', [Validators.required, this.validarKmFinal.bind(this)]],
+    });
 
-     }
+
+    // Suscribirse a cambios en km_final
+    this.TurnosForm.get('km_final').valueChanges.subscribe(() => {
+      this.validarYMostrarAlerta();
+    });
+
+
+  }
+
+
+  kmFinalInvalido: boolean = false;
+
+
+  validarKmFinal(control: AbstractControl): { [key: string]: boolean } | null {
+
+    // Verifica si el formulario está inicializado
+    if (!this.TurnosForm) {
+      return null;
+    }
+
+    const kmInicia = this.TurnosForm.get('km_inicial').value;
+
+    const kmFinal = control.value;
+
+    if (kmFinal !== null && kmFinal !== undefined && kmFinal <= 0) {
+      console.log('kmFinalNoMayorACero');
+      return { 'kmFinalNoMayorACero': true };
+    }
+
+    if (kmInicia !== null && kmFinal !== null && kmFinal <= kmInicia) {
+      console.log('kmFinalNoMayorAInicia');
+      return { 'kmFinalNoMayorAInicia': true };
+    }
+
+    return null;
+  }
+
+
+
+  async validarYMostrarAlerta() {
+
+    const kmFinal = this.TurnosForm.get('km_final').value;
+
+    const kmInicia = this.TurnosForm.get('km_inicial').value;
+
+
+    if (kmFinal !== null && kmFinal !== undefined && kmFinal <= 0) {
+
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Por favor, ingrese un valor mayor a cero',
+            life: 5000
+          });
+
+    }
+
+    if (kmInicia !== null && kmFinal !== null && kmFinal <= kmInicia) {
+
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Por favor, ingrese un valor mayor a km inicial',
+            life: 5000
+          });
+
+    }
+
+  }
+
+
+
 
   ngOnInit(): void {
 
@@ -60,30 +183,109 @@ export class JornadaComponent implements OnInit {
       { field: 'fecha_hora_fin', header: 'Fecha Hora Fin' }
     ];
 
+
+    this.estadoResultadoService.listabrigadassae().subscribe({
+      next: (data) => {
+        this.lista_objs_brigadas = data.map((brigada: any) => {
+          return {
+            id: brigada.id,
+            brigada: brigada.brigada
+          }
+        })
+      }, error: (e) => console.error(e)
+    });
+
+    this.estadoResultadoService.listaTipodeturno().subscribe({
+      next: (data) => {
+        this.lista_objs_tipoTurno = data.map((turno: any) => {
+          return {
+            id: turno.id,
+            nombre: turno.nombre
+          }
+        })
+      }, error: (e) => console.error(e)
+    });
+
+    this.estadoResultadoService.listaAyudantes().subscribe({
+      next: (data) => {
+        this.lista_objs_ayudantes = data.map((ayudante: any) => {
+          return {
+            rut: ayudante.rut,
+            nombre: ayudante.nombre
+          }
+        })
+      }, error: (e) => console.error(e)
+    });
+
+    this.estadoResultadoService.listaMaestros().subscribe({
+      next: (data) => {
+        this.lista_objs_maestros = data.map((maestro: any) => {
+          return {
+            rut: maestro.rut,
+            nombre: maestro.nombre
+          }
+        })
+      }, error: (e) => console.error(e)
+    });
+
+    this.estadoResultadoService.listaCamionetas().subscribe({
+      next: (data) => {
+        this.lista_objs_camionetas = data.map((camioneta: any) => {
+          return {
+            id: camioneta.id,
+            patente: camioneta.patente
+          }
+        })
+      }, error: (e) => console.error(e)
+    });
+
   }
 
   recuperaJornadas(): void {
-    this.turnosService.getJornada().subscribe({ 
-      next: (data) => { 
+    this.turnosService.getJornada().subscribe({
+      next: (data) => {
         console.log("data:", data);
         this.turnos = data;
-        this.turnos.sort((a, b) => b.id - a.id); 
-      }, error: (e) => console.error(e) });
+        this.turnos.sort((a, b) => b.id - a.id);
+      }, error: (e) => console.error(e)
+    });
+  }
+
+
+  turnoDialog = false;
+  IDTURNO = null;
+
+  titulo_formulario = ''
+
+  openNew() {
+
+    this.IDTURNO = '';
+    this.titulo_formulario = 'INGRESAR TURNO';
+    this.mostrarGuardar = true;
+    this.mostrarActualizar = false;
+    this.TurnosForm.reset();
+    this.turnoDialog = true;
+
   }
 
 
 
-  
-  turnoDialog = false;
-  IDTURNO = null;
+
+
 
   editTurno(turno: Turnos) {
 
-    console.log("edit", turno);
+
+    console.log("editTurno", turno);
+
+
+
+    this.titulo_formulario = 'EDITAR TURNO';
+
 
     this.turnoCopia = { ...turno };
 
-    this.IDTURNO = this.turnoCopia.id;
+    this.IDTURNO = 'Id Registro : ' + this.turnoCopia.id;
 
     this.TurnosForm.reset();
 
@@ -119,6 +321,27 @@ export class JornadaComponent implements OnInit {
 
     console.log("this.turnoCopia", this.turnoCopia);
 
+
+    this.turnoCopia.obj_maestro = { rut: this.turnoCopia.rut_maestro, nombre: this.turnoCopia.nombre_maestro };
+
+    this.turnoCopia.obj_ayudante = { rut: this.turnoCopia.rut_ayudante, nombre: this.turnoCopia.nombre_ayudante };
+
+
+    let result = this.lista_objs_tipoTurno.filter(obj => obj.nombre === this.turnoCopia.tipo_turno);
+
+    this.turnoCopia.obj_tipo_turno = { id: result[0].id, nombre: result[0].nombre };
+
+
+    let result1 = this.lista_objs_brigadas.filter(obj => obj.brigada === this.turnoCopia.brigada);
+
+    this.turnoCopia.obj_brigada = { id: result1[0].id, brigada: result1[0].brigada };
+
+
+    let result2 = this.lista_objs_camionetas.filter(obj => obj.patente === this.turnoCopia.patente);
+
+    this.turnoCopia.obj_camionetas = { id: result2[0].id, patente: result2[0].patente };
+
+
     this.TurnosForm.patchValue(this.turnoCopia);
 
     this.turnoDialog = true;
@@ -128,17 +351,16 @@ export class JornadaComponent implements OnInit {
 
 
 
-  filtrarFecha(fechaString: string) 
-  {
+  filtrarFecha(fechaString: string) {
 
     // Formatea la fecha en el formato deseado
     // 2023-12-01 17:21:00
     let arrayFechaHora = fechaString.split(" ");
-    
+
     let arrayFecha = arrayFechaHora[0].split("-");
-    
+
     let arrayHora = arrayFechaHora[1].split(":");
-      
+
     return `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]} ${arrayHora[0]}:${arrayHora[1]}:${arrayHora[2]}`;
 
   }
@@ -156,61 +378,65 @@ export class JornadaComponent implements OnInit {
     }, 2000);
 
 
-    // if (this.HoraExtraForm.valid) {
+    if (this.TurnosForm.valid) {
 
-    //   const nueva = this.HoraExtraForm.value;
+      const nueva = this.TurnosForm.value;
 
-    //   //console.log('Nueva:', nueva);
+      let nuevaCopia = { ...nueva };
 
-    //   let nuevaCopia = { ...nueva };
+      nuevaCopia.fecha_hora_ini = this.formateoFecha(nuevaCopia.fecha_hora_ini);
 
-    //   nuevaCopia.fecha_hora = this.formateoFecha(nuevaCopia.fecha_hora);
+      nuevaCopia.fecha_hora_fin = this.formateoFecha(nuevaCopia.fecha_hora_fin);
 
-    //   //console.log('Nueva Formato Fecha :', nuevaCopia);
+      const data: Turnos = {
+        rut_maestro: nuevaCopia.obj_maestro.rut,
+        rut_ayudante: nuevaCopia.obj_ayudante.rut,
+        patente: nuevaCopia.obj_camionetas.patente,
+        km_inicial: nuevaCopia.km_inicial,
+        km_final: nuevaCopia.km_final,
+        fecha_hora_ini: nuevaCopia.fecha_hora_ini,
+        fecha_hora_fin: nuevaCopia.fecha_hora_fin,
+        brigada: nuevaCopia.obj_brigada.id,
+        tipo_turno: nuevaCopia.obj_tipo_turno.id
+      }
 
-    //   this.estadoResultadoService.createHoraExtra(nuevaCopia).subscribe(
-    //     (response) => {
+      this.turnosService.creaJornada(data).subscribe(
+        (response) => {
 
-    //       // Manejar la respuesta exitosa
-    //       console.log('Obra guardada con éxito:', response);
+          console.log('Respuesta:', response);
 
-    //       this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
+          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
 
-    //       this.productDialog = false;
+          this.turnoDialog = false;
 
-    //       this.estadoResultadoService.horaextranoprocesados().subscribe({
-    //         next: (data) => {
-    //           console.log("data", data);
-    //           this.ListHorasExtra = data.detalle;
-    //           this.ListHorasExtra.sort((a, b) => b.id - a.id);
-    //         }, error: (e) => console.error(e)
-    //       });
+          this.recuperaJornadas();
 
-    //     },
-    //     (error) => {
+        },
+        (error) => {
 
-    //       // Manejar errores
-    //       console.error('Error al guardar la obra:', error);
+          // Manejar errores
+          console.error('Error al guardar:', error);
 
-    //       this.messageService.add({
-    //         severity: 'error',
-    //         summary: 'Error',
-    //         detail: 'Por favor, intentar mas tarde problemas de servicio',
-    //       });
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Por favor, intentar mas tarde problemas de servicio al crear jornada :' + error,
+            life: 3000
+          });
 
-    //     }
-    //   );
+        }
+      );
 
-    // } else {
+    } else {
 
-    //   // El formulario es inválido, muestra errores si es necesario
-    //   this.messageService.add({
-    //     severity: 'error',
-    //     summary: 'Error',
-    //     detail: 'Por favor, completa el formulario correctamente',
-    //   });
+      // El formulario es inválido, muestra errores si es necesario
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Por favor, completa el formulario correctamente',
+      });
 
-    // }
+    }
   }
 
 
@@ -231,7 +457,7 @@ export class JornadaComponent implements OnInit {
     console.log("fechaFormateada", fechaFormateada);
 
     return fechaFormateada;
-  
+
   }
 
 
@@ -247,9 +473,9 @@ export class JornadaComponent implements OnInit {
 
     if (this.TurnosForm.valid) {
 
-       const ObjetUpdated = this.TurnosForm.value; // Obtén los datos del formulario
-       console.log("ObjetUpdated", ObjetUpdated);
-       let ObjetUpdatedCopia = { ...ObjetUpdated };
+      const ObjetUpdated = this.TurnosForm.value; // Obtén los datos del formulario
+      console.log("ObjetUpdated", ObjetUpdated);
+      let ObjetUpdatedCopia = { ...ObjetUpdated };
 
       if (typeof ObjetUpdatedCopia.fecha_hora_ini === 'string') {
 
@@ -267,7 +493,7 @@ export class JornadaComponent implements OnInit {
         // El campo es de tipo Date
         console.log('Es un objeto Date');
         ObjetUpdatedCopia.fecha_hora_ini = this.formateoFecha(ObjetUpdatedCopia.fecha_hora_ini);
- 
+
       }
 
 
@@ -287,14 +513,26 @@ export class JornadaComponent implements OnInit {
         // El campo es de tipo Date
         console.log('Es un objeto Date');
         ObjetUpdatedCopia.fecha_hora_fin = this.formateoFecha(ObjetUpdatedCopia.fecha_hora_fin);
-        
+
       }
 
-       console.log("ObjetUpdatedCopia", ObjetUpdatedCopia);
+      ObjetUpdatedCopia.rut_maestro = ObjetUpdatedCopia.obj_maestro.rut,
+        ObjetUpdatedCopia.rut_ayudante = ObjetUpdatedCopia.obj_ayudante.rut,
+        ObjetUpdatedCopia.patente = ObjetUpdatedCopia.obj_camionetas.patente,
+        ObjetUpdatedCopia.km_inicial = ObjetUpdatedCopia.km_inicial,
+        ObjetUpdatedCopia.km_final = ObjetUpdatedCopia.km_final,
+        ObjetUpdatedCopia.fecha_hora_ini = ObjetUpdatedCopia.fecha_hora_ini,
+        ObjetUpdatedCopia.fecha_hora_fin = ObjetUpdatedCopia.fecha_hora_fin,
+        ObjetUpdatedCopia.brigada = ObjetUpdatedCopia.obj_brigada.id,
+        ObjetUpdatedCopia.tipo_turno = ObjetUpdatedCopia.obj_tipo_turno.id
+
+      console.log("ObjetUpdatedCopia", ObjetUpdatedCopia);
 
       // Luego, puedes enviar los datos actualizados al servidor, por ejemplo, utilizando un servicio:
       this.turnosService.updateJornada(ObjetUpdatedCopia).subscribe(
         (response) => {
+
+          console.log("response", response);
 
           this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro actualizado', life: 3000 });
 
@@ -312,8 +550,49 @@ export class JornadaComponent implements OnInit {
           });
         }
       );
-     
+
     }
+
+  }
+
+
+
+
+  onEliminarClick(turno: Turnos) {
+
+    console.log("turno", turno);
+
+
+    this.confirmationService.confirm({
+      message: 'Estás seguro de que deseas eliminar ID : ' + turno.id + '?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+
+        this.turnosService.deleteJornada(turno).subscribe(
+          (response) => {
+
+            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado', life: 3000 });
+
+            this.recuperaJornadas();
+
+          },
+          (error) => {
+
+            // Manejar errores
+            console.error('Error :', error);
+
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Por favor, intentar mas tarde problemas de servicio',
+            });
+
+          }
+        );
+
+      }
+    });
 
   }
 

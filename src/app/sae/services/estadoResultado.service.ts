@@ -388,6 +388,30 @@ export class EstadoResultadoService {
         return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/listabrigadassae`);
     }
 
+
+    
+    listaTipodeturno() {
+        return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/tipoturno`);
+    }
+
+
+    listaAyudantes() {
+        return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/ayudantes`);
+    }
+
+    
+    listaMaestros() {
+        return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/usuariosApp`);
+    }
+
+
+    listaCamionetas() {
+        return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/camionetas`);
+    }
+    
+
+    
+
     horaextranoprocesados() {
         return this.http.get<any>(`${this.baseUrl}/horaextranoprocesados`);
     }

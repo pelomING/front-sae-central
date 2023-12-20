@@ -30,21 +30,109 @@ export class TurnosService {
     }
 
     getJornada(): Observable<Turnos[]> {
-        return this.http.get<Turnos[]>(`${this.baseUrl}/alljornada`);
-    }
+        
+        return this.http.get<Turnos[]>(`${this.baseUrl}/alljornada`).pipe(
+          map((response) => {
+            if (response) {
+              // Filtra los elementos que tienen estado 1
+              const filteredResponse = response.filter(item => item.estado === 1);
+              return filteredResponse;
+            } else {
+              throw new Error('Respuesta inesperada del servidor');
+            }
+          }),
+          catchError((error) => {
+            console.error('Error en la solicitud:', error);
+            return throwError('Ha ocurrido un error en la solicitud.');
+          })
+        );
+      }
 
 
 
     // /api/reportes/v1/updatejornada/{id}
 
     updateJornada(turno: Turnos): Observable<any[]> {
-
+        
         const data = {
-            fecha_hora_ini : turno.fecha_hora_ini ,
-            fecha_hora_fin : turno.fecha_hora_fin
-           };
+            rut_maestro: turno.rut_maestro,
+            rut_ayudante: turno.rut_ayudante,
+            patente: turno.patente,
+            km_inicial: turno.km_inicial,
+            km_final: turno.km_final,
+            fecha_hora_ini: turno.fecha_hora_ini,
+            fecha_hora_fin: turno.fecha_hora_fin,
+            brigada: turno.brigada,
+            tipo_turno: turno.tipo_turno
+        };
+
+
+        console.log("data", data);
+
 
         return this.http.put<any[]>(`${this.baseUrl}/updatejornada/${turno.id}`, data, httpOptions).pipe(
+            map((response) => {
+
+                if (response) {
+                    return response;
+                } else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+
+            }),
+            catchError((error) => {
+
+                console.error('Error en la solicitud:', error);
+                return throwError('Ha ocurrido un error en la solicitud.');
+
+            })
+        );
+
+    }
+
+
+
+    // /api/reportes/v1/creajornada
+
+    creaJornada(turno: Turnos): Observable<Turnos> {
+
+        const data = {
+            rut_maestro: turno.rut_maestro,
+            rut_ayudante: turno.rut_ayudante,
+            patente: turno.patente,
+            km_inicial: turno.km_inicial,
+            km_final: turno.km_final,
+            fecha_hora_ini: turno.fecha_hora_ini,
+            fecha_hora_fin: turno.fecha_hora_fin,
+            brigada: turno.brigada,
+            tipo_turno: turno.tipo_turno
+        };
+
+        return this.http.post<Turnos>(`${this.baseUrl}/creajornada`, data, httpOptions).pipe(
+            map((response) => {
+
+                if (response) {
+                    return response;
+                } else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+
+            }),
+            catchError((error) => {
+
+                console.error('Error en la solicitud:', error);
+                return throwError('Ha ocurrido un error en la solicitud.');
+            })
+        );
+
+    }
+
+
+
+    ///api/reportes/v1/deletejornada/{id}
+    deleteJornada(turno: Turnos): Observable<any> {
+
+        return this.http.delete<any>(`${this.baseUrl}/deletejornada/${turno.id}`,httpOptions).pipe(
             map((response) => {
 
                 if (response) {

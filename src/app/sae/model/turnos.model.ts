@@ -1,20 +1,36 @@
 export interface Turnos {
+
     id?: number;
+
     rut_maestro?: string;
     rut_ayudante?: string;
+    
     nombre_maestro?: string;
     nombre_ayudante?: string;
-    turno?: string;
+
+    obj_maestro?: Maestro;
+    obj_ayudante?: Ayudante;
+
     patente?: string;
-    paquete?: string;
+    obj_camionetas?: Camioneta;
+    
     km_inicial?: string;
     km_final?: string;
     fecha_hora_ini?: string;
     fecha_hora_fin?: string;
-    estado?: string;
+
     brigada?: string;
+    obj_brigada?: Brigada;
+
     tipo_turno?: string;
-    coordenadas: Coordenadas;
+    obj_tipo_turno?: TipoTurno;
+
+    turno?: string;
+    paquete?: string;
+    estado?: number;
+    
+    coordenadas?: Coordenadas;
+
 }
 
 export interface Coordenadas {
@@ -22,7 +38,30 @@ export interface Coordenadas {
     longitude?: string;
   }
 
+  export interface Maestro {
+    rut?: string;
+    nombre?: string;
+  }
 
+  export interface Ayudante {
+    rut?: string;
+    nombre?: string;
+  }
+  
+  export interface Brigada {
+    id?: Number;
+    brigada?: string;
+  }
+  
+  export interface TipoTurno {
+    id?: Number;
+    nombre?: string;
+  }
+    
+  export interface Camioneta {
+    id?: Number;
+    patente?: string;
+  }
 
     
 
