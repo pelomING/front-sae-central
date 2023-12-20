@@ -11,6 +11,7 @@ import { PrimeIcons } from 'primeng/api';
 import { saveAs } from 'file-saver';
 // import * as XLSX from 'sheetjs-style';
 import * as XLSX from 'xlsx-js-style';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 //conecta a desarrollo
@@ -25,11 +26,6 @@ export class EventoComponent implements OnInit, AfterViewInit {
 
   @ViewChild('map') mapContainer!: ElementRef;
 
-  iconConfig = {
-    icon: PrimeIcons.MAP_MARKER,
-    markerColor: 'green',
-    size: '2.5rem'
-  };
 
 
   display = false;
@@ -48,6 +44,7 @@ export class EventoComponent implements OnInit, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
     private eventoService: EventoService,
+    private sanitizer: DomSanitizer,
     private messageService: MessageService,
     private confirmationService: ConfirmationService) {
 
@@ -88,6 +85,14 @@ export class EventoComponent implements OnInit, AfterViewInit {
     // Ajustar el tamaño del mapa cuando cambie el tamaño de la ventana
     this.map.invalidateSize();
   }
+
+
+
+  iconConfig = {
+    icon: this.sanitizer.bypassSecurityTrustUrl('assets/layout/images/location-icon-png-4240.png'),
+    markerColor: 'green',
+    size: '2.5rem'
+  };
 
 
 
@@ -152,13 +157,28 @@ export class EventoComponent implements OnInit, AfterViewInit {
     // });
 
     // Crea un icono de Leaflet utilizando el icono de PrimeNG
-    const customIcon = L.divIcon({
-      className: 'custom-marker',
-      html: `<i class="pi ${this.iconConfig.icon}" style="color: ${this.iconConfig.markerColor}; font-size: ${this.iconConfig.size};"></i>`
+    // const customIcon = L.divIcon({
+    //   className: 'custom-marker',
+    //   html: `<i class="pi ${this.iconConfig.icon}" style="color: ${this.iconConfig.markerColor}; font-size: ${this.iconConfig.size};"></i>`
+    // });
+
+    // Añade el marcador al mapa con el icono personalizado
+    //L.marker([this.lat, this.lng], { icon: customIcon }).addTo(this.map);
+
+
+    // Crea un icono de Leaflet utilizando una imagen personalizada
+    const customIcon = L.icon({
+      //iconUrl: 'assets/layout/images/location-icon-azul.png', // Ruta de la imagen personalizada
+      iconUrl: 'assets/layout/images/location-icon-rojo.png', // Ruta de la imagen personalizada
+      iconSize: [32, 32], // Tamaño de la imagen
+      iconAnchor: [16, 32], // Punto de anclaje de la imagen
+      popupAnchor: [0, -32] // Punto de anclaje del popup
     });
 
     // Añade el marcador al mapa con el icono personalizado
     L.marker([this.lat, this.lng], { icon: customIcon }).addTo(this.map);
+
+
 
 
   }
@@ -191,9 +211,9 @@ export class EventoComponent implements OnInit, AfterViewInit {
   recuperaEventos(): void {
     this.eventoService.getEventos().subscribe({
       next: (data) => {
-        
+
         console.log("data eventos:", data);
-        
+
         this.eventos = data;
         this.eventos.sort((a, b) => b.id - a.id);
 

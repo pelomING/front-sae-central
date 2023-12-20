@@ -3,7 +3,12 @@
         <p-toast></p-toast>
         <p-toolbar styleClass="mb-4 gap-2">
             <ng-template pTemplate="left">
+
                 <!-- <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button> -->
+
+                <button pButton pRipple label="Ingresar Turno" icon="pi pi-plus" class="p-button-success mr-2"
+                    (click)="openNew()"></button>
+
             </ng-template>
             <ng-template pTemplate="right">
                 <!-- <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
@@ -121,9 +126,13 @@
                     <td>{{ filtrarFecha(turno.fecha_hora_fin) }}</td>
 
                     <td>
+
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
                             (click)="editTurno(turno)"></button>
-                        <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onEliminarClick(evento)"></button> -->
+
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                            (click)="onEliminarClick(turno)"></button>
+
                     </td>
 
                 </tr>
@@ -139,53 +148,127 @@
 
 
 
-    <p-dialog [(visible)]="turnoDialog" [style]="{ width: '500px' , height: '555px' }" header="Editar" [modal]="true"
-        styleClass="p-fluid">
+    <p-dialog [(visible)]="turnoDialog" [style]="{ width: '800px' , height: '650px' }" header="{{ titulo_formulario }}"
+        [modal]="true" styleClass="p-fluid">
 
         <ng-template pTemplate="content">
 
             <form [formGroup]="TurnosForm">
 
-                <h1>Id Registro : {{IDTURNO}}</h1>
+                <h1>{{IDTURNO}}</h1>
 
                 <hr>
 
                 <input type="hidden" pInputhidden id="id" class="form-control" formControlName="id">
 
+
                 <div class="grid" style="margin-top:1%;">
-                    <div class="col-6">
-
+                    <div class="col-4">
                         <span class="p-float-label">
-
                             <p-calendar id="fecha_hora_ini" formControlName="fecha_hora_ini" class="form-control"
                                 dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true"></p-calendar>
-
                             <label htmlFor="fecha_hora_ini">Fecha y Hora Inicio</label>
-
                         </span>
-
                     </div>
-                    <div class="col-6">
-
-
+                    <div class="col-4">
                         <span class="p-float-label">
-
                             <p-calendar id="fecha_hora_fin" formControlName="fecha_hora_fin" class="form-control"
                                 dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true"></p-calendar>
 
                             <label htmlFor="fecha_hora_fin">Fecha y Hora Final</label>
-
                         </span>
-
-
+                    </div>
+                    <div class="col-4">
 
                     </div>
                 </div>
 
-                <div class="grid" style="margin-top:15%;">
-                    <div class="col-3"></div>
+
+
+                <div class="grid" style="margin-top:1%;">
                     <div class="col-6">
 
+                        <span class="p-float-label">
+                            <p-dropdown formControlName="obj_brigada" id="brigada" class="form-control"
+                                [options]="lista_objs_brigadas" optionLabel="brigada"
+                                placeholder="Seleccionar"></p-dropdown>
+                            <label htmlFor="brigada">Brigada</label>
+                        </span>
+
+                    </div>
+                    <div class="col-6">
+
+                        <span class="p-float-label">
+                            <p-dropdown formControlName="obj_tipo_turno" id="tipo_turno" class="form-control"
+                                [options]="lista_objs_tipoTurno" optionLabel="nombre"
+                                placeholder="Seleccionar"></p-dropdown>
+                            <label htmlFor="tipo_turno">Tipo Turno</label>
+                        </span>
+
+                    </div>
+                </div>
+
+
+                <div class="grid" style="margin-top:1%;">
+                    <div class="col-6">
+
+                        <span class="p-float-label">
+                            <p-dropdown formControlName="obj_maestro" id="nombre_maestro" class="form-control"
+                                [options]="lista_objs_maestros" optionLabel="nombre"
+                                placeholder="Seleccionar"></p-dropdown>
+                            <label htmlFor="nombre_maestro">Nombre Maestro</label>
+                        </span>
+
+                    </div>
+                    <div class="col-6">
+
+                        <span class="p-float-label">
+                            <p-dropdown formControlName="obj_ayudante" id="nombre_ayudante" class="form-control"
+                                [options]="lista_objs_ayudantes" optionLabel="nombre"
+                                placeholder="Seleccionar"></p-dropdown>
+                            <label htmlFor="nombre_ayudante">Nombre Ayudante</label>
+                        </span>
+
+                    </div>
+                </div>
+
+
+
+                <div class="grid" style="margin-top:1%;">
+                    <div class="col-4">
+
+                        <span class="p-float-label">
+                            <p-dropdown formControlName="obj_camionetas" id="camionetas" class="form-control"
+                                [options]="lista_objs_camionetas" optionLabel="patente"
+                                placeholder="Seleccionar"></p-dropdown>
+                            <label htmlFor="camionetas">Camionetas</label>
+                        </span>
+
+                    </div>
+                    <div class="col-4">
+
+                        <span class="p-float-label">
+                            <input type="number" pInputText id="km_inicial" class="form-control"
+                                formControlName="km_inicial">
+                            <label htmlFor="km_inicial">Km Inicial</label>
+                        </span>
+
+                    </div>
+                    <div class="col-4">
+
+                        <span class="p-float-label">
+                            <input type="number" pInputText id="km_final" class="form-control"
+                                formControlName="km_final">
+                            <label htmlFor="km_final">Km Final</label>
+                        </span>
+
+                    </div>
+                </div>
+
+
+                <div class="grid" style="margin-top:10%;">
+                    <div class="col-3"></div>
+                    <div class="col-6">
                         <button *ngIf="mostrarGuardar" pButton pRipple label="Guardar" (click)="onGuardarClick()"
                             visible="false" [loading]="loading" [disabled]="TurnosForm.invalid"
                             class="p-button-rounded p-button-outlined p-mt-10"></button>
