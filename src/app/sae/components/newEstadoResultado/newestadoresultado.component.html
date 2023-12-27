@@ -5,7 +5,7 @@
             <p-toast></p-toast>
 
             <p-toolbar styleClass="mb-4">
-                <ng-template pTemplate="left">
+                <ng-template pTemplate="left" style="padding-top:5%" >
 
 
                     <!-- <div class="form-group">
@@ -18,14 +18,14 @@
                             placeholder="Mes"></p-dropdown>
                     </div> -->
 
-                    <form [formGroup]="formularioPeriodoForm">
+                    <form [formGroup]="formularioPeriodoForm" class="form-group" style="" >
 
                         <div class="grid">
                             <div class="col">
 
                                 <span class="p-float-label">
                                     <p-calendar id="FechaInicio" formControlName="FechaInicio" class="form-control"
-                                        [showIcon]="true" dateFormat="mm-dd-yy"></p-calendar>
+                                        [showIcon]="true" dateFormat="dd-mm-yy" ></p-calendar>
                                     <label htmlFor="FechaInicio">FechaInicio</label>
                                 </span>
 
@@ -34,7 +34,7 @@
                             <div class="col">
                                 <span class="p-float-label">
                                     <p-calendar id="FechaFinal" formControlName="FechaFinal" class="form-control"
-                                        [showIcon]="true" dateFormat="mm-dd-yy"></p-calendar>
+                                        [showIcon]="true" dateFormat="dd-mm-yy" ></p-calendar>
                                     <label htmlFor="FechaFinal">FechaFinal</label>
                                 </span>
 
@@ -55,15 +55,11 @@
                 <ng-template pTemplate="right">
 
                     <!-- Importa la directiva ngxPrint en tu componente -->
-
                     <!-- printTitle="Estado de Pago Servicio Atención Emergencias" -->
-
                     <!-- <div ngxPrint [printStyleFile]="'assets/print-style.css'" > -->
                     <!-- Contenido de la página que quieres imprimir -->
                     <!-- <button pButton icon="pi pi-print"  printSectionId="pdfContainer" (click)="print()">Imprimir</button> -->
                     <!-- </div> -->
-
-                    
 
                     <button 
                         download="PRELIMINAR_ESTADO_DE_PAGO_SERVICIO_DE_ATENCIÓN_DE_EMERGENCIAS.pdf"  
