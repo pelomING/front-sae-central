@@ -71,10 +71,10 @@ interface InterfaceHoraExtra {
 interface InterfaceBrigada {
     id: Number;
     brigada: string;
-  }
+}
 
 
-  interface CierrePeriodoInterface {
+interface CierrePeriodoInterface {
     periodo: string;
     zonal: Zona;
     fecha_inicial: string;
@@ -83,13 +83,13 @@ interface InterfaceBrigada {
     supervisor_cge: string;
     turnos_comprometidos: string;
     fecha_generacion: string;
-  }
+}
 
 
-  interface Zona {
+interface Zona {
     name: string;
     code: string;
-  }
+}
 
 
 
@@ -122,7 +122,7 @@ export class EstadoResultadoService {
     getResumenEventos(fechaInicial: string, fechaFinal: string, idPaquete: number): Observable<ResumenEvento[]> {
         // Define los parámetros utilizando los argumentos de la función
         const params = new HttpParams()
-            .set('fecha_inicial', fechaInicial) 
+            .set('fecha_inicial', fechaInicial)
             .set('fecha_final', fechaFinal)
             .set('id_paquete', idPaquete.toString()); // Convierte a cadena si es necesario
 
@@ -152,10 +152,10 @@ export class EstadoResultadoService {
     PERMANENICACARGOFIJOSEMANALPORBRIGADA(nuevaConsulta): Observable<any> {
 
         const params = new HttpParams()
-        .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
-        .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
+            .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
+            .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
 
-        return this.http.get<any>(`${this.baseUrl}/permanencia_por_brigada`,{ params }).pipe(
+        return this.http.get<any>(`${this.baseUrl}/permanencia_por_brigada`, { params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -169,10 +169,10 @@ export class EstadoResultadoService {
     HORASEXTRAS(nuevaConsulta): Observable<any> {
 
         const params = new HttpParams()
-        .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
-        .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
+            .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
+            .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
 
-        return this.http.get<any>(`${this.baseUrl}/horasextras`,{ params }).pipe(
+        return this.http.get<any>(`${this.baseUrl}/horasextras`, { params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -181,10 +181,10 @@ export class EstadoResultadoService {
     TURNOSADICIONALES(nuevaConsulta): Observable<any> {
 
         const params = new HttpParams()
-        .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
-        .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
+            .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
+            .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
 
-        return this.http.get<any>(`${this.baseUrl}/turnosadicionales`,{ params }).pipe(
+        return this.http.get<any>(`${this.baseUrl}/turnosadicionales`, { params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -193,10 +193,10 @@ export class EstadoResultadoService {
     TURNOSCONTINGENCIA(nuevaConsulta): Observable<any> {
 
         const params = new HttpParams()
-        .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
-        .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
+            .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
+            .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
 
-        return this.http.get<any>(`${this.baseUrl}/turnoscontingencia`,{ params }).pipe(
+        return this.http.get<any>(`${this.baseUrl}/turnoscontingencia`, { params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -205,10 +205,10 @@ export class EstadoResultadoService {
     PRODUCCIONPxQ(nuevaConsulta): Observable<any> {
 
         const params = new HttpParams()
-        .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
-        .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
+            .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
+            .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
 
-        return this.http.get<any>(`${this.baseUrl}/produccionpxq`,{ params }).pipe(
+        return this.http.get<any>(`${this.baseUrl}/produccionpxq`, { params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -217,10 +217,10 @@ export class EstadoResultadoService {
     COBROSADICIONALES(nuevaConsulta): Observable<any> {
 
         const params = new HttpParams()
-        .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
-        .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
+            .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
+            .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
 
-        return this.http.get<any>(`${this.baseUrl}/reportecobroadicional`,{ params }).pipe(
+        return this.http.get<any>(`${this.baseUrl}/reportecobroadicional`, { params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -229,10 +229,10 @@ export class EstadoResultadoService {
     DESCUENTOS(nuevaConsulta): Observable<any> {
 
         const params = new HttpParams()
-        .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
-        .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
+            .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
+            .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
 
-        return this.http.get<any>(`${this.baseUrl}/reportedescuentos`,{ params }).pipe(
+        return this.http.get<any>(`${this.baseUrl}/reportedescuentos`, { params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -241,10 +241,10 @@ export class EstadoResultadoService {
     RESUMEN(nuevaConsulta): Observable<any> {
 
         const params = new HttpParams()
-        .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
-        .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
+            .set('fecha_ini', nuevaConsulta.FechaInicio.toString())
+            .set('fecha_fin', nuevaConsulta.FechaFinal.toString());
 
-        return this.http.get<any>(`${this.baseUrl}/reporteresumen`,{ params }).pipe(
+        return this.http.get<any>(`${this.baseUrl}/reporteresumen`, { params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -254,79 +254,79 @@ export class EstadoResultadoService {
     /*CONSUTAS HISTORICAS de ESTADO DE PAGO*/
 
 
-    PERMANENICACARGOFIJOSEMANALPORBRIGADA_HISTORIAL(id_estado_pago:string): Observable<any> {
+    PERMANENICACARGOFIJOSEMANALPORBRIGADA_HISTORIAL(id_estado_pago: string): Observable<any> {
 
         const params = new HttpParams()
-        .set('id_estado_pago', id_estado_pago.toString());
+            .set('id_estado_pago', id_estado_pago.toString());
 
-        return this.http.get<any>(`${this.baseUrl}/permanencia_por_brigada_historial`,{ params }).pipe(
+        return this.http.get<any>(`${this.baseUrl}/permanencia_por_brigada_historial`, { params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
 
 
-    OBSERVACIONES_HISTORIAL(id_estado_pago:string): Observable<any[]> {
+    OBSERVACIONES_HISTORIAL(id_estado_pago: string): Observable<any[]> {
 
         const params = new HttpParams()
-        .set('id_estado_resultado', id_estado_pago.toString());
-        
-        return this.http.get<any[]>(`${this.baseUrl}/findobservacioneshistorial`,{ params }).pipe(
+            .set('id_estado_resultado', id_estado_pago.toString());
+
+        return this.http.get<any[]>(`${this.baseUrl}/findobservacioneshistorial`, { params }).pipe(
             map(response => response)
         );
 
     }
 
 
-    HORASEXTRAS_HISTORIAL(id_estado_pago:string): Observable<any> {
+    HORASEXTRAS_HISTORIAL(id_estado_pago: string): Observable<any> {
 
         const params = new HttpParams()
-        .set('id_estado_pago', id_estado_pago.toString());      
+            .set('id_estado_pago', id_estado_pago.toString());
 
-        return this.http.get<any>(`${this.baseUrl}/horasextrafindHorasExtrasHistorial`,{ params }).pipe(
+        return this.http.get<any>(`${this.baseUrl}/horasextrafindHorasExtrasHistorial`, { params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
 
 
-    TURNOSADICIONALES_HISTORIAL(id_estado_pago:string): Observable<any> {
+    TURNOSADICIONALES_HISTORIAL(id_estado_pago: string): Observable<any> {
 
         const params = new HttpParams()
-        .set('id_estado_pago', id_estado_pago.toString());
-        
-        return this.http.get<any>(`${this.baseUrl}/turnosadicionaleshistorial`,{ params }).pipe(
+            .set('id_estado_pago', id_estado_pago.toString());
+
+        return this.http.get<any>(`${this.baseUrl}/turnosadicionaleshistorial`, { params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
 
 
-    TURNOSCONTINGENCIA_HISTORIAL(id_estado_pago:string): Observable<any> {
+    TURNOSCONTINGENCIA_HISTORIAL(id_estado_pago: string): Observable<any> {
 
         const params = new HttpParams()
-        .set('id_estado_pago', id_estado_pago.toString());
-        
-        return this.http.get<any>(`${this.baseUrl}/turnoscontingenciahistorial`,{ params }).pipe(
+            .set('id_estado_pago', id_estado_pago.toString());
+
+        return this.http.get<any>(`${this.baseUrl}/turnoscontingenciahistorial`, { params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
 
 
-    PRODUCCIONPxQ_HISTORIAL(id_estado_pago:string): Observable<any> {
+    PRODUCCIONPxQ_HISTORIAL(id_estado_pago: string): Observable<any> {
 
         const params = new HttpParams()
-        .set('id_estado_pago', id_estado_pago.toString());
-        
-        return this.http.get<any>(`${this.baseUrl}/produccionpxqhistorial`,{ params }).pipe(
+            .set('id_estado_pago', id_estado_pago.toString());
+
+        return this.http.get<any>(`${this.baseUrl}/produccionpxqhistorial`, { params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
 
 
-    COBROSADICIONALES_HISTORIAL(id_estado_pago:string): Observable<any> {
+    COBROSADICIONALES_HISTORIAL(id_estado_pago: string): Observable<any> {
 
         const params = new HttpParams()
-        .set('id_estado_pago', id_estado_pago.toString());
-        
-        return this.http.get<any>(`${this.baseUrl}/reportecobroadicionalhistorial`,{ params }).pipe(
+            .set('id_estado_pago', id_estado_pago.toString());
+
+        return this.http.get<any>(`${this.baseUrl}/reportecobroadicionalhistorial`, { params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -335,9 +335,9 @@ export class EstadoResultadoService {
     DESCUENTOS_HISTORIAL(id_estado_pago: string): Observable<any> {
 
         const params = new HttpParams()
-        .set('id_estado_pago', id_estado_pago.toString());
-        
-        return this.http.get<any>(`${this.baseUrl}/reportedescuentoshistorial`,{ params }).pipe(
+            .set('id_estado_pago', id_estado_pago.toString());
+
+        return this.http.get<any>(`${this.baseUrl}/reportedescuentoshistorial`, { params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -346,9 +346,9 @@ export class EstadoResultadoService {
     RESUMEN_HISTORIAL(id_estado_pago: string): Observable<any> {
 
         const params = new HttpParams()
-        .set('id_estado_pago', id_estado_pago.toString());
-        
-        return this.http.get<any>(`${this.baseUrl}/reporteresumenhistorial`,{ params }).pipe(
+            .set('id_estado_pago', id_estado_pago.toString());
+
+        return this.http.get<any>(`${this.baseUrl}/reporteresumenhistorial`, { params }).pipe(
             map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
         );
     }
@@ -388,29 +388,33 @@ export class EstadoResultadoService {
         return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/listabrigadassae`);
     }
 
-
-    
     listaTipodeturno() {
         return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/tipoturno`);
     }
 
+    listaMaestros() {
+        return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/usuariosApp`);
+    }
 
     listaAyudantes() {
         return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/ayudantes`);
     }
 
-    
-    listaMaestros() {
-        return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/usuariosApp`);
-    }
-
-
     listaCamionetas() {
         return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/camionetas`);
     }
-    
 
     
+    listaTipoEvento() {
+        return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/eventostipo`);
+    }
+
+    listaComuna() {
+        return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/comunas`);
+    }
+
+
+
 
     horaextranoprocesados() {
         return this.http.get<any>(`${this.baseUrl}/horaextranoprocesados`);
@@ -479,7 +483,7 @@ export class EstadoResultadoService {
 
     deleteHoraExtra(ObjectDelete: InterfaceHoraExtra): Observable<any> {
 
-        return this.http.delete<any>(`${this.baseUrl}/deletehoraextra/${ObjectDelete.id}`,httpOptions).pipe(
+        return this.http.delete<any>(`${this.baseUrl}/deletehoraextra/${ObjectDelete.id}`, httpOptions).pipe(
             map((response) => {
 
                 if (response) {
@@ -570,7 +574,7 @@ export class EstadoResultadoService {
 
     deleteDescuentos(ObjectDelete: Descuentos): Observable<any> {
 
-        return this.http.delete<any>(`${this.baseUrl}/deletedescuento/${ObjectDelete.id}`,httpOptions).pipe(
+        return this.http.delete<any>(`${this.baseUrl}/deletedescuento/${ObjectDelete.id}`, httpOptions).pipe(
             map((response) => {
 
                 if (response) {
@@ -661,7 +665,7 @@ export class EstadoResultadoService {
 
     deleteCobroAdicional(ObjectDelete: CobrosAdicionales): Observable<any> {
 
-        return this.http.delete<any>(`${this.baseUrl}/deletecobroadicional/${ObjectDelete.id}`,httpOptions).pipe(
+        return this.http.delete<any>(`${this.baseUrl}/deletecobroadicional/${ObjectDelete.id}`, httpOptions).pipe(
             map((response) => {
 
                 if (response) {
@@ -747,7 +751,7 @@ export class EstadoResultadoService {
 
     deleteObservacion(nuevo: Observacion): Observable<any> {
 
-        return this.http.delete<any>(`${this.baseUrl}/deleteobservaciones/${nuevo.id}`,httpOptions).pipe(
+        return this.http.delete<any>(`${this.baseUrl}/deleteobservaciones/${nuevo.id}`, httpOptions).pipe(
             map((response) => {
 
                 if (response) {

@@ -31,6 +31,10 @@ export interface Turnos {
     
     coordenadas?: Coordenadas;
 
+    coordenada_x?: string,
+    coordenada_y?: string
+
+
 }
 
 export interface Coordenadas {
