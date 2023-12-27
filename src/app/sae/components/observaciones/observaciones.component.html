@@ -22,11 +22,8 @@
 
 
             <p-table #dt [value]="ListObservacion" [columns]="cols" responsiveLayout="scroll" [rows]="10"
-                
-                [globalFilterFields]="['id','detalle','fecha_hora']" 
-            
-                [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
-                [showCurrentPageReport]="true"
+                [globalFilterFields]="['id','detalle','fecha_hora']" [paginator]="true"
+                [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [(selection)]="selectedEstadoResultado" selectionMode="multiple" [rowHover]="true" dataKey="id">
 
@@ -58,7 +55,7 @@
                             <span class="p-column-title">id</span>
                             {{Observacion.id}}
                         </td>
-                        
+
                         <td>
                             <span class="p-column-title">detalle</span>
                             {{Observacion.detalle}}
@@ -96,11 +93,10 @@
                         <div class="col-6">
 
                             <span class="p-float-label">
-                                <p-calendar id="fecha_hora" formControlName="fecha_hora" class="form-control" dateFormat="dd-mm-yy"
-                                    [showIcon]="true"></p-calendar>
+                                <p-calendar id="fecha_hora" formControlName="fecha_hora" class="form-control"
+                                    dateFormat="dd-mm-yy" [showIcon]="true"></p-calendar>
                                 <label htmlFor="fecha_hora">Fecha</label>
                             </span>
-                          
 
                         </div>
                         <div class="col-6">
@@ -117,11 +113,9 @@
                                 <label htmlFor="Observacion">Observación</label>
                             </span>
 
-
-
                         </div>
                     </div>
-                    
+
 
 
                     <div class="grid" style="margin-top:2%;">

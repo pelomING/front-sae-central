@@ -12,6 +12,48 @@ import { saveAs } from 'file-saver';
 // import * as XLSX from 'sheetjs-style';
 import * as XLSX from 'xlsx-js-style';
 import { DomSanitizer } from '@angular/platform-browser';
+import { EstadoResultadoService } from '../../services/estadoResultado.service';
+import { GeolocationService } from '../../services/geolocation.service';
+
+
+
+interface InterfaceBrigada {
+  id: Number;
+  brigada: string;
+}
+
+interface InterfaceTipoTurno {
+  id: Number;
+  nombre: string;
+}
+
+interface InterfaceAyudantes {
+  rut: string;
+  nombre: string;
+}
+
+interface InterfaceMaestro {
+  rut: string;
+  nombre: string;
+}
+
+interface InterfaceCamioneta {
+  id: Number;
+  patente: string;
+}
+
+
+
+interface InterfaceTipoEvento {
+  codigo: string;
+  descripcion: string;
+}
+
+interface InterfaceComuna {
+  codigo: Number;
+  nombre: string;
+}
+
 
 
 //conecta a desarrollo
@@ -40,17 +82,56 @@ export class EventoComponent implements OnInit, AfterViewInit {
   formObraDialog: boolean;
   EventosForm: FormGroup;
 
+
+  lista_objs_brigadas: InterfaceBrigada[] | undefined;
+
+  lista_objs_tipoTurno: InterfaceTipoTurno[] | undefined;
+
+  lista_objs_ayudantes: InterfaceAyudantes[] | undefined;
+
+  lista_objs_maestros: InterfaceMaestro[] | undefined;
+
+  lista_objs_camionetas: InterfaceCamioneta[] | undefined;
+
+
+  lista_obj_tipo_evento: InterfaceTipoEvento[] | undefined;
+
+  lista_obj_comuna: InterfaceComuna[] | undefined;
+
+  latitude: string;
+  longitude: string;
+
+
   constructor(
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
     private eventoService: EventoService,
     private sanitizer: DomSanitizer,
     private messageService: MessageService,
+    private estadoResultadoService: EstadoResultadoService,
+    private geolocationService: GeolocationService,
     private confirmationService: ConfirmationService) {
 
     this.EventosForm = this.fb.group({
+
       id: [''],
-      fecha_hora: ['', Validators.required]
+      numero_ot: ['', Validators.required],
+      despachador: ['', Validators.required],
+      trabajo_solicitado: ['', Validators.required],
+      direccion: ['', Validators.required],
+      trabajo_realizado: ['', Validators.required],
+      fecha_hora: ['', Validators.required],
+      hora_inicio: ['', Validators.required],
+      hora_termino: ['', Validators.required],
+
+      obj_brigada: ['', Validators.required],
+      obj_tipo_turno: ['', Validators.required],
+      obj_maestro: ['', Validators.required],
+      obj_ayudante: ['', Validators.required],
+      obj_camionetas: ['', Validators.required],
+      obj_tipo_evento: ['', Validators.required],
+      obj_comuna: ['', Validators.required],
+
     });
 
   }
@@ -86,15 +167,11 @@ export class EventoComponent implements OnInit, AfterViewInit {
     this.map.invalidateSize();
   }
 
-
-
   iconConfig = {
     icon: this.sanitizer.bypassSecurityTrustUrl('assets/layout/images/location-icon-png-4240.png'),
     markerColor: 'green',
     size: '2.5rem'
   };
-
-
 
   initializeMap() {
 
@@ -188,6 +265,8 @@ export class EventoComponent implements OnInit, AfterViewInit {
 
     this.recuperaEventos();
 
+    this.getLocation();
+
     this.cols = [
       { field: 'id', header: 'Id' },
       { field: 'despachador', header: 'Despachador' },
@@ -204,6 +283,102 @@ export class EventoComponent implements OnInit, AfterViewInit {
       { field: 'fecha_hora', header: 'Fecha Hora Ejecución' }
     ];
 
+
+    this.estadoResultadoService.listabrigadassae().subscribe({
+      next: (data) => {
+        this.lista_objs_brigadas = data.map((brigada: any) => {
+          return {
+            id: brigada.id,
+            brigada: brigada.brigada
+          }
+        })
+      }, error: (e) => console.error(e)
+    });
+
+    this.estadoResultadoService.listaTipodeturno().subscribe({
+      next: (data) => {
+        this.lista_objs_tipoTurno = data.map((turno: any) => {
+          return {
+            id: turno.id,
+            nombre: turno.nombre
+          }
+        })
+      }, error: (e) => console.error(e)
+    });
+
+    this.estadoResultadoService.listaAyudantes().subscribe({
+      next: (data) => {
+        this.lista_objs_ayudantes = data.map((ayudante: any) => {
+          return {
+            rut: ayudante.rut,
+            nombre: ayudante.nombre
+          }
+        })
+      }, error: (e) => console.error(e)
+    });
+
+    this.estadoResultadoService.listaMaestros().subscribe({
+      next: (data) => {
+        this.lista_objs_maestros = data.map((maestro: any) => {
+          return {
+            rut: maestro.rut,
+            nombre: maestro.nombre
+          }
+        })
+      }, error: (e) => console.error(e)
+    });
+
+    this.estadoResultadoService.listaCamionetas().subscribe({
+      next: (data) => {
+        this.lista_objs_camionetas = data.map((camioneta: any) => {
+          return {
+            id: camioneta.id,
+            patente: camioneta.patente
+          }
+        })
+      }, error: (e) => console.error(e)
+    });
+
+
+    this.estadoResultadoService.listaTipoEvento().subscribe({
+      next: (data) => {
+        this.lista_obj_tipo_evento = data.map((tipoeventos: any) => {
+          return {
+            codigo: tipoeventos.codigo,
+            descripcion: tipoeventos.descripcion
+          }
+        })
+      }, error: (e) => console.error(e)
+    });
+
+    this.estadoResultadoService.listaComuna().subscribe({
+      next: (data) => {
+        this.lista_obj_comuna = data.map((comunas: any) => {
+          return {
+            codigo: comunas.codigo,
+            nombre: comunas.nombre
+          }
+        })
+      }, error: (e) => console.error(e)
+    });
+
+  }
+
+
+
+
+  getLocation(): void {
+    this.geolocationService.getPosition().subscribe(
+      (position: GeolocationPosition) => {
+ 
+        this.latitude = position.coords.latitude.toString();
+        this.longitude = position.coords.longitude.toString();
+        
+      },
+      (error: any) => {
+        console.error(error);
+      }
+    );
   }
 
 
@@ -211,12 +386,8 @@ export class EventoComponent implements OnInit, AfterViewInit {
   recuperaEventos(): void {
     this.eventoService.getEventos().subscribe({
       next: (data) => {
-
-        console.log("data eventos:", data);
-
         this.eventos = data;
         this.eventos.sort((a, b) => b.id - a.id);
-
       }, error: (e) => console.error(e)
     });
   }
@@ -247,13 +418,28 @@ export class EventoComponent implements OnInit, AfterViewInit {
   eventoDialog = false;
   OT = null;
 
+
+  turnoDialog = false;
+  IDTURNO = null;
+
+  titulo_formulario = ''
+
+  openNew() {
+
+    this.OT = '';
+    this.titulo_formulario = 'INGRESAR EVENTO';
+
+    this.mostrarGuardar = true;
+    this.mostrarActualizar = false;
+    this.EventosForm.reset();
+    this.eventoDialog = true;
+
+  }
+
+
   editEvento(evento: Eventos) {
 
-    console.log("edit", evento);
-
     this.eventoCopia = { ...evento };
-
-    this.OT = this.eventoCopia.numero_ot;
 
     this.EventosForm.reset();
 
@@ -273,7 +459,23 @@ export class EventoComponent implements OnInit, AfterViewInit {
 
     this.eventoCopia.fecha_hora = fechaFormateada;
 
-    console.log("this.eventoCopia", this.eventoCopia);
+    this.eventoCopia.obj_maestro = { rut: this.eventoCopia.rut_maestro, nombre: this.eventoCopia.nombre_maestro };
+    this.eventoCopia.obj_ayudante = { rut: this.eventoCopia.rut_ayudante, nombre: this.eventoCopia.nombre_ayudante };
+
+    let result = this.lista_objs_tipoTurno.filter(obj => obj.nombre === this.eventoCopia.tipo_turno);
+    if (result.length > 0) this.eventoCopia.obj_tipo_turno = { id: result[0].id, nombre: result[0].nombre };
+
+    let result1 = this.lista_objs_brigadas.filter(obj => obj.brigada === this.eventoCopia.brigada);
+    if (result1.length > 0) this.eventoCopia.obj_brigada = { id: result1[0].id, brigada: result1[0].brigada };
+
+    let result2 = this.lista_objs_camionetas.filter(obj => obj.patente === this.eventoCopia.patente);
+    if (result2.length > 0) this.eventoCopia.obj_camionetas = { id: result2[0].id, patente: result2[0].patente };
+
+    let result3 = this.lista_obj_tipo_evento.filter(obj => obj.descripcion === this.eventoCopia.tipo_evento);
+    if (result3.length > 0) this.eventoCopia.obj_tipo_evento = { codigo: result3[0].codigo, descripcion: result3[0].descripcion  };
+ 
+    let result4 = this.lista_obj_comuna.filter(obj => obj.nombre === this.eventoCopia.comuna );
+    if (result4.length > 0) this.eventoCopia.obj_comuna = { codigo: result4[0].codigo, nombre: result4[0].nombre };
 
     this.EventosForm.patchValue(this.eventoCopia);
 
@@ -309,61 +511,79 @@ export class EventoComponent implements OnInit, AfterViewInit {
     }, 2000);
 
 
-    // if (this.HoraExtraForm.valid) {
+    if (this.EventosForm.valid) 
+    {
 
-    //   const nueva = this.HoraExtraForm.value;
+      const nuevoevento = this.EventosForm.value;
 
-    //   //console.log('Nueva:', nueva);
+      //console.log('Nuevo Evento:', nuevoevento);
 
-    //   let nuevaCopia = { ...nueva };
+      let nuevoeventoCopia = { ...nuevoevento };
 
-    //   nuevaCopia.fecha_hora = this.formateoFecha(nuevaCopia.fecha_hora);
 
-    //   //console.log('Nueva Formato Fecha :', nuevaCopia);
+      if (typeof nuevoeventoCopia.fecha_hora === 'string') {
 
-    //   this.estadoResultadoService.createHoraExtra(nuevaCopia).subscribe(
-    //     (response) => {
+        // El campo es de tipo texto (string)
+        console.log('Es una cadena de texto');
+        const arrayFechaHora = nuevoeventoCopia.fecha_hora.split(" ");
+        const arrayFecha = arrayFechaHora[0].split("-");
+        const arrayHora = arrayFechaHora[1].split(":");
+        // Formatea la fecha en el formato deseado
+        nuevoeventoCopia.fecha_hora = `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]} ${arrayHora[0]}:${arrayHora[1]}`;
 
-    //       // Manejar la respuesta exitosa
-    //       console.log('Obra guardada con éxito:', response);
+        // Puedes realizar operaciones específicas para cadenas de texto si es necesario
+      } else if (nuevoeventoCopia.fecha_hora instanceof Date) {
 
-    //       this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
+        // El campo es de tipo Date
+        console.log('Es un objeto Date');
+        nuevoeventoCopia.fecha_hora = this.formateoFecha(nuevoeventoCopia.fecha_hora);
 
-    //       this.productDialog = false;
+      }
 
-    //       this.estadoResultadoService.horaextranoprocesados().subscribe({
-    //         next: (data) => {
-    //           console.log("data", data);
-    //           this.ListHorasExtra = data.detalle;
-    //           this.ListHorasExtra.sort((a, b) => b.id - a.id);
-    //         }, error: (e) => console.error(e)
-    //       });
 
-    //     },
-    //     (error) => {
+      nuevoeventoCopia.coordenada_x = this.latitude;
+      nuevoeventoCopia.coordenada_y = this.longitude;
 
-    //       // Manejar errores
-    //       console.error('Error al guardar la obra:', error);
+      console.log('nuevoeventoCopia : ', nuevoeventoCopia);
 
-    //       this.messageService.add({
-    //         severity: 'error',
-    //         summary: 'Error',
-    //         detail: 'Por favor, intentar mas tarde problemas de servicio',
-    //       });
+      this.eventoService.creaEvento(nuevoeventoCopia).subscribe(
+        (response) => {
 
-    //     }
-    //   );
+          // Manejar la respuesta exitosa
+          console.log('éxito:', response);
 
-    // } else {
+          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
 
-    //   // El formulario es inválido, muestra errores si es necesario
-    //   this.messageService.add({
-    //     severity: 'error',
-    //     summary: 'Error',
-    //     detail: 'Por favor, completa el formulario correctamente',
-    //   });
+          this.eventoDialog = false;
 
-    // }
+          this.recuperaEventos();
+
+        },
+        (ObjError) => {
+
+          // Manejar errores
+          console.error('Error al guardar :', ObjError);
+
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error : ' + ObjError.status,
+            detail: 'Por favor, intentar mas tarde problemas de servicio : ' + ObjError.error.message,
+          });
+
+        }
+      );
+
+    } else {
+
+      // El formulario es inválido, muestra errores si es necesario
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Por favor, completa el formulario correctamente',
+      });
+
+    }
+
   }
 
 
@@ -428,6 +648,10 @@ export class EventoComponent implements OnInit, AfterViewInit {
 
       }
 
+
+      //ObjetUpdatedCopia.coordenada_x = this.latitude;
+      //ObjetUpdatedCopia.coordenada_y = this.longitude;
+
       console.log("ObjetUpdatedCopia", ObjetUpdatedCopia);
 
       // Luego, puedes enviar los datos actualizados al servidor, por ejemplo, utilizando un servicio:
@@ -441,13 +665,17 @@ export class EventoComponent implements OnInit, AfterViewInit {
           this.recuperaEventos();
 
         },
-        (error) => {
-          // Manejar errores, por ejemplo, mostrar un mensaje de error
+        (ObjError) => {
+
+          // Manejar errores
+          console.error('Error al actualizar :', ObjError);
+
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: 'No se pudo actualizar el registro. Inténtelo de nuevo.',
+            summary: 'Error : ' + ObjError.status,
+            detail: 'Por favor, intentar mas tarde problemas de servicio : ' + ObjError.error.message,
           });
+
         }
       );
 
@@ -455,6 +683,45 @@ export class EventoComponent implements OnInit, AfterViewInit {
 
   }
 
+
+
+  onEliminarClick(evento: Eventos) {
+
+    console.log("evento", evento);
+
+
+    this.confirmationService.confirm({
+      message: 'Estás seguro de que deseas eliminar ID : ' + evento.numero_ot + '?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+
+        this.eventoService.deleteEvento(evento).subscribe(
+          (response) => {
+
+            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado', life: 3000 });
+
+            this.recuperaEventos();
+
+          },
+          (ObjError) => {
+
+            // Manejar errores
+            console.error('Error al Delete :', ObjError);
+
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error : ' + ObjError.status,
+              detail: 'Por favor, intentar mas tarde problemas de servicio: ' + ObjError.error.message,
+            });
+
+          }
+        );
+
+      }
+    });
+
+  }
 
 
 

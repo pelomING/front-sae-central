@@ -54,7 +54,7 @@ export class AppMenuComponent implements OnInit {
 
     }
 
-
+//ROLE_ADMINOBRAS
     if (user.roles[0] === 'ROLE_ADMINOBRAS') {
 
       this.model = [
