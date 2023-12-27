@@ -151,7 +151,7 @@ export class NewEstadoResultadoComponent implements OnInit {
 
   CerrarPeriodoForm: FormGroup;
 
-  
+
 
 
   //private config: PrimeNGConfig,
@@ -185,7 +185,7 @@ export class NewEstadoResultadoComponent implements OnInit {
   }
 
 
-  nombreLocalidadCiudad = 'Santiago'; 
+  nombreLocalidadCiudad = 'Santiago';
 
   opcionesFecha: Intl.DateTimeFormatOptions = {
     weekday: 'long', // Nombre del día de la semana
@@ -196,7 +196,7 @@ export class NewEstadoResultadoComponent implements OnInit {
 
 
   obtenerFechaActualConDiaYCiudad(): string {
-    
+
     const fecha = new Date();
 
     this.opcionesFecha = {
@@ -235,14 +235,14 @@ export class NewEstadoResultadoComponent implements OnInit {
   // print() {
   //   this.printService.print(this.pdfContainer.nativeElement);
   // }
- 
+
 
   print() {
     // Llama a la función de impresión del servicio ngxPrint
     //this.printService.print();
   }
-  
- 
+
+
 
   //   translate(lang: string) {
   //     this.translateService.use(lang);
@@ -372,6 +372,26 @@ export class NewEstadoResultadoComponent implements OnInit {
     this.submitted = false;
   }
 
+
+
+
+  formateoFecha(fechaOriginal: string): string {
+
+    const fechaParseada = new Date(fechaOriginal);
+
+    const dia = fechaParseada.getDate().toString().padStart(2, '0');
+    const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
+    const año = fechaParseada.getFullYear();
+
+    const fechaFormateada = `${año}-${mes}-${dia}`;
+
+    console.log("fechaFormateada", fechaFormateada);
+
+    return fechaFormateada;
+
+  }
+
+
   async ConsultarEstadoResultado() {
 
     this.cdr.detectChanges();
@@ -380,37 +400,52 @@ export class NewEstadoResultadoComponent implements OnInit {
 
     console.log("Agregar Reporte Estado");
 
-    //console.log("selectedPaquete", this.selectedPaquete.code);
-    //console.log("selectedMes", this.selectedMes);
-    console.log("FechaInicio", this.FechaInicio);
-    console.log("FechaFinal", this.FechaFinal);
-
-
     let nuevaConsulta = this.formularioPeriodoForm.value;
-
-    console.log('nuevaConsulta:', nuevaConsulta);
-
 
     this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Buscando...', life: 3000 });
 
 
-    let year = nuevaConsulta.FechaInicio.getFullYear().toString().slice(-4); // Obtiene los dos últimos dígitos del año
-    let month = ('0' + (nuevaConsulta.FechaInicio.getMonth() + 1)).slice(-2); // Añade un cero inicial si el mes es < 10
-    let day = ('0' + nuevaConsulta.FechaInicio.getDate()).slice(-2); // Añade un cero inicial si el día es < 10
+    if (typeof nuevaConsulta.FechaInicio === 'string') {
 
-    // Formatea la fecha en el formato deseado
-    const fechaFormateada1 = `${year}-${month}-${day}`;
+      // El campo es de tipo texto (string)
+      console.log('Es una cadena de texto');
+      let arrayFecha = nuevaConsulta.FechaInicio.split("-");
+      
+      // Formatea la fecha en el formato deseado
+      nuevaConsulta.FechaInicio = `${arrayFecha[0]}-${arrayFecha[1]}-${arrayFecha[2]}`;
 
-    nuevaConsulta.FechaInicio = fechaFormateada1;
+      // Puedes realizar operaciones específicas para cadenas de texto si es necesario
+    } else if (nuevaConsulta.FechaInicio instanceof Date) {
 
-    year = nuevaConsulta.FechaFinal.getFullYear().toString().slice(-4); // Obtiene los dos últimos dígitos del año
-    month = ('0' + (nuevaConsulta.FechaFinal.getMonth() + 1)).slice(-2); // Añade un cero inicial si el mes es < 10
-    day = ('0' + nuevaConsulta.FechaFinal.getDate()).slice(-2); // Añade un cero inicial si el día es < 10
+      // El campo es de tipo Date
+      console.log('Es un objeto Date');
+      nuevaConsulta.FechaInicio = this.formateoFecha(nuevaConsulta.FechaInicio);
 
-    // Formatea la fecha en el formato deseado
-    const fechaFormateada2 = `${year}-${month}-${day}`;
+    }
 
-    nuevaConsulta.FechaFinal = fechaFormateada2;
+
+    if (typeof nuevaConsulta.FechaFinal === 'string') {
+
+      // El campo es de tipo texto (string)
+      console.log('Es una cadena de texto');
+      let arrayFecha = nuevaConsulta.FechaFinal.split("-");
+      
+      // Formatea la fecha en el formato deseado
+      nuevaConsulta.FechaFinal = `${arrayFecha[0]}-${arrayFecha[1]}-${arrayFecha[2]}`;
+
+      // Puedes realizar operaciones específicas para cadenas de texto si es necesario
+    } else if (nuevaConsulta.FechaFinal instanceof Date) {
+
+      // El campo es de tipo Date
+      console.log('Es un objeto Date');
+      nuevaConsulta.FechaFinal = this.formateoFecha(nuevaConsulta.FechaFinal);
+
+    }
+
+
+    console.log('nuevaConsulta:', nuevaConsulta);
+
+
 
 
 
@@ -559,16 +594,16 @@ export class NewEstadoResultadoComponent implements OnInit {
         "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
         "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
       ];
-      
+
       const monthNumber = periodoValue.getMonth();
       const monthName = monthNames[monthNumber];
-      
+
       // Extraer el año
       const year = periodoValue.getFullYear();
-      
+
       // Formatear el valor para el servidor (por ejemplo, "Noviembre-2023")
       const formattedValue = `${monthName}-${year}`;
-      
+
       datoscerrarperiodo.periodo = formattedValue;
 
       console.log('Nueva:', datoscerrarperiodo);
