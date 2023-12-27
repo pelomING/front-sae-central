@@ -14,6 +14,7 @@ import { EstadoResultadoService } from 'src/app/sae/services/estadoResultado.ser
 import { saveAs } from 'file-saver';
 // import * as XLSX from 'sheetjs-style'; 
 import * as XLSX from 'xlsx-js-style';
+import { GeolocationService } from '../../services/geolocation.service';
 
 
 interface InterfaceBrigada {
@@ -70,7 +71,12 @@ export class JornadaComponent implements OnInit {
   lista_objs_maestros: InterfaceMaestro[] | undefined;
 
   lista_objs_camionetas: InterfaceCamioneta[] | undefined;
+  
   alertController: any;
+
+
+  latitude: string;
+  longitude: string;
 
 
 
@@ -79,6 +85,7 @@ export class JornadaComponent implements OnInit {
     private fb: FormBuilder,
     private messageService: MessageService,
     private estadoResultadoService: EstadoResultadoService,
+    private geolocationService: GeolocationService,
     private confirmationService: ConfirmationService) {
 
     this.TurnosForm = this.fb.group({
@@ -171,6 +178,8 @@ export class JornadaComponent implements OnInit {
 
     this.recuperaJornadas();
 
+    this.getLocation();
+
     this.cols = [
       { field: 'id', header: 'Id' },
       { field: 'nombre_maestro', header: 'Maestro' },
@@ -240,6 +249,23 @@ export class JornadaComponent implements OnInit {
     });
 
   }
+
+
+
+  getLocation(): void {
+    this.geolocationService.getPosition().subscribe(
+      (position: GeolocationPosition) => {
+ 
+        this.latitude = position.coords.latitude.toString();
+        this.longitude = position.coords.longitude.toString();
+        
+      },
+      (error: any) => {
+        console.error(error);
+      }
+    );
+  }
+
 
   recuperaJornadas(): void {
     this.turnosService.getJornada().subscribe({
@@ -321,25 +347,20 @@ export class JornadaComponent implements OnInit {
 
     console.log("this.turnoCopia", this.turnoCopia);
 
-
     this.turnoCopia.obj_maestro = { rut: this.turnoCopia.rut_maestro, nombre: this.turnoCopia.nombre_maestro };
-
     this.turnoCopia.obj_ayudante = { rut: this.turnoCopia.rut_ayudante, nombre: this.turnoCopia.nombre_ayudante };
 
 
     let result = this.lista_objs_tipoTurno.filter(obj => obj.nombre === this.turnoCopia.tipo_turno);
-
-    this.turnoCopia.obj_tipo_turno = { id: result[0].id, nombre: result[0].nombre };
+    if (result.length > 0) this.turnoCopia.obj_tipo_turno = { id: result[0].id, nombre: result[0].nombre };
 
 
     let result1 = this.lista_objs_brigadas.filter(obj => obj.brigada === this.turnoCopia.brigada);
-
-    this.turnoCopia.obj_brigada = { id: result1[0].id, brigada: result1[0].brigada };
+    if (result1.length > 0) this.turnoCopia.obj_brigada = { id: result1[0].id, brigada: result1[0].brigada };
 
 
     let result2 = this.lista_objs_camionetas.filter(obj => obj.patente === this.turnoCopia.patente);
-
-    this.turnoCopia.obj_camionetas = { id: result2[0].id, patente: result2[0].patente };
+    if (result2.length > 0) this.turnoCopia.obj_camionetas = { id: result2[0].id, patente: result2[0].patente };
 
 
     this.TurnosForm.patchValue(this.turnoCopia);
@@ -397,7 +418,9 @@ export class JornadaComponent implements OnInit {
         fecha_hora_ini: nuevaCopia.fecha_hora_ini,
         fecha_hora_fin: nuevaCopia.fecha_hora_fin,
         brigada: nuevaCopia.obj_brigada.id,
-        tipo_turno: nuevaCopia.obj_tipo_turno.id
+        tipo_turno: nuevaCopia.obj_tipo_turno.id,
+        coordenada_x: this.latitude,
+        coordenada_y: this.longitude,
       }
 
       this.turnosService.creaJornada(data).subscribe(
@@ -479,53 +502,53 @@ export class JornadaComponent implements OnInit {
 
       if (typeof ObjetUpdatedCopia.fecha_hora_ini === 'string') {
 
-        // El campo es de tipo texto (string)
-        console.log('Es una cadena de texto');
-        let arrayFechaHora = ObjetUpdatedCopia.fecha_hora_ini.split(" ");
-        let arrayFecha = arrayFechaHora[0].split("-");
-        let arrayHora = arrayFechaHora[1].split(":");
-        // Formatea la fecha en el formato deseado
-        ObjetUpdatedCopia.fecha_hora_ini = `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]} ${arrayHora[0]}:${arrayHora[1]}`;
+            // El campo es de tipo texto (string)
+            console.log('Es una cadena de texto');
+            let arrayFechaHora = ObjetUpdatedCopia.fecha_hora_ini.split(" ");
+            let arrayFecha = arrayFechaHora[0].split("-");
+            let arrayHora = arrayFechaHora[1].split(":");
+            // Formatea la fecha en el formato deseado
+            ObjetUpdatedCopia.fecha_hora_ini = `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]} ${arrayHora[0]}:${arrayHora[1]}`;
 
         // Puedes realizar operaciones específicas para cadenas de texto si es necesario
       } else if (ObjetUpdatedCopia.fecha_hora_ini instanceof Date) {
 
-        // El campo es de tipo Date
-        console.log('Es un objeto Date');
-        ObjetUpdatedCopia.fecha_hora_ini = this.formateoFecha(ObjetUpdatedCopia.fecha_hora_ini);
+            // El campo es de tipo Date
+            console.log('Es un objeto Date');
+            ObjetUpdatedCopia.fecha_hora_ini = this.formateoFecha(ObjetUpdatedCopia.fecha_hora_ini);
 
       }
 
 
       if (typeof ObjetUpdatedCopia.fecha_hora_fin === 'string') {
 
-        // El campo es de tipo texto (string)
-        console.log('Es una cadena de texto');
-        let arrayFechaHora = ObjetUpdatedCopia.fecha_hora_fin.split(" ");
-        let arrayFecha = arrayFechaHora[0].split("-");
-        let arrayHora = arrayFechaHora[1].split(":");
-        // Formatea la fecha en el formato deseado
-        ObjetUpdatedCopia.fecha_hora_fin = `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]} ${arrayHora[0]}:${arrayHora[1]}`;
+            // El campo es de tipo texto (string)
+            console.log('Es una cadena de texto');
+            let arrayFechaHora = ObjetUpdatedCopia.fecha_hora_fin.split(" ");
+            let arrayFecha = arrayFechaHora[0].split("-");
+            let arrayHora = arrayFechaHora[1].split(":");
+            // Formatea la fecha en el formato deseado
+            ObjetUpdatedCopia.fecha_hora_fin = `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]} ${arrayHora[0]}:${arrayHora[1]}`;
 
         // Puedes realizar operaciones específicas para cadenas de texto si es necesario
       } else if (ObjetUpdatedCopia.fecha_hora_fin instanceof Date) {
 
-        // El campo es de tipo Date
-        console.log('Es un objeto Date');
-        ObjetUpdatedCopia.fecha_hora_fin = this.formateoFecha(ObjetUpdatedCopia.fecha_hora_fin);
+            // El campo es de tipo Date
+            console.log('Es un objeto Date');
+            ObjetUpdatedCopia.fecha_hora_fin = this.formateoFecha(ObjetUpdatedCopia.fecha_hora_fin);
 
       }
 
-      ObjetUpdatedCopia.rut_maestro = ObjetUpdatedCopia.obj_maestro.rut,
-        ObjetUpdatedCopia.rut_ayudante = ObjetUpdatedCopia.obj_ayudante.rut,
-        ObjetUpdatedCopia.patente = ObjetUpdatedCopia.obj_camionetas.patente,
-        ObjetUpdatedCopia.km_inicial = ObjetUpdatedCopia.km_inicial,
-        ObjetUpdatedCopia.km_final = ObjetUpdatedCopia.km_final,
-        ObjetUpdatedCopia.fecha_hora_ini = ObjetUpdatedCopia.fecha_hora_ini,
-        ObjetUpdatedCopia.fecha_hora_fin = ObjetUpdatedCopia.fecha_hora_fin,
-        ObjetUpdatedCopia.brigada = ObjetUpdatedCopia.obj_brigada.id,
-        ObjetUpdatedCopia.tipo_turno = ObjetUpdatedCopia.obj_tipo_turno.id
-
+      ObjetUpdatedCopia.rut_maestro = ObjetUpdatedCopia.obj_maestro.rut;
+      ObjetUpdatedCopia.rut_ayudante = ObjetUpdatedCopia.obj_ayudante.rut;
+      ObjetUpdatedCopia.patente = ObjetUpdatedCopia.obj_camionetas.patente;
+      ObjetUpdatedCopia.km_inicial = ObjetUpdatedCopia.km_inicial;
+      ObjetUpdatedCopia.km_final = ObjetUpdatedCopia.km_final;
+      ObjetUpdatedCopia.fecha_hora_ini = ObjetUpdatedCopia.fecha_hora_ini;
+      ObjetUpdatedCopia.fecha_hora_fin = ObjetUpdatedCopia.fecha_hora_fin;
+      ObjetUpdatedCopia.brigada = ObjetUpdatedCopia.obj_brigada.id;
+      ObjetUpdatedCopia.tipo_turno = ObjetUpdatedCopia.obj_tipo_turno.id;
+      
       console.log("ObjetUpdatedCopia", ObjetUpdatedCopia);
 
       // Luego, puedes enviar los datos actualizados al servidor, por ejemplo, utilizando un servicio:
