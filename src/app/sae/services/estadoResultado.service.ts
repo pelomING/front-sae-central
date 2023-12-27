@@ -98,12 +98,16 @@ interface Zona {
 export class EstadoResultadoService {
 
     private baseUrl: string = '';
+
+    private baseUrl2: string = '';
+        
     private UrlApi = '/api/reportes/v1';
 
     private API_URL = environment.baseUrl + '/api/reportes/v1';
 
     constructor(private http: HttpClient, private configService: ConfigService) {
         this.baseUrl = this.configService.baseUrl + this.UrlApi;
+        this.baseUrl2 = this.configService.baseUrl;
     }
 
     getProductsSmall() {
@@ -385,32 +389,32 @@ export class EstadoResultadoService {
 
 
     listabrigadassae() {
-        return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/listabrigadassae`);
+        return this.http.get<any>(`${this.baseUrl2}/api/movil/v1/listabrigadassae`);
     }
 
     listaTipodeturno() {
-        return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/tipoturno`);
+        return this.http.get<any>(`${this.baseUrl2}/api/movil/v1/tipoturno`);
     }
 
     listaMaestros() {
-        return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/usuariosApp`);
+        return this.http.get<any>(`${this.baseUrl2}/api/movil/v1/usuariosApp`);
     }
 
     listaAyudantes() {
-        return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/ayudantes`);
+        return this.http.get<any>(`${this.baseUrl2}/api/movil/v1/ayudantes`);
     }
 
     listaCamionetas() {
-        return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/camionetas`);
+        return this.http.get<any>(`${this.baseUrl2}/api/movil/v1/camionetas`);
     }
 
     
     listaTipoEvento() {
-        return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/eventostipo`);
+        return this.http.get<any>(`${this.baseUrl2}/api/movil/v1/eventostipo`);
     }
 
     listaComuna() {
-        return this.http.get<any>(`${environment.baseUrl}/api/movil/v1/comunas`);
+        return this.http.get<any>(`${this.baseUrl2}/api/movil/v1/comunas`);
     }
 
 
