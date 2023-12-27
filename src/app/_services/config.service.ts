@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 
 export class ConfigService {
     
+    //conectar a produccion backend
     baseUrl: string = 'https://backend-pelom-production.up.railway.app';
  
     //baseUrl: string = 'https://backend-pelom-desarrollo.up.railway.app';
