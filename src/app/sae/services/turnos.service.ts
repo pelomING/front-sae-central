@@ -105,7 +105,9 @@ export class TurnosService {
             fecha_hora_ini: turno.fecha_hora_ini,
             fecha_hora_fin: turno.fecha_hora_fin,
             brigada: turno.brigada,
-            tipo_turno: turno.tipo_turno
+            tipo_turno: turno.tipo_turno,
+            coordenada_x: turno.coordenada_x,
+            coordenada_y: turno.coordenada_y,
         };
 
         return this.http.post<Turnos>(`${this.baseUrl}/creajornada`, data, httpOptions).pipe(

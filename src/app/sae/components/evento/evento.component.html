@@ -4,6 +4,10 @@
     <p-toolbar styleClass="mb-4 gap-2">
       <ng-template pTemplate="left">
         <!-- <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button> -->
+
+        <button pButton pRipple label="Ingresar evento" icon="pi pi-plus" class="p-button-success mr-2"
+          (click)="openNew()"></button>
+
       </ng-template>
       <ng-template pTemplate="right">
         <!-- <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
@@ -33,19 +37,19 @@
       <ng-template pTemplate="header">
         <tr>
 
-          <th pSortableColumn="id">
+          <!-- <th pSortableColumn="id">
             <div style="width: auto; white-space: nowrap;">
               Id
               <p-sortIcon field="id"></p-sortIcon>
             </div>
-          </th>
+          </th> -->
 
-          <th pSortableColumn="despachador">
+          <!-- <th pSortableColumn="despachador">
             <div style="width: auto; white-space: nowrap;">
               Despachador
               <p-sortIcon field="despachador"></p-sortIcon>
             </div>
-          </th>
+          </th> -->
 
           <th pSortableColumn="numero_ot">
             <div style="width: auto; white-space: nowrap;">
@@ -78,18 +82,18 @@
               Trabajo Realizado<p-sortIcon field="trabajo_realizado"></p-sortIcon>
             </div>
           </th>
-          
+
           <th pSortableColumn="nombre_maestro">
             <div style="width: auto; white-space: nowrap;">
               Maestro<p-sortIcon field="nombre_maestro"></p-sortIcon>
             </div>
           </th>
 
-          <th pSortableColumn="nombre_ayudante">
+          <!-- <th pSortableColumn="nombre_ayudante">
             <div style="width: auto; white-space: nowrap;">
               Ayudante <p-sortIcon field="nombre_ayudante"></p-sortIcon>
             </div>
-          </th>
+          </th> -->
 
           <th pSortableColumn="brigada">
             <div style="width: auto; white-space: nowrap;">
@@ -97,11 +101,11 @@
             </div>
           </th>
 
-          <th pSortableColumn="tipo_turno">
+          <!-- <th pSortableColumn="tipo_turno">
             <div style="width: auto; white-space: nowrap;">
               Tipo Turno<p-sortIcon field="tipo_turno"></p-sortIcon>
             </div>
-          </th>
+          </th> -->
 
           <th pSortableColumn="tipo_evento">
             <div style="width: auto; white-space: nowrap;">
@@ -115,30 +119,32 @@
             </div>
           </th>
 
-          <th pSortableColumn="hora_inicio">
+          <!-- <th pSortableColumn="hora_inicio">
             <div style="width: auto; white-space: nowrap;">
               Hora inicio<p-sortIcon field="hora_inicio"></p-sortIcon>
             </div>
-          </th>
+          </th> -->
 
-          <th pSortableColumn="hora_termino">
+          <!-- <th pSortableColumn="hora_termino">
             <div style="width: auto; white-space: nowrap;">
               Hora termino<p-sortIcon field="hora_termino"></p-sortIcon>
             </div>
-          </th>
-          
-          <th>Mapa</th>
+          </th> -->
 
-          <th>Edit</th>
+          <th>Map</th>
+
+          <th>Edi</th>
+
+          <th>Eli</th>
 
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-evento>
         <tr>
 
-          <td class="font-bold">{{evento.id}}</td>
+          <!-- <td class="font-bold">{{evento.id}}</td> -->
 
-          <td>{{evento.despachador}}</td>
+          <!-- <td>{{evento.despachador}}</td> -->
 
           <td>{{evento.numero_ot}}</td>
 
@@ -146,28 +152,28 @@
 
           <td>{{evento.comuna}}</td>
 
-          <td>{{evento.trabajo_solicitado}} </td>  
+          <td>{{evento.trabajo_solicitado}} </td>
 
           <td>{{evento.trabajo_realizado}}</td>
-          
+
           <td>{{evento.nombre_maestro}}</td>
 
-          <td>{{evento.nombre_ayudante}}</td>
+          <!-- <td>{{evento.nombre_ayudante}}</td> -->
 
           <td>{{evento.brigada}} </td>
-          
-          <td>{{evento.tipo_turno}}</td>
-          
+
+          <!-- <td>{{evento.tipo_turno}}</td> -->
+
           <td>{{evento.tipo_evento}}</td>
-          
+
           <td>{{ filtrarFecha(evento.fecha_hora) }}</td>
 
-          <td>{{evento.hora_inicio }}</td>
+          <!-- <td>{{evento.hora_inicio }}</td> -->
 
-          <td>{{evento.hora_termino}}</td>
+          <!-- <td>{{evento.hora_termino}}</td> -->
 
           <td>
-            
+
             <button pButton pRipple icon="pi pi-map-marker" class="p-button-rounded p-button-info mr-2"
               (click)="showDialog(evento)"></button>
 
@@ -178,7 +184,13 @@
             <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
               (click)="editEvento(evento)"></button>
 
-            <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onEliminarClick(evento)"></button> -->
+          </td>
+
+          <td>
+
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+              (click)="onEliminarClick(evento)"></button>
+
           </td>
 
         </tr>
@@ -193,8 +205,9 @@
 
 
 
-  <p-dialog header="Mapa" [style]="{ width: '655px', height: '655px' }" [(visible)]="display" (onHide)="hideDialog()" (onShow)="onDialogShow()">
-    
+  <p-dialog header="Mapa" [style]="{ width: '655px', height: '655px' }" [(visible)]="display" (onHide)="hideDialog()"
+    (onShow)="onDialogShow()">
+
     <div #map id="map" style="height: 100%;"></div>
 
   </p-dialog>
@@ -202,46 +215,168 @@
 
 
 
-  <p-dialog [(visible)]="eventoDialog" [style]="{ width: '500px' , height: '555px' }" header="Editar"
+  <p-dialog [(visible)]="eventoDialog" [style]="{ width: '955px' , height: '1555px' }" header="{{ titulo_formulario }}"
     [modal]="true" styleClass="p-fluid">
 
     <ng-template pTemplate="content">
 
       <form [formGroup]="EventosForm">
 
-        <h1>Numero OT : {{OT}}</h1>
+        <h1>{{OT}}</h1>
 
         <hr>
 
         <input type="hidden" pInputhidden id="id" class="form-control" formControlName="id">
 
         <div class="grid" style="margin-top:1%;">
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <input type="text" pInputText id="numero_ot" class="form-control" formControlName="numero_ot">
+              <label htmlFor="numero_ot">Numero Ot</label>
+            </span>
+
+          </div>
+          <div class="col-8">
+
+            <span class="p-float-label">
+              <input type="text" pInputText id="despachador" class="form-control" formControlName="despachador">
+              <label htmlFor="despachador">Despachador</label>
+            </span>
+
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top:1%;">
+          <div class="col-8">
+
+            <span class="p-float-label">
+              <input type="text" pInputText id="direccion" class="form-control" formControlName="direccion">
+              <label htmlFor="direccion">Dirección</label>
+            </span>
+
+          </div>
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-dropdown formControlName="obj_comuna" id="comuna" class="form-control" [options]="lista_obj_comuna"
+                optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
+              <label htmlFor="comuna">Comuna</label>
+            </span>
+
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top:1%;">
           <div class="col-6">
 
             <span class="p-float-label">
-              
-              <!-- <p-calendar id="fecha_hora" formControlName="fecha_hora" class="form-control" dateFormat="dd-mm-yy" [showIcon]="true"></p-calendar> -->
-
-              <p-calendar
-                id="fecha_hora"
-                formControlName="fecha_hora"
-                class="form-control"
-                dateFormat="dd-mm-yy"
-                [showIcon]="true"
-                [showTime]="true"
-              ></p-calendar>
-
-              <label htmlFor="fecha_hora">Fecha y Hora</label>
-
+              <textarea rows="3" cols="30" pInputTextarea formControlName="trabajo_solicitado"></textarea>
+              <label htmlFor="trabajo_solicitado">Trabajo Solicitado</label>
             </span>
 
           </div>
           <div class="col-6">
 
+            <span class="p-float-label">
+              <textarea rows="3" cols="30" pInputTextarea formControlName="trabajo_realizado"></textarea>
+              <label htmlFor="trabajo_realizado">Trabajo Realizado</label>
+            </span>
+
           </div>
         </div>
 
-        <div class="grid" style="margin-top:15%;">
+        <div class="grid" style="margin-top:1%;">
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-calendar id="fecha_hora" formControlName="fecha_hora" class="form-control" dateFormat="dd-mm-yy"
+                [showIcon]="true" [showTime]="true"></p-calendar>
+              <label htmlFor="fecha_hora">Fecha y Hora</label>
+            </span>
+
+          </div>
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-inputMask mask="99:99" formControlName="hora_inicio"></p-inputMask>
+              <label htmlFor="hora_inicio">Hora Inicio</label>
+            </span>
+
+          </div>
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-inputMask mask="99:99" formControlName="hora_termino"></p-inputMask>
+              <label htmlFor="hora_termino">Hora Termino</label>
+            </span>
+
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top:1%;">
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-dropdown formControlName="obj_brigada" id="brigada" class="form-control"
+                [options]="lista_objs_brigadas" optionLabel="brigada" placeholder="Seleccionar"></p-dropdown>
+              <label htmlFor="brigada">Turnos</label>
+            </span>
+
+          </div>
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-dropdown formControlName="obj_tipo_turno" id="tipo_turno" class="form-control"
+                [options]="lista_objs_tipoTurno" optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
+              <label htmlFor="tipo_turno">Tipo Turno</label>
+            </span>
+
+          </div>
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-dropdown formControlName="obj_tipo_evento" id="tipoevento" class="form-control"
+                [options]="lista_obj_tipo_evento" optionLabel="descripcion" placeholder="Seleccionar"></p-dropdown>
+              <label htmlFor="tipoevento">Tipo Evento</label>
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="grid" style="margin-top:1%;">
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-dropdown formControlName="obj_maestro" id="nombre_maestro" class="form-control"
+                [options]="lista_objs_maestros" optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
+              <label htmlFor="nombre_maestro">Nombre Maestro</label>
+            </span>
+
+          </div>
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-dropdown formControlName="obj_ayudante" id="nombre_ayudante" class="form-control"
+                [options]="lista_objs_ayudantes" optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
+              <label htmlFor="nombre_ayudante">Nombre Ayudante</label>
+            </span>
+
+          </div>
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-dropdown formControlName="obj_camionetas" id="camionetas" class="form-control"
+                [options]="lista_objs_camionetas" optionLabel="patente" placeholder="Seleccionar"></p-dropdown>
+              <label htmlFor="camionetas">Camionetas</label>
+            </span>
+
+          </div>
+        </div>
+
+
+        <div class="grid" style="margin-top:5%;">
           <div class="col-3"></div>
           <div class="col-6">
 
