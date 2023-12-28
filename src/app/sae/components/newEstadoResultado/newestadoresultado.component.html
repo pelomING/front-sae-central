@@ -5,7 +5,7 @@
             <p-toast></p-toast>
 
             <p-toolbar styleClass="mb-4 gap-2">
-                <ng-template pTemplate="left" >
+                <ng-template pTemplate="left">
 
                     <!-- <div class="form-group">
                         <p-dropdown [options]="paquetes" [(ngModel)]="selectedPaquete" optionLabel="name"
@@ -24,7 +24,7 @@
 
                                 <span class="p-float-label">
                                     <p-calendar id="FechaInicio" formControlName="FechaInicio" class="form-control"
-                                        [showIcon]="true" dateFormat="dd-mm-yy" ></p-calendar>
+                                        [showIcon]="true" dateFormat="dd-mm-yy"></p-calendar>
                                     <label htmlFor="FechaInicio">FechaInicio</label>
                                 </span>
 
@@ -33,7 +33,7 @@
                             <div class="col" style="padding-top:5%;">
                                 <span class="p-float-label">
                                     <p-calendar id="FechaFinal" formControlName="FechaFinal" class="form-control"
-                                        [showIcon]="true" dateFormat="dd-mm-yy" ></p-calendar>
+                                        [showIcon]="true" dateFormat="dd-mm-yy"></p-calendar>
                                     <label htmlFor="FechaFinal">FechaFinal</label>
                                 </span>
 
@@ -60,15 +60,9 @@
                     <!-- <button pButton icon="pi pi-print"  printSectionId="pdfContainer" (click)="print()">Imprimir</button> -->
                     <!-- </div> -->
 
-                    <button 
-                        download="PRELIMINAR_ESTADO_DE_PAGO_SERVICIO_DE_ATENCIÓN_DE_EMERGENCIAS.pdf"  
-                        printTitle="Estado de Pago" 
-                        styleSheetFile="assets/pdf.css" 
-                        printSectionId="pdfContainer"
-                        ngxPrint pButton pRipple 
-                        label="Generar PDF" 
-                        icon="pi pi-file-pdf"
-                        class="p-button-help">
+                    <button download="PRELIMINAR_ESTADO_DE_PAGO_SERVICIO_DE_ATENCIÓN_DE_EMERGENCIAS.pdf"
+                        printTitle="Estado de Pago" styleSheetFile="assets/pdf.css" printSectionId="pdfContainer"
+                        ngxPrint pButton pRipple label="Generar PDF" icon="pi pi-file-pdf" class="p-button-help">
                     </button>
 
                     <!-- <button  (click)="print()"  pButton pRipple label="Generar PDF" icon="pi pi-search" class="p-button-help"></button> -->
@@ -224,11 +218,11 @@
 
                                             </tbody>
                                             <tfoot>
-                                                <!-- <tr>
+                                                <tr>
                                                     <td colspan="3"> <strong> SUB TOTAL VARIABLE </strong></td>
-                                                    <td>{{ this.sumatoriaResumenEvento | currency:'CLP':'$':'1.0-0' |
-                                                        commaToDot }}</td>
-                                                </tr> -->
+                                                    <td style="padding-right:2%;" >{{ PERMANENICACARGOFIJOSEMANALPORBRIGADA_TOTAL |
+                                                        currency:'CLP':'$':'1.0-0' | commaToDot }}</td>
+                                                </tr>
                                             </tfoot>
                                         </table>
 
@@ -308,11 +302,11 @@
 
                                             </tbody>
                                             <tfoot>
-                                                <!-- <tr>
+                                                <tr>
                                                     <td colspan="3"> <strong> SUB TOTAL VARIABLE </strong></td>
-                                                    <td>{{ this.sumatoriaResumenEvento | currency:'CLP':'$':'1.0-0' |
-                                                        commaToDot }}</td>
-                                                </tr> -->
+                                                    <td style="padding-right:2%;" >{{ HORASEXTRAS_TOTAL | currency:'CLP':'$':'1.0-0' | commaToDot
+                                                        }}</td>
+                                                </tr>
                                             </tfoot>
                                         </table>
 
@@ -363,11 +357,11 @@
 
                                             </tbody>
                                             <tfoot>
-                                                <!-- <tr>
+                                                <tr>
                                                     <td colspan="3"> <strong> SUB TOTAL VARIABLE </strong></td>
-                                                    <td>{{ this.sumatoriaResumenEvento | currency:'CLP':'$':'1.0-0' |
+                                                    <td style="padding-right:2%;" >{{ TURNOSADICIONALES_TOTAL | currency:'CLP':'$':'1.0-0' |
                                                         commaToDot }}</td>
-                                                </tr> -->
+                                                </tr>
                                             </tfoot>
                                         </table>
 
@@ -418,11 +412,11 @@
 
                                             </tbody>
                                             <tfoot>
-                                                <!-- <tr>
+                                                <tr>
                                                     <td colspan="3"> <strong> SUB TOTAL VARIABLE </strong></td>
-                                                    <td>{{ this.sumatoriaResumenEvento | currency:'CLP':'$':'1.0-0' |
+                                                    <td style="padding-right:2%;" >{{ TURNOSCONTINGENCIA_TOTAL | currency:'CLP':'$':'1.0-0' |
                                                         commaToDot }}</td>
-                                                </tr> -->
+                                                </tr>
                                             </tfoot>
                                         </table>
 
@@ -459,7 +453,7 @@
                                             <tbody>
 
                                                 <tr *ngFor="let item of PRODUCCIONPxQ">
-                                                    
+
                                                     <td style="text-align:left;padding-left:2%;">{{ item.zonal }}</td>
 
                                                     <td class="text-xs" style="text-align:left;padding-left:2%;">
@@ -490,11 +484,11 @@
 
                                             </tbody>
                                             <tfoot>
-                                                <!-- <tr>
-                                                    <td colspan="3"> <strong> SUB TOTAL VARIABLE </strong></td>
-                                                    <td>{{ this.sumatoriaResumenEvento | currency:'CLP':'$':'1.0-0' |
+                                                <tr>
+                                                    <td colspan="4"> <strong> SUB TOTAL VARIABLE </strong></td>
+                                                    <td style="padding-right:2%;" >{{ PRODUCCIONPxQ_TOTAL | currency:'CLP':'$':'1.0-0' |
                                                         commaToDot }}</td>
-                                                </tr> -->
+                                                </tr>
                                             </tfoot>
                                         </table>
 
@@ -538,11 +532,11 @@
 
                                             </tbody>
                                             <tfoot>
-                                                <!-- <tr>
-                                                    <td colspan="3"> <strong> SUB TOTAL VARIABLE </strong></td>
-                                                    <td>{{ this.sumatoriaResumenEvento | currency:'CLP':'$':'1.0-0' |
+                                                <tr>
+                                                    <td colspan="2"> <strong> SUB TOTAL VARIABLE </strong></td>
+                                                    <td style="padding-right:2%;" >{{ COBROSADICIONALES_TOTAL | currency:'CLP':'$':'1.0-0' |
                                                         commaToDot }}</td>
-                                                </tr> -->
+                                                </tr>
                                             </tfoot>
                                         </table>
 
@@ -586,11 +580,11 @@
 
                                             </tbody>
                                             <tfoot>
-                                                <!-- <tr>
-                                                    <td colspan="3"> <strong> SUB TOTAL VARIABLE </strong></td>
-                                                    <td>{{ this.sumatoriaResumenEvento | currency:'CLP':'$':'1.0-0' |
+                                                <tr>
+                                                    <td colspan="2"> <strong> SUB TOTAL VARIABLE </strong></td>
+                                                    <td style="padding-right:2%;" >{{ DESCUENTOS_TOTAL | currency:'CLP':'$':'1.0-0' |
                                                         commaToDot }}</td>
-                                                </tr> -->
+                                                </tr>
                                             </tfoot>
                                         </table>
 
