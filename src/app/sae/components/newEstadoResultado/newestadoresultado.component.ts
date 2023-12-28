@@ -147,6 +147,16 @@ export class NewEstadoResultadoComponent implements OnInit {
   RESUMEN: any[] = [];
 
 
+  PERMANENICACARGOFIJOSEMANALPORBRIGADA_TOTAL = 0;
+  HORASEXTRAS_TOTAL = 0;
+  TURNOSADICIONALES_TOTAL = 0;
+  TURNOSCONTINGENCIA_TOTAL = 0;
+  PRODUCCIONPxQ_TOTAL = 0;
+  COBROSADICIONALES_TOTAL = 0;
+  DESCUENTOS_TOTAL = 0;
+
+
+
   formularioPeriodoForm: FormGroup;
 
   CerrarPeriodoForm: FormGroup;
@@ -446,9 +456,6 @@ export class NewEstadoResultadoComponent implements OnInit {
     console.log('nuevaConsulta:', nuevaConsulta);
 
 
-
-
-
     await this.estadoResultadoService.CARGOFIJOSEMANALPORBRIGADA().subscribe({
       next: (data) => {
         console.log("DATOS CARGOFIJOSEMANALPORBRIGADA", data);
@@ -460,8 +467,11 @@ export class NewEstadoResultadoComponent implements OnInit {
 
     await this.estadoResultadoService.PERMANENICACARGOFIJOSEMANALPORBRIGADA(nuevaConsulta).subscribe({
       next: (data) => {
+        
         console.log("DATOS PERMANENICACARGOFIJOSEMANALPORBRIGADA", data);
-        this.PERMANENICACARGOFIJOSEMANALPORBRIGADA = data;
+        this.PERMANENICACARGOFIJOSEMANALPORBRIGADA = data.detalle;
+        this.PERMANENICACARGOFIJOSEMANALPORBRIGADA_TOTAL = data.subtotal;
+
       }, error: (e) => console.error(e)
     });
 
@@ -478,32 +488,44 @@ export class NewEstadoResultadoComponent implements OnInit {
 
     await this.estadoResultadoService.HORASEXTRAS(nuevaConsulta).subscribe({
       next: (data) => {
+        
         console.log("DATOS HORASEXTRAS", data);
-        this.HORASEXTRAS = data;
+        this.HORASEXTRAS = data.detalle;
+        this.HORASEXTRAS_TOTAL = data.subtotal;
+
       }, error: (e) => console.error(e)
     });
 
 
     await this.estadoResultadoService.TURNOSADICIONALES(nuevaConsulta).subscribe({
       next: (data) => {
+
         console.log("DATOS TURNOSADICIONALES", data);
-        this.TURNOSADICIONALES = data;
+        this.TURNOSADICIONALES = data.detalle;
+        this.TURNOSADICIONALES_TOTAL = data.subtotal;
+
       }, error: (e) => console.error(e)
     });
 
 
     await this.estadoResultadoService.TURNOSCONTINGENCIA(nuevaConsulta).subscribe({
       next: (data) => {
+
         console.log("DATOS TURNOSCONTINGENCIA", data);
-        this.TURNOSCONTINGENCIA = data;
+        this.TURNOSCONTINGENCIA = data.detalle;
+        this.TURNOSCONTINGENCIA_TOTAL = data.subtotal;
+
       }, error: (e) => console.error(e)
     });
 
 
     await this.estadoResultadoService.PRODUCCIONPxQ(nuevaConsulta).subscribe({
       next: (data) => {
+
         console.log("DATOS PRODUCCIÓNPxQ", data);
-        this.PRODUCCIONPxQ = data;
+        this.PRODUCCIONPxQ = data.detalle;
+        this.PRODUCCIONPxQ_TOTAL = data.subtotal;
+
       }, error: (e) => console.error(e)
     });
 
@@ -511,16 +533,22 @@ export class NewEstadoResultadoComponent implements OnInit {
 
     await this.estadoResultadoService.COBROSADICIONALES(nuevaConsulta).subscribe({
       next: (data) => {
+
         console.log("DATOS COBROSADICIONALES", data);
-        this.COBROSADICIONALES = data;
+        this.COBROSADICIONALES = data.detalle;
+        this.COBROSADICIONALES_TOTAL = data.subtotal;
+
       }, error: (e) => console.error(e)
     });
 
 
     await this.estadoResultadoService.DESCUENTOS(nuevaConsulta).subscribe({
       next: (data) => {
+
         console.log("DATOS DESCUENTOS", data);
-        this.DESCUENTOS = data;
+        this.DESCUENTOS = data.detalle;
+        this.DESCUENTOS_TOTAL = data.subtotal;
+        
       }, error: (e) => console.error(e)
     });
 
@@ -528,7 +556,7 @@ export class NewEstadoResultadoComponent implements OnInit {
     await this.estadoResultadoService.RESUMEN(nuevaConsulta).subscribe({
       next: (data) => {
         console.log("DATOS RESUMEN", data);
-        this.RESUMEN = data;
+        this.RESUMEN = data.detalle;
       }, error: (e) => console.error(e)
     });
 
