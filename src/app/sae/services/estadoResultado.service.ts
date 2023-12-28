@@ -264,7 +264,7 @@ export class EstadoResultadoService {
             .set('id_estado_pago', id_estado_pago.toString());
 
         return this.http.get<any>(`${this.baseUrl}/permanencia_por_brigada_historial`, { params }).pipe(
-            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+            map(response => response) 
         );
     }
 
@@ -287,7 +287,7 @@ export class EstadoResultadoService {
             .set('id_estado_pago', id_estado_pago.toString());
 
         return this.http.get<any>(`${this.baseUrl}/horasextrafindHorasExtrasHistorial`, { params }).pipe(
-            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+            map(response => response)
         );
     }
 
@@ -298,7 +298,7 @@ export class EstadoResultadoService {
             .set('id_estado_pago', id_estado_pago.toString());
 
         return this.http.get<any>(`${this.baseUrl}/turnosadicionaleshistorial`, { params }).pipe(
-            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+            map(response => response)
         );
     }
 
@@ -309,7 +309,7 @@ export class EstadoResultadoService {
             .set('id_estado_pago', id_estado_pago.toString());
 
         return this.http.get<any>(`${this.baseUrl}/turnoscontingenciahistorial`, { params }).pipe(
-            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+            map(response => response)
         );
     }
 
@@ -320,7 +320,7 @@ export class EstadoResultadoService {
             .set('id_estado_pago', id_estado_pago.toString());
 
         return this.http.get<any>(`${this.baseUrl}/produccionpxqhistorial`, { params }).pipe(
-            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+            map(response => response)
         );
     }
 
@@ -331,7 +331,7 @@ export class EstadoResultadoService {
             .set('id_estado_pago', id_estado_pago.toString());
 
         return this.http.get<any>(`${this.baseUrl}/reportecobroadicionalhistorial`, { params }).pipe(
-            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+            map(response => response)
         );
     }
 
@@ -342,7 +342,7 @@ export class EstadoResultadoService {
             .set('id_estado_pago', id_estado_pago.toString());
 
         return this.http.get<any>(`${this.baseUrl}/reportedescuentoshistorial`, { params }).pipe(
-            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+            map(response => response)
         );
     }
 
@@ -353,7 +353,7 @@ export class EstadoResultadoService {
             .set('id_estado_pago', id_estado_pago.toString());
 
         return this.http.get<any>(`${this.baseUrl}/reporteresumenhistorial`, { params }).pipe(
-            map(response => response.detalle) // Extrae solo la propiedad 'detalle' del objeto de respuesta
+            map(response => response)
         );
     }
 

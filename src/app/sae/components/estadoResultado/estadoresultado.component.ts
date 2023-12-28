@@ -284,8 +284,10 @@ export class EstadoResultadoComponent implements OnInit {
 
     this.estadoResultadoService.CARGOFIJOSEMANALPORBRIGADA().subscribe({
       next: (data) => {
+
         console.log("DATOS CARGOFIJOSEMANALPORBRIGADA", data);
         this.CARGOFIJOSEMANALPORBRIGADA = data;
+
       }, error: (e) => console.error(e)
     });
 
@@ -293,8 +295,11 @@ export class EstadoResultadoComponent implements OnInit {
 
     this.estadoResultadoService.PERMANENICACARGOFIJOSEMANALPORBRIGADA_HISTORIAL(this.estadoResultado.id).subscribe({
       next: (data) => {
+
         console.log("DATOS PERMANENICACARGOFIJOSEMANALPORBRIGADA", data);
-        this.PERMANENICACARGOFIJOSEMANALPORBRIGADA = data;
+        this.PERMANENICACARGOFIJOSEMANALPORBRIGADA = data.detalle;
+        this.PERMANENICACARGOFIJOSEMANALPORBRIGADA_TOTAL = data.subtotal;
+
       }, error: (e) => console.error(e)
     });
 
@@ -302,8 +307,10 @@ export class EstadoResultadoComponent implements OnInit {
 
     this.estadoResultadoService.OBSERVACIONES_HISTORIAL(this.estadoResultado.id).subscribe({
       next: (data) => {
+
         console.log("DATOS OBSERVACIONES", data);
         this.OBSERVACIONES = data;
+
       }, error: (e) => console.error(e)
     });
 
@@ -311,32 +318,44 @@ export class EstadoResultadoComponent implements OnInit {
 
     this.estadoResultadoService.HORASEXTRAS_HISTORIAL(this.estadoResultado.id).subscribe({
       next: (data) => {
+
         console.log("DATOS HORASEXTRAS", data);
-        this.HORASEXTRAS = data;
+        this.HORASEXTRAS = data.detalle;
+        this.HORASEXTRAS_TOTAL = data.subtotal;
+
       }, error: (e) => console.error(e)
     });
 
 
     this.estadoResultadoService.TURNOSADICIONALES_HISTORIAL(this.estadoResultado.id).subscribe({
       next: (data) => {
+
         console.log("DATOS TURNOSADICIONALES", data);
-        this.TURNOSADICIONALES = data;
+        this.TURNOSADICIONALES = data.detalle;
+        this.TURNOSADICIONALES_TOTAL = data.subtotal;
+
       }, error: (e) => console.error(e)
     });
 
 
     this.estadoResultadoService.TURNOSCONTINGENCIA_HISTORIAL(this.estadoResultado.id).subscribe({
       next: (data) => {
+
         console.log("DATOS TURNOSCONTINGENCIA", data);
-        this.TURNOSCONTINGENCIA = data;
+        this.TURNOSCONTINGENCIA = data.detalle;
+        this.TURNOSCONTINGENCIA_TOTAL = data.subtotal;
+
       }, error: (e) => console.error(e)
     });
 
 
     this.estadoResultadoService.PRODUCCIONPxQ_HISTORIAL(this.estadoResultado.id).subscribe({
       next: (data) => {
+
         console.log("DATOS PRODUCCIÓNPxQ", data);
-        this.PRODUCCIONPxQ = data;
+        this.PRODUCCIONPxQ = data.detalle;
+        this.PRODUCCIONPxQ_TOTAL = data.subtotal;
+
       }, error: (e) => console.error(e)
     });
 
@@ -344,16 +363,22 @@ export class EstadoResultadoComponent implements OnInit {
 
     this.estadoResultadoService.COBROSADICIONALES_HISTORIAL(this.estadoResultado.id).subscribe({
       next: (data) => {
+
         console.log("DATOS COBROSADICIONALES", data);
-        this.COBROSADICIONALES = data;
+        this.COBROSADICIONALES = data.detalle;
+        this.COBROSADICIONALES_TOTAL = data.subtotal;
+
       }, error: (e) => console.error(e)
     });
 
 
     this.estadoResultadoService.DESCUENTOS_HISTORIAL(this.estadoResultado.id).subscribe({
       next: (data) => {
+
         console.log("DATOS DESCUENTOS", data);
-        this.DESCUENTOS = data;
+        this.DESCUENTOS = data.detalle;
+        this.DESCUENTOS_TOTAL = data.subtotal;
+
       }, error: (e) => console.error(e)
     });
 
@@ -383,6 +408,17 @@ export class EstadoResultadoComponent implements OnInit {
   COBROSADICIONALES: any[] = [];
   DESCUENTOS: any[] = [];
   RESUMEN: any[] = [];
+
+
+
+  PERMANENICACARGOFIJOSEMANALPORBRIGADA_TOTAL = 0;
+  HORASEXTRAS_TOTAL = 0;
+  TURNOSADICIONALES_TOTAL = 0;
+  TURNOSCONTINGENCIA_TOTAL = 0;
+  PRODUCCIONPxQ_TOTAL = 0;
+  COBROSADICIONALES_TOTAL = 0;
+  DESCUENTOS_TOTAL = 0;
+
 
 
   showDialog(estadoResultado: EstadoResultado) {
@@ -732,7 +768,7 @@ export class EstadoResultadoComponent implements OnInit {
 
 
   obtenerFechaActualConDiaYCiudad(): string {
-    
+
     const fecha = new Date();
 
     this.opcionesFecha = {
