@@ -18,10 +18,16 @@
       </ng-template>
     </p-toolbar>
 
-    <p-table #dt [value]="eventos" [columns]="cols" [rows]="10" [paginator]="true"
+
+    <p-table #dt [value]="eventos" selectionMode="single" [columns]="cols" [rows]="10" [paginator]="true"
+      styleClass="p-datatable-gridlines p-datatable-striped p-datatable-header"
       [globalFilterFields]="['despachador','numero_ot','tipo_evento','nombre_maestro','nombre_ayudante','brigada','tipo_turno','trabajo_solicitado','trabajo_realizado' ,'direccion','comuna','fecha_hora']"
-      [tableStyle]="{ 'min-width': '75rem' }" responsiveLayout="scroll" [rowHover]="true" dataKey="id"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+      [tableStyle]="{ 'min-width': '40rem' }" 
+      responsiveLayout="scroll" 
+      [rowHover]="true" 
+      dataKey="id"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+      [showCurrentPageReport]="true">
 
       <ng-template pTemplate="caption">
         <div class="flex align-items-center justify-content-between">
@@ -57,7 +63,6 @@
               <p-sortIcon field="numero_ot"></p-sortIcon>
             </div>
           </th>
-
 
           <th pSortableColumn="direccion">
             <div style="width: auto; white-space: nowrap;">
@@ -131,42 +136,117 @@
             </div>
           </th> -->
 
-          <th>Map</th>
+          <th> <div style="width: auto; white-space: nowrap;">Map</div> </th>
 
-          <th>Edi</th>
+          <th> <div style="width: auto; white-space: nowrap;">Edi</div> </th>
 
-          <th>Eli</th>
+          <th> <div style="width: auto; white-space: nowrap;">Eli</div> </th>
 
+        </tr>
+
+        <tr>
+          <th>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'numero_ot', 'contains')"
+                [value]="dt.filters['numero_ot']?.value" placeholder="Numero OT" class="w-full">
+            </span>
+          </th>
+          <th>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'direccion', 'contains')"
+                [value]="dt.filters['direccion']?.value" placeholder="Dirección" class="w-full">
+            </span>
+          </th>
+          <th>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'comuna', 'contains')"
+                [value]="dt.filters['comuna']?.value" placeholder="Comuna" class="w-full">
+            </span>
+          </th>
+          <th>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'trabajo_solicitado', 'contains')"
+                [value]="dt.filters['trabajo_solicitado']?.value" placeholder="Trabajo Solicitado" class="w-full">
+            </span>
+          </th>
+          <th>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'trabajo_realizado', 'contains')"
+                [value]="dt.filters['trabajo_realizado']?.value" placeholder="Trabajo Realizado" class="w-full">
+            </span>
+          </th>
+          <th>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'nombre_maestro', 'contains')"
+                [value]="dt.filters['nombre_maestro']?.value" placeholder="Maestro" class="w-full">
+            </span>
+          </th>
+          <th>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'brigada', 'contains')"
+                [value]="dt.filters['brigada']?.value" placeholder="Turno" class="w-full">
+            </span>
+          </th>
+          <th>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipo_evento', 'contains')"
+                [value]="dt.filters['tipo_evento']?.value" placeholder="Tipo Evento" class="w-full">
+            </span>
+          </th>
+          <th>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'fecha_hora', 'contains')"
+                [value]="dt.filters['fecha_hora']?.value" placeholder="Fecha Hora" class="w-full">
+            </span>
+          </th>
+          <th>
+            &nbsp;
+          </th>
+          <th>
+            &nbsp;
+          </th>
+          <th>
+            &nbsp;
+          </th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-evento>
-        <tr>
+        <tr [pSelectableRow]="evento">
 
           <!-- <td class="font-bold">{{evento.id}}</td> -->
 
           <!-- <td>{{evento.despachador}}</td> -->
 
-          <td>{{evento.numero_ot}}</td>
+          <td> <span class="p-column-title">N° Ot</span> {{evento.numero_ot}}</td>
 
-          <td>{{evento.direccion}}</td>
+          <td> <span class="p-column-title">Dirección</span> {{evento.direccion}}</td>
 
-          <td>{{evento.comuna}}</td>
+          <td> <span class="p-column-title">Comuna</span> {{evento.comuna}}</td>
 
-          <td>{{evento.trabajo_solicitado}} </td>
+          <td> <span class="p-column-title">Trabajo Solicitado</span> {{evento.trabajo_solicitado}} </td>
 
-          <td>{{evento.trabajo_realizado}}</td>
+          <td> <span class="p-column-title">Trabajo Realizado</span> {{evento.trabajo_realizado}}</td>
 
-          <td>{{evento.nombre_maestro}}</td>
+          <td> <span class="p-column-title">Maestro</span> {{evento.nombre_maestro}}</td>
 
           <!-- <td>{{evento.nombre_ayudante}}</td> -->
 
-          <td>{{evento.brigada}} </td>
+          <td> <span class="p-column-title">Turno</span> {{evento.brigada}} </td>
 
           <!-- <td>{{evento.tipo_turno}}</td> -->
 
-          <td>{{evento.tipo_evento}}</td>
+          <td> <span class="p-column-title">Tipo Evento</span> {{evento.tipo_evento}}</td>
 
-          <td>{{ filtrarFecha(evento.fecha_hora) }}</td>
+          <td> <span class="p-column-title">Fecha Hora Ejecución</span> {{ filtrarFecha(evento.fecha_hora) }}</td>
 
           <!-- <td>{{evento.hora_inicio }}</td> -->
 
@@ -196,9 +276,8 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="summary">
-        <div class="flex align-items-center justify-content-between">In total there are {{ eventos ? eventos.length : 0
-          }}
-          eventos.</div>
+        <div class="flex align-items-center justify-content-between">In total there are {{ eventos ? eventos.length :
+          0}}eventos.</div>
       </ng-template>
     </p-table>
   </div>

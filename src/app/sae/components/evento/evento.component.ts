@@ -439,7 +439,12 @@ export class EventoComponent implements OnInit, AfterViewInit {
 
   editEvento(evento: Eventos) {
 
+    this.titulo_formulario = 'EDITAR EVENTO';
+
     this.eventoCopia = { ...evento };
+    
+    this.OT = 'Numero OT : ' + this.eventoCopia.numero_ot;
+
 
     this.EventosForm.reset();
 

@@ -4,9 +4,8 @@
 
             <p-toast></p-toast>
 
-            <p-toolbar styleClass="mb-4">
-                <ng-template pTemplate="left" style="padding-top:5%" >
-
+            <p-toolbar styleClass="mb-4 gap-2">
+                <ng-template pTemplate="left" >
 
                     <!-- <div class="form-group">
                         <p-dropdown [options]="paquetes" [(ngModel)]="selectedPaquete" optionLabel="name"
@@ -18,10 +17,10 @@
                             placeholder="Mes"></p-dropdown>
                     </div> -->
 
-                    <form [formGroup]="formularioPeriodoForm" class="form-group" style="" >
+                    <form [formGroup]="formularioPeriodoForm" class="form-group">
 
                         <div class="grid">
-                            <div class="col">
+                            <div class="col" style="padding-top:5%;">
 
                                 <span class="p-float-label">
                                     <p-calendar id="FechaInicio" formControlName="FechaInicio" class="form-control"
@@ -31,7 +30,7 @@
 
                             </div>
 
-                            <div class="col">
+                            <div class="col" style="padding-top:5%;">
                                 <span class="p-float-label">
                                     <p-calendar id="FechaFinal" formControlName="FechaFinal" class="form-control"
                                         [showIcon]="true" dateFormat="dd-mm-yy" ></p-calendar>
@@ -40,7 +39,7 @@
 
                             </div>
 
-                            <div class="col">
+                            <div class="col" style="padding-top:5%;">
                                 <button pButton pRipple label="Consultar" icon="pi pi-check" class=""
                                     [disabled]="formularioPeriodoForm.invalid" [loading]="loading"
                                     (click)="ConsultarEstadoResultado()"></button>
