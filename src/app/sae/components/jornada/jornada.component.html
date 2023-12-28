@@ -19,9 +19,10 @@
             </ng-template>
         </p-toolbar>
 
-        <p-table #dt [value]="turnos" [columns]="cols" [rows]="10" [paginator]="true"
+
+        <p-table #dt [value]="turnos" [columns]="cols" [rows]="10" [paginator]="true" selectionMode="single" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-header"
             [globalFilterFields]="['nombre_maestro','nombre_ayudante','brigada','tipo_turno','patente','km_inicial','km_final','fecha_hora_ini','fecha_hora_fin']"
-            [tableStyle]="{ 'min-width': '75rem' }" responsiveLayout="scroll" [rowHover]="true" dataKey="id"
+            [tableStyle]="{ 'min-width': '45rem' }" responsiveLayout="scroll" [rowHover]="true" dataKey="id"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true">
 
@@ -35,11 +36,12 @@
                     </span>
                 </div>
             </ng-template>
+
             <ng-template pTemplate="header">
                 <tr>
                     <th pSortableColumn="id">
                         <div style="width: auto; white-space: nowrap;">
-                            Id <p-sortIcon field="nombre_maestro"></p-sortIcon>
+                            Id <p-sortIcon field="id"></p-sortIcon>
                         </div>
                     </th>
 
@@ -97,42 +99,41 @@
                         </div>
                     </th>
 
-                    <th>Edit</th>
-
+                    <th> <div style="width: auto; white-space: nowrap;">Edit </div></th>
+                    <th> <div style="width: auto; white-space: nowrap;"> Elim </div></th>
 
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-turno>
-                <tr>
+                <tr [pSelectableRow]="turno" >
 
-                    <td class="font-bold">{{ turno.id }}</td>
+                    <td class="font-bold"> <span class="p-column-title">Id</span> {{ turno.id }}</td>
 
-                    <td>{{ turno.nombre_maestro }}</td>
+                    <td> <span class="p-column-title">Maestro</span> {{ turno.nombre_maestro }}</td>
 
-                    <td>{{ turno.nombre_ayudante }}</td>
+                    <td> <span class="p-column-title">Ayudante</span> {{ turno.nombre_ayudante }}</td>
 
-                    <td>{{ turno.brigada }}</td>
+                    <td> <span class="p-column-title">Turno</span> {{ turno.brigada }}</td>
 
-                    <td>{{ turno.tipo_turno }}</td>
+                    <td> <span class="p-column-title">Tipo Turno</span> {{ turno.tipo_turno }}</td>
 
-                    <td>{{ turno.patente }}</td>
+                    <td> <span class="p-column-title">Patente</span> {{ turno.patente }}</td>
 
-                    <td>{{ turno.km_inicial }}</td>
+                    <td> <span class="p-column-title">Km inicial</span> {{ turno.km_inicial }}</td>
 
-                    <td>{{ turno.km_final }}</td>
+                    <td> <span class="p-column-title">Km final</span> {{ turno.km_final }}</td>
 
-                    <td>{{ filtrarFecha(turno.fecha_hora_ini) }}</td>
+                    <td> <span class="p-column-title">Inicio</span> {{ filtrarFecha(turno.fecha_hora_ini) }}</td>
 
-                    <td>{{ filtrarFecha(turno.fecha_hora_fin) }}</td>
+                    <td> <span class="p-column-title">Fin</span> {{ filtrarFecha(turno.fecha_hora_fin) }}</td>
 
                     <td>
-
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
                             (click)="editTurno(turno)"></button>
-
+                    </td>
+                    <td>
                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
                             (click)="onEliminarClick(turno)"></button>
-
                     </td>
 
                 </tr>
@@ -192,7 +193,7 @@
                             <p-dropdown formControlName="obj_brigada" id="brigada" class="form-control"
                                 [options]="lista_objs_brigadas" optionLabel="brigada"
                                 placeholder="Seleccionar"></p-dropdown>
-                            <label htmlFor="brigada">Brigada</label>
+                            <label htmlFor="brigada">Turno</label>
                         </span>
 
                     </div>
