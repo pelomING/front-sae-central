@@ -23,7 +23,8 @@ export class AppMenuComponent implements OnInit {
 
     let user = this.storageService.getUser();
 
-    if (user.roles[0] === 'ROLE_ADMINSAE') {
+    if (user.roles[0] === 'ROLE_ADMINSAE'  ||  user.roles[0] === 'ROLE_ADMIN') 
+    {
 
       this.model = [
         {
@@ -54,8 +55,10 @@ export class AppMenuComponent implements OnInit {
 
     }
 
-//ROLE_ADMINOBRAS
-    if (user.roles[0] === 'ROLE_ADMINOBRAS') {
+
+    //ROLE_ADMINOBRAS
+    if (user.roles[0] === 'ROLE_ADMINOBRAS' ||  user.roles[0] === 'ROLE_ADMIN') 
+    {
 
       this.model = [
         {
