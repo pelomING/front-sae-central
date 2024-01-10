@@ -1,7 +1,9 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap, of, map, catchError, throwError } from 'rxjs';
+
 import { Obra } from '../interfaces/obra.interface';
+import { ReporteDiario,Tipooperacion,Tipoactividad,Maestroactividad,Unidad } from '../interfaces/reporte-diario.interface';
 
 import { ConfigService } from '../../_services/config.service';
 
@@ -11,6 +13,7 @@ const httpOptions = {
 
 @Injectable({ providedIn: 'root' })
 export class ReporteDiarioService {
+  
 
   private baseUrl: string = '';
 
@@ -19,11 +22,6 @@ export class ReporteDiarioService {
   private UrlApi = '/api/obras/backoffice/v1/';
  
   private UrlApiReporte = '/api/obras/backoffice/repodiario/v1/';
-
-
-				
-						
-					
 
 
 

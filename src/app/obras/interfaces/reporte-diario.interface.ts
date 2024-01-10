@@ -1,12 +1,25 @@
 
-export interface ReporteDiario {
-    id: number;
-    id_obra: number; 
+export interface DetActividad {
+    clase: number;
+    tipo: number;
+    actividad: number;
+    cantidad: number;
+  }
+  
+  export interface DetOtros {
+    glosa: string;
+    uc_unitaria: number;
+    cantidad: number;
+    uc_total: number;
+  }
+  
+  export  interface ReporteDiario {
+    id_obra: number;
     fecha_reporte: string;
-    jefe_faena: string;
+    jefe_faena: number;
     sdi: string;
     gestor_cliente: string;
-    id_area: number; 
+    id_area: number;
     brigada_pesada: boolean;
     observaciones: string;
     entregado_por_persona: string;
@@ -21,47 +34,42 @@ export interface ReporteDiario {
     alimentador: string;
     comuna: string;
     num_documento: string;
-    flexiapp: string;
+    flexiapp: string[];
+    det_actividad: DetActividad[];
+    det_otros: DetOtros[];
+  }
+
+  
+
+export interface Tipooperacion 
+{
+    id: number,
+    nombre: string
+}
+
+export interface Tipoactividad
+{
+    id: number,
+    descripcion: string
+}
+
+export interface Maestroactividad
+{
+    id: number,
+    actividad: string,
+    tipo_actividad: Tipoactividad,
+    uc_instalacion: string,
+    uc_retiro: string,
+    uc_traslado: string,
+    descripcion: string,
+    unidad: Unidad
+}
+
+export interface Unidad {
+    id: number,
+    nombre: string,
+    codigo_corto: string
 }
 
 
-
-tipooperacion 
-{
-    "id": 1,
-    "nombre": "INSTALACIÓN"
-  },
-
-
-tipoactividad 
-  {
-    "id": 1,
-    "descripcion": "Recargos_x_dist_desde_base_de_CONTRATANTE"
-  },
-
-
-
-
-  allmaestroactividad
-  {
-    "id": 1218,
-    "actividad": "MTCU 15E 3/2L A2RA - TMR Paralelo",
-    "tipo_actividad": {
-      "id": 20,
-      "descripcion": "Estructuras_MT"
-    },
-    "uc_instalacion": 5.7,
-    "uc_retiro": 4.1,
-    "uc_traslado": 9.8,
-    "descripcion": "MTCU 15E 3/2L A2RA - TMR Paralelo",
-    "unidad": {
-      "id": 1,
-      "nombre": "CU",
-      "codigo_corto": "CU"
-    }
-  }
-
-
-
-  
 

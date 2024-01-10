@@ -6,7 +6,8 @@ import { Obra, Zona, Delegacion, Tipotrabajos, Empresacontratistas, Coordinadorc
 import { Product } from '../../../interfaces/product.interface';
 import { ProductService } from '../../../services/productservice';
 
-import { ReporteDiario } from '../../../interfaces/reporte-diario.interface';
+import { ReporteDiario,Tipooperacion,Tipoactividad, Maestroactividad } from '../../../interfaces/reporte-diario.interface';
+
 import { ReporteDiarioService } from '../../../services/reporte-diario.service';
 
 import { ActivatedRoute, Router } from '@angular/router';
@@ -45,6 +46,13 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
     listaReportesDiarios : ReporteDiario[];
 
+    listaTipooperacion: Tipooperacion[];
+
+    listaTipoactividad: Tipoactividad[];
+    
+    listaMaestroactividad: Maestroactividad[];
+
+
 
     constructor(private productService: ProductService,
         private messageService: MessageService,
@@ -79,6 +87,36 @@ export class ReportediarioporobraPageComponent implements OnInit {
         this.reporteDiarioService.getAllReportesDiariosPorObra(this.obra).subscribe(
             (VisitasTerreno: any) => {
                 this.listaReportesDiarios = VisitasTerreno;
+            },
+            (error) => {
+                console.error('Error al obtener listado de reportes diarios:', error);
+            }
+        );
+
+
+        this.reporteDiarioService.getAlltipooperacion().subscribe(
+            (listado: any) => {
+                this.listaTipooperacion = listado;
+            },
+            (error) => {
+                console.error('Error al obtener listado de reportes diarios:', error);
+            }
+        );
+
+
+        this.reporteDiarioService.getAlltipoactividad().subscribe(
+            (listado: any) => {
+                this.listaTipoactividad = listado;
+            },
+            (error) => {
+                console.error('Error al obtener listado de reportes diarios:', error);
+            }
+        );
+
+
+        this.reporteDiarioService.getAllmaestroactividad().subscribe(
+            (listado: any) => {
+                this.listaMaestroactividad = listado;
             },
             (error) => {
                 console.error('Error al obtener listado de reportes diarios:', error);
