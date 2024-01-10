@@ -23,6 +23,8 @@ import { AgendaObraPageComponent } from './pages/agenda-page/agenda-obra/agenda-
 
 /* Reporte Diario */
 import { ReportediarioPageComponent } from './pages/reportediario-page/reportediario-page.component';
+import { ReportediarioporobraPageComponent } from './pages/reportediario-page/reportediarioporobra/reportediarioporobra-page.component';
+
 
 /* Informe Materiales Faltantes*/ 
 import { MaterialesfaltantesPageComponent } from './pages/materialesfaltantes-page/materialesfaltantes-page.component';
@@ -47,6 +49,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AgendasPageComponent,
     AgendaObraPageComponent,
     ReportediarioPageComponent,
+    ReportediarioporobraPageComponent,
     MaterialesfaltantesPageComponent,
     CuadraturamaterialesPageComponent,
     EstadopagoPageComponent,

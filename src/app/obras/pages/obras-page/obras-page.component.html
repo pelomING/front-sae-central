@@ -72,14 +72,13 @@
   </div>
 
 
-  <p-dialog [(visible)]="formObraDialog" [style]="{ width: '1000px' , height: '655px' }" header="Nueva Obra"
-    [modal]="true" styleClass="p-fluid">
+  <p-dialog [(visible)]="formObraDialog" [style]="{ width: '1000px' , height: '655px' }" header="Nueva Obra" [modal]="true" styleClass="p-fluid">
 
     <ng-template pTemplate="content">
 
       <form [formGroup]="obraForm" >
 
-        <div class="card">
+        <div class="card" style="height:350px;" >
           <p-tabView>
             <p-tabPanel header="Datos Principales">
 
@@ -330,7 +329,7 @@
         </div>
 
 
-        <div class="grid flex align-items-end" style="height:210px;margin-top:2%;">
+        <div class="grid flex align-items-end" style="height:110px;margin-top:2%;">
           <div class="col-4"></div>
 
           <div class="col-4">

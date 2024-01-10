@@ -119,6 +119,7 @@ export class MaterialesPageComponent implements OnInit {
             { label: 'LOWSTOCK', value: 'lowstock' },
             { label: 'OUTOFSTOCK', value: 'outofstock' }
         ];
+        
     }
 
 

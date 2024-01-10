@@ -1,0 +1,303 @@
+<p-card header="Reportes diarios por la Obra ID : {{obra?.codigo_obra}} ">
+
+    <div class="card">
+        <p-toast></p-toast>
+
+
+        <p-toolbar styleClass="mb-4 gap-2">
+
+            <ng-template pTemplate="left">
+
+                <button pButton pRipple (click)="goBack()" label="Volver" icon="pi pi-arrow-left"
+                    class="p-button-danger mr-2"></button>
+
+            </ng-template>
+
+            <ng-template pTemplate="right">
+
+                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                    (click)="openNew()"></button>
+
+                <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+
+            </ng-template>
+        </p-toolbar>
+
+
+        <p-table #dt [value]="listaReportesDiarios" [columns]="cols" [rows]="10" [paginator]="true"
+            [globalFilterFields]="['id', 'id_obra', 'fecha_reporte', 'jefe_faena','sdi']"
+            [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true">
+
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                    <h4 class="m-0">Listado de reportes</h4>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="id" style="min-width:10rem">
+                        Id Reporte
+                        <p-sortIcon field="id"></p-sortIcon>
+                    </th>
+
+                    <th pSortableColumn="id_obra" style="min-width:10rem">
+                        Id Obra
+                        <p-sortIcon field="id_obra"></p-sortIcon>
+                    </th>
+
+                    <th pSortableColumn="fecha_reporte">
+                        Fecha Reporte
+                        <p-sortIcon field="fecha_reporte"></p-sortIcon>
+                    </th>
+
+                    <th pSortableColumn="jefe_faena" style="min-width:10rem">jefe_faena <p-sortIcon
+                            field="jefe_faena"></p-sortIcon></th>
+
+                    <th pSortableColumn="sdi" style="min-width:10rem">sdi<p-sortIcon field="sdi"></p-sortIcon></th>
+
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-reportediario>
+                <tr>
+                    <td>{{ reportediario.id }}</td>
+                    <td>{{ reportediario.id_obra }}</td>
+                    <td>{{ reportediario.fecha_reporte }}</td>
+                    <td>{{ reportediario.jefe_faena }}</td>
+                    <td>{{ reportediario.sdi }}</td>
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                            (click)="editProduct(reportediario)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                            (click)="onEliminarClick(reportediario)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">In total there are {{ listaReportesDiarios
+                    ?
+                    listaReportesDiarios.length : 0 }}
+                    Reportes Diarios.</div>
+            </ng-template>
+        </p-table>
+
+    </div>
+
+
+
+
+
+ 
+    <p-dialog [(visible)]="productDialog" [style]="{ width: '1350px', height: '1600px' }" header="Reporte de Actividades Diarias" [modal]="true" styleClass="p-fluid">
+
+        <ng-template pTemplate="content">
+
+            <div class="card" style="height:300px;">
+
+                <div class="grid">
+
+                    <div class="col-4">
+                        <div class="form-group p-field custom-spacing">
+                            <span class="p-float-label">
+                                <input id="firstname6" type="text" pInputText>
+                                <label for="firstname6">Nombre Proyecto</label>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group p-field custom-spacing">
+                            <span class="p-float-label">
+                                <input id="firstname6" type="text" pInputText>
+                                <label for="lastname6">Supervisor</label>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group p-field custom-spacing">
+                            <span class="p-float-label">
+                                <input id="firstname6" type="text" pInputText>
+                                <label for="firstname6">Sector</label>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group p-field custom-spacing">
+                            <span class="p-float-label">
+                                <input id="firstname6" type="text" pInputText>
+                                <label for="lastname6">SDI</label>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group p-field custom-spacing">
+                            <span class="p-float-label">
+                                <input id="firstname6" type="text" pInputText>
+                                <label for="firstname6">Alimentador</label>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group p-field custom-spacing">
+                            <span class="p-float-label">
+                                <input id="firstname6" type="text" pInputText>
+                                <label for="lastname6">Jefe de Faena</label>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group p-field custom-spacing">
+                            <span class="p-float-label">
+                                <input id="firstname6" type="text" pInputText>
+                                <label for="firstname6">ITO mandante</label>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group p-field custom-spacing">
+                            <span class="p-float-label">
+                                <input id="firstname6" type="text" pInputText>
+                                <label for="lastname6">Comuna</label>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group p-field custom-spacing">
+                            <span class="p-float-label">
+                                <input id="firstname6" type="text" pInputText>
+                                <label for="firstname6">N° Documento</label>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group p-field custom-spacing">
+                            <span class="p-float-label">
+                                <input id="firstname6" type="text" pInputText>
+                                <label for="lastname6">FlaxiApp</label>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card">
+
+                <p-table #dt1 [value]="" [columns]="" [rows]="10" [paginator]="true" [globalFilterFields]=""
+                    [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
+                    [tableStyle]="{ 'min-width': '75rem' }"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [showCurrentPageReport]="true">
+
+                    <ng-template pTemplate="caption">
+
+                        <div class="flex justify-content-between flex-wrap">
+                            <div>
+                                <h5 class="m-0">Listado de Actividades</h5>
+                            </div>
+
+                            <div>
+                                <span class="p-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <input pInputText type="text"
+                                        (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                        placeholder="Search..." />
+                                </span>
+                            </div>
+                        </div>
+
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+
+                            <th style="min-width:10rem"> Clase </th>
+
+                            <th style="min-width:10rem"> Tipo </th>
+
+                            <th style="min-width:10rem"> Activiadad </th>
+
+                            <th style="min-width:10rem"> Unidad </th>
+
+                            <th style="min-width:10rem"> Cantidad </th>
+
+                            <th style="min-width:10rem"> Unitario </th>
+
+                            <th style="min-width:10rem"> Total </th>
+
+                            <th></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body">
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>
+                                <button pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"></button>
+                                <button pButton pRipple icon="pi pi-trash"
+                                    class="p-button-rounded p-button-warning"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary">
+
+                        <div class="flex justify-content-between flex-wrap">
+
+                            <div>
+                                <button pButton pRipple label="Agregar Actividad" icon="pi pi-plus"
+                                    class="p-button-success mr-2" (click)="openNewActividades()"></button>
+                            </div>
+
+                            <div>
+                                <button pButton pRipple label="Enviar Reporte" icon="pi pi-upload"
+                                    class="p-button-help"></button>
+                            </div>
+                        </div>
+
+                    </ng-template>
+                </p-table>
+
+            </div>
+
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+                (click)="hideDialog()"></button>
+
+        </ng-template>
+    </p-dialog>
+
+    <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+
+</p-card>
+
+
+
+<p-dialog [(visible)]="actividadesDialog" [style]="{ width: '350px', height: '600px' }" header="Agregar Actividades Diarias" [modal]="true" styleClass="p-fluid">
+
+
+
+
+</p-dialog>

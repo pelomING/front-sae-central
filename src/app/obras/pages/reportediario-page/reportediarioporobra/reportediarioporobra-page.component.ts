@@ -1,25 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
-import { Obra, Zona, Delegacion, Tipotrabajos, Empresacontratistas, Coordinadorcontratistas, Comuna, Estado, Tipo_obra, Segmento } from '../../interfaces/obra.interface';
+import { Obra, Zona, Delegacion, Tipotrabajos, Empresacontratistas, Coordinadorcontratistas, Comuna, Estado, Tipo_obra, Segmento } from '../../../interfaces/obra.interface';
 
+import { Product } from '../../../interfaces/product.interface';
+import { ProductService } from '../../../services/productservice';
 
-import { Product } from '../../interfaces/product.interface';
-import { ProductService } from '../../services/productservice';
+import { ReporteDiario } from '../../../interfaces/reporte-diario.interface';
+import { ReporteDiarioService } from '../../../services/reporte-diario.service';
 
-import { ReporteDiarioService } from '../../services/reporte-diario.service';
-import { NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-    selector: 'app-reportediario-page',
-    templateUrl: './reportediario-page.component.html',
-    styleUrls: ['./reportediario-page.component.scss'],
+    selector: 'app-reportediarioporobra-page',
+    templateUrl: './reportediarioporobra-page.component.html',
+    styleUrls: ['./reportediarioporobra-page.component.scss'],
 })
 
-export class ReportediarioPageComponent implements OnInit {
+export class ReportediarioporobraPageComponent implements OnInit {
 
 
     productDialog: boolean;
+
+    actividadesDialog: boolean;
+
 
     products: Product[];
 
@@ -35,26 +39,51 @@ export class ReportediarioPageComponent implements OnInit {
 
     cols: any[] = [];
 
+    obra: Obra;
+
+    private ejecutado = false;
+
+    listaReportesDiarios : ReporteDiario[];
+
+
     constructor(private productService: ProductService,
         private messageService: MessageService,
+        public route: ActivatedRoute,
         private router: Router,
         private reporteDiarioService: ReporteDiarioService,
-        private confirmationService: ConfirmationService) { }
+        private confirmationService: ConfirmationService) 
+        { 
+
+            if (!this.ejecutado) {
+                this.route.queryParams.subscribe(params => {
+                    const navigationExtras = this.router.getCurrentNavigation()?.extras;
+                    if (navigationExtras && navigationExtras.state) {
+                        this.obra = this.router.getCurrentNavigation().extras.state['obra'];
+                        localStorage.setItem('obra', JSON.stringify(this.obra));
+                    }
+                    this.ejecutado = true;
+                });
+            }
+
+        }
 
     ngOnInit() {
+
         this.productService.getProducts().then((data) => (this.products = data));
 
+        this.obra = JSON.parse(localStorage.getItem('obra'));
 
-        this.reporteDiarioService.getAllObras().subscribe(
-            (Obras: any) => {
-                console.log("Esto es la Obras:", Obras);
-                this.obras = Obras;
+        console.log("obra", this.obra);
+        
+
+        this.reporteDiarioService.getAllReportesDiariosPorObra(this.obra).subscribe(
+            (VisitasTerreno: any) => {
+                this.listaReportesDiarios = VisitasTerreno;
             },
             (error) => {
-                console.error('Error al obtener las obras:', error);
+                console.error('Error al obtener listado de reportes diarios:', error);
             }
         );
-
 
         this.cols = [
             { field: 'nombre_obra', header: 'Nombre Obra' },
@@ -64,7 +93,6 @@ export class ReportediarioPageComponent implements OnInit {
             { field: 'estado.nombre', header: 'Estado' }
         ];
 
-
         this.statuses = [
             { label: 'INSTOCK', value: 'instock' },
             { label: 'LOWSTOCK', value: 'lowstock' },
@@ -73,27 +101,23 @@ export class ReportediarioPageComponent implements OnInit {
 
     }
 
-
-
-
-    navegarAPagina2(obra: Obra) {
-
-        const navigationExtras: NavigationExtras = {
-            state: {
-                obra: obra
-            }
-        };
-
-        this.router.navigate(['/obras/reportediarioporobra'], navigationExtras);
-
-    }
-
-
     openNew() {
         this.product = {};
         this.submitted = false;
         this.productDialog = true;
     }
+
+    openNewActividades(){
+
+        this.actividadesDialog = true;
+
+    }
+
+
+    goBack() {
+        window.history.back();
+    }
+
 
     deleteSelectedProducts() {
         this.confirmationService.confirm({

@@ -11,6 +11,9 @@ import { AgendaObraPageComponent } from './pages/agenda-page/agenda-obra/agenda-
 
 
 import { ReportediarioPageComponent } from './pages/reportediario-page/reportediario-page.component';
+import { ReportediarioporobraPageComponent } from './pages/reportediario-page/reportediarioporobra/reportediarioporobra-page.component';
+
+
 import { MaterialesfaltantesPageComponent } from './pages/materialesfaltantes-page/materialesfaltantes-page.component';
 import { CuadraturamaterialesPageComponent } from './pages/cuadraturamateriales-page/cuadraturamateriales-page.component';
 import { EstadopagoPageComponent } from './pages/estadopago-page/estadopago-page.component';
@@ -30,6 +33,9 @@ const routes: Routes = [
       { path: 'agenda-obra', component: AgendaObraPageComponent },
       
       { path: 'reportediario', component: ReportediarioPageComponent },
+      { path: 'reportediarioporobra', component: ReportediarioporobraPageComponent },
+
+
       { path: 'materialesfaltantes', component: MaterialesfaltantesPageComponent },
       { path: 'cuadraturamateriales', component: CuadraturamaterialesPageComponent },
       { path: 'estadopago', component: EstadopagoPageComponent },

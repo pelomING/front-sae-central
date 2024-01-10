@@ -48,20 +48,13 @@
                     <td>{{ obra.numero_ot }}</td>
                     <td>{{ obra.monto }}</td>
                     <td>
-                        
                         <p-tag icon="pi pi-star" [value]="obra.estado.nombre" [severity]="getSeverity(obra.estado.nombre)"></p-tag>
-
                     </td>
                     <td>
-
                         <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-help mr-2" (click)="editProduct(obra)"></button>
-                        
                         <button pButton pRipple icon="pi pi-cloud-upload" class="p-button-rounded p-button-warning mr-2"></button>
-
                         <!-- <button pButton pRipple icon="pi pi-check-circle" class="p-button-rounded p-button-success mr-2"></button>
-
                         <button pButton pRipple icon="pi pi-cog" class="p-button-rounded p-button-danger mr-2"></button> -->
-
                     </td>
                 </tr>
             </ng-template>
