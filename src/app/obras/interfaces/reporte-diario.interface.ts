@@ -4,16 +4,17 @@ export interface DetActividad {
     tipo: number;
     actividad: number;
     cantidad: number;
-  }
-  
-  export interface DetOtros {
+}
+
+export interface DetOtros {
     glosa: string;
     uc_unitaria: number;
     cantidad: number;
     uc_total: number;
-  }
-  
-  export  interface ReporteDiario {
+}
+
+export interface ReporteDiario {
+    id?: number;
     id_obra: number;
     fecha_reporte: string;
     jefe_faena: number;
@@ -37,30 +38,25 @@ export interface DetActividad {
     flexiapp: string[];
     det_actividad: DetActividad[];
     det_otros: DetOtros[];
-  }
+}
 
-  
-
-export interface Tipooperacion 
-{
+export interface Tipooperacion {
     id: number,
     nombre: string
 }
 
-export interface Tipoactividad
-{
+export interface Tipoactividad {
     id: number,
     descripcion: string
 }
 
-export interface Maestroactividad
-{
+export interface Maestroactividad {
     id: number,
     actividad: string,
     tipo_actividad: Tipoactividad,
-    uc_instalacion: string,
-    uc_retiro: string,
-    uc_traslado: string,
+    uc_instalacion: number,
+    uc_retiro: number,
+    uc_traslado: number,
     descripcion: string,
     unidad: Unidad
 }
@@ -71,5 +67,35 @@ export interface Unidad {
     codigo_corto: string
 }
 
+export interface TablaActividades {
+    id: string;
+    tipoOperacion: Tipooperacion;
+    tipoActividad: Tipoactividad;
+    maestroActividad: Maestroactividad;
+    cantidad: number;
+    ucUnitaria: number;
+    ucTotal: number;
+}
 
+export interface TablaOtrasActividades {
+    id: string;
+    glosa: string;
+    uc_unitaria: number;
+    cantidad: number;
+    uc_total: number;
+}
+ 
+export interface Jefesfaena {
+    id: number,
+    nombre: string
+}
 
+export interface Area {
+    id: number,
+    descripcion: string
+}
+
+export interface Brigada {
+    id: number,
+    descripcion: string
+}

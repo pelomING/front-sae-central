@@ -94,190 +94,453 @@
 
 
 
- 
-    <p-dialog [(visible)]="productDialog" [style]="{ width: '1350px', height: '1600px' }" header="Reporte de Actividades Diarias" [modal]="true" styleClass="p-fluid">
+
+    <p-dialog [(visible)]="productDialog" [style]="{ width: '1550px', height: '1600px' }"
+        (onHide)="onCloseProductDialog()" header="Reporte de Actividades Diarias" [modal]="true" styleClass="p-fluid">
 
         <ng-template pTemplate="content">
 
-            <div class="card" style="height:300px;">
 
-                <div class="grid">
 
-                    <div class="col-4">
-                        <div class="form-group p-field custom-spacing">
-                            <span class="p-float-label">
-                                <input id="firstname6" type="text" pInputText>
-                                <label for="firstname6">Nombre Proyecto</label>
-                            </span>
-                        </div>
-                    </div>
+            <p-tabView>
 
-                    <div class="col-4">
-                        <div class="form-group p-field custom-spacing">
-                            <span class="p-float-label">
-                                <input id="firstname6" type="text" pInputText>
-                                <label for="lastname6">Supervisor</label>
-                            </span>
-                        </div>
-                    </div>
+                <p-tabPanel header="Datos Principales">
 
-                    <div class="col-4">
-                        <div class="form-group p-field custom-spacing">
-                            <span class="p-float-label">
-                                <input id="firstname6" type="text" pInputText>
-                                <label for="firstname6">Sector</label>
-                            </span>
-                        </div>
-                    </div>
+                    <form [formGroup]="ReporteDiarioForm">
 
-                    <div class="col-4">
-                        <div class="form-group p-field custom-spacing">
-                            <span class="p-float-label">
-                                <input id="firstname6" type="text" pInputText>
-                                <label for="lastname6">SDI</label>
-                            </span>
-                        </div>
-                    </div>
+                        <input type="hidden" pInputhidden id="id" class="form-control" formControlName="id">
 
-                    <div class="col-4">
-                        <div class="form-group p-field custom-spacing">
-                            <span class="p-float-label">
-                                <input id="firstname6" type="text" pInputText>
-                                <label for="firstname6">Alimentador</label>
-                            </span>
-                        </div>
-                    </div>
+                        <div class="card" style="height:600px;">
 
-                    <div class="col-4">
-                        <div class="form-group p-field custom-spacing">
-                            <span class="p-float-label">
-                                <input id="firstname6" type="text" pInputText>
-                                <label for="lastname6">Jefe de Faena</label>
-                            </span>
-                        </div>
-                    </div>
+                            <br>
 
-                    <div class="col-4">
-                        <div class="form-group p-field custom-spacing">
-                            <span class="p-float-label">
-                                <input id="firstname6" type="text" pInputText>
-                                <label for="firstname6">ITO mandante</label>
-                            </span>
-                        </div>
-                    </div>
+                            <div class="grid">
 
-                    <div class="col-4">
-                        <div class="form-group p-field custom-spacing">
-                            <span class="p-float-label">
-                                <input id="firstname6" type="text" pInputText>
-                                <label for="lastname6">Comuna</label>
-                            </span>
-                        </div>
-                    </div>
+                                <div class="col-9">
 
-                    <div class="col-4">
-                        <div class="form-group p-field custom-spacing">
-                            <span class="p-float-label">
-                                <input id="firstname6" type="text" pInputText>
-                                <label for="firstname6">N° Documento</label>
-                            </span>
-                        </div>
-                    </div>
+                                </div>
 
-                    <div class="col-4">
-                        <div class="form-group p-field custom-spacing">
-                            <span class="p-float-label">
-                                <input id="firstname6" type="text" pInputText>
-                                <label for="lastname6">FlaxiApp</label>
-                            </span>
-                        </div>
-                    </div>
+                                <div class="col-3">
 
-                </div>
-            </div>
+                                    <div class="form-group p-field custom-spacing">
+                                        <div class="calendar-container">
+                                            <span class="p-float-label">
+                                                <p-calendar id="fecha_reporte_diario"
+                                                    formControlName="fecha_reporte_diario" class="form-control"
+                                                    dateFormat="dd-mm-yy" [showIcon]="true"></p-calendar>
+                                                <label htmlFor="fecha_reporte_diario">Fecha Reporte Diario</label>
+                                            </span>
+                                        </div>
+                                    </div>
 
-            <div class="card">
+                                </div>
 
-                <p-table #dt1 [value]="" [columns]="" [rows]="10" [paginator]="true" [globalFilterFields]=""
-                    [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
-                    [tableStyle]="{ 'min-width': '75rem' }"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                    [showCurrentPageReport]="true">
-
-                    <ng-template pTemplate="caption">
-
-                        <div class="flex justify-content-between flex-wrap">
-                            <div>
-                                <h5 class="m-0">Listado de Actividades</h5>
                             </div>
 
-                            <div>
-                                <span class="p-input-icon-left">
-                                    <i class="pi pi-search"></i>
-                                    <input pInputText type="text"
-                                        (input)="dt.filterGlobal($event.target.value, 'contains')"
-                                        placeholder="Search..." />
-                                </span>
+                            <hr>
+                            <br>
+
+                            <div class="grid">
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+
+                                            <input type="hidden" pInputhidden id="id_obra" class="form-control"
+                                                formControlName="id_obra">
+                                            <input id="nombre_proyecto" formControlName="nombre_proyecto" readonly
+                                                type="text" pInputText>
+                                            <label for="nombre_proyecto">Nombre Proyecto</label>
+
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <input id="supervisor" formControlName="supervisor" type="text" pInputText>
+                                            <label for="supervisor">Supervisor</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <input id="sector" formControlName="sector" type="text" pInputText>
+                                            <label for="sector">Sector</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <input id="sdi" formControlName="sdi" type="text" pInputText>
+                                            <label for="sdi">SDI</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <input id="alimentador" type="text" formControlName="alimentador"
+                                                pInputText>
+                                            <label for="alimentador">Alimentador</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-dropdown id="jefe_faena" formControlName="jefe_faena"
+                                                class="form-control" [options]="listaJefesfaena" optionLabel="nombre"
+                                                placeholder="Seleccionar"></p-dropdown>
+                                            <label htmlFor="jefe_faena">Jefe de Faena</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <input id="ito_mandante" formControlName="ito_mandante" type="text"
+                                                pInputText>
+                                            <label for="ito_mandante">ITO mandante</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-dropdown id="comunas" formControlName="comunas" class="form-control"
+                                                [options]="listaComunas" optionLabel="nombre"
+                                                placeholder="Seleccionar"></p-dropdown>
+                                            <label htmlFor="comunas">Comunas</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <input id="n_documento" formControlName="n_documento" type="text"
+                                                pInputText>
+                                            <label for="n_documento">N° Documento</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <input id="flexiapp" formControlName="flexiapp" type="text" pInputText>
+                                            <label for="flexiapp">FlexiApp</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-dropdown id="area" formControlName="area" class="form-control"
+                                                [options]="listadeAreas" optionLabel="descripcion"
+                                                placeholder="Seleccionar"></p-dropdown>
+                                            <label htmlFor="area">Area</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-dropdown id="brigada" formControlName="brigada" class="form-control"
+                                                [options]="listaBrigadas" optionLabel="descripcion"
+                                                placeholder="Seleccionar"></p-dropdown>
+                                            <label htmlFor="brigada">Brigada</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-3">
+
+                                    <div class="form-group p-field custom-spacing">
+                                        <div class="calendar-container">
+                                            <span class="p-float-label">
+                                                <p-calendar id="fecha_hora_salida_base"
+                                                    formControlName="fecha_hora_salida_base" class="form-control"
+                                                    dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true" ></p-calendar>
+                                                <label htmlFor="fecha_hora_salida_base">Hora Salida Base</label>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-3">
+
+                                    <div class="form-group p-field custom-spacing">
+                                        <div class="calendar-container">
+                                            <span class="p-float-label">
+                                                <p-calendar id="fecha_hora_llegada_terreno"
+                                                    formControlName="fecha_hora_llegada_terreno" class="form-control"
+                                                    dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true" ></p-calendar>
+                                                <label htmlFor="fecha_hora_llegada_terreno">Hora Llegada a
+                                                    terreno</label>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-3">
+
+                                    <div class="form-group p-field custom-spacing">
+                                        <div class="calendar-container">
+                                            <span class="p-float-label">
+                                                <p-calendar id="fecha_hora_salida_terreno"
+                                                    formControlName="fecha_hora_salida_terreno" class="form-control"
+                                                    dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true" ></p-calendar>
+                                                <label htmlFor="fecha_hora_salida_terreno">Hora Salida a Terreno</label>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-3">
+
+                                    <div class="form-group p-field custom-spacing">
+                                        <div class="calendar-container">
+                                            <span class="p-float-label">
+                                                <p-calendar id="fecha_hora_llegada_base"
+                                                    formControlName="fecha_hora_llegada_base" class="form-control"
+                                                    dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true" ></p-calendar>
+                                                <label htmlFor="fecha_hora_llegada_base">Hora Llegada Base</label>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
                             </div>
+
+
+                            <div class="grid" style="margin-top:5%;">
+                                <div class="col-3"></div>
+                                <div class="col-6">
+
+                                    <button *ngIf="mostrarGuardar" pButton pRipple label="Guardar" type="button"
+                                        (click)="onGuardarReporteDiarioClick()" visible="false" [loading]="loading"
+                                        [disabled]="ReporteDiarioForm.invalid"
+                                        class="p-button-rounded p-button-outlined p-mt-10"></button>
+
+                                    <button *ngIf="mostrarActualizar" pButton pRipple label="Actualizar" type="button"
+                                        (click)="onActualizarReporteDiarioClick()" [loading]="loading"
+                                        [disabled]="ReporteDiarioForm.invalid"
+                                        class="p-button-rounded p-button-success p-button-outlined p-mt-10"></button>
+
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+
+
                         </div>
 
-                    </ng-template>
-                    <ng-template pTemplate="header">
-                        <tr>
+                    </form>
 
-                            <th style="min-width:10rem"> Clase </th>
+                </p-tabPanel>
 
-                            <th style="min-width:10rem"> Tipo </th>
+                <p-tabPanel header="Actividades">
 
-                            <th style="min-width:10rem"> Activiadad </th>
+                    <div class="card">
 
-                            <th style="min-width:10rem"> Unidad </th>
+                        <p-toolbar styleClass="mb-4 gap-2">
 
-                            <th style="min-width:10rem"> Cantidad </th>
+                            <ng-template pTemplate="left">
 
-                            <th style="min-width:10rem"> Unitario </th>
-
-                            <th style="min-width:10rem"> Total </th>
-
-                            <th></th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body">
-                        <tr>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                            <td>7</td>
-                            <td>
-                                <button pButton pRipple icon="pi pi-pencil"
-                                    class="p-button-rounded p-button-success mr-2"></button>
-                                <button pButton pRipple icon="pi pi-trash"
-                                    class="p-button-rounded p-button-warning"></button>
-                            </td>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="summary">
-
-                        <div class="flex justify-content-between flex-wrap">
-
-                            <div>
                                 <button pButton pRipple label="Agregar Actividad" icon="pi pi-plus"
                                     class="p-button-success mr-2" (click)="openNewActividades()"></button>
-                            </div>
 
-                            <div>
-                                <button pButton pRipple label="Enviar Reporte" icon="pi pi-upload"
-                                    class="p-button-help"></button>
-                            </div>
-                        </div>
+                            </ng-template>
 
-                    </ng-template>
-                </p-table>
+                            <ng-template pTemplate="right">
 
-            </div>
+                            </ng-template>
+                        </p-toolbar>
+
+
+                        <p-table #dt1 [value]="listaTablaActividades" [columns]="colslistaTablaActividades" [rows]="4"
+                            [paginator]="true" [globalFilterFields]="" responsiveLayout="scroll" [rowHover]="true"
+                            [totalRecords]="listaTablaActividades.length" dataKey="id"
+                            [tableStyle]="{ 'min-width': '75rem' }"
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                            [showCurrentPageReport]="true">
+
+                            <ng-template pTemplate="caption">
+
+                                <div class="flex justify-content-between flex-wrap">
+                                    <div>
+                                        <h5 class="m-0">Listado de Actividades</h5>
+                                    </div>
+
+                                    <div>
+                                        <span class="p-input-icon-left">
+                                            <i class="pi pi-search"></i>
+                                            <input pInputText type="text"
+                                                (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                                placeholder="Search..." />
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </ng-template>
+                            <ng-template pTemplate="header">
+                                <tr>
+
+                                    <th style="min-width:10rem"> Clase </th>
+
+                                    <th style="min-width:10rem"> Tipo </th>
+
+                                    <th style="min-width:10rem"> Actividad </th>
+
+                                    <th style="min-width:10rem"> Unidad </th>
+
+                                    <th style="min-width:10rem"> Cantidad </th>
+
+                                    <th style="min-width:10rem"> Unitario </th>
+
+                                    <th style="min-width:10rem"> Total </th>
+
+                                    <th></th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-Actividad>
+                                <tr>
+                                    <td>{{ Actividad.tipoOperacion.nombre }}</td>
+                                    <td>{{ Actividad.tipoActividad.descripcion }}</td>
+                                    <td>{{ Actividad.maestroActividad.actividad }}</td>
+                                    <td>{{ Actividad.maestroActividad.unidad.nombre }}</td>
+                                    <td>{{ Actividad.cantidad }}</td>
+                                    <td>{{ Actividad.ucUnitaria }}</td>
+                                    <td>{{ Actividad.ucTotal }}</td>
+                                    <td>
+                                        <button pButton pRipple icon="pi pi-pencil"
+                                            class="p-button-rounded p-button-success mr-2"
+                                            (click)="openEditActividad(Actividad)"></button>
+                                        <button pButton pRipple icon="pi pi-trash"
+                                            class="p-button-rounded p-button-warning"
+                                            (click)="openDeleteActividad(Actividad)"></button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="summary">
+
+                                <div class="flex align-items-center justify-content-between">
+                                    Cantidad de actividades registradas : {{
+                                    listaTablaActividades?listaTablaActividades.length : 0 }}
+                                </div>
+
+                            </ng-template>
+                        </p-table>
+
+                    </div>
+
+                </p-tabPanel>
+
+                <p-tabPanel header="Otras Actividades">
+
+                    <div class="card">
+
+                        <p-toolbar styleClass="mb-4 gap-2">
+
+                            <ng-template pTemplate="left">
+
+                                <button pButton pRipple label="Agregar Otras Actividades" icon="pi pi-plus"
+                                    class="p-button-success mr-2" (click)="openNewOtrasActividades()"></button>
+
+                            </ng-template>
+
+                            <ng-template pTemplate="right">
+
+                            </ng-template>
+                        </p-toolbar>
+
+
+                        <p-table #dt1 [value]="listaTablaOtrasActividades" [columns]="colslistaTablaOtrasActividades"
+                            [rows]="4" [paginator]="true" [globalFilterFields]="" responsiveLayout="scroll"
+                            [rowHover]="true" [totalRecords]="listaTablaOtrasActividades.length" dataKey="id"
+                            [tableStyle]="{ 'min-width': '75rem' }"
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                            [showCurrentPageReport]="true">
+
+                            <ng-template pTemplate="caption">
+
+                                <div class="flex justify-content-between flex-wrap">
+                                    <div>
+                                        <h5 class="m-0">Listado de Otras Actividades</h5>
+                                    </div>
+
+                                    <div>
+                                        <span class="p-input-icon-left">
+                                            <i class="pi pi-search"></i>
+                                            <input pInputText type="text"
+                                                (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                                placeholder="Search..." />
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </ng-template>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="min-width:10rem"> Glosa </th>
+                                    <th style="min-width:10rem"> Uc_unitaria </th>
+                                    <th style="min-width:10rem"> Cantidad </th>
+                                    <th style="min-width:10rem"> Uc_Total </th>
+                                    <th></th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-OtrasActividad>
+                                <tr>
+                                    <td>{{ OtrasActividad.glosa }}</td>
+                                    <td>{{ OtrasActividad.uc_unitaria }}</td>
+                                    <td>{{ OtrasActividad.cantidad }}</td>
+                                    <td>{{ OtrasActividad.uc_total }}</td>
+
+                                    <td>
+                                        <button pButton pRipple icon="pi pi-pencil"
+                                            class="p-button-rounded p-button-success mr-2"
+                                            (click)="openEditOtraActividad(OtrasActividad)"></button>
+                                        <button pButton pRipple icon="pi pi-trash"
+                                            class="p-button-rounded p-button-warning"
+                                            (click)="openDeleteOtraActividad(OtrasActividad)"></button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="summary">
+
+                                <div class="flex align-items-center justify-content-between">
+                                    Cantidad de otras actividades registradas : {{
+                                    listaTablaOtrasActividades?listaTablaOtrasActividades.length : 0 }}
+                                </div>
+
+                            </ng-template>
+                        </p-table>
+
+                    </div>
+
+                </p-tabPanel>
+
+            </p-tabView>
+
+
+
+
 
         </ng-template>
 
@@ -295,9 +558,182 @@
 
 
 
-<p-dialog [(visible)]="actividadesDialog" [style]="{ width: '350px', height: '600px' }" header="Agregar Actividades Diarias" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="actividadesDialog" [style]="{ width:'1400px', height:'600px' }" header="Agregar Actividad"
+    (onHide)="onCloseActividadesDialog()" [modal]="true" styleClass="p-fluid">
+
+    <ng-template pTemplate="content">
+
+        <div class="card">
+
+            <form [formGroup]="ActividadForm">
+
+                <div class="grid" style="margin-top:1%;">
+                    <div class="col-4">
+                        <span class="p-float-label">
+                            <p-dropdown formControlName="obj_Tipooperacion" id="tipo_operacion" class="form-control"
+                                [options]="listaTipooperacion" optionLabel="nombre"
+                                placeholder="Seleccionar"></p-dropdown>
+                            <label htmlFor="tipo_operacion">Tipo Operación</label>
+                        </span>
+                    </div>
+                    <div class="col-4">
+                        <span class="p-float-label">
+                            <p-dropdown formControlName="obj_Tipoactividad" id="tipo_actividad" class="form-control"
+                                [options]="listaTipoactividad" optionLabel="descripcion"
+                                placeholder="Seleccionar"></p-dropdown>
+                            <label htmlFor="tipo_actividad">Tipo Actividad</label>
+                        </span>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group p-field custom-spacing">
+                            <span class="p-float-label">
+
+                                <input type="hidden" pInputhidden id="id" class="form-control" formControlName="id">
+
+                                <input type="number" pInputText id="cantidad" class="form-control"
+                                    formControlName="cantidad">
+                                <label htmlFor="cantidad">Cantidad</label>
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <p-dropdown formControlName="obj_Maestroactividad" [options]="listaMaestroactividad"
+                    (onChange)="onActividadSelected($event)" id="Maestroactividad" optionLabel="actividad"
+                    [filter]="true" filterBy="actividad" placeholder="Seleccionar Actividad" [showClear]="true">
+
+                    <ng-template pTemplate="selectedItem">
+                        <div *ngIf="selectedActividad">
+                            <div>
+                                <p>{{ selectedActividad.actividad }}</p>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template let-actividad pTemplate="item">
+                        <div>
+                            <div>{{ actividad.actividad }}</div>
+                        </div>
+                    </ng-template>
+
+                </p-dropdown>
+
+                <div class="grid" style="margin-top:5%;">
+                    <div class="col-3"></div>
+                    <div class="col-6">
+
+                        <button *ngIf="mostrarGuardar" pButton pRipple label="Guardar" type="button"
+                            (click)="onGuardarActividadClick()" visible="false" [loading]="loading"
+                            [disabled]="ActividadForm.invalid"
+                            class="p-button-rounded p-button-outlined p-mt-10"></button>
+
+                        <button *ngIf="mostrarActualizar" pButton pRipple label="Actualizar" type="button"
+                            (click)="onActualizarActividadClick()" [loading]="loading"
+                            [disabled]="ActividadForm.invalid"
+                            class="p-button-rounded p-button-success p-button-outlined p-mt-10"></button>
+
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+
+            </form>
+
+        </div>
+
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+
+        <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text"
+            (click)="hideDialogActividadesDialog()"></button>
+
+    </ng-template>
+
+</p-dialog>
 
 
 
+<p-dialog [(visible)]="OtrasActividadesDialog" [style]="{ width:'1400px', height:'400px' }"
+    header="Agregar Otra Actividad" (onHide)="onCloseOtraActividadesDialog()" [modal]="true" styleClass="p-fluid">
+
+    <ng-template pTemplate="content">
+
+        <div class="card">
+
+            <form [formGroup]="OtraActividadForm">
+
+                <div class="grid" style="margin-top:1%;">
+                    <div class="col-6">
+                        <div class="form-group p-field custom-spacing">
+                            <span class="p-float-label">
+
+                                <input type="hidden" pInputhidden id="id" class="form-control" formControlName="id">
+
+                                <input type="text" pInputText id="glosa" class="form-control" formControlName="glosa">
+                                <label htmlFor="glosa">Glosa</label>
+
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group p-field custom-spacing">
+                            <span class="p-float-label">
+                                <input type="number" pInputText id="uc_unitaria" class="form-control"
+                                    formControlName="uc_unitaria">
+                                <label htmlFor="uc_unitaria">UC Unitaria</label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group p-field custom-spacing">
+                            <span class="p-float-label">
+                                <input type="number" pInputText id="cantidad" class="form-control"
+                                    formControlName="cantidad">
+                                <label htmlFor="cantidad">Cantidad</label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group p-field custom-spacing">
+                            <span class="p-float-label">
+                                <input type="number" pInputText id="uc_total" class="form-control"
+                                    formControlName="uc_total">
+                                <label htmlFor="uc_total">UC Total</label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid" style="margin-top:3%;">
+                    <div class="col-3"></div>
+                    <div class="col-6">
+
+                        <button *ngIf="mostrarGuardar" pButton pRipple label="Guardar" type="button"
+                            (click)="onGuardarOtraActividadClick()" visible="false" [loading]="loading"
+                            [disabled]="OtraActividadForm.invalid"
+                            class="p-button-rounded p-button-outlined p-mt-10"></button>
+
+                        <button *ngIf="mostrarActualizar" pButton pRipple label="Actualizar" type="button"
+                            (click)="onActualizarOtraActividadClick()" [loading]="loading"
+                            [disabled]="OtraActividadForm.invalid"
+                            class="p-button-rounded p-button-success p-button-outlined p-mt-10"></button>
+
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+
+            </form>
+
+        </div>
+
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+
+        <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text"
+            (click)="hideDialogOtrasActividadesDialog()"></button>
+
+    </ng-template>
 
 </p-dialog>
