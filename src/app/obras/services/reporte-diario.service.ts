@@ -186,6 +186,17 @@ export class ReporteDiarioService {
 
   }
 
+  
+    // /api/obras/backoffice/repodiario/v1/actualizareportediario/{id} 
+    ActualizarReporteDiario(reporte_diario: ReporteDiario): Observable<ReporteDiario> {
+
+      return this.http.put<ReporteDiario>(`${this.baseUrlReporte}actualizareportediario/${reporte_diario.id}`, reporte_diario, httpOptions).pipe(
+        map((response) => {
+          return response;
+        })
+      );
+  
+    }
 
 
 

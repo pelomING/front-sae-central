@@ -1,4 +1,4 @@
-<p-card header="Listado de Obras">
+<p-card header="Ingreso de Obras">
   <div class="card">
     <p-toast></p-toast>
     <p-toolbar styleClass="mb-4 gap-2">
@@ -72,13 +72,13 @@
   </div>
 
 
-  <p-dialog [(visible)]="formObraDialog" [style]="{ width: '1000px' , height: '655px' }" header="Nueva Obra" [modal]="true" styleClass="p-fluid">
+  <p-dialog [(visible)]="formObraDialog" [style]="{ width: '1000px' , height: '720px' }" header="Nueva Obra" [modal]="true" styleClass="p-fluid">
 
     <ng-template pTemplate="content">
 
       <form [formGroup]="obraForm" >
 
-        <div class="card" style="height:350px;" >
+        <div class="card" style="height:450px;" >
           <p-tabView>
             <p-tabPanel header="Datos Principales">
 
@@ -114,11 +114,12 @@
                   </div>
                 </div>
 
+
                 <div class="col-4">
                   <div class="form-group p-field custom-spacing">
                     <span class="p-float-label">
-                      <p-dropdown formControlName="zona" id="zona" class="form-control" [options]="zonas" optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
-                      <label htmlFor="zona">Zona</label>
+                      <p-dropdown formControlName="tipo_obra" id="tipo_obra" class="form-control" [options]="tipo_obra" optionLabel="descripcion" placeholder="Seleccionar"></p-dropdown>
+                      <label htmlFor="tipo_obra">Tipo de Obra</label>
                     </span>
                   </div>
                 </div>
@@ -126,11 +127,12 @@
                 <div class="col-4">
                   <div class="form-group p-field custom-spacing">
                     <span class="p-float-label">
-                      <p-dropdown formControlName="delegacion" class="form-control" id="delegacion" [options]="delegacion" optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
-                      <label htmlFor="delegacion">Delegación</label>
+                      <p-dropdown formControlName="segmento" id="segmento"  class="form-control" [options]="segmento" optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
+                      <label htmlFor="segmento">Segmento</label>
                     </span>
                   </div>
                 </div>
+
 
                 <div class="col-4">
                   <div class="form-group p-field custom-spacing">
@@ -168,12 +170,24 @@
                   </div>
                 </div>
 
-              </div>
 
-            </p-tabPanel>
-            <p-tabPanel header="Fechas y Responsables">
+                <div class="col-4">
+                  <div class="form-group p-field custom-spacing">
+                    <span class="p-float-label">
+                      <p-dropdown formControlName="tipo_trabajo" id="tipo_trabajo" class="form-control" [options]="tipotrabajos" optionLabel="descripcion" placeholder="Seleccionar"></p-dropdown>
+                      <label htmlFor="tipo_trabajo">Tipo de Trabajo</label>
+                    </span>
+                  </div>
+                </div>
 
-              <div class="grid" style="height:100px;margin-top:2%;" >
+                <div class="col-4">
+                  <div class="form-group p-field custom-spacing">
+                    <span class="p-float-label">
+                      <p-dropdown formControlName="estado" id="estado" class="form-control" [options]="estado" optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
+                      <label htmlFor="estado">Estado</label>
+                    </span>
+                  </div>
+                </div>
 
                 <div class="col-4">
                   <div class="form-group p-field custom-spacing">
@@ -183,6 +197,15 @@
                     </span>
                   </div>
                 </div>
+                
+              </div>
+
+            </p-tabPanel>
+            <p-tabPanel header="Fechas y Responsables">
+
+              <div class="grid" style="height:100px;margin-top:2%;" >
+
+
 
                 <div class="col-4">
 
@@ -219,14 +242,7 @@
                   </div>
                 </div>
 
-                <div class="col-4">
-                  <div class="form-group p-field custom-spacing">
-                    <span class="p-float-label">
-                      <p-dropdown formControlName="tipo_trabajo" id="tipo_trabajo" class="form-control" [options]="tipotrabajos" optionLabel="descripcion" placeholder="Seleccionar"></p-dropdown>
-                      <label htmlFor="tipo_trabajo">Tipo de Trabajo</label>
-                    </span>
-                  </div>
-                </div>
+
 
                 <div class="col-4">
                   <div class="form-group p-field custom-spacing">
@@ -268,7 +284,7 @@
               </div>
 
             </p-tabPanel>
-            <p-tabPanel header="Ubicación y Tipo de Obra">
+            <p-tabPanel header="Ubicación">
 
               <div class="grid" style="height:100px;margin-top:2%;" >
 
@@ -293,8 +309,8 @@
                 <div class="col-4">
                   <div class="form-group p-field custom-spacing">
                     <span class="p-float-label">
-                      <p-dropdown formControlName="estado" id="estado" class="form-control" [options]="estado" optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
-                      <label htmlFor="estado">Estado</label>
+                      <p-dropdown formControlName="zona" id="zona" class="form-control" [options]="zonas" optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
+                      <label htmlFor="zona">Zona</label>
                     </span>
                   </div>
                 </div>
@@ -302,20 +318,12 @@
                 <div class="col-4">
                   <div class="form-group p-field custom-spacing">
                     <span class="p-float-label">
-                      <p-dropdown formControlName="tipo_obra" id="tipo_obra" class="form-control" [options]="tipo_obra" optionLabel="descripcion" placeholder="Seleccionar"></p-dropdown>
-                      <label htmlFor="tipo_obra">Tipo de Obra</label>
+                      <p-dropdown formControlName="delegacion" class="form-control" id="delegacion" [options]="delegacion" optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
+                      <label htmlFor="delegacion">Delegación</label>
                     </span>
                   </div>
                 </div>
 
-                <div class="col-4">
-                  <div class="form-group p-field custom-spacing">
-                    <span class="p-float-label">
-                      <p-dropdown formControlName="segmento" id="segmento"  class="form-control" [options]="segmento" optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
-                      <label htmlFor="segmento">Segmento</label>
-                    </span>
-                  </div>
-                </div>
 
                 <div class="col-4">
 
@@ -329,11 +337,12 @@
         </div>
 
 
-        <div class="grid flex align-items-end" style="height:110px;margin-top:2%;">
+        <div class="grid flex align-items-end" style="height:100px;margin-top:0%;">
           <div class="col-4"></div>
 
           <div class="col-4">
-            <button *ngIf="mostrarGuardar" pButton pRipple label="Guardar" (click)="onGuardarClick()" visible="false" [loading]="loading" [disabled]="obraForm.invalid" class="p-button-rounded p-button-outlined p-mt-10"></button>
+
+            <button *ngIf="mostrarGuardar" pButton pRipple label="Guardar" (click)="onGuardarClick()" visible="false" [loading]="loading" [disabled]="obraForm.invalid" class="p-button-rounded p-button-outlined p-mt-5"></button>
           
             <button *ngIf="mostrarActualizar" pButton pRipple label="Actualizar" (click)="onActualizarClick()" [loading]="loading" [disabled]="obraForm.invalid" class="p-button-rounded p-button-success p-button-outlined p-mt-10"></button>
           </div>
@@ -342,11 +351,6 @@
 
       </form>
 
-    </ng-template>
-
-    <ng-template pTemplate="footer">
-      <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-      <!-- <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button> -->
     </ng-template>
 
   </p-dialog>

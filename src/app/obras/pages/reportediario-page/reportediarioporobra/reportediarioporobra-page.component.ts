@@ -36,6 +36,8 @@ export class ReportediarioporobraPageComponent implements OnInit {
     colslistaTablaOtrasActividades: any[] = [];
 
     listaReportesDiarios: ReporteDiario[];
+    reporteDiarioCopia: ReporteDiario;
+
     listaTablaActividades: TablaActividades[] = [];
     listaTablaOtrasActividades: TablaOtrasActividades[] = [];
     listaTipooperacion: Tipooperacion[] | undefined;
@@ -59,6 +61,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
     ReporteDiarioForm: FormGroup;
     ActividadForm: FormGroup;
     OtraActividadForm: FormGroup;
+    FlexiAppForm: FormGroup;
 
     selectedActividad: Maestroactividad | undefined;
 
@@ -70,6 +73,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
     productDialog: boolean;
     actividadesDialog: boolean = false;
     OtrasActividadesDialog: boolean = false;
+    formAddFlexiAppDialog: boolean = false;
 
     loading: boolean = false;
     mostrarGuardar: boolean = true; // Mostrar el botón por defecto
@@ -90,7 +94,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
         this.ReporteDiarioForm = this.fb.group({
             id: [''],
-            fecha_reporte_diario: ['', Validators.required],
+            fecha_reporte: ['', Validators.required],
             id_obra: ['', Validators.required],
             nombre_proyecto: ['', Validators.required],
             supervisor: ['', Validators.required],
@@ -99,15 +103,15 @@ export class ReportediarioporobraPageComponent implements OnInit {
             alimentador: ['', Validators.required],
             jefe_faena: ['', Validators.required],
             ito_mandante: ['', Validators.required],
-            comunas: ['', Validators.required],
-            n_documento: ['', Validators.required],
+            comuna: ['', Validators.required],
+            num_documento: ['', Validators.required],
             flexiapp: ['', Validators.required],
             area: ['', Validators.required],
             brigada: ['', Validators.required],
-            fecha_hora_salida_base: ['', Validators.required],
-            fecha_hora_llegada_terreno: ['', Validators.required],
-            fecha_hora_salida_terreno: ['', Validators.required],
-            fecha_hora_llegada_base: ['', Validators.required]
+            hora_salida_base: ['', Validators.required],
+            hora_llegada_terreno: ['', Validators.required],
+            hora_salida_terreno: ['', Validators.required],
+            hora_llegada_base: ['', Validators.required]
         });
 
         this.ActividadForm = this.fb.group({
@@ -124,6 +128,10 @@ export class ReportediarioporobraPageComponent implements OnInit {
             uc_unitaria: ['', Validators.required],
             cantidad: ['', Validators.required],
             uc_total: ['', Validators.required]
+        });
+
+        this.FlexiAppForm = this.fb.group({
+            flexiappAgregar: ['', Validators.required]
         });
 
         if (!this.ejecutado) {
@@ -147,14 +155,8 @@ export class ReportediarioporobraPageComponent implements OnInit {
         console.log("obra", this.obra);
 
 
-        this.reporteDiarioService.getAllReportesDiariosPorObra(this.obra).subscribe(
-            (VisitasTerreno: any) => {
-                this.listaReportesDiarios = VisitasTerreno;
-            },
-            (error) => {
-                console.error('Error al obtener listado de reportes diarios:', error);
-            }
-        );
+        this.cargarListadoReportesDiarios();
+       
 
         this.reporteDiarioService.getAlltipooperacion().subscribe(
             (listado: any) => {
@@ -252,6 +254,20 @@ export class ReportediarioporobraPageComponent implements OnInit {
     }
 
 
+    cargarListadoReportesDiarios() {       
+
+        this.reporteDiarioService.getAllReportesDiariosPorObra(this.obra).subscribe(
+            (VisitasTerreno: any) => {
+                console.log("VisitasTerreno", VisitasTerreno);
+                this.listaReportesDiarios = VisitasTerreno.sort((a, b) => b.id - a.id);
+            },
+            (error) => {
+                console.error('Error al obtener listado de reportes diarios:', error);
+            }
+        );
+
+    }
+
 
     // Funciones para cerrar los diálogos
     onCloseProductDialog(): void {
@@ -266,9 +282,9 @@ export class ReportediarioporobraPageComponent implements OnInit {
         this.actividadesDialog = false;
     }
 
-
-
-
+    onCloseFormAddFlexiAppDialog() {
+        this.formAddFlexiAppDialog = false;
+    }
 
 
     onActividadSelected(event: any) {
@@ -285,7 +301,6 @@ export class ReportediarioporobraPageComponent implements OnInit {
     }
 
 
-
     createId(): string {
         let id = '';
         var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -294,7 +309,6 @@ export class ReportediarioporobraPageComponent implements OnInit {
         }
         return id;
     }
-
 
 
     onGuardarActividadClick() {
@@ -326,9 +340,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
             this.actividadesDialog = false;
 
         }
-
     }
-
 
 
     onGuardarOtraActividadClick() {
@@ -384,7 +396,6 @@ export class ReportediarioporobraPageComponent implements OnInit {
         return nuevaTabla;
 
     }
-
 
 
     filtrarFecha(fechaString: string) {
@@ -484,8 +495,6 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
     onGuardarReporteDiarioClick() {
 
-
-
         const det_actividad: DetActividad[] = this.listaTablaActividades.map((actividad: TablaActividades) => ({
             clase: actividad.tipoOperacion.id,
             tipo: actividad.tipoActividad.id,
@@ -500,7 +509,6 @@ export class ReportediarioporobraPageComponent implements OnInit {
             uc_total: otra_actividad.uc_total
         }));
 
-
         if (this.ReporteDiarioForm.valid) {
 
             const ReporteDiarioObjeto = this.ReporteDiarioForm.value;
@@ -508,18 +516,18 @@ export class ReportediarioporobraPageComponent implements OnInit {
             console.log('ReporteDiarioObjeto : ', ReporteDiarioObjeto);
 
 
-            ReporteDiarioObjeto.fecha_reporte = this.formateoFecha(ReporteDiarioObjeto.fecha_reporte_diario);
-            ReporteDiarioObjeto.fecha_entregado = this.formateoFecha(ReporteDiarioObjeto.fecha_reporte_diario);
-            ReporteDiarioObjeto.fecha_revisado = this.formateoFecha(ReporteDiarioObjeto.fecha_reporte_diario);
+            ReporteDiarioObjeto.fecha_reporte = this.formateoFecha(ReporteDiarioObjeto.fecha_reporte);
+            ReporteDiarioObjeto.fecha_entregado = ReporteDiarioObjeto.fecha_reporte; 
+            ReporteDiarioObjeto.fecha_revisado = ReporteDiarioObjeto.fecha_reporte;
 
-            ReporteDiarioObjeto.hora_salida_base = this.formateoFechaHora(ReporteDiarioObjeto.fecha_hora_salida_base);
-            ReporteDiarioObjeto.hora_llegada_terreno = this.formateoFechaHora(ReporteDiarioObjeto.fecha_hora_llegada_terreno);
-            ReporteDiarioObjeto.hora_salida_terreno = this.formateoFechaHora(ReporteDiarioObjeto.fecha_hora_salida_terreno);
-            ReporteDiarioObjeto.hora_llegada_base = this.formateoFechaHora(ReporteDiarioObjeto.fecha_hora_llegada_base);
+            ReporteDiarioObjeto.hora_salida_base = this.formateoFechaHora(ReporteDiarioObjeto.hora_salida_base);
+            ReporteDiarioObjeto.hora_llegada_terreno = this.formateoFechaHora(ReporteDiarioObjeto.hora_llegada_terreno);
+            ReporteDiarioObjeto.hora_salida_terreno = this.formateoFechaHora(ReporteDiarioObjeto.hora_salida_terreno);
+            ReporteDiarioObjeto.hora_llegada_base = this.formateoFechaHora(ReporteDiarioObjeto.hora_llegada_base);
 
 
             const NuevoReporteDiario: ReporteDiario = {
-                
+
                 id_obra: ReporteDiarioObjeto.id_obra,
                 fecha_reporte: ReporteDiarioObjeto.fecha_reporte,
                 jefe_faena: ReporteDiarioObjeto.jefe_faena.id,
@@ -538,7 +546,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
                 hora_salida_terreno: ReporteDiarioObjeto.hora_salida_terreno,
                 hora_llegada_base: ReporteDiarioObjeto.hora_llegada_base,
                 alimentador: ReporteDiarioObjeto.alimentador,
-                comuna: ReporteDiarioObjeto.comunas.codigo,
+                comuna: ReporteDiarioObjeto.comuna.codigo,
                 num_documento: ReporteDiarioObjeto.num_documento,
 
                 flexiapp: [ReporteDiarioObjeto.flexiapp],
@@ -557,6 +565,9 @@ export class ReportediarioporobraPageComponent implements OnInit {
                     // Manejar la respuesta exitosa
                     console.log('éxito:', response);
                     this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
+                    this.cargarListadoReportesDiarios();
+       
+                    this.productDialog = false;
 
                 },
                 (ObjError) => {
@@ -575,6 +586,31 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
         }
     }
+
+
+    onGuardarFlexiAppFormClick() {
+
+        console.log('onGuardarFlexiAppFormClick : ', this.FlexiAppForm.value);
+
+        const nuevoValorFlexiApp = this.FlexiAppForm.get('flexiappAgregar').value;
+
+        // Obtén el valor actual del campo flexiapp del primer formulario
+        const valorActualFlexiApp = this.ReporteDiarioForm.get('flexiapp').value;
+
+        // Concatena los valores, separados por comas
+        const nuevaCadenaFlexiApp = valorActualFlexiApp ? `${valorActualFlexiApp},${nuevoValorFlexiApp}` : nuevoValorFlexiApp;
+
+        this.ReporteDiarioForm.patchValue({
+            flexiapp: nuevaCadenaFlexiApp
+        });
+
+        this.FlexiAppForm.reset();
+
+        this.formAddFlexiAppDialog = false;
+
+    }
+
+
 
 
     onActualizarActividadClick() {
@@ -656,11 +692,154 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
     onActualizarReporteDiarioClick() {
 
+        const det_actividad: DetActividad[] = this.listaTablaActividades.map((actividad: TablaActividades) => ({
+            clase: actividad.tipoOperacion.id,
+            tipo: actividad.tipoActividad.id,
+            actividad: actividad.maestroActividad.id,
+            cantidad: actividad.cantidad
+        }));
 
+        const det_otros: DetOtros[] = this.listaTablaOtrasActividades.map((otra_actividad: TablaOtrasActividades) => ({
+            glosa: otra_actividad.glosa,
+            uc_unitaria: otra_actividad.uc_unitaria,
+            cantidad: otra_actividad.cantidad,
+            uc_total: otra_actividad.uc_total
+        }));
+
+        if (this.ReporteDiarioForm.valid) {
+
+            const ReporteDiarioObjeto = this.ReporteDiarioForm.value;
+
+            console.log('UPDATE ReporteDiarioObjeto : ', ReporteDiarioObjeto);
+
+            ReporteDiarioObjeto.fecha_reporte = this.formateoFecha(ReporteDiarioObjeto.fecha_reporte);
+            ReporteDiarioObjeto.fecha_entregado = this.formateoFecha(ReporteDiarioObjeto.fecha_reporte);
+            ReporteDiarioObjeto.fecha_revisado = this.formateoFecha(ReporteDiarioObjeto.fecha_reporte);
+
+            ReporteDiarioObjeto.hora_salida_base = this.formateoFechaHora(ReporteDiarioObjeto.hora_salida_base);
+            ReporteDiarioObjeto.hora_llegada_terreno = this.formateoFechaHora(ReporteDiarioObjeto.hora_llegada_terreno);
+            ReporteDiarioObjeto.hora_salida_terreno = this.formateoFechaHora(ReporteDiarioObjeto.hora_salida_terreno);
+            ReporteDiarioObjeto.hora_llegada_base = this.formateoFechaHora(ReporteDiarioObjeto.hora_llegada_base);
+
+            const UpdateReporteDiario: ReporteDiario = {
+                id: ReporteDiarioObjeto.id,
+                id_obra: ReporteDiarioObjeto.id_obra,
+
+                fecha_reporte: ReporteDiarioObjeto.fecha_reporte,
+                jefe_faena: ReporteDiarioObjeto.jefe_faena.id,
+                sdi: ReporteDiarioObjeto.sdi,
+                
+                id_area: ReporteDiarioObjeto.area.id,
+                sector: ReporteDiarioObjeto.sector,
+                
+                brigada_pesada: true,
+                
+                gestor_cliente: 'xxx',
+                observaciones: 'xxx',
+                entregado_por_persona: 'xxx',
+                fecha_entregado: ReporteDiarioObjeto.fecha_entregado,
+                revisado_por_persona: 'xxx',
+                fecha_revisado: ReporteDiarioObjeto.fecha_revisado,              
+
+                hora_salida_base: ReporteDiarioObjeto.hora_salida_base,
+                hora_llegada_terreno: ReporteDiarioObjeto.hora_llegada_terreno,
+                hora_salida_terreno: ReporteDiarioObjeto.hora_salida_terreno,
+                hora_llegada_base: ReporteDiarioObjeto.hora_llegada_base,
+
+                alimentador: ReporteDiarioObjeto.alimentador,
+                comuna: ReporteDiarioObjeto.comuna.codigo,
+                num_documento: ReporteDiarioObjeto.num_documento,
+
+                flexiapp: [ReporteDiarioObjeto.flexiapp],
+
+                det_actividad: det_actividad,
+                det_otros: det_otros
+
+            }
+
+            console.log('UpdateReporteDiario : ', UpdateReporteDiario);
+
+            this.reporteDiarioService.ActualizarReporteDiario(UpdateReporteDiario).subscribe(
+                (response) => {
+
+                    // Manejar la respuesta exitosa
+                    console.log('éxito:', response);
+                    this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro Actualizado', life: 3000 });
+                    this.cargarListadoReportesDiarios();
+                    this.productDialog = false;
+
+                },
+                (ObjError) => {
+
+                    // Manejar errores
+                    console.error('Error al update :', ObjError);
+
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Error : ' + ObjError.status,
+                        detail: 'Por favor, intentar mas tarde problemas de servicio : ' + ObjError.error.message,
+                    });
+
+                }
+            );
+
+        }
 
 
 
     }
+
+
+
+    formateoFechaDMA(fecha: String) {
+        let arrayFechaHora = fecha.split(" ");
+        let arrayFecha = arrayFechaHora[0].split("-");
+        let arrayHora = arrayFechaHora[1].split(":");
+        let fechaFormateada = `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]} ${arrayHora[0]}:${arrayHora[1]}`;
+        return fechaFormateada;
+    }
+
+
+    openEditReporteDiario(reporteDiario: ReporteDiario) {
+
+        console.log("onizarClick", reporteDiario);
+
+        this.reporteDiarioCopia = { ...reporteDiario };
+
+        this.mostrarGuardar = false;
+        this.mostrarActualizar = true;
+
+
+        let fechaParseada0 = new Date(this.reporteDiarioCopia.fecha_reporte);
+        let dia0 = fechaParseada0.getDate().toString().padStart(2, '0');
+        let mes0 = (fechaParseada0.getMonth() + 1).toString().padStart(2, '0');
+        let año0 = fechaParseada0.getFullYear();
+        let fechaFormateada0 = `${dia0}-${mes0}-${año0}`;
+
+        this.reporteDiarioCopia.fecha_reporte = fechaFormateada0;
+
+
+        this.reporteDiarioCopia.hora_salida_base = this.formateoFechaDMA(this.reporteDiarioCopia.hora_salida_base);
+        this.reporteDiarioCopia.hora_llegada_terreno = this.formateoFechaDMA(this.reporteDiarioCopia.hora_llegada_terreno);
+        this.reporteDiarioCopia.hora_salida_terreno = this.formateoFechaDMA(this.reporteDiarioCopia.hora_salida_terreno);
+        this.reporteDiarioCopia.hora_llegada_base = this.formateoFechaDMA(this.reporteDiarioCopia.hora_llegada_base);
+
+
+        this.ReporteDiarioForm.reset();
+
+        // Asigna los valores iniciales al formulario
+        this.ReporteDiarioForm.patchValue({
+            id_obra: this.obra?.id || '',
+            nombre_proyecto: this.obra?.nombre_obra || '',
+            // Otros campos iniciales si es necesario
+        });
+
+        this.ReporteDiarioForm.patchValue(this.reporteDiarioCopia);
+
+        this.productDialog = true;
+
+    }
+
 
 
     openEditActividad(Actividad: TablaActividades) {
@@ -791,6 +970,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
     }
 
+
     openNewActividades() {
 
         this.numero_activiadad = '';
@@ -803,6 +983,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
         this.actividadesDialog = true;
 
     }
+
 
     openNewOtrasActividades() {
 
@@ -818,6 +999,11 @@ export class ReportediarioporobraPageComponent implements OnInit {
     }
 
 
+    openFormAddFlexiApp() {
+        this.formAddFlexiAppDialog = true;
+    }
+
+
     goBack() {
         window.history.back();
     }
@@ -829,15 +1015,11 @@ export class ReportediarioporobraPageComponent implements OnInit {
     }
 
     hideDialogActividadesDialog() {
-
         this.actividadesDialog = false;
-
     }
 
     hideDialogOtrasActividadesDialog() {
-
         this.OtrasActividadesDialog = false;
-
     }
 
 

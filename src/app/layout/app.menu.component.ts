@@ -85,7 +85,7 @@ export class AppMenuComponent implements OnInit {
             },
 
             {
-              label: 'Listado de Obras',
+              label: 'Ingreso de Obras',
               icon: 'pi pi-fw pi-angle-right',
               routerLink: '/obras',
             },

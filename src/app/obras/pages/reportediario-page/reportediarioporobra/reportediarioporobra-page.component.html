@@ -47,9 +47,9 @@
                         <p-sortIcon field="id"></p-sortIcon>
                     </th>
 
-                    <th pSortableColumn="id_obra" style="min-width:10rem">
-                        Id Obra
-                        <p-sortIcon field="id_obra"></p-sortIcon>
+                    <th pSortableColumn="codigo_obra" style="min-width:10rem">
+                        Codigo Obra
+                        <p-sortIcon field="codigo_obra"></p-sortIcon>
                     </th>
 
                     <th pSortableColumn="fecha_reporte">
@@ -57,10 +57,15 @@
                         <p-sortIcon field="fecha_reporte"></p-sortIcon>
                     </th>
 
-                    <th pSortableColumn="jefe_faena" style="min-width:10rem">jefe_faena <p-sortIcon
-                            field="jefe_faena"></p-sortIcon></th>
+                    <th pSortableColumn="jefe_faena" style="min-width:10rem">
+                        Jefe Faena
+                        <p-sortIcon field="jefe_faena"></p-sortIcon>
+                    </th>
 
-                    <th pSortableColumn="sdi" style="min-width:10rem">sdi<p-sortIcon field="sdi"></p-sortIcon></th>
+                    <th pSortableColumn="sdi" style="min-width:10rem">
+                        SDI
+                        <p-sortIcon field="sdi"></p-sortIcon>
+                    </th>
 
                     <th></th>
                 </tr>
@@ -68,13 +73,13 @@
             <ng-template pTemplate="body" let-reportediario>
                 <tr>
                     <td>{{ reportediario.id }}</td>
-                    <td>{{ reportediario.id_obra }}</td>
+                    <td>{{ reportediario.id_obra.codigo_obra }}</td>
                     <td>{{ reportediario.fecha_reporte }}</td>
-                    <td>{{ reportediario.jefe_faena }}</td>
+                    <td>{{ reportediario.jefe_faena.nombre }}</td>
                     <td>{{ reportediario.sdi }}</td>
                     <td>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-                            (click)="editProduct(reportediario)"></button>
+                            (click)="openEditReporteDiario(reportediario)"></button>
                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
                             (click)="onEliminarClick(reportediario)"></button>
                     </td>
@@ -100,8 +105,6 @@
 
         <ng-template pTemplate="content">
 
-
-
             <p-tabView>
 
                 <p-tabPanel header="Datos Principales">
@@ -110,39 +113,25 @@
 
                         <input type="hidden" pInputhidden id="id" class="form-control" formControlName="id">
 
-                        <div class="card" style="height:600px;">
+                        <div class="card" style="height:550px;">
 
-                            <br>
 
                             <div class="grid">
 
-                                <div class="col-9">
-
-                                </div>
-
                                 <div class="col-3">
-
                                     <div class="form-group p-field custom-spacing">
                                         <div class="calendar-container">
                                             <span class="p-float-label">
                                                 <p-calendar id="fecha_reporte_diario"
-                                                    formControlName="fecha_reporte_diario" class="form-control"
+                                                    formControlName="fecha_reporte" class="form-control"
                                                     dateFormat="dd-mm-yy" [showIcon]="true"></p-calendar>
                                                 <label htmlFor="fecha_reporte_diario">Fecha Reporte Diario</label>
                                             </span>
                                         </div>
                                     </div>
-
                                 </div>
 
-                            </div>
-
-                            <hr>
-                            <br>
-
-                            <div class="grid">
-
-                                <div class="col-4">
+                                <div class="col-3">
                                     <div class="form-group p-field custom-spacing">
                                         <span class="p-float-label">
 
@@ -156,7 +145,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-4">
+                                <div class="col-3">
                                     <div class="form-group p-field custom-spacing">
                                         <span class="p-float-label">
                                             <input id="supervisor" formControlName="supervisor" type="text" pInputText>
@@ -165,7 +154,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-4">
+                                <div class="col-3">
                                     <div class="form-group p-field custom-spacing">
                                         <span class="p-float-label">
                                             <input id="sector" formControlName="sector" type="text" pInputText>
@@ -217,10 +206,10 @@
                                 <div class="col-4">
                                     <div class="form-group p-field custom-spacing">
                                         <span class="p-float-label">
-                                            <p-dropdown id="comunas" formControlName="comunas" class="form-control"
+                                            <p-dropdown id="comuna" formControlName="comuna" class="form-control"
                                                 [options]="listaComunas" optionLabel="nombre"
                                                 placeholder="Seleccionar"></p-dropdown>
-                                            <label htmlFor="comunas">Comunas</label>
+                                            <label htmlFor="comuna">Comuna</label>
                                         </span>
                                     </div>
                                 </div>
@@ -228,19 +217,30 @@
                                 <div class="col-4">
                                     <div class="form-group p-field custom-spacing">
                                         <span class="p-float-label">
-                                            <input id="n_documento" formControlName="n_documento" type="text"
+                                            <input id="num_documento" formControlName="num_documento" type="text"
                                                 pInputText>
-                                            <label for="n_documento">N° Documento</label>
+                                            <label for="num_documento">N° Documento</label>
                                         </span>
                                     </div>
                                 </div>
 
-                                <div class="col-4">
+                                <!-- <div class="col-4">
                                     <div class="form-group p-field custom-spacing">
                                         <span class="p-float-label">
                                             <input id="flexiapp" formControlName="flexiapp" type="text" pInputText>
                                             <label for="flexiapp">FlexiApp</label>
                                         </span>
+                                    </div>
+                                </div> -->
+
+                                <div class="col-4">
+                                    <div class="form-group p-field custom-spacing">
+                                        <p-inputGroup>
+                                            <input id="flexiapp" style="width:92%;" formControlName="flexiapp"
+                                                placeholder="FlexiApp" type="text" pInputText>
+                                            <button type="button" pButton icon="pi pi-plus"
+                                                (click)="openFormAddFlexiApp()" class="p-button-primary"></button>
+                                        </p-inputGroup>
                                     </div>
                                 </div>
 
@@ -266,65 +266,42 @@
                                     </div>
                                 </div>
 
+
+
                                 <div class="col-3">
-
-                                    <div class="form-group p-field custom-spacing">
-                                        <div class="calendar-container">
-                                            <span class="p-float-label">
-                                                <p-calendar id="fecha_hora_salida_base"
-                                                    formControlName="fecha_hora_salida_base" class="form-control"
-                                                    dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true" ></p-calendar>
-                                                <label htmlFor="fecha_hora_salida_base">Hora Salida Base</label>
-                                            </span>
-                                        </div>
-                                    </div>
-
+                                    <span class="p-float-label">
+                                        <p-calendar id="fecha_hora_salida_base" formControlName="hora_salida_base"
+                                            class="form-control" dateFormat="dd-mm-yy" [showIcon]="true"
+                                            [showTime]="true"></p-calendar>
+                                        <label htmlFor="fecha_hora_salida_base">Hora Salida Base</label>
+                                    </span>
                                 </div>
 
                                 <div class="col-3">
-
-                                    <div class="form-group p-field custom-spacing">
-                                        <div class="calendar-container">
-                                            <span class="p-float-label">
-                                                <p-calendar id="fecha_hora_llegada_terreno"
-                                                    formControlName="fecha_hora_llegada_terreno" class="form-control"
-                                                    dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true" ></p-calendar>
-                                                <label htmlFor="fecha_hora_llegada_terreno">Hora Llegada a
-                                                    terreno</label>
-                                            </span>
-                                        </div>
-                                    </div>
-
+                                    <span class="p-float-label">
+                                        <p-calendar id="fecha_hora_llegada_terreno"
+                                            formControlName="hora_llegada_terreno" class="form-control"
+                                            dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true"></p-calendar>
+                                        <label htmlFor="fecha_hora_llegada_terreno">Hora Llegada a terreno</label>
+                                    </span>
                                 </div>
 
                                 <div class="col-3">
-
-                                    <div class="form-group p-field custom-spacing">
-                                        <div class="calendar-container">
-                                            <span class="p-float-label">
-                                                <p-calendar id="fecha_hora_salida_terreno"
-                                                    formControlName="fecha_hora_salida_terreno" class="form-control"
-                                                    dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true" ></p-calendar>
-                                                <label htmlFor="fecha_hora_salida_terreno">Hora Salida a Terreno</label>
-                                            </span>
-                                        </div>
-                                    </div>
-
+                                    <span class="p-float-label">
+                                        <p-calendar id="fecha_hora_salida_terreno"
+                                            formControlName="hora_salida_terreno" class="form-control"
+                                            dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true"></p-calendar>
+                                        <label htmlFor="fecha_hora_salida_terreno">Hora Salida a Terreno</label>
+                                    </span>
                                 </div>
 
                                 <div class="col-3">
-
-                                    <div class="form-group p-field custom-spacing">
-                                        <div class="calendar-container">
-                                            <span class="p-float-label">
-                                                <p-calendar id="fecha_hora_llegada_base"
-                                                    formControlName="fecha_hora_llegada_base" class="form-control"
-                                                    dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true" ></p-calendar>
-                                                <label htmlFor="fecha_hora_llegada_base">Hora Llegada Base</label>
-                                            </span>
-                                        </div>
-                                    </div>
-
+                                    <span class="p-float-label">
+                                        <p-calendar id="fecha_hora_llegada_base"
+                                            formControlName="hora_llegada_base" class="form-control"
+                                            dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true"></p-calendar>
+                                        <label htmlFor="fecha_hora_llegada_base">Hora Llegada Base</label>
+                                    </span>
                                 </div>
 
                             </div>
@@ -736,4 +713,47 @@
 
     </ng-template>
 
+</p-dialog>
+
+
+
+
+<p-dialog [(visible)]="formAddFlexiAppDialog" [style]="{ width:'300px', height:'300px' }"
+    header="Agregar Codigo FlexiApp" (onHide)="onCloseFormAddFlexiAppDialog()" [modal]="true" styleClass="p-fluid">
+
+    <ng-template pTemplate="content">
+
+        <div class="card">
+
+            <form [formGroup]="FlexiAppForm">
+
+                <div class="grid" style="margin-top:1%;">
+                    <div class="col-12">
+                        <div class="form-group p-field custom-spacing">
+                            <span class="p-float-label">
+                                <input type="text" pInputText id="flexiappAgregar" class="form-control"
+                                    formControlName="flexiappAgregar">
+                                <label htmlFor="flexiappAgregar">Agregar Flexiapp</label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid" style="margin-top:3%;">
+                    <div class="col-3"></div>
+                    <div class="col-6">
+
+                        <button pButton pRipple label="Guardar" type="button" (click)="onGuardarFlexiAppFormClick()"
+                            [loading]="loading" [disabled]="FlexiAppForm.invalid"
+                            class="p-button-rounded p-button-outlined p-mt-10"></button>
+
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+
+            </form>
+
+        </div>
+
+    </ng-template>
 </p-dialog>
