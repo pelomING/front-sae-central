@@ -100,7 +100,7 @@
 
 
 
-    <p-dialog [(visible)]="productDialog" [style]="{ width: '1550px', height: '1600px' }"
+    <p-dialog [(visible)]="productDialog" [style]="{ width: '1550px', height: '850px' }"
         (onHide)="onCloseProductDialog()" header="Reporte de Actividades Diarias" [modal]="true" styleClass="p-fluid">
 
         <ng-template pTemplate="content">
@@ -113,7 +113,7 @@
 
                         <input type="hidden" pInputhidden id="id" class="form-control" formControlName="id">
 
-                        <div class="card" style="height:550px;">
+                        <div class="card" style="height:550px; padding-top: 65px;">
 
 
                             <div class="grid">
@@ -122,9 +122,9 @@
                                     <div class="form-group p-field custom-spacing">
                                         <div class="calendar-container">
                                             <span class="p-float-label">
-                                                <p-calendar id="fecha_reporte_diario"
-                                                    formControlName="fecha_reporte" class="form-control"
-                                                    dateFormat="dd-mm-yy" [showIcon]="true"></p-calendar>
+                                                <p-calendar id="fecha_reporte_diario" formControlName="fecha_reporte"
+                                                    class="form-control" dateFormat="dd-mm-yy"
+                                                    [showIcon]="true"></p-calendar>
                                                 <label htmlFor="fecha_reporte_diario">Fecha Reporte Diario</label>
                                             </span>
                                         </div>
@@ -235,6 +235,7 @@
 
                                 <div class="col-4">
                                     <div class="form-group p-field custom-spacing">
+                                        
                                         <p-inputGroup>
                                             <input id="flexiapp" style="width:92%;" formControlName="flexiapp"
                                                 placeholder="FlexiApp" type="text" pInputText>
@@ -268,40 +269,48 @@
 
 
 
-                                <div class="col-3">
-                                    <span class="p-float-label">
-                                        <p-calendar id="fecha_hora_salida_base" formControlName="hora_salida_base"
-                                            class="form-control" dateFormat="dd-mm-yy" [showIcon]="true"
-                                            [showTime]="true"></p-calendar>
-                                        <label htmlFor="fecha_hora_salida_base">Hora Salida Base</label>
-                                    </span>
+                                <div class="col-3" style="margin-top:4px;" >
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-calendar id="fecha_hora_salida_base" formControlName="hora_salida_base"
+                                                class="form-control" dateFormat="dd-mm-yy" [showIcon]="true"
+                                                [showTime]="true"></p-calendar>
+                                            <label htmlFor="fecha_hora_salida_base">Hora Salida Base</label>
+                                        </span>
+                                    </div>
                                 </div>
 
-                                <div class="col-3">
-                                    <span class="p-float-label">
-                                        <p-calendar id="fecha_hora_llegada_terreno"
-                                            formControlName="hora_llegada_terreno" class="form-control"
-                                            dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true"></p-calendar>
-                                        <label htmlFor="fecha_hora_llegada_terreno">Hora Llegada a terreno</label>
-                                    </span>
+                                <div class="col-3" style="margin-top:4px;" >
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-calendar id="fecha_hora_llegada_terreno"
+                                                formControlName="hora_llegada_terreno" class="form-control"
+                                                dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true"></p-calendar>
+                                            <label htmlFor="fecha_hora_llegada_terreno">Hora Llegada a terreno</label>
+                                        </span>
+                                    </div>
                                 </div>
 
-                                <div class="col-3">
-                                    <span class="p-float-label">
-                                        <p-calendar id="fecha_hora_salida_terreno"
-                                            formControlName="hora_salida_terreno" class="form-control"
-                                            dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true"></p-calendar>
-                                        <label htmlFor="fecha_hora_salida_terreno">Hora Salida a Terreno</label>
-                                    </span>
+                                <div class="col-3" style="margin-top:4px;" >
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-calendar id="fecha_hora_salida_terreno"
+                                                formControlName="hora_salida_terreno" class="form-control"
+                                                dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true"></p-calendar>
+                                            <label htmlFor="fecha_hora_salida_terreno">Hora Salida a Terreno</label>
+                                        </span>
+                                    </div>
                                 </div>
 
-                                <div class="col-3">
-                                    <span class="p-float-label">
-                                        <p-calendar id="fecha_hora_llegada_base"
-                                            formControlName="hora_llegada_base" class="form-control"
-                                            dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true"></p-calendar>
-                                        <label htmlFor="fecha_hora_llegada_base">Hora Llegada Base</label>
-                                    </span>
+                                <div class="col-3" style="margin-top:4px;" >
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-calendar id="fecha_hora_llegada_base" formControlName="hora_llegada_base"
+                                                class="form-control" dateFormat="dd-mm-yy" [showIcon]="true"
+                                                [showTime]="true"></p-calendar>
+                                            <label htmlFor="fecha_hora_llegada_base">Hora Llegada Base</label>
+                                        </span>
+                                    </div>
                                 </div>
 
                             </div>
@@ -383,7 +392,11 @@
 
                                     <th style="min-width:10rem"> Tipo </th>
 
-                                    <th style="min-width:10rem"> Actividad </th>
+                                    <th>
+                                        <div style="width:5%; white-space:nowrap;">
+                                            Actividad
+                                        </div>
+                                    </th>
 
                                     <th style="min-width:10rem"> Unidad </th>
 
@@ -393,6 +406,7 @@
 
                                     <th style="min-width:10rem"> Total </th>
 
+                                    <th></th>
                                     <th></th>
                                 </tr>
                             </ng-template>
@@ -409,6 +423,8 @@
                                         <button pButton pRipple icon="pi pi-pencil"
                                             class="p-button-rounded p-button-success mr-2"
                                             (click)="openEditActividad(Actividad)"></button>
+                                    </td>
+                                    <td>
                                         <button pButton pRipple icon="pi pi-trash"
                                             class="p-button-rounded p-button-warning"
                                             (click)="openDeleteActividad(Actividad)"></button>
@@ -475,11 +491,14 @@
                             </ng-template>
                             <ng-template pTemplate="header">
                                 <tr>
+
                                     <th style="min-width:10rem"> Glosa </th>
                                     <th style="min-width:10rem"> Uc_unitaria </th>
                                     <th style="min-width:10rem"> Cantidad </th>
                                     <th style="min-width:10rem"> Uc_Total </th>
                                     <th></th>
+                                    <th></th>
+
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-OtrasActividad>
@@ -493,10 +512,14 @@
                                         <button pButton pRipple icon="pi pi-pencil"
                                             class="p-button-rounded p-button-success mr-2"
                                             (click)="openEditOtraActividad(OtrasActividad)"></button>
+                                    </td>
+
+                                    <td>
                                         <button pButton pRipple icon="pi pi-trash"
                                             class="p-button-rounded p-button-warning"
                                             (click)="openDeleteOtraActividad(OtrasActividad)"></button>
                                     </td>
+
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="summary">
@@ -516,17 +539,15 @@
             </p-tabView>
 
 
-
-
-
         </ng-template>
 
-        <ng-template pTemplate="footer">
+        <!-- <ng-template pTemplate="footer">
 
             <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
                 (click)="hideDialog()"></button>
 
-        </ng-template>
+        </ng-template> -->
+
     </p-dialog>
 
     <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
@@ -557,7 +578,7 @@
                         <span class="p-float-label">
                             <p-dropdown formControlName="obj_Tipoactividad" id="tipo_actividad" class="form-control"
                                 [options]="listaTipoactividad" optionLabel="descripcion"
-                                placeholder="Seleccionar"></p-dropdown>
+                                placeholder="Seleccionar" (onChange)="onTipoActividadSelected($event.value)" ></p-dropdown>
                             <label htmlFor="tipo_actividad">Tipo Actividad</label>
                         </span>
                     </div>
@@ -600,13 +621,13 @@
                     <div class="col-3"></div>
                     <div class="col-6">
 
-                        <button *ngIf="mostrarGuardar" pButton pRipple label="Guardar" type="button"
-                            (click)="onGuardarActividadClick()" visible="false" [loading]="loading"
+                        <button *ngIf="mostrarGuardarActividad" pButton pRipple label="Guardar" type="button"
+                            (click)="onGuardarActividadClick()" visible="false" [loading]="loadingActividad"
                             [disabled]="ActividadForm.invalid"
                             class="p-button-rounded p-button-outlined p-mt-10"></button>
 
-                        <button *ngIf="mostrarActualizar" pButton pRipple label="Actualizar" type="button"
-                            (click)="onActualizarActividadClick()" [loading]="loading"
+                        <button *ngIf="mostrarActualizarActividad" pButton pRipple label="Actualizar" type="button"
+                            (click)="onActualizarActividadClick()" [loading]="loadingActividad"
                             [disabled]="ActividadForm.invalid"
                             class="p-button-rounded p-button-success p-button-outlined p-mt-10"></button>
 
@@ -620,18 +641,11 @@
 
     </ng-template>
 
-    <ng-template pTemplate="footer">
-
-        <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text"
-            (click)="hideDialogActividadesDialog()"></button>
-
-    </ng-template>
-
 </p-dialog>
 
 
 
-<p-dialog [(visible)]="OtrasActividadesDialog" [style]="{ width:'1400px', height:'400px' }"
+<p-dialog [(visible)]="OtrasActividadesDialog" [style]="{ width:'1400px', height:'350px' }"
     header="Agregar Otra Actividad" (onHide)="onCloseOtraActividadesDialog()" [modal]="true" styleClass="p-fluid">
 
     <ng-template pTemplate="content">
@@ -686,13 +700,13 @@
                     <div class="col-3"></div>
                     <div class="col-6">
 
-                        <button *ngIf="mostrarGuardar" pButton pRipple label="Guardar" type="button"
-                            (click)="onGuardarOtraActividadClick()" visible="false" [loading]="loading"
+                        <button *ngIf="mostrarGuardarOtraActividad" pButton pRipple label="Guardar" type="button"
+                            (click)="onGuardarOtraActividadClick()" visible="false" [loading]="loadingOtraActividad"
                             [disabled]="OtraActividadForm.invalid"
                             class="p-button-rounded p-button-outlined p-mt-10"></button>
 
-                        <button *ngIf="mostrarActualizar" pButton pRipple label="Actualizar" type="button"
-                            (click)="onActualizarOtraActividadClick()" [loading]="loading"
+                        <button *ngIf="mostrarActualizarOtraActividad" pButton pRipple label="Actualizar" type="button"
+                            (click)="onActualizarOtraActividadClick()" [loading]="loadingOtraActividad"
                             [disabled]="OtraActividadForm.invalid"
                             class="p-button-rounded p-button-success p-button-outlined p-mt-10"></button>
 
@@ -703,13 +717,6 @@
             </form>
 
         </div>
-
-    </ng-template>
-
-    <ng-template pTemplate="footer">
-
-        <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text"
-            (click)="hideDialogOtrasActividadesDialog()"></button>
 
     </ng-template>
 

@@ -52,8 +52,8 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
 
     listaBrigadas: Brigada[] = [
-        { id: 1, descripcion: 'LIVIANA' },
-        { id: 2, descripcion: 'PESADA' }
+        { id: 1, valor: false, descripcion: 'LIVIANA' },
+        { id: 2, valor: true, descripcion: 'PESADA' }
     ];
 
 
@@ -70,16 +70,26 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
     ejecutado: boolean = false;
 
-    productDialog: boolean;
+    productDialog: boolean = false;
     actividadesDialog: boolean = false;
     OtrasActividadesDialog: boolean = false;
     formAddFlexiAppDialog: boolean = false;
 
     loading: boolean = false;
+    loadingActividad: boolean = false;
+    loadingOtraActividad: boolean = false;
+
+
     mostrarGuardar: boolean = true; // Mostrar el botón por defecto
     mostrarActualizar: boolean = true;
-    fechaFormateada: string;
 
+    mostrarGuardarActividad: boolean = true;
+    mostrarActualizarActividad: boolean = true;
+
+    mostrarGuardarOtraActividad: boolean = true;
+    mostrarActualizarOtraActividad: boolean = true;
+
+    fechaFormateada: string;
 
 
     constructor(private productService: ProductService,
@@ -156,7 +166,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
 
         this.cargarListadoReportesDiarios();
-       
+
 
         this.reporteDiarioService.getAlltipooperacion().subscribe(
             (listado: any) => {
@@ -178,7 +188,11 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
         this.reporteDiarioService.getAllmaestroactividad().subscribe(
             (listado: any) => {
+
                 this.listaMaestroactividad = listado;
+
+                this.originalListaMaestroactividad = [...this.listaMaestroactividad];
+
             },
             (error) => {
                 console.error('Error al obtener listado de reportes diarios:', error);
@@ -235,12 +249,10 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
 
         this.colslistaTablaOtrasActividades = [
-
             { field: 'clase', header: 'Clase' },
             { field: 'tipo', header: 'Tipo' },
             { field: 'actividad', header: 'Actividad' },
             { field: 'unidad', header: 'Unidad' },
-
         ];
 
 
@@ -254,7 +266,32 @@ export class ReportediarioporobraPageComponent implements OnInit {
     }
 
 
-    cargarListadoReportesDiarios() {       
+
+    originalListaMaestroactividad: any[] = [];  // Guarda la lista original
+    filteredMaestroactividad: any[] = [];
+
+    // Función para manejar el evento onChange del primer p-dropdown
+    onTipoActividadSelected(tipoActividad: Tipoactividad) {
+
+        // Restaura la lista original si no está vacía
+        if (this.originalListaMaestroactividad.length > 0) {
+            this.listaMaestroactividad = [...this.originalListaMaestroactividad];
+        }
+
+        // Filtra la lista de maestroactividad basándose en el tipo de actividad seleccionado
+        this.filteredMaestroactividad = this.listaMaestroactividad.filter(item => item.tipo_actividad.id == tipoActividad.id);
+
+        this.listaMaestroactividad = this.filteredMaestroactividad;
+
+        // Limpia la selección del segundo p-dropdown
+        this.ActividadForm.get('obj_Maestroactividad').setValue('');
+
+    }
+
+
+
+
+    cargarListadoReportesDiarios() {
 
         this.reporteDiarioService.getAllReportesDiariosPorObra(this.obra).subscribe(
             (VisitasTerreno: any) => {
@@ -393,6 +430,15 @@ export class ReportediarioporobraPageComponent implements OnInit {
         // Realizar otros cálculos si es necesario
         nuevaTabla.ucTotal = nuevaTabla.cantidad * nuevaTabla.ucUnitaria;
 
+        // Redondear ucTotal a dos decimales
+        nuevaTabla.ucTotal = Math.round(nuevaTabla.ucTotal * 100) / 100;
+
+        // Truncar ucTotal a dos decimales
+        //nuevaTabla.ucTotal = Math.trunc(nuevaTabla.ucTotal * 100) / 100;
+
+        // Redondear ucTotal a dos decimales
+        //nuevaTabla.ucTotal = parseFloat(nuevaTabla.ucTotal.toFixed(2));
+
         return nuevaTabla;
 
     }
@@ -495,6 +541,8 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
     onGuardarReporteDiarioClick() {
 
+        this.loading = true;
+
         const det_actividad: DetActividad[] = this.listaTablaActividades.map((actividad: TablaActividades) => ({
             clase: actividad.tipoOperacion.id,
             tipo: actividad.tipoActividad.id,
@@ -516,14 +564,19 @@ export class ReportediarioporobraPageComponent implements OnInit {
             console.log('ReporteDiarioObjeto : ', ReporteDiarioObjeto);
 
 
-            ReporteDiarioObjeto.fecha_reporte = this.formateoFecha(ReporteDiarioObjeto.fecha_reporte);
-            ReporteDiarioObjeto.fecha_entregado = ReporteDiarioObjeto.fecha_reporte; 
-            ReporteDiarioObjeto.fecha_revisado = ReporteDiarioObjeto.fecha_reporte;
+            let fechaConFormato = this.formateoFecha(ReporteDiarioObjeto.fecha_reporte);
+
+            ReporteDiarioObjeto.fecha_reporte = fechaConFormato;
+            ReporteDiarioObjeto.fecha_entregado = fechaConFormato;
+            ReporteDiarioObjeto.fecha_revisado = fechaConFormato;
 
             ReporteDiarioObjeto.hora_salida_base = this.formateoFechaHora(ReporteDiarioObjeto.hora_salida_base);
             ReporteDiarioObjeto.hora_llegada_terreno = this.formateoFechaHora(ReporteDiarioObjeto.hora_llegada_terreno);
             ReporteDiarioObjeto.hora_salida_terreno = this.formateoFechaHora(ReporteDiarioObjeto.hora_salida_terreno);
             ReporteDiarioObjeto.hora_llegada_base = this.formateoFechaHora(ReporteDiarioObjeto.hora_llegada_base);
+
+
+            const arrayDeStrings: string[] = ReporteDiarioObjeto.flexiapp.split(',');
 
 
             const NuevoReporteDiario: ReporteDiario = {
@@ -534,7 +587,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
                 sdi: ReporteDiarioObjeto.sdi,
                 gestor_cliente: 'xxx',
                 id_area: ReporteDiarioObjeto.area.id,
-                brigada_pesada: true,
+                brigada_pesada: ReporteDiarioObjeto.brigada.valor,
                 observaciones: 'xxx',
                 entregado_por_persona: 'xxx',
                 fecha_entregado: ReporteDiarioObjeto.fecha_entregado,
@@ -549,7 +602,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
                 comuna: ReporteDiarioObjeto.comuna.codigo,
                 num_documento: ReporteDiarioObjeto.num_documento,
 
-                flexiapp: [ReporteDiarioObjeto.flexiapp],
+                flexiapp: arrayDeStrings,
 
                 det_actividad: det_actividad,
 
@@ -566,7 +619,9 @@ export class ReportediarioporobraPageComponent implements OnInit {
                     console.log('éxito:', response);
                     this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
                     this.cargarListadoReportesDiarios();
-       
+
+                    this.loading = false;
+
                     this.productDialog = false;
 
                 },
@@ -574,6 +629,8 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
                     // Manejar errores
                     console.error('Error al guardar :', ObjError);
+
+                    this.loading = false;
 
                     this.messageService.add({
                         severity: 'error',
@@ -692,6 +749,8 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
     onActualizarReporteDiarioClick() {
 
+        this.loading = true;
+
         const det_actividad: DetActividad[] = this.listaTablaActividades.map((actividad: TablaActividades) => ({
             clase: actividad.tipoOperacion.id,
             tipo: actividad.tipoActividad.id,
@@ -710,16 +769,26 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
             const ReporteDiarioObjeto = this.ReporteDiarioForm.value;
 
-            console.log('UPDATE ReporteDiarioObjeto : ', ReporteDiarioObjeto);
+            let fechaConFormato = this.formateoFecha(ReporteDiarioObjeto.fecha_reporte);
 
-            ReporteDiarioObjeto.fecha_reporte = this.formateoFecha(ReporteDiarioObjeto.fecha_reporte);
-            ReporteDiarioObjeto.fecha_entregado = this.formateoFecha(ReporteDiarioObjeto.fecha_reporte);
-            ReporteDiarioObjeto.fecha_revisado = this.formateoFecha(ReporteDiarioObjeto.fecha_reporte);
+            ReporteDiarioObjeto.fecha_reporte = fechaConFormato;
+            ReporteDiarioObjeto.fecha_entregado = fechaConFormato;
+            ReporteDiarioObjeto.fecha_revisado = fechaConFormato;
 
             ReporteDiarioObjeto.hora_salida_base = this.formateoFechaHora(ReporteDiarioObjeto.hora_salida_base);
             ReporteDiarioObjeto.hora_llegada_terreno = this.formateoFechaHora(ReporteDiarioObjeto.hora_llegada_terreno);
             ReporteDiarioObjeto.hora_salida_terreno = this.formateoFechaHora(ReporteDiarioObjeto.hora_salida_terreno);
             ReporteDiarioObjeto.hora_llegada_base = this.formateoFechaHora(ReporteDiarioObjeto.hora_llegada_base);
+
+
+            let arrayDeStrings: string[] = [];
+
+            if (typeof ReporteDiarioObjeto.flexiapp === 'string') {
+                arrayDeStrings = ReporteDiarioObjeto.flexiapp.split(',');
+            } else {
+                arrayDeStrings = ReporteDiarioObjeto.flexiapp;
+            }
+
 
             const UpdateReporteDiario: ReporteDiario = {
                 id: ReporteDiarioObjeto.id,
@@ -728,18 +797,18 @@ export class ReportediarioporobraPageComponent implements OnInit {
                 fecha_reporte: ReporteDiarioObjeto.fecha_reporte,
                 jefe_faena: ReporteDiarioObjeto.jefe_faena.id,
                 sdi: ReporteDiarioObjeto.sdi,
-                
+
                 id_area: ReporteDiarioObjeto.area.id,
                 sector: ReporteDiarioObjeto.sector,
-                
-                brigada_pesada: true,
-                
+
+                brigada_pesada: ReporteDiarioObjeto.brigada.valor,
+
                 gestor_cliente: 'xxx',
                 observaciones: 'xxx',
                 entregado_por_persona: 'xxx',
                 fecha_entregado: ReporteDiarioObjeto.fecha_entregado,
                 revisado_por_persona: 'xxx',
-                fecha_revisado: ReporteDiarioObjeto.fecha_revisado,              
+                fecha_revisado: ReporteDiarioObjeto.fecha_revisado,
 
                 hora_salida_base: ReporteDiarioObjeto.hora_salida_base,
                 hora_llegada_terreno: ReporteDiarioObjeto.hora_llegada_terreno,
@@ -750,14 +819,13 @@ export class ReportediarioporobraPageComponent implements OnInit {
                 comuna: ReporteDiarioObjeto.comuna.codigo,
                 num_documento: ReporteDiarioObjeto.num_documento,
 
-                flexiapp: [ReporteDiarioObjeto.flexiapp],
+                flexiapp: arrayDeStrings,
 
                 det_actividad: det_actividad,
                 det_otros: det_otros
 
             }
 
-            console.log('UpdateReporteDiario : ', UpdateReporteDiario);
 
             this.reporteDiarioService.ActualizarReporteDiario(UpdateReporteDiario).subscribe(
                 (response) => {
@@ -766,10 +834,13 @@ export class ReportediarioporobraPageComponent implements OnInit {
                     console.log('éxito:', response);
                     this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro Actualizado', life: 3000 });
                     this.cargarListadoReportesDiarios();
+                    this.loading = false;
                     this.productDialog = false;
 
                 },
                 (ObjError) => {
+
+                    this.loading = false;
 
                     // Manejar errores
                     console.error('Error al update :', ObjError);
@@ -791,7 +862,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
 
 
-    formateoFechaDMA(fecha: String) {
+    formateoFechaDMAHM(fecha: String) {
         let arrayFechaHora = fecha.split(" ");
         let arrayFecha = arrayFechaHora[0].split("-");
         let arrayHora = arrayFechaHora[1].split(":");
@@ -802,7 +873,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
     openEditReporteDiario(reporteDiario: ReporteDiario) {
 
-        console.log("onizarClick", reporteDiario);
+        console.log("Edit reporteDiario", reporteDiario);
 
         this.reporteDiarioCopia = { ...reporteDiario };
 
@@ -810,28 +881,86 @@ export class ReportediarioporobraPageComponent implements OnInit {
         this.mostrarActualizar = true;
 
 
-        let fechaParseada0 = new Date(this.reporteDiarioCopia.fecha_reporte);
-        let dia0 = fechaParseada0.getDate().toString().padStart(2, '0');
-        let mes0 = (fechaParseada0.getMonth() + 1).toString().padStart(2, '0');
-        let año0 = fechaParseada0.getFullYear();
-        let fechaFormateada0 = `${dia0}-${mes0}-${año0}`;
-
-        this.reporteDiarioCopia.fecha_reporte = fechaFormateada0;
+        // let fechaParseada0 = new Date(this.reporteDiarioCopia.fecha_reporte);
+        // let dia0 = fechaParseada0.getDate().toString().padStart(2, '0');
+        // let mes0 = (fechaParseada0.getMonth() + 1).toString().padStart(2, '0');
+        // let año0 = fechaParseada0.getFullYear();
+        // let fechaFormateada0 = `${dia0}-${mes0}-${año0}`;
 
 
-        this.reporteDiarioCopia.hora_salida_base = this.formateoFechaDMA(this.reporteDiarioCopia.hora_salida_base);
-        this.reporteDiarioCopia.hora_llegada_terreno = this.formateoFechaDMA(this.reporteDiarioCopia.hora_llegada_terreno);
-        this.reporteDiarioCopia.hora_salida_terreno = this.formateoFechaDMA(this.reporteDiarioCopia.hora_salida_terreno);
-        this.reporteDiarioCopia.hora_llegada_base = this.formateoFechaDMA(this.reporteDiarioCopia.hora_llegada_base);
+        let arrayFecha = this.reporteDiarioCopia.fecha_reporte.split("-");
+
+        this.reporteDiarioCopia.fecha_reporte = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0]
+
+
+
+        if (this.reporteDiarioCopia.det_actividad && Array.isArray(this.reporteDiarioCopia.det_actividad)) {
+
+            // La lista det_actividad existe y es un array, entonces procedemos con la transformación
+            this.listaTablaActividades = this.reporteDiarioCopia.det_actividad.map((actividad: any) => {
+                const tabla: TablaActividades = {
+                    id: actividad.id,
+                    tipoOperacion: actividad.tipo_operacion,
+                    tipoActividad: actividad.tipo_actividad,
+                    maestroActividad: actividad.actividad,
+                    cantidad: actividad.cantidad,
+                    ucUnitaria: actividad.unitario,
+                    ucTotal: actividad.total
+                };
+                return tabla;
+            });
+
+        } else {
+
+            // La lista det_actividad es null o no es un array
+            console.error('La lista det_actividad es nula o no es un array.');
+            // Puedes manejar este caso según tus necesidades, por ejemplo, asignar una lista vacía:
+            this.listaTablaActividades = [];
+
+        }
+
+
+
+        if (this.reporteDiarioCopia.det_otros && Array.isArray(this.reporteDiarioCopia.det_otros)) {
+            // La lista det_otros existe y es un array, entonces procedemos con la transformación
+            this.listaTablaOtrasActividades = this.reporteDiarioCopia.det_otros.map((otrosActividad: any) => {
+                const tabla: TablaOtrasActividades = {
+                    id: otrosActividad.id,
+                    glosa: otrosActividad.glosa,
+                    uc_unitaria: otrosActividad.uc_unitaria,
+                    cantidad: otrosActividad.cantidad,
+                    uc_total: otrosActividad.total_uc
+                };
+                return tabla;
+            });
+        } else {
+            // La lista det_otros es null o no es un array
+            console.error('La lista det_otros es nula o no es un array.');
+            // Puedes manejar este caso según tus necesidades, por ejemplo, asignar una lista vacía:
+            this.listaTablaOtrasActividades = [];
+        }
+
+
+
+        this.reporteDiarioCopia.hora_salida_base = this.formateoFechaDMAHM(this.reporteDiarioCopia.hora_salida_base);
+        this.reporteDiarioCopia.hora_llegada_terreno = this.formateoFechaDMAHM(this.reporteDiarioCopia.hora_llegada_terreno);
+        this.reporteDiarioCopia.hora_salida_terreno = this.formateoFechaDMAHM(this.reporteDiarioCopia.hora_salida_terreno);
+        this.reporteDiarioCopia.hora_llegada_base = this.formateoFechaDMAHM(this.reporteDiarioCopia.hora_llegada_base);
 
 
         this.ReporteDiarioForm.reset();
+
+
+        // Utilizar el método find para buscar en la lista
+        const objetoEncontrado = this.listaBrigadas.find((item) => item.id === this.reporteDiarioCopia.brigada_pesada.id);
+
 
         // Asigna los valores iniciales al formulario
         this.ReporteDiarioForm.patchValue({
             id_obra: this.obra?.id || '',
             nombre_proyecto: this.obra?.nombre_obra || '',
             // Otros campos iniciales si es necesario
+            brigada: objetoEncontrado
         });
 
         this.ReporteDiarioForm.patchValue(this.reporteDiarioCopia);
@@ -842,17 +971,25 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
 
 
+
     openEditActividad(Actividad: TablaActividades) {
+
+        console.log("Actividad", Actividad);
 
         this.ActividadForm.reset();
 
-        this.mostrarGuardar = false;
-        this.mostrarActualizar = true;
+        this.mostrarGuardarActividad = false;
+        this.mostrarActualizarActividad = true;
+
+        const objetoEncontrado = this.listaTipooperacion.find((item) => item.id === Actividad.tipoOperacion.id);
+
+
+        this.selectedActividad = Actividad.maestroActividad;
 
         this.ActividadForm.patchValue({
             id: Actividad.id,
             cantidad: Actividad.cantidad,
-            obj_Tipooperacion: Actividad.tipoOperacion,
+            obj_Tipooperacion: objetoEncontrado,
             obj_Tipoactividad: Actividad.tipoActividad,
             obj_Maestroactividad: Actividad.maestroActividad,
         });
@@ -865,8 +1002,8 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
     openEditOtraActividad(Otra_Actividad: TablaOtrasActividades) {
 
-        this.mostrarGuardar = false;
-        this.mostrarActualizar = true;
+        this.mostrarGuardarOtraActividad = false;
+        this.mostrarActualizarOtraActividad = true;
 
         this.OtraActividadForm.reset();
 
@@ -957,6 +1094,10 @@ export class ReportediarioporobraPageComponent implements OnInit {
         this.product = {};
         this.submitted = false;
 
+        this.listaTablaActividades = [];
+        this.listaTablaOtrasActividades = [];
+
+
         this.ReporteDiarioForm.reset();
 
         // Asigna los valores iniciales al formulario
@@ -971,13 +1112,14 @@ export class ReportediarioporobraPageComponent implements OnInit {
     }
 
 
+
     openNewActividades() {
 
         this.numero_activiadad = '';
         this.titulo_formulario = 'INGRESAR EVENTO';
 
-        this.mostrarGuardar = true;
-        this.mostrarActualizar = false;
+        this.mostrarGuardarActividad = true;
+        this.mostrarActualizarActividad = false;
 
         this.ActividadForm.reset();
         this.actividadesDialog = true;
@@ -990,8 +1132,8 @@ export class ReportediarioporobraPageComponent implements OnInit {
         this.numero_activiadad = '';
         this.titulo_formulario = 'INGRESAR EVENTO';
 
-        this.mostrarGuardar = true;
-        this.mostrarActualizar = false;
+        this.mostrarGuardarOtraActividad = true;
+        this.mostrarActualizarOtraActividad = false;
 
         this.OtraActividadForm.reset();
         this.OtrasActividadesDialog = true;

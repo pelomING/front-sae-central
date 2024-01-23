@@ -13,6 +13,7 @@ export interface DetOtros {
     uc_total: number;
 }
 
+
 export interface ReporteDiario {
     id?: number;
     id_obra: number;
@@ -21,7 +22,7 @@ export interface ReporteDiario {
     sdi: string;
     gestor_cliente: string;
     id_area: number;
-    brigada_pesada: boolean;
+    brigada_pesada: Brigada;
     observaciones: string;
     entregado_por_persona: string;
     fecha_entregado: string;
@@ -42,7 +43,8 @@ export interface ReporteDiario {
 
 export interface Tipooperacion {
     id: number,
-    nombre: string
+    nombre: string,
+    clase : string,
 }
 
 export interface Tipoactividad {
@@ -52,12 +54,15 @@ export interface Tipoactividad {
 
 export interface Maestroactividad {
     id: number,
+    descripcion: string,
     actividad: string,
+
     tipo_actividad: Tipoactividad,
+    
     uc_instalacion: number,
     uc_retiro: number,
     uc_traslado: number,
-    descripcion: string,
+    
     unidad: Unidad
 }
 
@@ -97,5 +102,6 @@ export interface Area {
 
 export interface Brigada {
     id: number,
+    valor: boolean, 
     descripcion: string
 }
