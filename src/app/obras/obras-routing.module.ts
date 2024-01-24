@@ -16,7 +16,14 @@ import { ReportediarioporobraPageComponent } from './pages/reportediario-page/re
 
 import { MaterialesfaltantesPageComponent } from './pages/materialesfaltantes-page/materialesfaltantes-page.component';
 import { CuadraturamaterialesPageComponent } from './pages/cuadraturamateriales-page/cuadraturamateriales-page.component';
+
+
 import { EstadopagoPageComponent } from './pages/estadopago-page/estadopago-page.component';
+
+import { HistoricoEstadoPagoPageComponent } from './pages/estadopago-page/historicoestadopagoobras/historicoestadopago-page.component';
+
+
+
 import { EstadoobraPageComponent } from './pages/estadoobra-page/estadoobra-page.component';
 
 // localhost:4200/obras
@@ -38,7 +45,10 @@ const routes: Routes = [
 
       { path: 'materialesfaltantes', component: MaterialesfaltantesPageComponent },
       { path: 'cuadraturamateriales', component: CuadraturamaterialesPageComponent },
+      
       { path: 'estadopago', component: EstadopagoPageComponent },
+      { path: 'historicoestadopago', component: HistoricoEstadoPagoPageComponent },
+      
       { path: 'estadoobra', component: EstadoobraPageComponent }
     ]
   }
