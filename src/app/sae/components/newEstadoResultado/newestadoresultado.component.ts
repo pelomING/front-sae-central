@@ -8,6 +8,7 @@ import { EstadoResultadoService } from 'src/app/sae/services/estadoResultado.ser
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { TranslateService } from '@ngx-translate/core';
+
 import { NgxPrintService } from 'ngx-print';
 
 

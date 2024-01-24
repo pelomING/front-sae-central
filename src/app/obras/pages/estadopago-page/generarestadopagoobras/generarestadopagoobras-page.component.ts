@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { Obra } from '../../../interfaces/obra.interface';
 
@@ -16,7 +16,6 @@ import { ReporteDiario } from 'src/app/obras/interfaces/reporte-diario.interface
 import { EstadoPagoObrasService } from 'src/app/obras/services/estadopagoobras.service';
 
 
-
 @Component({
     selector: 'app-generarestadopagoobras-page',
     templateUrl: './generarestadopagoobras-page.component.html',
@@ -24,6 +23,9 @@ import { EstadoPagoObrasService } from 'src/app/obras/services/estadopagoobras.s
 })
 
 export class GenerarEstadoPagoObrasPageComponent implements OnInit {
+
+
+    @ViewChild('pdfContainer') pdfContainer!: ElementRef;
 
 
     products: Product[];
@@ -143,6 +145,32 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
 
 
     }
+
+    nombreLocalidadCiudad = 'Santiago';
+
+    opcionesFecha: Intl.DateTimeFormatOptions = {
+      weekday: 'long', // Nombre del día de la semana
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+
+    obtenerFechaActualConDiaYCiudad(): string {
+
+        const fecha = new Date();
+    
+        this.opcionesFecha = {
+          weekday: 'long', // Nombre del día de la semana
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        };
+        const fechaFormateada = fecha.toLocaleDateString(undefined, this.opcionesFecha);
+    
+        return `${this.nombreLocalidadCiudad}, ${fechaFormateada}`;
+    
+      }
+
 
 
 

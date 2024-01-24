@@ -1,6 +1,8 @@
 
 import { NgModule } from '@angular/core';
 import { PrimeNGModule } from '../_primeng/primeng.module';
+import { NgxPrintModule } from 'ngx-print';
+
 
 import { ObrasRoutingModule } from './obras-routing.module';
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
@@ -63,7 +65,8 @@ import { GenerarEstadoPagoObrasPageComponent } from './pages/estadopago-page/gen
   imports: [
     PrimeNGModule,
     ObrasRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPrintModule
   ],
   providers: [ ProductService]
 })
