@@ -9,20 +9,17 @@ import { MaterialesPageComponent } from './pages/materiales-page/materiales-page
 import { AgendasPageComponent } from './pages/agenda-page/agendas/agendas-page.component';
 import { AgendaObraPageComponent } from './pages/agenda-page/agenda-obra/agenda-obra-page.component';
 
-
 import { ReportediarioPageComponent } from './pages/reportediario-page/reportediario-page.component';
 import { ReportediarioporobraPageComponent } from './pages/reportediario-page/reportediarioporobra/reportediarioporobra-page.component';
 
-
 import { MaterialesfaltantesPageComponent } from './pages/materialesfaltantes-page/materialesfaltantes-page.component';
 import { CuadraturamaterialesPageComponent } from './pages/cuadraturamateriales-page/cuadraturamateriales-page.component';
-
 
 import { EstadopagoPageComponent } from './pages/estadopago-page/estadopago-page.component';
 
 import { HistoricoEstadoPagoPageComponent } from './pages/estadopago-page/historicoestadopagoobras/historicoestadopago-page.component';
 
-
+import { GenerarEstadoPagoObrasPageComponent } from './pages/estadopago-page/generarestadopagoobras/generarestadopagoobras-page.component';
 
 import { EstadoobraPageComponent } from './pages/estadoobra-page/estadoobra-page.component';
 
@@ -42,13 +39,13 @@ const routes: Routes = [
       { path: 'reportediario', component: ReportediarioPageComponent },
       { path: 'reportediarioporobra', component: ReportediarioporobraPageComponent },
 
-
       { path: 'materialesfaltantes', component: MaterialesfaltantesPageComponent },
       { path: 'cuadraturamateriales', component: CuadraturamaterialesPageComponent },
       
       { path: 'estadopago', component: EstadopagoPageComponent },
       { path: 'historicoestadopago', component: HistoricoEstadoPagoPageComponent },
-      
+      { path: 'generarestadopagoobras', component: GenerarEstadoPagoObrasPageComponent },
+            
       { path: 'estadoobra', component: EstadoobraPageComponent }
     ]
   }

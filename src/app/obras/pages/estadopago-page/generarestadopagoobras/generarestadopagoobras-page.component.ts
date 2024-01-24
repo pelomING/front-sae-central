@@ -1,23 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { Obra, Zona, Delegacion, Tipotrabajos, Empresacontratistas, Coordinadorcontratistas, Comuna, Estado, Tipo_obra, Segmento } from '../../../interfaces/obra.interface';
+
+import { Obra } from '../../../interfaces/obra.interface';
+
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { ObrasService } from 'src/app/obras/services/obras.service';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+
+
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 
 import { Product } from '../../../interfaces/product.interface';
 import { ProductService } from '../../../services/productservice';
+
 import { ReporteDiarioService } from 'src/app/obras/services/reporte-diario.service';
 import { ReporteDiario } from 'src/app/obras/interfaces/reporte-diario.interface';
+import { EstadoPagoObrasService } from 'src/app/obras/services/estadopagoobras.service';
+
 
 
 @Component({
-    selector: 'app-historicoestadopago-page',
-    templateUrl: './historicoestadopago-page.component.html',
-    styleUrls: ['./historicoestadopago-page.component.scss'],
+    selector: 'app-generarestadopagoobras-page',
+    templateUrl: './generarestadopagoobras-page.component.html',
+    styleUrls: ['./generarestadopagoobras-page.component.scss'],
 })
 
-export class HistoricoEstadoPagoPageComponent implements OnInit {
+export class GenerarEstadoPagoObrasPageComponent implements OnInit {
 
 
     products: Product[];
@@ -42,8 +48,29 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
         private fb: FormBuilder,
         private router: Router,
         private reporteDiarioService: ReporteDiarioService,
-        private obrasService: ObrasService,
+        private estadoPagoObrasService: EstadoPagoObrasService,
         private confirmationService: ConfirmationService) { 
+
+
+
+            this.estadoPagoObrasService.getAlltiporecargo().subscribe(
+                (respuesta: any) => {
+                    console.log("respuesta getAlltiporecargo : ",respuesta);
+                },
+                (error) => {
+                    console.error('Error al obtener listado de reportes diarios:', error);
+                }
+            );
+
+            this.estadoPagoObrasService.getAllrecargos().subscribe(
+                (respuesta: any) => {
+                    console.log("respuesta : getAllrecargos",respuesta);
+                },
+                (error) => {
+                    console.error('Error al obtener listado de reportes diarios:', error);
+                }
+            );
+
 
 
 
@@ -66,8 +93,41 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
     ngOnInit() {
 
         this.productService.getProducts().then((data) => (this.products = data));
+
         this.obra = JSON.parse(localStorage.getItem('obra'));
+        
         console.log("obra", this.obra);
+
+
+
+
+        this.estadoPagoObrasService.getNuevoencabezado(this.obra.id).subscribe(
+            (respuesta: any) => {
+                console.log("respuesta getNuevoencabezado : ",respuesta);
+            },
+            (error) => {
+                console.error('Error al obtener listado de reportes diarios:', error);
+            }
+        );
+
+        this.estadoPagoObrasService.getAllactividadesporobra(this.obra.id).subscribe(
+            (respuesta: any) => {
+                console.log("respuesta : getAllactividadesporobra",respuesta);
+            },
+            (error) => {
+                console.error('Error al obtener listado de reportes diarios:', error);
+            }
+        );
+
+        this.estadoPagoObrasService.getAllactividadesadicionales(this.obra.id).subscribe(
+            (respuesta: any) => {
+                console.log("respuesta : getAllactividadesporobra",respuesta);
+            },
+            (error) => {
+                console.error('Error al obtener listado de reportes diarios:', error);
+            }
+        );
+
 
         this.cargarListadoReportesDiarios();
 
@@ -107,21 +167,6 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
     }
 
 
-
-    openNewEstadodePago(obra: Obra)
-    {
-
-        console.log("OBRA",obra)
-
-        const navigationExtras: NavigationExtras = {
-            state: {
-                obra: obra
-            }
-        };
-
-        this.router.navigate(['/obras/generarestadopagoobras'],navigationExtras);
-
-    }
 
 
 

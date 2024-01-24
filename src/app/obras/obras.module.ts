@@ -34,10 +34,13 @@ import { CuadraturamaterialesPageComponent } from './pages/cuadraturamateriales-
  
 /* Estado Pago */
 import { EstadopagoPageComponent } from './pages/estadopago-page/estadopago-page.component';
+import { HistoricoEstadoPagoPageComponent } from './pages/estadopago-page/historicoestadopagoobras/historicoestadopago-page.component';
+
 
 /* Estado Obra */
 import { EstadoobraPageComponent } from './pages/estadoobra-page/estadoobra-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { GenerarEstadoPagoObrasPageComponent } from './pages/estadopago-page/generarestadopagoobras/generarestadopagoobras-page.component';
 
 
 @NgModule({
@@ -53,6 +56,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MaterialesfaltantesPageComponent,
     CuadraturamaterialesPageComponent,
     EstadopagoPageComponent,
+    HistoricoEstadoPagoPageComponent,
+    GenerarEstadoPagoObrasPageComponent,
     EstadoobraPageComponent
   ],
   imports: [
