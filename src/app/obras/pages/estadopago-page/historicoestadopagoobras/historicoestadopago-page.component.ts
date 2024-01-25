@@ -9,6 +9,7 @@ import { Product } from '../../../interfaces/product.interface';
 import { ProductService } from '../../../services/productservice';
 import { ReporteDiarioService } from 'src/app/obras/services/reporte-diario.service';
 import { ReporteDiario } from 'src/app/obras/interfaces/reporte-diario.interface';
+import { EstadoPagoObrasService } from 'src/app/obras/services/estadopagoobras.service';
 
 
 @Component({
@@ -34,6 +35,9 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
 
 
     listaReportesDiarios: ReporteDiario[];
+
+    listaestadospago: [];
+
     
 
     constructor(private productService: ProductService,
@@ -41,6 +45,7 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
         public route: ActivatedRoute,
         private fb: FormBuilder,
         private router: Router,
+        private estadoPagoObrasService: EstadoPagoObrasService,
         private reporteDiarioService: ReporteDiarioService,
         private obrasService: ObrasService,
         private confirmationService: ConfirmationService) { 
@@ -69,7 +74,7 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
         this.obra = JSON.parse(localStorage.getItem('obra'));
         console.log("obra", this.obra);
 
-        this.cargarListadoReportesDiarios();
+        this.cargarListadoEstadodePago();
 
 
         this.cols = [
@@ -86,15 +91,15 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
 
 
 
-    cargarListadoReportesDiarios() {
+    cargarListadoEstadodePago() {
 
-        this.reporteDiarioService.getAllReportesDiariosPorObra(this.obra).subscribe(
+        this.estadoPagoObrasService.getListaestadospago(this.obra.id).subscribe(
             (VisitasTerreno: any) => {
                 console.log("VisitasTerreno", VisitasTerreno);
-                this.listaReportesDiarios = VisitasTerreno.sort((a, b) => b.id - a.id);
+                this.listaestadospago = VisitasTerreno.sort((a, b) => b.id - a.id);
             },
             (error) => {
-                console.error('Error al obtener listado de reportes diarios:', error);
+                console.error('Error al obtener listaestadospago:', error);
             }
         );
 

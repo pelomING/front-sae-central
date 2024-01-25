@@ -57,6 +57,30 @@ export class EstadoPagoObrasService {
             );
     }
 
+
+    // /api/obras/backoffice/estadopago/v1/listaestadospago
+    getListaestadospago(IDOBRA:number): Observable<any> {
+        return this.http.get(`${this.baseUrl}listaestadospago?id_obra=${IDOBRA}`, httpOptions)
+            .pipe(
+                map((response) => {
+
+                    if (response) {
+                        return response;
+                    } else {
+                        throw new Error('Respuesta inesperada del servidor');
+                    }
+
+                }),
+                catchError((error) => {
+                    console.error('Error en la solicitud:', error);
+                    return throwError('Ha ocurrido un error en la solicitud.');
+                })
+            );
+    }
+
+
+
+
     ///api/obras/backoffice/estadopago/v1/nuevoencabezado
     getNuevoencabezado(IDOBRA:number): Observable<any> {
         return this.http.get(`${this.baseUrl}nuevoencabezado?id_obra=${IDOBRA}`, httpOptions)
@@ -76,6 +100,7 @@ export class EstadoPagoObrasService {
                 })
             );
     }
+
 
     ///api/obras/backoffice/estadopago/v1/allactividadesporobra
     getAllactividadesporobra(IDOBRA:number): Observable<any> {
@@ -97,6 +122,7 @@ export class EstadoPagoObrasService {
             );
     }
 
+
     ///api/obras/backoffice/estadopago/v1/allactividadesadicionales
     getAllactividadesadicionales(IDOBRA:number): Observable<any> {
         return this.http.get(`${this.baseUrl}allactividadesadicionales?id_obra=${IDOBRA}`, httpOptions)
@@ -116,5 +142,6 @@ export class EstadoPagoObrasService {
                 })
             );
     }
+
 
 }
