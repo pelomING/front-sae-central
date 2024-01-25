@@ -49,6 +49,22 @@ export interface Segmento {
     descripcion: string;
 }
 
+export interface OficinaSupervisor {
+    id: number;
+    oficina: string;
+    supervisor: string;
+}
+
+
+export interface RecargoPorDistancia {
+    id: number;
+    nombre: string;
+    porcentaje: number;
+}
+
+
+
+
 export interface Obra {
     id: number;
     codigo_obra: string;
@@ -74,5 +90,10 @@ export interface Obra {
     estado: Estado;
     tipo_obra: Tipo_obra;
     segmento: Segmento;
+    
+    jefe_delegacion:string | null;
+    oficina: OficinaSupervisor;
+    recargo_distancia:RecargoPorDistancia;
+
     eliminada: boolean;
 }

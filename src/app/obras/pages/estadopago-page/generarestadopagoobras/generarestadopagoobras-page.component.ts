@@ -42,7 +42,11 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
 
 
     listaReportesDiarios: ReporteDiario[];
+
+
+    LISTA_ACTIVIDADES: [];
     
+    LISTA_ACTIVIDADES_ADICIONALES: [];
 
     constructor(private productService: ProductService,
         private messageService: MessageService,
@@ -114,7 +118,12 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
 
         this.estadoPagoObrasService.getAllactividadesporobra(this.obra.id).subscribe(
             (respuesta: any) => {
+                
                 console.log("respuesta : getAllactividadesporobra",respuesta);
+                this.LISTA_ACTIVIDADES = respuesta;
+                console.log("this.LISTA_ACTIVIDADES",this.LISTA_ACTIVIDADES);
+
+
             },
             (error) => {
                 console.error('Error al obtener listado de reportes diarios:', error);
@@ -123,7 +132,11 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
 
         this.estadoPagoObrasService.getAllactividadesadicionales(this.obra.id).subscribe(
             (respuesta: any) => {
-                console.log("respuesta : getAllactividadesporobra",respuesta);
+
+                console.log("respuesta : getAllactividadesadicionales",respuesta);
+                this.LISTA_ACTIVIDADES_ADICIONALES = respuesta;
+                console.log("this.LISTA_ACTIVIDADES_ADICIONALES",this.LISTA_ACTIVIDADES_ADICIONALES);
+
             },
             (error) => {
                 console.error('Error al obtener listado de reportes diarios:', error);

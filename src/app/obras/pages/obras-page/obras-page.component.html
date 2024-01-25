@@ -78,7 +78,7 @@
 
       <form [formGroup]="obraForm" >
 
-        <div class="card" style="height:450px;" >
+        <div class="card" style="height:500px;" >
           <p-tabView>
             <p-tabPanel header="Datos Principales">
 
@@ -197,6 +197,36 @@
                     </span>
                   </div>
                 </div>
+
+
+                <div class="col-4">
+                  <div class="form-group p-field custom-spacing">
+                    <span class="p-float-label">
+                      <p-dropdown formControlName="oficina" id="oficina"  class="form-control" [options]="oficinaSupervisor" optionLabel="oficina" placeholder="Seleccionar"></p-dropdown>
+                      <label htmlFor="oficina">oficina</label>
+                    </span>
+                  </div>
+                </div>
+
+
+                <div class="col-4">
+                  <div class="form-group p-field custom-spacing">
+                    <span class="p-float-label">
+                      <p-dropdown formControlName="recargo_distancia" id="recargo_distancia"  class="form-control" [options]="recargoPorDistancia" optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
+                      <label htmlFor="recargo_distancia">recargo_distancia</label>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="col-4">
+                  <div class="form-group p-field custom-spacing">
+                    <span class="p-float-label">
+                      <input type="text" pInputText id="jefe_delegacion" class="form-control" formControlName="jefe_delegacion">
+                      <label htmlFor="jefe_delegacion">jefe_delegacion</label>
+                    </span>
+                  </div>
+                </div>
+
                 
               </div>
 

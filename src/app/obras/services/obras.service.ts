@@ -16,6 +16,7 @@ export class ObrasService {
   private baseUrlObras: string = '';
   
   private UrlApi = '/api/obras/backoffice/general/v1/';
+
   private UrlApiObras = '/api/obras/backoffice/v1/';
   
 
@@ -51,7 +52,10 @@ export class ObrasService {
       ubicacion: newObra.ubicacion,
       estado: newObra.estado.id,
       tipo_obra: newObra.tipo_obra.id,
-      segmento: newObra.segmento.id
+      segmento: newObra.segmento.id,
+      jefe_delegacion: newObra.jefe_delegacion,
+      oficina: newObra.oficina,
+      recargo_distancia: newObra.recargo_distancia
     };
 
 
@@ -102,7 +106,10 @@ export class ObrasService {
       ubicacion: Obra.ubicacion,
       estado: Obra.estado.id,
       tipo_obra: Obra.tipo_obra.id,
-      segmento: Obra.segmento.id
+      segmento: Obra.segmento.id,
+      jefe_delegacion: Obra.jefe_delegacion,
+      oficina: Obra.oficina,
+      recargo_distancia: Obra.recargo_distancia
     };
 
     return this.http.put<any[]>(`${this.baseUrlObras}actualizaobra/${Obra.id}`, data, httpOptions).pipe(
@@ -168,6 +175,56 @@ export class ObrasService {
         })
       );
   }
+
+
+
+  // /api/obras/backoffice/general/v1/alloficinasupervisor
+  getAlloficinasupervisor(): Observable<any> {
+    return this.http.get(`${this.baseUrl}alloficinasupervisor`, httpOptions)
+      .pipe(
+        map((response) => {
+
+          if (response) {
+            return response;
+          } else {
+            throw new Error('Respuesta inesperada del servidor');
+          }
+
+        }),
+        catchError((error) => {
+          console.error('Error en la solicitud:', error);
+          return throwError('Ha ocurrido un error en la solicitud.');
+        })
+      );
+  }
+
+ 
+  //  /api/obras/backoffice/general/v1/allrecargospordistancia
+  getAllrecargospordistancia(): Observable<any> {
+    return this.http.get(`${this.baseUrl}allrecargospordistancia`, httpOptions)
+      .pipe(
+        map((response) => {
+
+          if (response) {
+            return response;
+          } else {
+            throw new Error('Respuesta inesperada del servidor');
+          }
+
+        }),
+        catchError((error) => {
+          console.error('Error en la solicitud:', error);
+          return throwError('Ha ocurrido un error en la solicitud.');
+        })
+      );
+  }
+
+    
+
+        
+
+
+
 
 
 
@@ -351,5 +408,6 @@ export class ObrasService {
         })
       );
   }
+
 
 }

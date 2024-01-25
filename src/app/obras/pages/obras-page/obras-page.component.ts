@@ -7,8 +7,8 @@ import { Table } from 'primeng/table';
 
 import { Product } from '../../interfaces/product.interface';
 
-import { Obra, Zona, Delegacion, Tipotrabajos, Empresacontratistas, Coordinadorcontratistas, Comuna, Estado, Tipo_obra, Segmento } from '../../interfaces/obra.interface';
-  
+import { Obra, Zona, Delegacion, Tipotrabajos, Empresacontratistas, Coordinadorcontratistas, Comuna, Estado, Tipo_obra, Segmento, OficinaSupervisor, RecargoPorDistancia } from '../../interfaces/obra.interface';
+
 import { ProductService } from '../../services/productservice';
 import { ObrasService } from '../../services/obras.service';
 
@@ -39,6 +39,16 @@ export class ObrasPageComponent implements OnInit {
     estado: Estado[] | undefined;
     tipo_obra: Tipo_obra[] | undefined;
     segmento: Segmento[] | undefined;
+
+
+    
+    oficinaSupervisor: OficinaSupervisor[] | undefined; 
+    
+    recargoPorDistancia: RecargoPorDistancia[] | undefined;
+
+    
+
+
     router: any;
 
     cols: any[] = [];
@@ -78,14 +88,17 @@ export class ObrasPageComponent implements OnInit {
             ubicacion: ['', Validators.required],
             estado: ['', Validators.required],
             tipo_obra: ['', Validators.required],
-            segmento: ['', Validators.required]
+            segmento: ['', Validators.required],
+            jefe_delegacion: ['', Validators.required],
+            oficina: ['', Validators.required],
+            recargo_distancia: ['', Validators.required]
         });
 
     }
 
     ngOnInit() {
 
-        
+
         this.obrasService.getAllObras().subscribe(
             (Obras: any) => {
                 console.log("Esto es la Obras:", Obras);
@@ -196,6 +209,34 @@ export class ObrasPageComponent implements OnInit {
         );
 
 
+        // /api/obras/backoffice/general/v1/alloficinasupervisor
+
+        this.obrasService.getAlloficinasupervisor().subscribe(
+            (oficinas_supervisor : any) => {
+                console.log("Esto es la oficinas:", oficinas_supervisor);
+                this.oficinaSupervisor = oficinas_supervisor;
+            },
+            (error) => {
+                console.error('Error al obtener las oficinas:', error);
+            }
+        );
+
+
+
+        //  /api/obras/backoffice/general/v1/allrecargospordistancia
+        this.obrasService.getAllrecargospordistancia().subscribe(
+            (recargos: any) => {
+                console.log("Esto es la recargos:", recargos);
+                this.recargoPorDistancia = recargos;
+            },
+            (error) => {
+                console.error('Error al obtener las recargos:', error);
+            }
+        );
+
+
+
+
 
         this.cols = [
             { field: 'nombre_obra', header: 'Nombre Obra' },
@@ -284,10 +325,10 @@ export class ObrasPageComponent implements OnInit {
             accept: () => {
 
                 this.obrasService.deleleObra(obra).subscribe(
-                    (response) => { 
-                        
-                        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado', life: 3000 });    
-                        
+                    (response) => {
+
+                        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado', life: 3000 });
+
                         this.obrasService.getAllObras().subscribe(
                             (Obras: any) => {
                                 console.log("Esto es la Obras:", Obras);
@@ -300,16 +341,16 @@ export class ObrasPageComponent implements OnInit {
 
                     },
                     (error) => {
-    
+
                         // Manejar errores
                         console.error('Error al guardar la obra:', error);
-    
+
                         this.messageService.add({
                             severity: 'error',
                             summary: 'Error',
                             detail: 'Por favor, intentar mas tarde problemas de servicio',
                         });
-    
+
                     }
                 );
 
@@ -347,11 +388,11 @@ export class ObrasPageComponent implements OnInit {
                 (response) => {
                     // Manejar la respuesta exitosa
                     console.log('Obra guardada con éxito:', response);
-                    
+
                     this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
 
                     this.formObraDialog = false;
-                    
+
                     this.obrasService.getAllObras().subscribe(
                         (Obras: any) => {
                             console.log("Esto es la Obras:", Obras);
@@ -474,7 +515,7 @@ export class ObrasPageComponent implements OnInit {
             case 'Estado Pago Enviado':
                 return 'help';
             case 'Factura Emitida':
-                return 'warning'; 
+                return 'warning';
             case 'Factura Pagada':
                 return 'warning';
 
