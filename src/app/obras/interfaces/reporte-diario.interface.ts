@@ -30,7 +30,7 @@ export interface ReporteDiario {
     fecha_reporte: string;
     jefe_faena: number;
     sdi: string;
-    gestor_cliente: string;
+    ito_mandante: string;
     id_area: number;
     brigada_pesada: Brigada;
     observaciones: string;

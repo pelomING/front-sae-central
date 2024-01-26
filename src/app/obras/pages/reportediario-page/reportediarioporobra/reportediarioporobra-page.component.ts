@@ -598,7 +598,8 @@ export class ReportediarioporobraPageComponent implements OnInit {
                 fecha_reporte: ReporteDiarioObjeto.fecha_reporte,
                 jefe_faena: ReporteDiarioObjeto.jefe_faena.id,
                 sdi: ReporteDiarioObjeto.sdi,
-                gestor_cliente: 'xxx',
+
+                ito_mandante: ReporteDiarioObjeto.ito_mandante,
                 id_area: ReporteDiarioObjeto.area.id,
                 brigada_pesada: ReporteDiarioObjeto.brigada.valor,
                 observaciones: 'xxx',
@@ -621,7 +622,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
                 det_otros: det_otros,
 
-                recargo_hora: ReporteDiarioObjeto.recargoshora
+                recargo_hora: ReporteDiarioObjeto.recargo_hora
 
             }
 
@@ -818,7 +819,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
                 brigada_pesada: ReporteDiarioObjeto.brigada.valor,
 
-                gestor_cliente: 'xxx',
+                ito_mandante: ReporteDiarioObjeto.ito_mandante,
                 observaciones: 'xxx',
                 entregado_por_persona: 'xxx',
                 fecha_entregado: ReporteDiarioObjeto.fecha_entregado,
@@ -839,7 +840,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
                 det_actividad: det_actividad,
                 det_otros: det_otros,
 
-                recargo_hora: ReporteDiarioObjeto.recargoshora
+                recargo_hora: ReporteDiarioObjeto.recargo_hora
 
             }
 
