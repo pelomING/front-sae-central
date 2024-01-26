@@ -6,7 +6,7 @@ import { Obra, Zona, Delegacion, Tipotrabajos, Empresacontratistas, Coordinadorc
 import { Product } from '../../../interfaces/product.interface';
 import { ProductService } from '../../../services/productservice';
 
-import { ReporteDiario, Tipooperacion, Tipoactividad, Maestroactividad, TablaActividades, TablaOtrasActividades, Jefesfaena, Area, Brigada, DetActividad, DetOtros } from '../../../interfaces/reporte-diario.interface';
+import { ReporteDiario, Tipooperacion, Tipoactividad, Maestroactividad, TablaActividades, TablaOtrasActividades, Jefesfaena, Area, Brigada, DetActividad, DetOtros, RecargosHora } from '../../../interfaces/reporte-diario.interface';
 
 import { ReporteDiarioService } from '../../../services/reporte-diario.service';
 
@@ -42,13 +42,15 @@ export class ReportediarioporobraPageComponent implements OnInit {
     listaTablaOtrasActividades: TablaOtrasActividades[] = [];
     listaTipooperacion: Tipooperacion[] | undefined;
     listaTipoactividad: Tipoactividad[] | undefined;
-    listaMaestroactividad: Maestroactividad[] | undefined;
+    listaMaestroactividad: Maestroactividad[] | undefined;  
 
     listaJefesfaena: Jefesfaena[] | undefined;
 
     listaComunas: Comuna[] | undefined;
 
     listadeAreas: Area[] | undefined;
+
+    listarecargoshora: RecargosHora[] | undefined; 
 
 
     listaBrigadas: Brigada[] = [
@@ -121,7 +123,8 @@ export class ReportediarioporobraPageComponent implements OnInit {
             hora_salida_base: ['', Validators.required],
             hora_llegada_terreno: ['', Validators.required],
             hora_salida_terreno: ['', Validators.required],
-            hora_llegada_base: ['', Validators.required]
+            hora_llegada_base: ['', Validators.required],
+            recargo_hora: ['', Validators.required]
         });
 
         this.ActividadForm = this.fb.group({
@@ -208,6 +211,15 @@ export class ReportediarioporobraPageComponent implements OnInit {
             }
         );
 
+        this.reporteDiarioService.getAllrecargoshora().subscribe(
+            (listado: any) => {
+                this.listarecargoshora = listado;
+            },
+            (error) => {
+                console.error('Error al obtener listado de reportes diarios:', error);
+            }
+        );
+        
         this.reporteDiarioService.getAllareas().subscribe(
             (listado: any) => {
                 this.listadeAreas = listado;
@@ -295,7 +307,8 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
         this.reporteDiarioService.getAllReportesDiariosPorObra(this.obra).subscribe(
             (VisitasTerreno: any) => {
-                console.log("VisitasTerreno", VisitasTerreno);
+                console.log("REPORTES DIARIOS POR OBRA", VisitasTerreno);
+
                 this.listaReportesDiarios = VisitasTerreno.sort((a, b) => b.id - a.id);
             },
             (error) => {
@@ -606,7 +619,9 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
                 det_actividad: det_actividad,
 
-                det_otros: det_otros
+                det_otros: det_otros,
+
+                recargo_hora: ReporteDiarioObjeto.recargoshora
 
             }
 
@@ -822,7 +837,9 @@ export class ReportediarioporobraPageComponent implements OnInit {
                 flexiapp: arrayDeStrings,
 
                 det_actividad: det_actividad,
-                det_otros: det_otros
+                det_otros: det_otros,
+
+                recargo_hora: ReporteDiarioObjeto.recargoshora
 
             }
 

@@ -14,6 +14,16 @@ export interface DetOtros {
 }
 
 
+export interface RecargosHora {
+    id: number,
+    nombre: string,
+    id_tipo_recargo: number,
+    porcentaje: number
+    nombre_corto: string,
+}
+
+
+
 export interface ReporteDiario {
     id?: number;
     id_obra: number;
@@ -39,6 +49,7 @@ export interface ReporteDiario {
     flexiapp: string[];
     det_actividad: DetActividad[];
     det_otros: DetOtros[];
+    recargo_hora: RecargosHora
 }
 
 export interface Tipooperacion {
@@ -105,3 +116,10 @@ export interface Brigada {
     valor: boolean, 
     descripcion: string
 }
+
+export interface RecargosHora {
+    id: number,
+    nombre: string, 
+    porcentaje: number   
+}
+

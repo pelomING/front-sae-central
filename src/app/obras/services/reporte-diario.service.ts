@@ -89,6 +89,30 @@ export class ReporteDiarioService {
   }
 
 
+  // /api/obras/backoffice/repodiario/v1/allrecargoshora
+
+  getAllrecargoshora(): Observable<any> {
+    return this.http.get(`${this.baseUrlReporte}allrecargoshora`, httpOptions)
+      .pipe(
+        map((response) => {
+
+          if (response) {
+            return response;
+          } else {
+            throw new Error('Respuesta inesperada del servidor');
+          }
+
+        }),
+        catchError((error) => {
+          console.error('Error en la solicitud:', error);
+          return throwError('Ha ocurrido un error en la solicitud.');
+        })
+      );
+  }
+
+
+
+
   // /api/obras/backoffice/repodiario/v1/alltipoactividad			
   getAlltipoactividad(): Observable<any> {
     return this.http.get(`${this.baseUrlReporte}alltipoactividad`, httpOptions)
