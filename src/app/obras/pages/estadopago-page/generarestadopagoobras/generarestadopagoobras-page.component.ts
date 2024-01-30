@@ -36,17 +36,19 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
 
 
     obras: Obra[];
-    obra: Obra; 
+    obra: Obra;
     cols: any[] = [];
     ejecutado: boolean = false;
 
 
     listaReportesDiarios: ReporteDiario[];
 
-
     LISTA_ACTIVIDADES: [];
-    
     LISTA_ACTIVIDADES_ADICIONALES: [];
+    LISTA_ACTIVIDADES_CONHORASEXTRA: [];
+    NUEVOENCABEZADO: any[];
+
+
 
     constructor(private productService: ProductService,
         private messageService: MessageService,
@@ -55,27 +57,27 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
         private router: Router,
         private reporteDiarioService: ReporteDiarioService,
         private estadoPagoObrasService: EstadoPagoObrasService,
-        private confirmationService: ConfirmationService) { 
+        private confirmationService: ConfirmationService) {
 
 
 
-            this.estadoPagoObrasService.getAlltiporecargo().subscribe(
-                (respuesta: any) => {
-                    console.log("respuesta getAlltiporecargo : ",respuesta);
-                },
-                (error) => {
-                    console.error('Error al obtener listado de reportes diarios:', error);
-                }
-            );
+        this.estadoPagoObrasService.getAlltiporecargo().subscribe(
+            (respuesta: any) => {
+                console.log("respuesta getAlltiporecargo : ", respuesta);
+            },
+            (error) => {
+                console.error('Error al obtener listado de reportes diarios:', error);
+            }
+        );
 
-            this.estadoPagoObrasService.getAllrecargos().subscribe(
-                (respuesta: any) => {
-                    console.log("respuesta : getAllrecargos",respuesta);
-                },
-                (error) => {
-                    console.error('Error al obtener listado de reportes diarios:', error);
-                }
-            );
+        this.estadoPagoObrasService.getAllrecargos().subscribe(
+            (respuesta: any) => {
+                console.log("respuesta : getAllrecargos", respuesta);
+            },
+            (error) => {
+                console.error('Error al obtener listado de reportes diarios:', error);
+            }
+        );
 
 
 
@@ -99,17 +101,20 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
     ngOnInit() {
 
         this.productService.getProducts().then((data) => (this.products = data));
-
         this.obra = JSON.parse(localStorage.getItem('obra'));
-        
         console.log("obra", this.obra);
-
-
 
 
         this.estadoPagoObrasService.getNuevoencabezado(this.obra.id).subscribe(
             (respuesta: any) => {
-                console.log("respuesta getNuevoencabezado : ",respuesta);
+
+                this.NUEVOENCABEZADO = respuesta;
+
+                if (this.NUEVOENCABEZADO && this.NUEVOENCABEZADO.length > 0) {
+
+                    console.log("respuesta getNuevoencabezado : ", this.NUEVOENCABEZADO[0]);
+
+                }
             },
             (error) => {
                 console.error('Error al obtener listado de reportes diarios:', error);
@@ -118,11 +123,9 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
 
         this.estadoPagoObrasService.getAllactividadesporobra(this.obra.id).subscribe(
             (respuesta: any) => {
-                
-                console.log("respuesta : getAllactividadesporobra",respuesta);
-                this.LISTA_ACTIVIDADES = respuesta;
-                console.log("this.LISTA_ACTIVIDADES",this.LISTA_ACTIVIDADES);
 
+                this.LISTA_ACTIVIDADES = respuesta;
+                //console.log("this.LISTA_ACTIVIDADES",this.LISTA_ACTIVIDADES);
 
             },
             (error) => {
@@ -133,19 +136,26 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
         this.estadoPagoObrasService.getAllactividadesadicionales(this.obra.id).subscribe(
             (respuesta: any) => {
 
-                console.log("respuesta : getAllactividadesadicionales",respuesta);
                 this.LISTA_ACTIVIDADES_ADICIONALES = respuesta;
-                console.log("this.LISTA_ACTIVIDADES_ADICIONALES",this.LISTA_ACTIVIDADES_ADICIONALES);
-
+                //console.log("this.LISTA_ACTIVIDADES_ADICIONALES",this.LISTA_ACTIVIDADES_ADICIONALES);
             },
             (error) => {
                 console.error('Error al obtener listado de reportes diarios:', error);
             }
         );
 
+        this.estadoPagoObrasService.getAllactividadesconhoraextra(this.obra.id).subscribe(
+            (respuesta: any) => {
+
+                this.LISTA_ACTIVIDADES_CONHORASEXTRA = respuesta;
+                //console.log("this.LISTA_ACTIVIDADES_CONHORASEXTRA",this.LISTA_ACTIVIDADES_CONHORASEXTRA);
+            },
+            (error) => {
+                console.error('Error al obtener listado de reportes diarios:', error);
+            }
+        );
 
         this.cargarListadoReportesDiarios();
-
 
         this.cols = [
             { field: 'nombre_obra', header: 'Nombre Obra' },
@@ -155,59 +165,78 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
             { field: 'estado.nombre', header: 'Estado' }
         ];
 
-
-
     }
 
     nombreLocalidadCiudad = 'Santiago';
 
     opcionesFecha: Intl.DateTimeFormatOptions = {
-      weekday: 'long', // Nombre del día de la semana
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
+        weekday: 'long', // Nombre del día de la semana
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
     };
 
     obtenerFechaActualConDiaYCiudad(): string {
 
         const fecha = new Date();
-    
+
         this.opcionesFecha = {
-          weekday: 'long', // Nombre del día de la semana
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
+            weekday: 'long', // Nombre del día de la semana
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
         };
         const fechaFormateada = fecha.toLocaleDateString(undefined, this.opcionesFecha);
-    
+
         return `${this.nombreLocalidadCiudad}, ${fechaFormateada}`;
-    
-      }
 
-
-
+    }
 
     cargarListadoReportesDiarios() {
-
         this.reporteDiarioService.getAllReportesDiariosPorObra(this.obra).subscribe(
             (VisitasTerreno: any) => {
-                console.log("VisitasTerreno", VisitasTerreno);
+                //console.log("listaReportesDiarios", VisitasTerreno);
                 this.listaReportesDiarios = VisitasTerreno.sort((a, b) => b.id - a.id);
             },
             (error) => {
                 console.error('Error al obtener listado de reportes diarios:', error);
             }
         );
-
     }
-
-
 
     goBack() {
         window.history.back();
     }
 
 
+    onCrearEstadoPago(NUEVOENCABEZADO: any) {
+
+        console.log("this.NUEVOENCABEZADO", NUEVOENCABEZADO);
+
+        this.estadoPagoObrasService.postcreaEstadoPagoObras(NUEVOENCABEZADO).subscribe(
+            (response: any) => {
+                
+                // Manejar la respuesta exitosa
+                console.log('éxito:', response);
+                this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
+            
+            },
+            (error) => {
+                
+                console.error('Error al guardar :', error);
+
+                //this.loading = false;
+
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error : ' + error.status,
+                    detail: 'Por favor, intentar mas tarde problemas de servicio : ' + error.error.message,
+                });
+
+            }
+        );
+
+    }
 
 
 

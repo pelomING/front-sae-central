@@ -113,7 +113,7 @@
 
                         <input type="hidden" pInputhidden id="id" class="form-control" formControlName="id">
 
-                        <div class="card" style="height:550px; padding-top: 65px;">
+                        <div class="card" style="height:650px; padding-top: 65px;">
 
 
                             <div class="grid">
@@ -163,7 +163,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-4">
+                                <div class="col-3">
                                     <div class="form-group p-field custom-spacing">
                                         <span class="p-float-label">
                                             <input id="sdi" formControlName="sdi" type="text" pInputText>
@@ -172,7 +172,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-4">
+                                <div class="col-3">
                                     <div class="form-group p-field custom-spacing">
                                         <span class="p-float-label">
                                             <input id="alimentador" type="text" formControlName="alimentador"
@@ -182,32 +182,9 @@
                                     </div>
                                 </div>
 
-                                <div class="col-4">
-                                    <div class="form-group p-field custom-spacing">
-                                        <span class="p-float-label">
-                                            <p-dropdown id="jefe_faena" formControlName="jefe_faena"
-                                                class="form-control" [options]="listaJefesfaena" optionLabel="nombre"
-                                                placeholder="Seleccionar"></p-dropdown>
-                                            <label htmlFor="jefe_faena">Jefe de Faena</label>
-                                        </span>
-                                    </div>
-                                </div>
 
 
-                                <div class="col-4">
-                                    <div class="form-group p-field custom-spacing">
-                                        <span class="p-float-label">
-                                            <p-dropdown id="recargo_hora" formControlName="recargo_hora"
-                                                class="form-control" [options]="listarecargoshora" optionLabel="nombre"
-                                                placeholder="Seleccionar"></p-dropdown>
-                                            <label htmlFor="recargo_hora">Recargos Hora</label>
-                                        </span>
-                                    </div>
-                                </div>
-
-
-
-                                <div class="col-4">
+                                <div class="col-3">
                                     <div class="form-group p-field custom-spacing">
                                         <span class="p-float-label">
                                             <input id="ito_mandante" formControlName="ito_mandante" type="text"
@@ -217,7 +194,20 @@
                                     </div>
                                 </div>
 
-                                <div class="col-4">
+
+
+                                <div class="col-3">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <input id="num_documento" formControlName="num_documento" type="text"
+                                                pInputText>
+                                            <label for="num_documento">N° Documento</label>
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-3">
                                     <div class="form-group p-field custom-spacing">
                                         <span class="p-float-label">
                                             <p-dropdown id="comuna" formControlName="comuna" class="form-control"
@@ -228,38 +218,10 @@
                                     </div>
                                 </div>
 
-                                <div class="col-4">
-                                    <div class="form-group p-field custom-spacing">
-                                        <span class="p-float-label">
-                                            <input id="num_documento" formControlName="num_documento" type="text"
-                                                pInputText>
-                                            <label for="num_documento">N° Documento</label>
-                                        </span>
-                                    </div>
-                                </div>
+                                
 
-                                <!-- <div class="col-4">
-                                    <div class="form-group p-field custom-spacing">
-                                        <span class="p-float-label">
-                                            <input id="flexiapp" formControlName="flexiapp" type="text" pInputText>
-                                            <label for="flexiapp">FlexiApp</label>
-                                        </span>
-                                    </div>
-                                </div> -->
 
-                                <div class="col-4">
-                                    <div class="form-group p-field custom-spacing">
-                                        
-                                        <p-inputGroup>
-                                            <input id="flexiapp" style="width:92%;" formControlName="flexiapp"
-                                                placeholder="FlexiApp" type="text" pInputText>
-                                            <button type="button" pButton icon="pi pi-plus"
-                                                (click)="openFormAddFlexiApp()" class="p-button-primary"></button>
-                                        </p-inputGroup>
-                                    </div>
-                                </div>
-
-                                <div class="col-4">
+                                <div class="col-3">
                                     <div class="form-group p-field custom-spacing">
                                         <span class="p-float-label">
                                             <p-dropdown id="area" formControlName="area" class="form-control"
@@ -270,7 +232,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-4">
+                                <div class="col-3">
                                     <div class="form-group p-field custom-spacing">
                                         <span class="p-float-label">
                                             <p-dropdown id="brigada" formControlName="brigada" class="form-control"
@@ -281,7 +243,46 @@
                                     </div>
                                 </div>
 
+                                <div class="col-3">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-dropdown id="jefe_faena" formControlName="jefe_faena"
+                                                class="form-control" [options]="listaJefesfaena" optionLabel="nombre"
+                                                placeholder="Seleccionar"></p-dropdown>
+                                            <label htmlFor="jefe_faena">Jefe de Faena</label>
+                                        </span>
+                                    </div>
+                                </div>
 
+                                <div class="col-3">
+                                    <div class="form-group p-field custom-spacing">
+                                        <p-inputGroup>
+                                            <input id="flexiapp" style="width:90%;" formControlName="flexiapp"
+                                                placeholder="FlexiApp" type="text" pInputText>
+                                            <button type="button" pButton icon="pi pi-plus"
+                                                (click)="openFormAddFlexiApp()" class="p-button-primary"></button>
+                                        </p-inputGroup>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="col-3">
+                                    <div class="form-group p-field custom-spacing">
+                                        <span class="p-float-label">
+                                            <p-dropdown id="recargo_hora" formControlName="recargo_hora"
+                                                class="form-control" [options]="listarecargoshora" optionLabel="nombre"
+                                                placeholder="Seleccionar"></p-dropdown>
+                                            <label htmlFor="recargo_hora">Recargos Hora</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            
+                            </div>
+
+                            <hr>
+                            <br>
+
+                            <div class="grid">
 
                                 <div class="col-3" style="margin-top:4px;" >
                                     <div class="form-group p-field custom-spacing">

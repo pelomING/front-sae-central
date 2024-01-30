@@ -29,26 +29,26 @@ export class AppMenuComponent implements OnInit {
       this.model = [
         {
           label: 'Gestión Sae',
-          items: [
-            // {
-            //     label: 'Dashboard',
-            //     icon: PrimeIcons.STAR_FILL,
-            //     routerLink: '/obras/dashboard',
-            //   },
-            { label: 'Eventos Ejecutados', icon: 'pi pi-fw pi-angle-right', routerLink: ['/evento'] },
-            { label: 'Turnos Ejecutados', icon: 'pi pi-fw pi-angle-right', routerLink: ['/jornada'] },
-            { label: 'Historico Estado de Pago', icon: 'pi pi-fw pi-angle-right', routerLink: ['/estado'] },
-            { label: 'Consultar Estado de Pago', icon: 'pi pi-fw pi-angle-right', routerLink: ['/NewEstado'] },
+                items: [
+                  // {
+                  //     label: 'Dashboard',
+                  //     icon: PrimeIcons.STAR_FILL,
+                  //     routerLink: '/obras/dashboard',
+                  //   },
+                  { label: 'Eventos Ejecutados', icon: 'pi pi-fw pi-angle-right', routerLink: ['/evento'] },
+                  { label: 'Turnos Ejecutados', icon: 'pi pi-fw pi-angle-right', routerLink: ['/jornada'] },
+                  { label: 'Historico Estado de Pago', icon: 'pi pi-fw pi-angle-right', routerLink: ['/estado'] },
+                  { label: 'Consultar Estado de Pago', icon: 'pi pi-fw pi-angle-right', routerLink: ['/NewEstado'] },
 
-            { label: 'Detalle PxQ', icon: 'pi pi-fw pi-angle-right', routerLink: ['/detallepxq'] },
+                  { label: 'Detalle PxQ', icon: 'pi pi-fw pi-angle-right', routerLink: ['/detallepxq'] },
 
-            { label: 'Observaciones', icon: 'pi pi-fw pi-angle-right', routerLink: ['/observaciones'] },
-            { label: 'Cobros Adicionales', icon: 'pi pi-fw pi-angle-right', routerLink: ['/cobros_adicionales'] },
-            { label: 'Descuentos', icon: 'pi pi-fw pi-angle-right', routerLink: ['/descuentos'] },
-            { label: 'Horas Extras', icon: 'pi pi-fw pi-angle-right', routerLink: ['/horas_extras'] },
-          
+                  { label: 'Observaciones', icon: 'pi pi-fw pi-angle-right', routerLink: ['/observaciones'] },
+                  { label: 'Cobros Adicionales', icon: 'pi pi-fw pi-angle-right', routerLink: ['/cobros_adicionales'] },
+                  { label: 'Descuentos', icon: 'pi pi-fw pi-angle-right', routerLink: ['/descuentos'] },
+                  { label: 'Horas Extras', icon: 'pi pi-fw pi-angle-right', routerLink: ['/horas_extras'] },
+                
 
-          ]
+                ]
         }
 
       ];
@@ -61,69 +61,69 @@ export class AppMenuComponent implements OnInit {
     {
 
       this.model = [
-        {
-          label: 'Gestión Sae',
-          items: [
-            {
-              label: 'Dashboard',
-              icon: PrimeIcons.STAR_FILL,
-              routerLink: '/obras/dashboard',
-            },
-            { label: 'Eventos Ejecutados', icon: 'pi pi-fw pi-angle-right', routerLink: ['/evento'] },
-            { label: 'Turnos Ejecutados', icon: 'pi pi-fw pi-angle-right', routerLink: ['/jornada'] },
-            { label: 'Historico Estados de Pago', icon: 'pi pi-fw pi-angle-right', routerLink: ['/estado'] },
-            { label: 'Crear Nuevo Estado de Pago', icon: 'pi pi-fw pi-angle-right', routerLink: ['/NewEstado'] }
-          ]
-        },
+        // {
+        //   label: 'Gestión Sae',
+        //   items: [
+        //     {
+        //       label: 'Dashboard',
+        //       icon: PrimeIcons.STAR_FILL,
+        //       routerLink: '/obras/dashboard',
+        //     },
+        //     { label: 'Eventos Ejecutados', icon: 'pi pi-fw pi-angle-right', routerLink: ['/evento'] },
+        //     { label: 'Turnos Ejecutados', icon: 'pi pi-fw pi-angle-right', routerLink: ['/jornada'] },
+        //     { label: 'Historico Estados de Pago', icon: 'pi pi-fw pi-angle-right', routerLink: ['/estado'] },
+        //     { label: 'Crear Nuevo Estado de Pago', icon: 'pi pi-fw pi-angle-right', routerLink: ['/NewEstado'] }
+        //   ]
+        // },
         {
           label: 'Gestión Obras',
           items: [
-            {
-              label: 'Dashboard',
-              icon: PrimeIcons.STAR_FILL,
-              routerLink: '/obras/dashboard',
-            },
+            // {
+            //   label: 'Dashboard',
+            //   icon: PrimeIcons.STAR_FILL,
+            //   routerLink: '/obras/dashboard',
+            // },
 
             {
               label: 'Ingreso de Obras',
               icon: 'pi pi-fw pi-angle-right',
               routerLink: '/obras',
             },
-            {
-              label: 'Materiales Obras',
-              icon: 'pi pi-fw pi-angle-right',
-              routerLink: '/obras/materiales',
-            },
-            {
-              label: 'Agenda Visita Terreno',
-              icon: 'pi pi-fw pi-angle-right',
-              routerLink: '/obras/agendas'
-            },
+            // {
+            //   label: 'Materiales Obras',
+            //   icon: 'pi pi-fw pi-angle-right',
+            //   routerLink: '/obras/materiales',
+            // },
+            // {
+            //   label: 'Agenda Visita Terreno',
+            //   icon: 'pi pi-fw pi-angle-right',
+            //   routerLink: '/obras/agendas'
+            // },
             {
               label: 'Reporte Diario',
               icon: 'pi pi-fw pi-angle-right',
               routerLink: '/obras/reportediario'
             },
-            {
-              label: 'Materiales faltantes',
-              icon: 'pi pi-fw pi-angle-right',
-              routerLink: '/obras/materialesfaltantes'
-            },
-            {
-              label: 'Cuadratura Materiales',
-              icon: 'pi pi-fw pi-angle-right',
-              routerLink: '/obras/cuadraturamateriales'
-            },
+            // {
+            //   label: 'Materiales faltantes',
+            //   icon: 'pi pi-fw pi-angle-right',
+            //   routerLink: '/obras/materialesfaltantes'
+            // },
+            // {
+            //   label: 'Cuadratura Materiales',
+            //   icon: 'pi pi-fw pi-angle-right',
+            //   routerLink: '/obras/cuadraturamateriales'
+            // },
             {
               label: 'Estado de Pago',
               icon: 'pi pi-fw pi-angle-right',
               routerLink: '/obras/estadopago'
             },
-            {
-              label: 'Estado de Obras',
-              icon: 'pi pi-fw pi-angle-right',
-              routerLink: '/obras/estadoobra'
-            }
+            // {
+            //   label: 'Estado de Obras',
+            //   icon: 'pi pi-fw pi-angle-right',
+            //   routerLink: '/obras/estadoobra'
+            // }
           ]
         },
 
@@ -350,5 +350,5 @@ export class AppMenuComponent implements OnInit {
 
 
   }
-  /*===*/
+ 
 }

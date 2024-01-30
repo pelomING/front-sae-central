@@ -124,8 +124,8 @@ export class ReportediarioporobraPageComponent implements OnInit {
             hora_llegada_terreno: ['', Validators.required],
             hora_salida_terreno: ['', Validators.required],
             hora_llegada_base: ['', Validators.required],
-            recargo_hora: ['', Validators.required]
-        });
+            recargo_hora: ['']
+        }); 
 
         this.ActividadForm = this.fb.group({
             id: [''],

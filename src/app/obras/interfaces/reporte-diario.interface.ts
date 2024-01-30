@@ -13,7 +13,6 @@ export interface DetOtros {
     uc_total: number;
 }
 
-
 export interface RecargosHora {
     id: number,
     nombre: string,
@@ -21,8 +20,6 @@ export interface RecargosHora {
     porcentaje: number
     nombre_corto: string,
 }
-
-
 
 export interface ReporteDiario {
     id?: number;
@@ -67,13 +64,10 @@ export interface Maestroactividad {
     id: number,
     descripcion: string,
     actividad: string,
-
     tipo_actividad: Tipoactividad,
-    
     uc_instalacion: number,
     uc_retiro: number,
     uc_traslado: number,
-    
     unidad: Unidad
 }
 
@@ -100,7 +94,7 @@ export interface TablaOtrasActividades {
     cantidad: number;
     uc_total: number;
 }
- 
+
 export interface Jefesfaena {
     id: number,
     nombre: string

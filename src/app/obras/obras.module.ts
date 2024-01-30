@@ -43,6 +43,7 @@ import { HistoricoEstadoPagoPageComponent } from './pages/estadopago-page/histor
 import { EstadoobraPageComponent } from './pages/estadoobra-page/estadoobra-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GenerarEstadoPagoObrasPageComponent } from './pages/estadopago-page/generarestadopagoobras/generarestadopagoobras-page.component';
+import { CommaToDotPipe } from './pipes/comma-to-dot.pipe';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { GenerarEstadoPagoObrasPageComponent } from './pages/estadopago-page/gen
     EstadopagoPageComponent,
     HistoricoEstadoPagoPageComponent,
     GenerarEstadoPagoObrasPageComponent,
-    EstadoobraPageComponent
+    EstadoobraPageComponent,
+    CommaToDotPipe
   ],
   imports: [
     PrimeNGModule,
@@ -68,7 +70,7 @@ import { GenerarEstadoPagoObrasPageComponent } from './pages/estadopago-page/gen
     ReactiveFormsModule,
     NgxPrintModule
   ],
-  providers: [ ProductService]
+  providers: [ProductService]
 })
 
 export class ObrasModule { }
