@@ -1,0 +1,26 @@
+body {
+    font-family: "Times New Roman", serif;
+    color: #000;
+}
+
+.logo-col {
+    /* flex-basis: 80px; */
+    /* Ancho fijo para la columna del logo */
+    align-items: left;
+}
+
+.logo-col img {
+    width: 180px;
+    height: 30px;
+}
+
+.title-col {
+    color: black;
+}
+
+.date-col {
+    font-size: 12px;
+    text-align: right;
+    /* Alinea el texto a la derecha */
+}
+

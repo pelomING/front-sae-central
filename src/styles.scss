@@ -19,7 +19,6 @@ $gutter: 1rem; //for primeflex grid system
 /* Importa el estilo de Leaflet en tu archivo de estilos global o en tu componente */
 @import "~leaflet/dist/leaflet.css";
 
-
 @import '~@fortawesome/fontawesome-free/css/all.css';
 
 
@@ -61,10 +60,6 @@ $gutter: 1rem; //for primeflex grid system
 
   /* Estilos específicos para la impresión */
   @media print {
-  
-
-
-      
   
   }
 

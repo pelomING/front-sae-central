@@ -23,104 +23,107 @@ export class AppMenuComponent implements OnInit {
 
     let user = this.storageService.getUser();
 
-    if (user.roles[0] === 'ROLE_ADMINSAE') {
+    if (user.roles[0] === 'ROLE_ADMINSAE'  ||  user.roles[0] === 'ROLE_ADMIN') 
+    {
 
       this.model = [
         {
           label: 'Gestión Sae',
-          items: [
-            // {
-            //     label: 'Dashboard',
-            //     icon: PrimeIcons.STAR_FILL,
-            //     routerLink: '/obras/dashboard',
-            //   },
-            { label: 'Eventos Ejecutados', icon: 'pi pi-fw pi-angle-right', routerLink: ['/evento'] },
-            { label: 'Turnos Ejecutados', icon: 'pi pi-fw pi-angle-right', routerLink: ['/jornada'] },
-            { label: 'Historico Estado de Pago', icon: 'pi pi-fw pi-angle-right', routerLink: ['/estado'] },
-            { label: 'Consultar Estado de Pago', icon: 'pi pi-fw pi-angle-right', routerLink: ['/NewEstado'] },
+                items: [
+                  // {
+                  //     label: 'Dashboard',
+                  //     icon: PrimeIcons.STAR_FILL,
+                  //     routerLink: '/obras/dashboard',
+                  //   },
+                  { label: 'Eventos Ejecutados', icon: 'pi pi-fw pi-angle-right', routerLink: ['/evento'] },
+                  { label: 'Turnos Ejecutados', icon: 'pi pi-fw pi-angle-right', routerLink: ['/jornada'] },
+                  { label: 'Historico Estado de Pago', icon: 'pi pi-fw pi-angle-right', routerLink: ['/estado'] },
+                  { label: 'Consultar Estado de Pago', icon: 'pi pi-fw pi-angle-right', routerLink: ['/NewEstado'] },
 
-            { label: 'Detalle PxQ', icon: 'pi pi-fw pi-angle-right', routerLink: ['/detallepxq'] },
+                  { label: 'Detalle PxQ', icon: 'pi pi-fw pi-angle-right', routerLink: ['/detallepxq'] },
 
-            { label: 'Observaciones', icon: 'pi pi-fw pi-angle-right', routerLink: ['/observaciones'] },
-            { label: 'Cobros Adicionales', icon: 'pi pi-fw pi-angle-right', routerLink: ['/cobros_adicionales'] },
-            { label: 'Descuentos', icon: 'pi pi-fw pi-angle-right', routerLink: ['/descuentos'] },
-            { label: 'Horas Extras', icon: 'pi pi-fw pi-angle-right', routerLink: ['/horas_extras'] },
-          
+                  { label: 'Observaciones', icon: 'pi pi-fw pi-angle-right', routerLink: ['/observaciones'] },
+                  { label: 'Cobros Adicionales', icon: 'pi pi-fw pi-angle-right', routerLink: ['/cobros_adicionales'] },
+                  { label: 'Descuentos', icon: 'pi pi-fw pi-angle-right', routerLink: ['/descuentos'] },
+                  { label: 'Horas Extras', icon: 'pi pi-fw pi-angle-right', routerLink: ['/horas_extras'] },
+                
 
-          ]
+                ]
         }
 
       ];
 
     }
 
-//ROLE_ADMINOBRAS
-    if (user.roles[0] === 'ROLE_ADMINOBRAS') {
+
+    //ROLE_ADMINOBRAS
+    if (user.roles[0] === 'ROLE_ADMINOBRAS' ||  user.roles[0] === 'ROLE_ADMIN') 
+    {
 
       this.model = [
-        {
-          label: 'Gestión Sae',
-          items: [
-            {
-              label: 'Dashboard',
-              icon: PrimeIcons.STAR_FILL,
-              routerLink: '/obras/dashboard',
-            },
-            { label: 'Eventos Ejecutados', icon: 'pi pi-fw pi-angle-right', routerLink: ['/evento'] },
-            { label: 'Turnos Ejecutados', icon: 'pi pi-fw pi-angle-right', routerLink: ['/jornada'] },
-            { label: 'Historico Estados de Pago', icon: 'pi pi-fw pi-angle-right', routerLink: ['/estado'] },
-            { label: 'Crear Nuevo Estado de Pago', icon: 'pi pi-fw pi-angle-right', routerLink: ['/NewEstado'] }
-          ]
-        },
+        // {
+        //   label: 'Gestión Sae',
+        //   items: [
+        //     {
+        //       label: 'Dashboard',
+        //       icon: PrimeIcons.STAR_FILL,
+        //       routerLink: '/obras/dashboard',
+        //     },
+        //     { label: 'Eventos Ejecutados', icon: 'pi pi-fw pi-angle-right', routerLink: ['/evento'] },
+        //     { label: 'Turnos Ejecutados', icon: 'pi pi-fw pi-angle-right', routerLink: ['/jornada'] },
+        //     { label: 'Historico Estados de Pago', icon: 'pi pi-fw pi-angle-right', routerLink: ['/estado'] },
+        //     { label: 'Crear Nuevo Estado de Pago', icon: 'pi pi-fw pi-angle-right', routerLink: ['/NewEstado'] }
+        //   ]
+        // },
         {
           label: 'Gestión Obras',
           items: [
-            {
-              label: 'Dashboard',
-              icon: PrimeIcons.STAR_FILL,
-              routerLink: '/obras/dashboard',
-            },
+            // {
+            //   label: 'Dashboard',
+            //   icon: PrimeIcons.STAR_FILL,
+            //   routerLink: '/obras/dashboard',
+            // },
 
             {
-              label: 'Listado de Obras',
+              label: 'Ingreso de Obras',
               icon: 'pi pi-fw pi-angle-right',
               routerLink: '/obras',
             },
-            {
-              label: 'Materiales Obras',
-              icon: 'pi pi-fw pi-angle-right',
-              routerLink: '/obras/materiales',
-            },
-            {
-              label: 'Agenda Visita Terreno',
-              icon: 'pi pi-fw pi-angle-right',
-              routerLink: '/obras/agendas'
-            },
+            // {
+            //   label: 'Materiales Obras',
+            //   icon: 'pi pi-fw pi-angle-right',
+            //   routerLink: '/obras/materiales',
+            // },
+            // {
+            //   label: 'Agenda Visita Terreno',
+            //   icon: 'pi pi-fw pi-angle-right',
+            //   routerLink: '/obras/agendas'
+            // },
             {
               label: 'Reporte Diario',
               icon: 'pi pi-fw pi-angle-right',
               routerLink: '/obras/reportediario'
             },
-            {
-              label: 'Materiales faltantes',
-              icon: 'pi pi-fw pi-angle-right',
-              routerLink: '/obras/materialesfaltantes'
-            },
-            {
-              label: 'Cuadratura Materiales',
-              icon: 'pi pi-fw pi-angle-right',
-              routerLink: '/obras/cuadraturamateriales'
-            },
+            // {
+            //   label: 'Materiales faltantes',
+            //   icon: 'pi pi-fw pi-angle-right',
+            //   routerLink: '/obras/materialesfaltantes'
+            // },
+            // {
+            //   label: 'Cuadratura Materiales',
+            //   icon: 'pi pi-fw pi-angle-right',
+            //   routerLink: '/obras/cuadraturamateriales'
+            // },
             {
               label: 'Estado de Pago',
               icon: 'pi pi-fw pi-angle-right',
               routerLink: '/obras/estadopago'
             },
-            {
-              label: 'Estado de Obras',
-              icon: 'pi pi-fw pi-angle-right',
-              routerLink: '/obras/estadoobra'
-            }
+            // {
+            //   label: 'Estado de Obras',
+            //   icon: 'pi pi-fw pi-angle-right',
+            //   routerLink: '/obras/estadoobra'
+            // }
           ]
         },
 
@@ -347,5 +350,5 @@ export class AppMenuComponent implements OnInit {
 
 
   }
-  /*===*/
+ 
 }

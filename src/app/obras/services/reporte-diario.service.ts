@@ -1,8 +1,10 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap, of, map, catchError, throwError } from 'rxjs';
+
 import { Obra } from '../interfaces/obra.interface';
-import { environment } from '../../../environments/environment';
+import { ReporteDiario, Tipooperacion, Tipoactividad, Maestroactividad, Unidad } from '../interfaces/reporte-diario.interface';
+
 import { ConfigService } from '../../_services/config.service';
 
 const httpOptions = {
@@ -10,22 +12,224 @@ const httpOptions = {
 };
 
 @Injectable({ providedIn: 'root' })
-export class ObrasService {
+export class ReporteDiarioService {
+
 
   private baseUrl: string = '';
-  private baseUrlObras: string = '';
-  
-  private UrlApi = '/api/obras/backoffice/general/v1/';
 
-  private UrlApiObras = '/api/obras/backoffice/v1/';
-  
+  private baseUrlReporte: string = '';
 
-  constructor(private http: HttpClient,private configService: ConfigService) 
-  { 
+  private UrlApi = '/api/obras/backoffice/v1/';
+
+  private UrlApiReporte = '/api/obras/backoffice/repodiario/v1/';
+
+
+
+  constructor(private http: HttpClient, private configService: ConfigService) {
+
     this.baseUrl = this.configService.baseUrl + this.UrlApi;
-    this.baseUrlObras = this.configService.baseUrl + this.UrlApiObras;
+
+    this.baseUrlReporte = this.configService.baseUrl + this.UrlApiReporte;
+
   }
 
+
+
+  ///api/obras/backoffice/repodiario/v1/reportesdiariosporparametros
+
+  //https://backend-pelom-desarrollo.up.railway.app
+
+  ///api/obras/backoffice/repodiario/v1/reportesdiariosporparametros?id_obra=2
+
+  getAllReportesDiariosPorObra(obra: Obra): Observable<any> {
+
+    console.log("Solicitud getAllReportesDiariosPorObra : ", obra.id);
+
+    console.log("baseUrlReporte : ", this.baseUrlReporte);
+
+    return this.http.get(`${this.baseUrlReporte}reportesdiariosporparametros?id_obra=${obra.id}`, httpOptions)
+      .pipe(
+        map((response) => {
+
+          if (response) {
+            return response;
+          } else {
+            throw new Error('Respuesta inesperada del servidor');
+          }
+
+        }),
+        catchError((error) => {
+          console.error('Error en la solicitud:', error);
+          return throwError('Ha ocurrido un error en la solicitud.');
+        })
+      );
+
+  }
+
+
+
+  // /api/obras/backoffice/repodiario/v1/alltipooperacion		
+  getAlltipooperacion(): Observable<any> {
+    return this.http.get(`${this.baseUrlReporte}alltipooperacion`, httpOptions)
+      .pipe(
+        map((response) => {
+
+          if (response) {
+            return response;
+          } else {
+            throw new Error('Respuesta inesperada del servidor');
+          }
+
+        }),
+        catchError((error) => {
+          console.error('Error en la solicitud:', error);
+          return throwError('Ha ocurrido un error en la solicitud.');
+        })
+      );
+  }
+
+
+  // /api/obras/backoffice/repodiario/v1/allrecargoshora
+
+  getAllrecargoshora(): Observable<any> {
+    return this.http.get(`${this.baseUrlReporte}allrecargoshora`, httpOptions)
+      .pipe(
+        map((response) => {
+
+          if (response) {
+            return response;
+          } else {
+            throw new Error('Respuesta inesperada del servidor');
+          }
+
+        }),
+        catchError((error) => {
+          console.error('Error en la solicitud:', error);
+          return throwError('Ha ocurrido un error en la solicitud.');
+        })
+      );
+  }
+
+
+
+
+  // /api/obras/backoffice/repodiario/v1/alltipoactividad			
+  getAlltipoactividad(): Observable<any> {
+    return this.http.get(`${this.baseUrlReporte}alltipoactividad`, httpOptions)
+      .pipe(
+        map((response) => {
+
+          if (response) {
+            return response;
+          } else {
+            throw new Error('Respuesta inesperada del servidor');
+          }
+
+        }),
+        catchError((error) => {
+          console.error('Error en la solicitud:', error);
+          return throwError('Ha ocurrido un error en la solicitud.');
+        })
+      );
+  }
+
+  // /api/obras/backoffice/repodiario/v1/allmaestroactividad	
+  getAllmaestroactividad(): Observable<any> {
+    return this.http.get(`${this.baseUrlReporte}allmaestroactividad`, httpOptions)
+      .pipe(
+        map((response) => {
+
+          if (response) {
+            return response;
+          } else {
+            throw new Error('Respuesta inesperada del servidor');
+          }
+
+        }),
+        catchError((error) => {
+          console.error('Error en la solicitud:', error);
+          return throwError('Ha ocurrido un error en la solicitud.');
+        })
+      );
+  }
+
+
+  // /api/obras/backoffice/repodiario/v1/alljefesfaena
+  getAlljefesfaena(): Observable<any> {
+    return this.http.get(`${this.baseUrlReporte}alljefesfaena`, httpOptions)
+      .pipe(
+        map((response) => {
+
+          if (response) {
+            return response;
+          } else {
+            throw new Error('Respuesta inesperada del servidor');
+          }
+
+        }),
+        catchError((error) => {
+          console.error('Error en la solicitud:', error);
+          return throwError('Ha ocurrido un error en la solicitud.');
+        })
+      );
+  }
+
+
+  // /api/obras/backoffice/repodiario/v1/allareas
+
+  getAllareas(): Observable<any> {
+    return this.http.get(`${this.baseUrlReporte}allareas`, httpOptions)
+      .pipe(
+        map((response) => {
+
+          if (response) {
+            return response;
+          } else {
+            throw new Error('Respuesta inesperada del servidor');
+          }
+
+        }),
+        catchError((error) => {
+          console.error('Error en la solicitud:', error);
+          return throwError('Ha ocurrido un error en la solicitud.');
+        })
+      );
+  }
+
+
+
+
+  // /api/obras/backoffice/repodiario/v1/creareportediario
+  guardarReporteDiario(reporte_diario: ReporteDiario): Observable<ReporteDiario> {
+
+    console.log("guardar =>", reporte_diario );
+
+    return this.http.post<ReporteDiario>(`${this.baseUrlReporte}creareportediario`, reporte_diario, httpOptions).pipe(
+      map((response) => {
+        return response;
+      })
+    );
+
+  }
+
+  
+    // /api/obras/backoffice/repodiario/v1/actualizareportediario/{id} 
+    ActualizarReporteDiario(reporte_diario: ReporteDiario): Observable<ReporteDiario> {
+      
+      console.log("ActualizarReporteDiario =>", reporte_diario );
+
+      return this.http.put<ReporteDiario>(`${this.baseUrlReporte}actualizareportediario/${reporte_diario.id}`, reporte_diario, httpOptions).pipe(
+        map((response) => {
+          return response;
+        })
+      );
+  
+    }
+
+
+
+
+  /*TODO POR AQUI ES DE OBRAS ESTO QUEDA AQUI DE EJEMPLO*/
 
   createObra(newObra: Obra): Observable<any[]> {
 
@@ -34,12 +238,12 @@ export class ObrasService {
       numero_ot: newObra.numero_ot,
       nombre_obra: newObra.nombre_obra,
       zona: newObra.zona.id,
-      delegacion: newObra.delegacion.id, 
+      delegacion: newObra.delegacion.id,
       gestor_cliente: newObra.gestor_cliente,
-      numero_aviso:   newObra.numero_aviso,
+      numero_aviso: newObra.numero_aviso,
       numero_oc: newObra.numero_oc,
       monto: newObra.monto,
-      cantidad_uc:  newObra.cantidad_uc,  
+      cantidad_uc: newObra.cantidad_uc,
       fecha_llegada: newObra.fecha_llegada,
       fecha_inicio: newObra.fecha_inicio,
       fecha_termino: newObra.fecha_termino,
@@ -52,16 +256,13 @@ export class ObrasService {
       ubicacion: newObra.ubicacion,
       estado: newObra.estado.id,
       tipo_obra: newObra.tipo_obra.id,
-      segmento: newObra.segmento.id,
-      jefe_delegacion: newObra.jefe_delegacion,
-      oficina: newObra.oficina,
-      recargo_distancia: newObra.recargo_distancia
+      segmento: newObra.segmento.id
     };
 
 
-    console.log("data enviada",data);
+    console.log("data enviada", data);
 
-    return this.http.post<any[]>(`${this.baseUrlObras}creaobra`, data, httpOptions).pipe(
+    return this.http.post<any[]>(`${this.baseUrl}creaobra`, data, httpOptions).pipe(
       map((response) => {
 
         if (response) {
@@ -88,12 +289,12 @@ export class ObrasService {
       numero_ot: Obra.numero_ot,
       nombre_obra: Obra.nombre_obra,
       zona: Obra.zona.id,
-      delegacion: Obra.delegacion.id, 
+      delegacion: Obra.delegacion.id,
       gestor_cliente: Obra.gestor_cliente,
-      numero_aviso:   Obra.numero_aviso,
+      numero_aviso: Obra.numero_aviso,
       numero_oc: Obra.numero_oc,
       monto: Obra.monto,
-      cantidad_uc:  Obra.cantidad_uc,  
+      cantidad_uc: Obra.cantidad_uc,
       fecha_llegada: Obra.fecha_llegada,
       fecha_inicio: Obra.fecha_inicio,
       fecha_termino: Obra.fecha_termino,
@@ -106,13 +307,10 @@ export class ObrasService {
       ubicacion: Obra.ubicacion,
       estado: Obra.estado.id,
       tipo_obra: Obra.tipo_obra.id,
-      segmento: Obra.segmento.id,
-      jefe_delegacion: Obra.jefe_delegacion,
-      oficina: Obra.oficina,
-      recargo_distancia: Obra.recargo_distancia
+      segmento: Obra.segmento.id
     };
 
-    return this.http.put<any[]>(`${this.baseUrlObras}actualizaobra/${Obra.id}`, data, httpOptions).pipe(
+    return this.http.put<any[]>(`${this.baseUrl}actualizaobra/${Obra.id}`, data, httpOptions).pipe(
       map((response) => {
 
         if (response) {
@@ -135,9 +333,9 @@ export class ObrasService {
 
   deleleObra(Obra: Obra): Observable<any[]> {
 
-    return this.http.delete<any[]>(`${this.baseUrlObras}eliminaobra/${Obra.id}`, httpOptions).pipe(
+    return this.http.delete<any[]>(`${this.baseUrl}eliminaobra/${Obra.id}`, httpOptions).pipe(
       map((response) => {
- 
+
         if (response) {
           return response;
         } else {
@@ -158,7 +356,7 @@ export class ObrasService {
 
 
   getAllObras(): Observable<any> {
-    return this.http.get(`${this.baseUrlObras}allobras`, httpOptions)
+    return this.http.get(`${this.baseUrl}allobras`, httpOptions)
       .pipe(
         map((response) => {
 
@@ -175,56 +373,6 @@ export class ObrasService {
         })
       );
   }
-
-
-
-  // /api/obras/backoffice/general/v1/alloficinasupervisor
-  getAlloficinasupervisor(): Observable<any> {
-    return this.http.get(`${this.baseUrl}alloficinasupervisor`, httpOptions)
-      .pipe(
-        map((response) => {
-
-          if (response) {
-            return response;
-          } else {
-            throw new Error('Respuesta inesperada del servidor');
-          }
-
-        }),
-        catchError((error) => {
-          console.error('Error en la solicitud:', error);
-          return throwError('Ha ocurrido un error en la solicitud.');
-        })
-      );
-  }
-
- 
-  //  /api/obras/backoffice/general/v1/allrecargospordistancia
-  getAllrecargospordistancia(): Observable<any> {
-    return this.http.get(`${this.baseUrl}allrecargospordistancia`, httpOptions)
-      .pipe(
-        map((response) => {
-
-          if (response) {
-            return response;
-          } else {
-            throw new Error('Respuesta inesperada del servidor');
-          }
-
-        }),
-        catchError((error) => {
-          console.error('Error en la solicitud:', error);
-          return throwError('Ha ocurrido un error en la solicitud.');
-        })
-      );
-  }
-
-    
-
-        
-
-
-
 
 
 
@@ -408,6 +556,11 @@ export class ObrasService {
         })
       );
   }
+
+
+
+
+
 
 
 }

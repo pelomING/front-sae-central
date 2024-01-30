@@ -1,0 +1,109 @@
+<p-card header="Historico Estado de Pago por la Obra ID : {{obra?.codigo_obra}} ">
+
+    <div class="card">  
+        <p-toast></p-toast>
+
+
+        <p-toolbar styleClass="mb-4 gap-2">
+
+            <ng-template pTemplate="left">
+
+                <button pButton pRipple (click)="goBack()" label="Volver" icon="pi pi-arrow-left"
+                    class="p-button-danger mr-2"></button>
+
+            </ng-template>
+
+            <ng-template pTemplate="right">
+
+                <button pButton pRipple label="Crear Estado de Pago" icon="pi pi-plus" class="p-button-success mr-2"
+                    (click)="openNewEstadodePago(obra)"></button>
+
+            </ng-template>
+        </p-toolbar>
+
+
+
+        <p-table #dt [value]="listaestadospago" [columns]="cols" [rows]="10" [paginator]="true"
+        [globalFilterFields]="['id', 'id_obra', 'fecha_reporte', 'jefe_faena','sdi']"
+        [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [showCurrentPageReport]="true">
+
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h4 class="m-0">Listado de Informes</h4>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                        placeholder="Search..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="id" style="min-width:10rem">
+                    id_obra
+                    <p-sortIcon field="id"></p-sortIcon>
+                </th>
+
+                <th pSortableColumn="codigo_obra" style="min-width:10rem">
+                    cliente
+                    <p-sortIcon field="codigo_obra"></p-sortIcon>
+                </th>
+
+                <th pSortableColumn="fecha_reporte">
+                    fecha_asignacion
+                    <p-sortIcon field="fecha_reporte"></p-sortIcon>
+                </th>
+
+                <th pSortableColumn="jefe_faena" style="min-width:10rem">
+                    tipo_trabajo
+                    <p-sortIcon field="jefe_faena"></p-sortIcon>
+                </th>
+
+                <th pSortableColumn="sdi" style="min-width:10rem">
+                    segmento
+                    <p-sortIcon field="sdi"></p-sortIcon>
+                </th>
+
+                <th pSortableColumn="sdi" style="min-width:10rem">
+                    solicitado_por
+                    <p-sortIcon field="sdi"></p-sortIcon>
+                </th>
+
+                <th pSortableColumn="sdi" style="min-width:10rem">
+                    supervisor_pelom
+                    <p-sortIcon field="sdi"></p-sortIcon>
+                </th>
+
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-estadopago>
+            <tr>
+                <td>{{ estadopago.id_obra }}</td>
+                <td>{{ estadopago.cliente.nombre }}</td>
+                <td>{{ estadopago.fecha_asignacion }}</td>
+                <td>{{ estadopago.tipo_trabajo.descripcion }}</td>
+                <td>{{ estadopago.segmeto.nombre }}</td>
+                <td>{{ estadopago.solicitado_por }}</td>
+                <td>{{ estadopago.supervisor_pelom.supervisor }}</td>
+                
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                        (click)="openEditReporteDiario(estadopago)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                        (click)="onEliminarClick(estadopago)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">In total there are {{ listaReportesDiarios
+                ?
+                listaReportesDiarios.length : 0 }}
+                Reportes Diarios.</div>
+        </ng-template>
+    </p-table>
+
+    </div>
+</p-card>

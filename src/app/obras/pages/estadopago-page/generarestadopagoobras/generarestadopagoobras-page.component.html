@@ -1,0 +1,385 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+
+            <p-toast></p-toast>
+
+            <p-toolbar styleClass="mb-4 gap-2">
+                <ng-template pTemplate="left">
+
+                    <button pButton pRipple (click)="goBack()" label="Volver" icon="pi pi-arrow-left"
+                        class="p-button-danger mr-2"></button>
+
+                    <button pButton pRipple label="Crear Estado de Pago" icon="pi pi-save"
+                        class="p-button-primary mr-2" (click)="onCrearEstadoPago(NUEVOENCABEZADO)" ></button>
+
+                </ng-template>
+
+                <ng-template pTemplate="right">
+
+                    <!-- Importa la directiva ngxPrint en tu componente -->
+                    <!-- printTitle="Estado de Pago Servicio Atención Emergencias" -->
+                    <!-- <div ngxPrint [printStyleFile]="'assets/print-style.css'" > -->
+                    <!-- Contenido de la página que quieres imprimir -->
+                    <!-- <button pButton icon="pi pi-print"  printSectionId="pdfContainer" (click)="print()">Imprimir</button> -->
+                    <!-- </div> -->
+
+                    <button download="ESTADO_DE_PAGO_OBRAS.pdf" printTitle="Estado de Pago"
+                        styleSheetFile="assets/pdf_estado_pago_obras.css" printSectionId="pdfContainer" ngxPrint pButton pRipple
+                        label="Generar PDF" icon="pi pi-file-pdf" class="p-button-help">
+                    </button>
+
+                    <!-- <button  (click)="print()"  pButton pRipple label="Generar PDF" icon="pi pi-search" class="p-button-help"></button> -->
+
+                </ng-template>
+            </p-toolbar>
+
+
+            <div class="card">
+                <div class="grid">
+
+                    <div class="col-fixed" style="width:5%">
+                        <div class="box">
+
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="box">
+
+                            <!-- text-xs font-normal -->
+
+                            <div id="pdfContainer" class="card">
+
+                                <div class="grid grid1">
+                                    <div class="col col1 logo-col">
+                                        <img src="assets/layout/images/logo_pelom_new.png">
+                                    </div>
+                                    <div class="col col1 date-col">
+                                        {{ obtenerFechaActualConDiaYCiudad() }}
+                                    </div>
+                                </div>
+
+
+                                <div class="titu1">
+                                    <h5 style="text-align:center;color:black;">
+                                        E.D.P. - OBRAS DE MANTENIMIENTO Y CONSTRUCCIÓN : {{obra?.codigo_obra}}
+                                    </h5>
+                                </div>
+
+                                <hr>
+                                <br>
+
+                                <div class="grid">
+
+                                    <div class="col-fixed" style="width:55px">
+                                    </div>
+
+                                        <div class="col">
+                                        
+                                            <table class="tabla_cabecera">
+                                            <tr>
+                                            <td>
+
+                                                <table class="tabla_cabecera" style="font-size:9px;" >
+                                                    <tr>
+                                                        <td style="width:30%;" ><strong>Cliente:</strong></td>
+                                                        <td *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{ NUEVOENCABEZADO[0]?.cliente?.nombre }}</td>
+                                                        <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fecha de Asignación:</strong></td>
+                                                        <td >{{ NUEVOENCABEZADO[0]?.fecha_asignacion }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Tipo de trabajo:</strong></td>
+                                                        <td>{{ NUEVOENCABEZADO[0]?.tipo_trabajo?.descripcion }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Segmento:</strong></td>
+                                                        <td>{{ NUEVOENCABEZADO[0]?.segmento?.nombre }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Solicitado por:</strong></td>
+                                                        <td>{{ NUEVOENCABEZADO[0]?.solicitado_por }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>OT / SDI:</strong></td>
+                                                        <td>{{ NUEVOENCABEZADO[0]?.ot }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Supervisor pelom Ing.:</strong></td>
+                                                        <td>{{ NUEVOENCABEZADO[0]?.supervisor_pelom?.supervisor }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Cordinador:</strong></td>
+                                                        <td>{{ NUEVOENCABEZADO[0]?.coordinador?.nombre }}</td>
+                                                    </tr>
+                                                </table>
+
+                                            </td>
+                                            
+                                            <td>
+
+                                                <table class="tabla_cabecera" style="font-size:9px;" >
+                                                    <tr>
+                                                    <td style="width:30%;" ><strong>Comuna:</strong></td>
+                                                    <td>{{ NUEVOENCABEZADO[0]?.comuna?.nombre }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <td><strong>Dirección:</strong></td>
+                                                    <td>{{ NUEVOENCABEZADO[0]?.direccion }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <td><strong>N° de Flexiapp:</strong></td>
+                                                    <td>{{ NUEVOENCABEZADO[0]?.flexiapp }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <td><strong>Fecha ejecución:</strong></td>
+                                                    <td>{{ NUEVOENCABEZADO[0]?.fecha_ejecucion }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <td><strong>Jefe de delegación:</strong></td>
+                                                    <td>{{ NUEVOENCABEZADO[0]?.jefe_delegacion }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <td><strong>Jefe de Faena:</strong></td>
+                                                    <td>{{ NUEVOENCABEZADO[0]?.jefe_faena?.nombre }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <td><strong>Codigo Pelom Ing.:</strong></td>
+                                                    <td>{{ NUEVOENCABEZADO[0]?.codigo_pelom }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <td><strong>Nombre de Obra:</strong></td>
+                                                    <td>{{ NUEVOENCABEZADO[0]?.nombre_obra }}</td>
+                                                    </tr>
+                                                </table>
+
+                                            </td>
+                                            </tr>
+                                            </table>
+    
+                                        </div>
+
+                                    <div class="col-fixed" style="width:5%">
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <br>
+
+                                <div class="grid">
+                                    <div class="col-fixed" style="width:1%">
+                                    </div>
+                                    <div class="col">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Clase</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Tipo</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;width:25%;">Actividad</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Unidad</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Cantidad</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Unitario</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Total</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Unitario</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Recargos</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <ng-container *ngIf="LISTA_ACTIVIDADES && LISTA_ACTIVIDADES.length > 0; else sinRegistros_0">
+                                                    <tr *ngFor="let item of LISTA_ACTIVIDADES">
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.clase }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.tipo }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.actividad }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.unidad }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.cantidad }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.unitario }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">
+                                                            {{ (item.total !== null ? item.total : '0') | currency:'CLP':'$':'1.0-0' | commaToDot }}
+                                                        </td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.unitario_pesos }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.recargos }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">
+                                                            {{ (item.total_pesos !== null ? item.total_pesos : '0') | currency:'CLP':'$':'1.0-0' | commaToDot }}
+                                                        </td>
+                                                    </tr>
+                                                </ng-container>
+                                                <ng-template #sinRegistros_0>
+                                                    <tr>
+                                                        <td colspan="10" style="text-align: center;">Sin registros</td>
+                                                    </tr>
+                                                </ng-template>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="9" style="padding-right:2%;font-size:9px;" > <strong> SUB TOTAL </strong></td>
+                                                    <td style="padding-right:2%;font-size:9px;text-align:center;" > 100000 </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="col-fixed" style="width:1%">
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <br>
+
+                                <div class="grid">
+                                    <div class="col-fixed" style="width:1%">
+                                    </div>
+                                    <div class="col">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Clase</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Tipo</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;width:25%;"> Actividad Adicional</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Unidad</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Cantidad</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Unitario</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Total</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Unitario</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Recargos</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <ng-container *ngIf="LISTA_ACTIVIDADES_ADICIONALES && LISTA_ACTIVIDADES_ADICIONALES.length > 0; else sinRegistros_1">
+                                                    <tr *ngFor="let item of LISTA_ACTIVIDADES_ADICIONALES">
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.clase }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.tipo }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.actividad }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.unidad }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.cantidad }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.unitario }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">
+                                                            {{ (item.total !== null ? item.total : '0') | currency:'CLP':'$':'1.0-0' | commaToDot }}
+                                                        </td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.unitario_pesos }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.recargos }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">
+                                                            {{ (item.total_pesos !== null ? item.total_pesos : '0') | currency:'CLP':'$':'1.0-0' | commaToDot }}
+                                                        </td>
+                                                    </tr>
+                                                </ng-container>
+                                                <ng-template #sinRegistros_1>
+                                                    <tr>
+                                                        <td colspan="10" style="text-align: center;">Sin registros</td>
+                                                    </tr>
+                                                </ng-template>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="9" style="padding-right:2%;font-size:9px;" > <strong> SUB TOTAL </strong></td>
+                                                    <td style="padding-right:2%;font-size:9px;text-align:center;" > 100000 </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="col-fixed" style="width:1%">
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <br>
+
+                                <div class="grid">
+                                    <div class="col-fixed" style="width:1%">
+                                    </div>
+                                    <div class="col">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Clase</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Tipo</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;width:25%;">Actividades en horarios extraordinarios</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Unidad</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Cantidad</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Unitario</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Total</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Unitario</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Recargos</th>
+                                                    <th style="text-align:center;font-size:9px;padding:0%;">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <ng-container *ngIf="LISTA_ACTIVIDADES_CONHORASEXTRA && LISTA_ACTIVIDADES_CONHORASEXTRA.length > 0; else sinRegistros_2">
+                                                    <tr *ngFor="let item of LISTA_ACTIVIDADES_CONHORASEXTRA">
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.clase }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.tipo }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.actividad }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.unidad }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.cantidad }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.unitario }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">
+                                                            {{ (item.total !== null ? item.total : '0') | currency:'CLP':'$':'1.0-0' | commaToDot }}
+                                                        </td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.unitario_pesos }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">{{ item.recargos }}</td>
+                                                        <td style="text-align:center;font-size:9px;padding:0%;">
+                                                            {{ (item.total_pesos !== null ? item.total_pesos : '0') | currency:'CLP':'$':'1.0-0' | commaToDot }}
+                                                        </td>
+                                                    </tr>
+                                                </ng-container>
+                                                <ng-template #sinRegistros_2>
+                                                    <tr>
+                                                        <td colspan="10" style="text-align: center;">Sin registros</td>
+                                                    </tr>
+                                                </ng-template>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="9" style="padding-right:2%;font-size:9px;" > <strong> SUB TOTAL </strong></td>
+                                                    <td style="padding-right:2%;font-size:9px;text-align:center;" > 100000 </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="col-fixed" style="width:1%">
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <br>
+
+                                <!-- Al final del contenido del informe -->
+                                <div class="footer">
+                                    <div class="grid" style="text-align:center;font-size:9px;padding:0%;" >
+                                        <div class="col">
+                                            <p>Nombre: _______________________</p>
+                                            <p>R.U.N: _______________________</p>
+                                            <p>Firma: _______________________</p>
+                                        </div>
+                                        <div class="col">
+                                            <p>Nombre: _______________________</p>
+                                            <p>R.U.N: _______________________</p>
+                                            <p>Firma: _______________________</p>
+                                        </div>
+                                        <div class="col">
+                                            <p>Nombre: _______________________</p>
+                                            <p>R.U.N: _______________________</p>
+                                            <p>Firma: _______________________</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-fixed" style="width:5%">
+                        <div class="box">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+</div>

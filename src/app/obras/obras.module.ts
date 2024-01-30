@@ -1,6 +1,8 @@
 
 import { NgModule } from '@angular/core';
 import { PrimeNGModule } from '../_primeng/primeng.module';
+import { NgxPrintModule } from 'ngx-print';
+
 
 import { ObrasRoutingModule } from './obras-routing.module';
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
@@ -23,6 +25,8 @@ import { AgendaObraPageComponent } from './pages/agenda-page/agenda-obra/agenda-
 
 /* Reporte Diario */
 import { ReportediarioPageComponent } from './pages/reportediario-page/reportediario-page.component';
+import { ReportediarioporobraPageComponent } from './pages/reportediario-page/reportediarioporobra/reportediarioporobra-page.component';
+
 
 /* Informe Materiales Faltantes*/ 
 import { MaterialesfaltantesPageComponent } from './pages/materialesfaltantes-page/materialesfaltantes-page.component';
@@ -32,10 +36,14 @@ import { CuadraturamaterialesPageComponent } from './pages/cuadraturamateriales-
  
 /* Estado Pago */
 import { EstadopagoPageComponent } from './pages/estadopago-page/estadopago-page.component';
+import { HistoricoEstadoPagoPageComponent } from './pages/estadopago-page/historicoestadopagoobras/historicoestadopago-page.component';
+
 
 /* Estado Obra */
 import { EstadoobraPageComponent } from './pages/estadoobra-page/estadoobra-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { GenerarEstadoPagoObrasPageComponent } from './pages/estadopago-page/generarestadopagoobras/generarestadopagoobras-page.component';
+import { CommaToDotPipe } from './pipes/comma-to-dot.pipe';
 
 
 @NgModule({
@@ -47,17 +55,22 @@ import { ReactiveFormsModule } from '@angular/forms';
     AgendasPageComponent,
     AgendaObraPageComponent,
     ReportediarioPageComponent,
+    ReportediarioporobraPageComponent,
     MaterialesfaltantesPageComponent,
     CuadraturamaterialesPageComponent,
     EstadopagoPageComponent,
-    EstadoobraPageComponent
+    HistoricoEstadoPagoPageComponent,
+    GenerarEstadoPagoObrasPageComponent,
+    EstadoobraPageComponent,
+    CommaToDotPipe
   ],
   imports: [
     PrimeNGModule,
     ObrasRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPrintModule
   ],
-  providers: [ ProductService]
+  providers: [ProductService]
 })
 
 export class ObrasModule { }

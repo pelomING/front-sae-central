@@ -24,6 +24,7 @@ export class AuthService {
 
   constructor(private http: HttpClient,private storageService: StorageService,private configService: ConfigService) {
 
+    console.log("environment.baseUrl",environment.baseUrl)
     this.baseUrl = this.configService.baseUrl;
 
   }
@@ -45,6 +46,8 @@ export class AuthService {
       //       return user;
       //   })
       // );
+
+      //
 
       return this.http.post<any>(`${this.baseUrl}/api/auth/signin`, data, httpOptions).pipe(
         map((user) => {
@@ -94,6 +97,7 @@ export class AuthService {
   }
 
 
+
   checkAuthentication(): Observable<boolean> {
 
     if (!this.storageService.isLoggedIn()) return of(false);
@@ -106,6 +110,7 @@ export class AuthService {
       );
 
   }
+
 
   logout(): Observable<any> {
     return this.http.post(`${this.baseUrl}/api/auth/signout`, {}, httpOptions);
