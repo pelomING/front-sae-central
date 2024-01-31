@@ -175,6 +175,49 @@ export class EstadoPagoObrasService {
     }
 
 
+    // /api/obras/backoffice/estadopago/v1/avancesestadopago
+    getAvancesestadopago(IDOBRA:number): Observable<any> {
+        
+        return this.http.get(`${this.baseUrl}avancesestadopago?id_obra=${IDOBRA}`, httpOptions)
+            .pipe(
+                map((response) => {
+
+                    if (response) {
+                        return response;
+                    } else {
+                        throw new Error('Respuesta inesperada del servidor');
+                    }
+
+                }),
+                catchError((error) => {
+                    console.error('Error en la solicitud:', error);
+                    return throwError('Ha ocurrido un error en la solicitud.');
+                })
+            );
+    }
+
+
+
+    // /api/obras/backoffice/estadopago/v1/totalesestadopago
+    getTotalesestadopago(IDOBRA:number): Observable<any> {
+
+        return this.http.get(`${this.baseUrl}totalesestadopago?id_obra=${IDOBRA}`, httpOptions)
+            .pipe(
+                map((response) => {
+
+                    if (response) {
+                        return response;
+                    } else {
+                        throw new Error('Respuesta inesperada del servidor');
+                    }
+
+                }),
+                catchError((error) => {
+                    console.error('Error en la solicitud:', error);
+                    return throwError('Ha ocurrido un error en la solicitud.');
+                })
+            );
+    }
 
 
 }

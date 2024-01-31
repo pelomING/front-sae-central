@@ -48,6 +48,8 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
     LISTA_ACTIVIDADES_CONHORASEXTRA: [];
     NUEVOENCABEZADO: any[];
 
+    AVANCESESTADOPAGO: any[];
+    TOTALESESTADOPAGO: any;
 
 
     constructor(private productService: ProductService,
@@ -154,6 +156,33 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
                 console.error('Error al obtener listado de reportes diarios:', error);
             }
         );
+
+
+        this.estadoPagoObrasService.getAvancesestadopago(this.obra.id).subscribe(
+            (respuesta: any) => {
+
+                this.AVANCESESTADOPAGO = respuesta;
+                console.log("this.AVANCESESTADOPAGO",this.AVANCESESTADOPAGO);
+            },
+            (error) => {
+                console.error('Error al obtener listado de reportes diarios:', error);
+            }
+        );
+
+
+        this.estadoPagoObrasService.getTotalesestadopago(this.obra.id).subscribe(
+            (respuesta: any) => {
+
+                this.TOTALESESTADOPAGO = respuesta;
+                console.log("this.TOTALESESTADOPAGO",this.TOTALESESTADOPAGO);
+            },
+            (error) => {
+                console.error('Error al obtener listado de reportes diarios:', error);
+            }
+        );
+
+
+
 
         this.cargarListadoReportesDiarios();
 
