@@ -257,6 +257,18 @@
                                             <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.nombre_obra }}</td>
                                             <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
+
+                                        <tr>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;">
+                                                <strong>Recargo de la Obra:</strong>
+                                            </td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;"
+                                                *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{
+                                                NUEVOENCABEZADO[0]?.recargo_nombre }}</td>
+                                            <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato
+                                            </td>
+                                        </tr>
+                                        
                                     </table>
 
                                 </div>

@@ -238,7 +238,18 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
     }
 
 
-    onCrearEstadoPago(NUEVOENCABEZADO: any) {
+    DialogConfirmarCrearEstadoPago: boolean = false;
+
+
+    onCrearEstadoPago(){
+
+        this.DialogConfirmarCrearEstadoPago = true;
+
+    }
+
+
+
+    Confirma_CrearEstadoPago(NUEVOENCABEZADO: any) {
 
         console.log("this.NUEVOENCABEZADO", NUEVOENCABEZADO);
 
@@ -248,6 +259,12 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
                 // Manejar la respuesta exitosa
                 console.log('éxito:', response);
                 this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
+                this.DialogConfirmarCrearEstadoPago = true;
+
+                // Recargar la página después de un breve retraso (3000 milisegundos en este ejemplo)
+                setTimeout(() => {
+                    this.router.navigate(['/'], { replaceUrl: true });  // Cambia '/'' por la ruta que desees
+                }, 3000);              
             
             },
             (error) => {
