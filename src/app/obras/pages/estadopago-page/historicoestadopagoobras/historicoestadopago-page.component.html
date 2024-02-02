@@ -116,7 +116,7 @@
 
             <button download="ESTADO_DE_PAGO_SERVICIO_DE_ATENCIÓN_DE_EMERGENCIAS.pdf" 
                 printTitle="Estado de Pago" 
-                styleSheetFile="assets/pdf.css" 
+                styleSheetFile="assets/pdf_estado_pago_obras.css" 
                 printSectionId="pdfContainer"
                 ngxPrint pButton pRipple 
                 label="Generar PDF" 
@@ -172,43 +172,43 @@
                                     <table class="table3" border="1" >
                                         <tr>
                                             <td style="text-align:left;font-size:9px;padding-left:0.5%;width:30%;" ><strong>Cliente:</strong></td>
-                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{ NUEVOENCABEZADO[0]?.cliente?.nombre }}</td>
-                                            <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato</td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.cliente?.nombre }}</td>
+                                            <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align:left;font-size:9px;padding-left:0.5%;" ><strong>Fecha de Asignación:</strong></td>
-                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{ NUEVOENCABEZADO[0]?.fecha_asignacion }}</td>
-                                            <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato</td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.fecha_asignacion }}</td>
+                                            <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align:left;font-size:9px;padding-left:0.5%;" ><strong>Tipo de trabajo:</strong></td>
-                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{ NUEVOENCABEZADO[0]?.tipo_trabajo?.descripcion }}</td>
-                                            <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato</td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.tipo_trabajo?.descripcion }}</td>
+                                            <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align:left;font-size:9px;padding-left:0.5%;" ><strong>Segmento:</strong></td>
-                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{ NUEVOENCABEZADO[0]?.segmento?.nombre }}</td>
-                                            <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato</td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.segmento?.nombre }}</td>
+                                            <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align:left;font-size:9px;padding-left:0.5%;" ><strong>Solicitado por:</strong></td>
-                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{ NUEVOENCABEZADO[0]?.solicitado_por }}</td>
-                                            <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato</td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.solicitado_por }}</td>
+                                            <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align:left;font-size:9px;padding-left:0.5%;" ><strong>OT / SDI:</strong></td>
-                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{ NUEVOENCABEZADO[0]?.ot }}</td>
-                                            <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato</td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.ot }}</td>
+                                            <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align:left;font-size:9px;padding-left:0.5%;" ><strong>Supervisor pelom Ing.:</strong></td>
-                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{ NUEVOENCABEZADO[0]?.supervisor_pelom?.supervisor }}</td>
-                                            <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato</td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.supervisor_pelom?.supervisor }}</td>
+                                            <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align:left;font-size:9px;padding-left:0.5%;" ><strong>Cordinador:</strong></td>
-                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{ NUEVOENCABEZADO[0]?.coordinador?.nombre }}</td>
-                                            <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato</td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.coordinador?.nombre }}</td>
+                                            <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
                                     </table>
 
@@ -219,43 +219,43 @@
                                     <table class="table3" border="1" >
                                         <tr>
                                             <td style="text-align:left;font-size:9px;padding-left:0.5%;width:30%;" ><strong>Comuna:</strong></td>
-                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{ NUEVOENCABEZADO[0]?.comuna?.nombre }}</td>
-                                            <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato</td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.comuna?.nombre }}</td>
+                                            <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align:left;font-size:9px;padding-left:0.5%;" ><strong>Dirección:</strong></td>
-                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{ NUEVOENCABEZADO[0]?.direccion }}</td>
-                                            <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato</td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.direccion }}</td>
+                                            <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align:left;font-size:9px;padding-left:0.5%;" ><strong>N° de Flexiapp:</strong></td>
-                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{ NUEVOENCABEZADO[0]?.flexiapp }}</td>
-                                            <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato</td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.flexiapp }}</td>
+                                            <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align:left;font-size:9px;padding-left:0.5%;" ><strong>Fecha ejecución:</strong></td>
-                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{ NUEVOENCABEZADO[0]?.fecha_ejecucion }}</td>
-                                            <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato</td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.fecha_ejecucion }}</td>
+                                            <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align:left;font-size:9px;padding-left:0.5%;" ><strong>Jefe de delegación:</strong></td>
-                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{ NUEVOENCABEZADO[0]?.jefe_delegacion }}</td>
-                                            <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato</td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.jefe_delegacion }}</td>
+                                            <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align:left;font-size:9px;padding-left:0.5%;" ><strong>Jefe de Faena:</strong></td>
-                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{ NUEVOENCABEZADO[0]?.jefe_faena?.nombre }}</td>
-                                            <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato</td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.jefe_faena?.nombre }}</td>
+                                            <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align:left;font-size:9px;padding-left:0.5%;" ><strong>Codigo Pelom Ing.:</strong></td>
-                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{ NUEVOENCABEZADO[0]?.codigo_pelom }}</td>
-                                            <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato</td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.codigo_pelom }}</td>
+                                            <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align:left;font-size:9px;padding-left:0.5%;" ><strong>Nombre de Obra:</strong></td>
-                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{ NUEVOENCABEZADO[0]?.nombre_obra }}</td>
-                                            <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato</td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.nombre_obra }}</td>
+                                            <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
                                     </table>
 
@@ -490,8 +490,9 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <td colspan="2" style="padding-right:1%;font-size:9px;" ><strong>Total</strong></td>
-                                                <td style="font-size:9px;padding-right:10%;" >{{ ('100000') | currency:'CLP':'$':'1.0-0' | commaToDot }} </td>
+                                               <td colspan="2" style="padding-right:1%;font-size:9px;" ><strong>Total</strong></td>
+                                               <td style="font-size:9px;padding-right:10%;"  *ngIf="TOTALESESTADOPAGO" > {{ (TOTALESESTADOPAGO?.descuentoAvance !== null ? TOTALESESTADOPAGO?.descuentoAvance : '0') | currency:'CLP':'$':'1.0-0' | commaToDot }} </td>
+                                               <td *ngIf="!(TOTALESESTADOPAGO)">sin dato</td>
                                             </tr>
                                         </tfoot>
                                     </table>

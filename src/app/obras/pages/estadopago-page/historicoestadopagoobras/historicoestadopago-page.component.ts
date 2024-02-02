@@ -128,10 +128,11 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
 
 
 
+    NUEVOENCABEZADO: any;
     LISTA_ACTIVIDADES: [];
     LISTA_ACTIVIDADES_ADICIONALES: [];
     LISTA_ACTIVIDADES_CONHORASEXTRA: [];
-    NUEVOENCABEZADO: any[];
+
     AVANCESESTADOPAGO: any[];
     TOTALESESTADOPAGO: any;
 
@@ -155,18 +156,20 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
         this.estadoPagoObrasService.getHistoricoestadopagoporid(this.IDESTADOPAGO).subscribe({
             next: (data) => {
       
-                console.log("Historicoestadopagoporid", data[0]);
+                console.log("Historicoestadopagoporid", data);
 
-                this.LISTA_ACTIVIDADES = data[0].actividades_por_obra;
+                this.NUEVOENCABEZADO = data.encabezado;
+
+                this.LISTA_ACTIVIDADES = data.actividades_por_obra;
                 
-                this.LISTA_ACTIVIDADES_ADICIONALES = data[0].actividades_adicionales;
+                this.LISTA_ACTIVIDADES_ADICIONALES = data.actividades_adicionales;
 
-                this.LISTA_ACTIVIDADES_CONHORASEXTRA = data[0].actividades_hora_extra;
+                this.LISTA_ACTIVIDADES_CONHORASEXTRA = data.actividades_hora_extra;
 
+                this.AVANCESESTADOPAGO = data.avances;
 
-                console.log("LISTA_ACTIVIDADES", this.LISTA_ACTIVIDADES);
+                this.TOTALESESTADOPAGO = data.totales;
 
-      
             }, error: (e) => console.error(e)
           });
 
