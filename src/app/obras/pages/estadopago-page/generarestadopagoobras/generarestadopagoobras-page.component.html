@@ -171,7 +171,7 @@
                                     </div>
                                 </div>
 
-                                <hr class="custom-style">
+                                <hr>
                                 <br>
 
                                 <div class="grid">
@@ -448,7 +448,7 @@
                                             </tr>
                                             <tr>
                                                 <td style="text-align:left;font-size:9px;padding-left:10%;" ><strong>Total Neto:</strong></td>
-                                                <td style="font-size:9px;padding-right:10%;" class="aling-dinero" *ngIf="TOTALESESTADOPAGO">{{ (TOTALESESTADOPAGO?.valorNeto !== null ? TOTALESESTADOPAGO?.valorNeto : '0') | currency:'CLP':'$':'1.0-0' | commaToDot }} </td>
+                                                <td style="font-size:9px;padding-right:10%;" class="aling-dinero" *ngIf="TOTALESESTADOPAGO">{{ (TOTALESESTADOPAGO?.valorNeto !== null ? TOTALESESTADOPAGO?.totalNeto : '0') | currency:'CLP':'$':'1.0-0' | commaToDot }} </td>
                                                 <td *ngIf="!(TOTALESESTADOPAGO)">sin dato</td>
                                             </tr>
                                             <tr>
@@ -458,7 +458,7 @@
                                             </tr>
                                             <tr>
                                                 <td style="text-align:left;font-size:9px;padding-left:10%;" ><strong>Total estado de pago:</strong></td>
-                                                <td style="font-size:9px;padding-right:10%;" class="aling-dinero" *ngIf="TOTALESESTADOPAGO">{{ (TOTALESESTADOPAGO?.totalNeto !== null ? TOTALESESTADOPAGO?.totalNeto : '0') | currency:'CLP':'$':'1.0-0' | commaToDot }} </td>
+                                                <td style="font-size:9px;padding-right:10%;" class="aling-dinero" *ngIf="TOTALESESTADOPAGO">{{ (TOTALESESTADOPAGO?.totalNeto !== null ? TOTALESESTADOPAGO?.total : '0') | currency:'CLP':'$':'1.0-0' | commaToDot }} </td>
                                                 <td *ngIf="!(TOTALESESTADOPAGO)">sin dato</td>
                                             </tr>
                                         </table>
@@ -496,6 +496,8 @@
                                 </div>
 
                             </div>
+
+                            
                         </div>
                     </div>
                     <div class="col-fixed" style="width:5%">
