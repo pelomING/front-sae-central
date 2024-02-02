@@ -39,8 +39,11 @@
                     <th pSortableColumn="codigo_obra" style="min-width:10rem">Codigo <p-sortIcon
                             field="codigo_obra"></p-sortIcon></th>
                     <th pSortableColumn="numero_ot">N° OT <p-sortIcon field="numero_ot"></p-sortIcon></th>
-                    <th pSortableColumn="monto" style="min-width:10rem">Cantiadad <p-sortIcon
-                            field="monto"></p-sortIcon></th>
+                    
+                    <th pSortableColumn="monto" style="min-width:10rem">Monto <p-sortIcon field="monto"></p-sortIcon></th>
+                    <th pSortableColumn="estadopago" style="min-width:10rem">Estados de Pago<p-sortIcon field="estadopago"></p-sortIcon></th> 
+                    <th pSortableColumn="reporte" style="min-width:10rem">Reportes diarios<p-sortIcon field="reporte"></p-sortIcon></th> 
+                    
                     <th pSortableColumn="cantidad_reportes" style="min-width:10rem">N° reportes<p-sortIcon
                             field="cantidad_reportes"></p-sortIcon></th>
                     <th pSortableColumn="estado.nombre" style="min-width:10rem">Estado <p-sortIcon
@@ -55,8 +58,11 @@
                     <td>{{ obra.nombre_obra }}</td>
                     <td>{{ obra.codigo_obra }}</td>
                     <td>{{ obra.numero_ot }}</td>
-                    <td>{{ obra.monto }}</td>
-                    <td>{{ obra.cantidad_reportes }}</td>
+                   
+                    <td style="text-align: center;" >{{ obra.monto }}</td>
+                    <td style="text-align: center;" >{{ obra.cantidad_estados_pago }}</td>
+                    <td style="text-align: center;" >{{ obra.cantidad_reportes }}</td>
+
                     <td>
                         <p-tag icon="pi pi-star" [value]="obra.estado.nombre"
                             [severity]="getSeverity(obra.estado.nombre)"></p-tag>

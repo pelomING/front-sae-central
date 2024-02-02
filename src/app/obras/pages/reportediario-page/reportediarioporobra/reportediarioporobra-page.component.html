@@ -15,10 +15,10 @@
 
             <ng-template pTemplate="right">
 
-                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2"
                     (click)="openNew()"></button>
-
-                <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+ 
+                <!-- <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button> -->
 
             </ng-template>
         </p-toolbar>
@@ -312,7 +312,7 @@
                                             <p-calendar id="fecha_hora_salida_terreno"
                                                 formControlName="hora_salida_terreno" class="form-control"
                                                 dateFormat="dd-mm-yy" [showIcon]="true" [showTime]="true"></p-calendar>
-                                            <label htmlFor="fecha_hora_salida_terreno">Hora Salida a Terreno</label>
+                                            <label htmlFor="fecha_hora_salida_terreno">Hora Salida desde Terreno</label>
                                         </span>
                                     </div>
                                 </div>
