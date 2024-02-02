@@ -29,7 +29,7 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
 
 
     obras: Obra[];
-    obra: Obra; 
+    obra: Obra;
     cols: any[] = [];
     ejecutado: boolean = false;
 
@@ -38,7 +38,8 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
 
     listaestadospago: [];
 
-    
+    display = false;
+
 
     constructor(private productService: ProductService,
         private messageService: MessageService,
@@ -48,7 +49,7 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
         private estadoPagoObrasService: EstadoPagoObrasService,
         private reporteDiarioService: ReporteDiarioService,
         private obrasService: ObrasService,
-        private confirmationService: ConfirmationService) { 
+        private confirmationService: ConfirmationService) {
 
 
 
@@ -92,7 +93,6 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
 
 
     cargarListadoEstadodePago() {
-
         this.estadoPagoObrasService.getListaestadospago(this.obra.id).subscribe(
             (VisitasTerreno: any) => {
                 console.log("VisitasTerreno", VisitasTerreno);
@@ -102,7 +102,6 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
                 console.error('Error al obtener listaestadospago:', error);
             }
         );
-
     }
 
 
@@ -113,10 +112,9 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
 
 
 
-    openNewEstadodePago(obra: Obra)
-    {
+    openNewEstadodePago(obra: Obra) {
 
-        console.log("OBRA",obra)
+        console.log("OBRA", obra)
 
         const navigationExtras: NavigationExtras = {
             state: {
@@ -124,10 +122,84 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
             }
         };
 
-        this.router.navigate(['/obras/generarestadopagoobras'],navigationExtras);
+        this.router.navigate(['/obras/generarestadopagoobras'], navigationExtras);
 
     }
 
 
+
+    NUEVOENCABEZADO: any;
+    LISTA_ACTIVIDADES: [];
+    LISTA_ACTIVIDADES_ADICIONALES: [];
+    LISTA_ACTIVIDADES_CONHORASEXTRA: [];
+
+    AVANCESESTADOPAGO: any[];
+    TOTALESESTADOPAGO: any;
+
+    IDESTADOPAGO: number;
+
+
+    openReporteEstadoPago(estadopago: any) {
+
+        this.IDESTADOPAGO = estadopago.id;
+        this.display = true;  
+        
+    }
+
+    hideDialog() {
+
+    }
+
+    onDialogShow() {
+
+
+        this.estadoPagoObrasService.getHistoricoestadopagoporid(this.IDESTADOPAGO).subscribe({
+            next: (data) => {
+      
+                console.log("Historicoestadopagoporid", data);
+
+                this.NUEVOENCABEZADO = data.encabezado;
+
+                this.LISTA_ACTIVIDADES = data.actividades_por_obra;
+                
+                this.LISTA_ACTIVIDADES_ADICIONALES = data.actividades_adicionales;
+
+                this.LISTA_ACTIVIDADES_CONHORASEXTRA = data.actividades_hora_extra;
+
+                this.AVANCESESTADOPAGO = data.avances;
+
+                this.TOTALESESTADOPAGO = data.totales;
+
+            }, error: (e) => console.error(e)
+          });
+
+
+    }   
+
+
+    nombreLocalidadCiudad = 'Santiago';
+
+    opcionesFecha: Intl.DateTimeFormatOptions = {
+        weekday: 'long', // Nombre del día de la semana
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    };
+
+    obtenerFechaActualConDiaYCiudad(): string {
+
+        const fecha = new Date();
+
+        this.opcionesFecha = {
+            weekday: 'long', // Nombre del día de la semana
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        };
+        const fechaFormateada = fecha.toLocaleDateString(undefined, this.opcionesFecha);
+
+        return `${this.nombreLocalidadCiudad}, ${fechaFormateada}`;
+
+    }
 
 }

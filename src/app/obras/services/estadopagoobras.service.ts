@@ -64,6 +64,9 @@ export class EstadoPagoObrasService {
             .pipe(
                 map((response) => {
 
+                    console.log("response", response);
+                    
+
                     if (response) {
                         return response;
                     } else {
@@ -168,12 +171,78 @@ export class EstadoPagoObrasService {
 
     ///api/obras/backoffice/estadopago/v1/creaestadopago
     postcreaEstadoPagoObras(NUEVOENCABEZADO: any): Observable<any[]> {
-
         // Realiza la solicitud GET con los parámetros en la URL
         return this.http.post<any[]>(`${this.baseUrl}creaestadopago`, NUEVOENCABEZADO[0] , httpOptions);
-
     }
 
+
+    // /api/obras/backoffice/estadopago/v1/avancesestadopago
+    getAvancesestadopago(IDOBRA:number): Observable<any> {
+        
+        return this.http.get(`${this.baseUrl}avancesestadopago?id_obra=${IDOBRA}`, httpOptions)
+            .pipe(
+                map((response) => {
+
+                    if (response) {
+                        return response;
+                    } else {
+                        throw new Error('Respuesta inesperada del servidor');
+                    }
+
+                }),
+                catchError((error) => {
+                    console.error('Error en la solicitud:', error);
+                    return throwError('Ha ocurrido un error en la solicitud.');
+                })
+            );
+    }
+
+
+
+    // /api/obras/backoffice/estadopago/v1/totalesestadopago
+    getTotalesestadopago(IDOBRA:number): Observable<any> {
+
+        return this.http.get(`${this.baseUrl}totalesestadopago?id_obra=${IDOBRA}`, httpOptions)
+            .pipe(
+                map((response) => {
+
+                    if (response) {
+                        return response;
+                    } else {
+                        throw new Error('Respuesta inesperada del servidor');
+                    }
+
+                }),
+                catchError((error) => {
+                    console.error('Error en la solicitud:', error);
+                    return throwError('Ha ocurrido un error en la solicitud.');
+                })
+            );
+    }
+
+
+    ///api/obras/backoffice/estadopago/v1/historicoestadopagoporid?id_estado_pago=25
+
+    getHistoricoestadopagoporid(ID_ESTADO_PAGO:number): Observable<any> {
+
+        return this.http.get(`${this.baseUrl}historicoestadopagoporid?id_estado_pago=${ID_ESTADO_PAGO}`, httpOptions)
+            .pipe(
+                map((response) => {
+
+                    if (response) {
+                        return response;
+                    } else {
+                        throw new Error('Respuesta inesperada del servidor');
+                    }
+
+                }),
+                catchError((error) => {
+                    console.error('Error en la solicitud:', error);
+                    return throwError('Ha ocurrido un error en la solicitud.');
+                })
+            );
+            
+    }
 
 
 

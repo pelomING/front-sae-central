@@ -48,6 +48,8 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
     LISTA_ACTIVIDADES_CONHORASEXTRA: [];
     NUEVOENCABEZADO: any[];
 
+    AVANCESESTADOPAGO: any[];
+    TOTALESESTADOPAGO: any;
 
 
     constructor(private productService: ProductService,
@@ -155,6 +157,33 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
             }
         );
 
+
+        this.estadoPagoObrasService.getAvancesestadopago(this.obra.id).subscribe(
+            (respuesta: any) => {
+
+                this.AVANCESESTADOPAGO = respuesta;
+                console.log("this.AVANCESESTADOPAGO",this.AVANCESESTADOPAGO);
+            },
+            (error) => {
+                console.error('Error al obtener listado de reportes diarios:', error);
+            }
+        );
+
+
+        this.estadoPagoObrasService.getTotalesestadopago(this.obra.id).subscribe(
+            (respuesta: any) => {
+
+                this.TOTALESESTADOPAGO = respuesta;
+                console.log("this.TOTALESESTADOPAGO",this.TOTALESESTADOPAGO);
+            },
+            (error) => {
+                console.error('Error al obtener listado de reportes diarios:', error);
+            }
+        );
+
+
+
+
         this.cargarListadoReportesDiarios();
 
         this.cols = [
@@ -209,7 +238,18 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
     }
 
 
-    onCrearEstadoPago(NUEVOENCABEZADO: any) {
+    DialogConfirmarCrearEstadoPago: boolean = false;
+
+
+    onCrearEstadoPago(){
+
+        this.DialogConfirmarCrearEstadoPago = true;
+
+    }
+
+
+
+    Confirma_CrearEstadoPago(NUEVOENCABEZADO: any) {
 
         console.log("this.NUEVOENCABEZADO", NUEVOENCABEZADO);
 
@@ -219,6 +259,12 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
                 // Manejar la respuesta exitosa
                 console.log('éxito:', response);
                 this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
+                this.DialogConfirmarCrearEstadoPago = true;
+
+                // Recargar la página después de un breve retraso (3000 milisegundos en este ejemplo)
+                setTimeout(() => {
+                    this.router.navigate(['/'], { replaceUrl: true });  // Cambia '/'' por la ruta que desees
+                }, 3000);              
             
             },
             (error) => {

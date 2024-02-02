@@ -572,9 +572,9 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
         if (this.ReporteDiarioForm.valid) {
 
-            const ReporteDiarioObjeto = this.ReporteDiarioForm.value;
+            let ReporteDiarioObjeto = this.ReporteDiarioForm.value;
 
-            console.log('ReporteDiarioObjeto : ', ReporteDiarioObjeto);
+          //  console.log('ReporteDiarioObjeto : ', ReporteDiarioObjeto);
 
 
             let fechaConFormato = this.formateoFecha(ReporteDiarioObjeto.fecha_reporte);
@@ -626,7 +626,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
             }
 
-            console.log('NuevoReporteDiario : ', NuevoReporteDiario);
+           // console.log('NuevoReporteDiario : ', NuevoReporteDiario);
 
             this.reporteDiarioService.guardarReporteDiario(NuevoReporteDiario).subscribe(
                 (response) => {
@@ -646,12 +646,24 @@ export class ReportediarioporobraPageComponent implements OnInit {
                     // Manejar errores
                     console.error('Error al guardar :', ObjError);
 
+                    
+                    let arrayFecha = ReporteDiarioObjeto.fecha_reporte.split("-");
+
+                    ReporteDiarioObjeto.fecha_reporte = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0]
+
+                    ReporteDiarioObjeto.hora_salida_base = this.formateoFechaDMAHM(ReporteDiarioObjeto.hora_salida_base);
+                    ReporteDiarioObjeto.hora_llegada_terreno = this.formateoFechaDMAHM(ReporteDiarioObjeto.hora_llegada_terreno);
+                    ReporteDiarioObjeto.hora_salida_terreno = this.formateoFechaDMAHM(ReporteDiarioObjeto.hora_salida_terreno);
+                    ReporteDiarioObjeto.hora_llegada_base = this.formateoFechaDMAHM(ReporteDiarioObjeto.hora_llegada_base);
+
+                    this.ReporteDiarioForm.patchValue(ReporteDiarioObjeto);
+                    
                     this.loading = false;
 
                     this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error : ' + ObjError.status,
-                        detail: 'Por favor, intentar mas tarde problemas de servicio : ' + ObjError.error.message,
+                        severity: 'info',
+                        summary: 'Información : ' + ObjError.status,
+                        detail: 'Por favor, verifique los siguientes datos : ' + ObjError.error.message,
                     });
 
                 }
@@ -858,15 +870,27 @@ export class ReportediarioporobraPageComponent implements OnInit {
                 },
                 (ObjError) => {
 
+                    // Manejar errores
+                    console.error('Error al actualizar :', ObjError);
+
+                    
+                    let arrayFecha = ReporteDiarioObjeto.fecha_reporte.split("-");
+
+                    ReporteDiarioObjeto.fecha_reporte = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0]
+
+                    ReporteDiarioObjeto.hora_salida_base = this.formateoFechaDMAHM(ReporteDiarioObjeto.hora_salida_base);
+                    ReporteDiarioObjeto.hora_llegada_terreno = this.formateoFechaDMAHM(ReporteDiarioObjeto.hora_llegada_terreno);
+                    ReporteDiarioObjeto.hora_salida_terreno = this.formateoFechaDMAHM(ReporteDiarioObjeto.hora_salida_terreno);
+                    ReporteDiarioObjeto.hora_llegada_base = this.formateoFechaDMAHM(ReporteDiarioObjeto.hora_llegada_base);
+
+                    this.ReporteDiarioForm.patchValue(ReporteDiarioObjeto);
+                    
                     this.loading = false;
 
-                    // Manejar errores
-                    console.error('Error al update :', ObjError);
-
                     this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error : ' + ObjError.status,
-                        detail: 'Por favor, intentar mas tarde problemas de servicio : ' + ObjError.error.message,
+                        severity: 'info',
+                        summary: 'Información : ' + ObjError.status,
+                        detail: 'Por favor, verifique los siguientes datos:' + ObjError.error,
                     });
 
                 }
