@@ -42,12 +42,12 @@
         <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="id" style="min-width:10rem">
-                    id Obra
+                    Código Pelom 
                     <p-sortIcon field="id"></p-sortIcon>
                 </th>
 
                 <th pSortableColumn="codigo_obra" style="min-width:10rem">
-                    Cliente
+                    Código Obra
                     <p-sortIcon field="codigo_obra"></p-sortIcon>
                 </th>
 
@@ -81,8 +81,8 @@
         </ng-template>
         <ng-template pTemplate="body" let-estadopago>
             <tr> 
-                <td>{{ estadopago.id_obra }}</td>
-                <td>{{ estadopago.cliente.nombre }}</td>
+                <td>{{ estadopago.codigo_pelom }}</td>
+                <td>{{ estadopago.codigo_obra }}</td>
                 <td>{{ estadopago.fecha_asignacion }}</td>
                 <td>{{ estadopago.tipo_trabajo.descripcion }}</td>
                 <td>{{ estadopago.segmento.nombre }}</td>
@@ -257,18 +257,11 @@
                                             <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.nombre_obra }}</td>
                                             <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
-
                                         <tr>
-                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;">
-                                                <strong>Recargo de la Obra:</strong>
-                                            </td>
-                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;"
-                                                *ngIf="NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0">{{
-                                                NUEVOENCABEZADO[0]?.recargo_nombre }}</td>
-                                            <td *ngIf="!(NUEVOENCABEZADO && NUEVOENCABEZADO.length > 0)">sin dato
-                                            </td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;"><strong>Recargo de la Obra:</strong></td>
+                                            <td style="text-align:left;font-size:9px;padding-left:0.5%;" *ngIf="NUEVOENCABEZADO">{{ NUEVOENCABEZADO?.recargo_nombre }}</td>
+                                            <td *ngIf="!(NUEVOENCABEZADO)">sin dato</td>
                                         </tr>
-                                        
                                     </table>
 
                                 </div>

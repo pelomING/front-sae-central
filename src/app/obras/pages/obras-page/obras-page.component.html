@@ -2,17 +2,24 @@
   <div class="card">
     <p-toast></p-toast>
     <p-toolbar styleClass="mb-4 gap-2">
+      
       <ng-template pTemplate="left">
-        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+      
+        <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2"
           (click)="openNew()"></button>
+      
           <!-- <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger"
           (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button> -->
+      
       </ng-template>
 
       <ng-template pTemplate="right">
+
         <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import"
           class="mr-2 inline-block"></p-fileUpload> -->
-          <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
+          
+        <!-- <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+
       </ng-template>
     </p-toolbar>
 
@@ -37,6 +44,10 @@
           <th pSortableColumn="codigo_obra" style="min-width:10rem">Codigo <p-sortIcon field="codigo_obra"></p-sortIcon></th>
           <th pSortableColumn="numero_ot">N° OT <p-sortIcon field="numero_ot"></p-sortIcon></th>
           <th pSortableColumn="monto" style="min-width:10rem">Monto <p-sortIcon field="monto"></p-sortIcon></th>
+          
+          <th pSortableColumn="estadopago" style="min-width:10rem">Estados de Pago<p-sortIcon field="estadopago"></p-sortIcon></th> 
+          <th pSortableColumn="reporte" style="min-width:10rem">Reportes diarios<p-sortIcon field="reporte"></p-sortIcon></th> 
+
           <th pSortableColumn="estado.nombre" style="min-width:10rem">Estado <p-sortIcon field="estado.nombre"></p-sortIcon></th>
           <th></th>
         </tr>
@@ -49,7 +60,10 @@
           <td>{{ obra.nombre_obra }}</td>
           <td>{{ obra.codigo_obra }}</td>
           <td>{{ obra.numero_ot }}</td>
-          <td>{{ obra.monto }}</td>
+          <td style="text-align: center;" >{{ obra.monto }}</td>
+          <td style="text-align: center;" >{{ obra.cantidad_estados_pago }}</td>
+          <td style="text-align: center;" >{{ obra.cantidad_reportes }}</td>
+          
           <!-- <td>
             <p-rating [ngModel]="obra.id" [readonly]="true" [cancel]="false"></p-rating>
           </td> -->
