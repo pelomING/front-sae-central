@@ -67,6 +67,32 @@ export class ReporteDiarioService {
   }
 
 
+  
+  
+  // 'https://backend-pelom-desarrollo.up.railway.app/api/obras/backoffice/repodiario/v1/ultimoreportediario?id_obra=8' 
+  
+  getUltimoreportediario(obra: Obra): Observable<any> {
+
+    return this.http.get(`${this.baseUrlReporte}ultimoreportediario?id_obra=${obra.id}`, httpOptions)
+      .pipe(
+        map((response) => {
+
+          if (response) {
+            return response;
+          } else {
+            throw new Error('Respuesta inesperada del servidor');
+          }
+
+        }),
+        catchError((error) => {
+          console.error('Error en la solicitud:', error);
+          return throwError('Ha ocurrido un error en la solicitud.');
+        })
+      );
+
+  }
+
+
 
   // /api/obras/backoffice/repodiario/v1/alltipooperacion		
   getAlltipooperacion(): Observable<any> {

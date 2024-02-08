@@ -111,13 +111,13 @@ export class ReportediarioporobraPageComponent implements OnInit {
             nombre_proyecto: ['', Validators.required],
             supervisor: ['', Validators.required],
             sector: ['', Validators.required],
-            sdi: ['', Validators.required],
-            alimentador: ['', Validators.required],
+            sdi: [''],
+            alimentador: [''],
             jefe_faena: ['', Validators.required],
             ito_mandante: ['', Validators.required],
             comuna: ['', Validators.required],
-            num_documento: ['', Validators.required],
-            flexiapp: ['', Validators.required],
+            num_documento: [''],
+            flexiapp: [''],
             area: ['', Validators.required],
             brigada: ['', Validators.required],
             hora_salida_base: ['', Validators.required],
@@ -303,13 +303,41 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
 
 
-    cargarListadoReportesDiarios() {
+    cargarListadoReportesDiarios() 
+    {
 
         this.reporteDiarioService.getAllReportesDiariosPorObra(this.obra).subscribe(
-            (VisitasTerreno: any) => {
-                console.log("REPORTES DIARIOS POR OBRA", VisitasTerreno);
+            (LISTADO: any) => {
 
-                this.listaReportesDiarios = VisitasTerreno.sort((a, b) => b.id - a.id);
+                console.log("REPORTES DIARIOS POR OBRA", LISTADO);
+                this.listaReportesDiarios = LISTADO.sort((a, b) => b.id - a.id);
+
+            },
+            (error) => {
+                console.error('Error al obtener listado de reportes diarios:', error);
+            }
+        );
+
+        this.reporteDiarioService.getUltimoreportediario(this.obra).subscribe(
+            (ULTIMOREPORTEDIARIO: any) => {
+
+                this.ReporteDiarioForm.reset();
+
+                ULTIMOREPORTEDIARIO = ULTIMOREPORTEDIARIO[0];
+
+                console.log("ULTIMOREPORTEDIARIO : ", ULTIMOREPORTEDIARIO);
+
+                let arrayFecha = ULTIMOREPORTEDIARIO.fecha_reporte.split("-");
+
+                ULTIMOREPORTEDIARIO.fecha_reporte = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0]
+
+                // Utilizar el método find para buscar en la lista
+                const objetoEncontrado = this.listaBrigadas.find((item) => item.id === ULTIMOREPORTEDIARIO.brigada_pesada.id);
+
+                ULTIMOREPORTEDIARIO.brigada = objetoEncontrado;
+        
+                this.ReporteDiarioForm.patchValue(ULTIMOREPORTEDIARIO);
+
             },
             (error) => {
                 console.error('Error al obtener listado de reportes diarios:', error);
@@ -589,7 +617,16 @@ export class ReportediarioporobraPageComponent implements OnInit {
             ReporteDiarioObjeto.hora_llegada_base = this.formateoFechaHora(ReporteDiarioObjeto.hora_llegada_base);
 
 
-            const arrayDeStrings: string[] = ReporteDiarioObjeto.flexiapp.split(',');
+
+            console.log('ReporteDiarioObjeto flexiapp : ', ReporteDiarioObjeto.flexiapp);
+
+            let arrayDeStrings: string[] = [];
+
+            if(typeof ReporteDiarioObjeto.flexiapp === 'string'){
+                arrayDeStrings = ReporteDiarioObjeto.flexiapp.split(',');
+            }else{
+                arrayDeStrings = ReporteDiarioObjeto.flexiapp;
+            }
 
 
             const NuevoReporteDiario: ReporteDiario = {
@@ -663,7 +700,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
                     this.messageService.add({
                         severity: 'info',
                         summary: 'Información : ' + ObjError.status,
-                        detail: 'Por favor, verifique los siguientes datos : ' + ObjError.error.message,
+                        detail: 'Por favor, verifique los siguientes datos : ' + ObjError.error,
                     });
 
                 }
@@ -1140,7 +1177,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
         this.listaTablaOtrasActividades = [];
 
 
-        this.ReporteDiarioForm.reset();
+       // this.ReporteDiarioForm.reset();
 
         // Asigna los valores iniciales al formulario
         this.ReporteDiarioForm.patchValue({
