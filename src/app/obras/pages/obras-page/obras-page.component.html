@@ -23,18 +23,10 @@
       </ng-template>
     </p-toolbar>
 
-    <p-table #dt 
-      [value]="obras" 
-      selectionMode="single"
-      [columns]="cols" 
-      [rows]="10" 
-      [paginator]="true"
+    <p-table #dt [value]="obras" selectionMode="single" [columns]="cols" [rows]="10" [paginator]="true"
       styleClass="p-datatable-gridlines p-datatable-striped p-datatable-header"
       [globalFilterFields]="['nombre_obra', 'codigo_obra', 'numero_ot', 'monto','estado.nombre']"
-      [tableStyle]="{ 'min-width': '75rem' }" 
-      [(selection)]="selectedProducts" 
-      [rowHover]="true" 
-      dataKey="id"
+      [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
 
       <ng-template pTemplate="caption">
@@ -50,19 +42,24 @@
       <ng-template pTemplate="header">
         <tr>
 
-          <th pSortableColumn="nombre_obra" style="min-width:10rem">Nombre Obra <p-sortIcon field="nombre_obra"></p-sortIcon></th>
+          <th pSortableColumn="nombre_obra" style="min-width:10rem">Nombre Obra <p-sortIcon
+              field="nombre_obra"></p-sortIcon></th>
 
-          <th pSortableColumn="codigo_obra" style="min-width:10rem">Codigo <p-sortIcon field="codigo_obra"></p-sortIcon></th>
+          <th pSortableColumn="codigo_obra" style="min-width:10rem">Codigo <p-sortIcon field="codigo_obra"></p-sortIcon>
+          </th>
 
           <th pSortableColumn="numero_ot">N° OT <p-sortIcon field="numero_ot"></p-sortIcon></th>
 
           <th pSortableColumn="monto" style="min-width:10rem">Monto <p-sortIcon field="monto"></p-sortIcon></th>
 
-          <th pSortableColumn="cantidad_estados_pago" style="min-width:10rem">Estados de Pago<p-sortIcon field="cantidad_estados_pago"></p-sortIcon></th>
+          <th pSortableColumn="cantidad_estados_pago" style="min-width:10rem">Estados de Pago<p-sortIcon
+              field="cantidad_estados_pago"></p-sortIcon></th>
 
-          <th pSortableColumn="cantidad_reportes" style="min-width:10rem">Reportes diarios<p-sortIcon field="cantidad_reportes"></p-sortIcon></th>
+          <th pSortableColumn="cantidad_reportes" style="min-width:10rem">Reportes diarios<p-sortIcon
+              field="cantidad_reportes"></p-sortIcon></th>
 
-          <th pSortableColumn="estado.nombre" style="min-width:10rem">Estado <p-sortIcon field="estado.nombre"></p-sortIcon></th>
+          <th pSortableColumn="estado.nombre" style="min-width:10rem">Estado <p-sortIcon
+              field="estado.nombre"></p-sortIcon></th>
 
           <th>Edit</th>
 
@@ -71,7 +68,7 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-obra>
-        <tr [pSelectableRow]="obra" >
+        <tr [pSelectableRow]="obra">
           <td>{{ obra.nombre_obra }}</td>
           <td>{{ obra.codigo_obra }}</td>
           <td>{{ obra.numero_ot }}</td>
@@ -81,11 +78,11 @@
           <td>
             <p-tag icon="pi pi-star" [value]="obra.estado.nombre" [severity]="getSeverity(obra.estado.nombre)"></p-tag>
           </td>
-          <td style="text-align:center;" >
+          <td style="text-align:center;">
             <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
               (click)="editProduct(obra)"></button>
           </td>
-          <td style="text-align:center;" >
+          <td style="text-align:center;">
             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
               (click)="onEliminarClick(obra)"></button>
           </td>
@@ -115,11 +112,10 @@
                 <div class="col-4">
                   <div class="form-group p-field custom-spacing">
                     <span class="p-float-label">
-
-                      <input type="hidden" pInputhidden id="id" class="form-control" formControlName="id">
-
-                      <input type="text" pInputText id="codigo_obra" class="form-control" formControlName="codigo_obra">
-                      <label htmlFor="codigo_obra">Código de Obra</label>
+                      <p-dropdown formControlName="tipo_obra" id="tipo_obra" class="form-control" [options]="tipo_obra"
+                        optionLabel="descripcion" placeholder="Seleccionar"
+                        (onChange)="onTipoObraSelected($event.value)"></p-dropdown>
+                      <label htmlFor="tipo_obra">Tipo de Obra</label>
                     </span>
                   </div>
                 </div>
@@ -127,8 +123,13 @@
                 <div class="col-4">
                   <div class="form-group p-field custom-spacing">
                     <span class="p-float-label">
-                      <input type="text" pInputText id="numero_ot" class="form-control" formControlName="numero_ot">
-                      <label htmlFor="numero_ot">Número de OT</label>
+
+                      <input type="hidden" pInputhidden id="id" class="form-control" formControlName="id">
+
+                      <input type="text" pInputText id="codigo_obra" class="form-control" placeholder="CGDE-00000000"  formControlName="codigo_obra"
+                        [readonly]="codigoEmergencia">
+
+                      <label htmlFor="codigo_obra">Código de Obra</label>
                     </span>
                   </div>
                 </div>
@@ -145,9 +146,8 @@
                 <div class="col-4">
                   <div class="form-group p-field custom-spacing">
                     <span class="p-float-label">
-                      <p-dropdown formControlName="tipo_obra" id="tipo_obra" class="form-control" [options]="tipo_obra"
-                        optionLabel="descripcion" placeholder="Seleccionar"></p-dropdown>
-                      <label htmlFor="tipo_obra">Tipo de Obra</label>
+                      <input type="text" pInputText id="numero_ot" class="form-control" formControlName="numero_ot">
+                      <label htmlFor="numero_ot">Número de OT</label>
                     </span>
                   </div>
                 </div>
@@ -234,7 +234,7 @@
                     <span class="p-float-label">
                       <p-dropdown formControlName="oficina" id="oficina" class="form-control"
                         [options]="oficinaSupervisor" optionLabel="oficina" placeholder="Seleccionar"></p-dropdown>
-                      <label htmlFor="oficina">oficina</label>
+                      <label htmlFor="oficina">Oficina</label>
                     </span>
                   </div>
                 </div>
@@ -244,7 +244,7 @@
                     <span class="p-float-label">
                       <p-dropdown formControlName="recargo_distancia" id="recargo_distancia" class="form-control"
                         [options]="recargoPorDistancia" optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
-                      <label htmlFor="recargo_distancia">recargo_distancia</label>
+                      <label htmlFor="recargo_distancia">Recargo distancia</label>
                     </span>
                   </div>
                 </div>
@@ -254,7 +254,7 @@
                     <span class="p-float-label">
                       <input type="text" pInputText id="jefe_delegacion" class="form-control"
                         formControlName="jefe_delegacion">
-                      <label htmlFor="jefe_delegacion">jefe_delegacion</label>
+                      <label htmlFor="jefe_delegacion">Jefe delegacion</label>
                     </span>
                   </div>
                 </div>

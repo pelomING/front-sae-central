@@ -58,25 +58,12 @@ export class ObrasService {
       recargo_distancia: newObra.recargo_distancia
     };
 
-
     console.log("data enviada",data);
 
     return this.http.post<any[]>(`${this.baseUrlObras}creaobra`, data, httpOptions).pipe(
       map((response) => {
-
-        if (response) {
-          return response;
-        } else {
-          throw new Error('Respuesta inesperada del servidor');
-        }
-
-      }),
-      catchError((error) => {
-
-        console.error('Error en la solicitud:', error);
-        return throwError('Ha ocurrido un error en la solicitud.');
-
-      })
+        return response;
+      })      
     );
 
   }
@@ -174,6 +161,30 @@ export class ObrasService {
           return throwError('Ha ocurrido un error en la solicitud.');
         })
       );
+  }
+
+
+
+  // /api/obras/backoffice/v1/codigodeobraemergencia
+  getCodigodeobraemergencia(): Observable<any> {
+
+    return this.http.get(`${this.baseUrlObras}codigodeobraemergencia`, httpOptions)
+      .pipe(
+        map((response) => {
+
+          if (response) {
+            return response;
+          } else {
+            throw new Error('Respuesta inesperada del servidor');
+          }
+
+        }),
+        catchError((error) => {
+          console.error('Error en la solicitud:', error);
+          return throwError('Ha ocurrido un error en la solicitud.');
+        })
+      );
+
   }
 
 
