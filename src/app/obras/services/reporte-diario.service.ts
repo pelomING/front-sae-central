@@ -201,30 +201,40 @@ export class ReporteDiarioService {
 
   // /api/obras/backoffice/repodiario/v1/creareportediario
   guardarReporteDiario(reporte_diario: ReporteDiario): Observable<ReporteDiario> {
-
     console.log("guardar =>", reporte_diario );
-
     return this.http.post<ReporteDiario>(`${this.baseUrlReporte}creareportediario`, reporte_diario, httpOptions).pipe(
       map((response) => {
         return response;
       })
     );
-
   }
 
   
-    // /api/obras/backoffice/repodiario/v1/actualizareportediario/{id} 
-    ActualizarReporteDiario(reporte_diario: ReporteDiario): Observable<ReporteDiario> {
-      
-      console.log("ActualizarReporteDiario =>", reporte_diario );
+  // /api/obras/backoffice/repodiario/v1/actualizareportediario/{id} 
+  ActualizarReporteDiario(reporte_diario: ReporteDiario): Observable<ReporteDiario> {
+    console.log("ActualizarReporteDiario =>", reporte_diario );
+    return this.http.put<ReporteDiario>(`${this.baseUrlReporte}actualizareportediario/${reporte_diario.id}`, reporte_diario, httpOptions).pipe(
+      map((response) => {
+        return response;
+      })
+    );  
+  }
 
-      return this.http.put<ReporteDiario>(`${this.baseUrlReporte}actualizareportediario/${reporte_diario.id}`, reporte_diario, httpOptions).pipe(
+ 
+    // /api/obras/backoffice/repodiario/v1/eliminareportediario/{id}
+    Eliminareportediario(reporte_diario: ReporteDiario): Observable<ReporteDiario> {
+      console.log("Eliminareportediario =>", reporte_diario );
+      return this.http.delete<ReporteDiario>(`${this.baseUrlReporte}eliminareportediario/${reporte_diario.id}`,httpOptions).pipe(
         map((response) => {
           return response;
         })
       );
-  
     }
+
+
+
+
+
 
 
 

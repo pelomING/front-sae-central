@@ -23,7 +23,7 @@ export class AppTopBarComponent {
 
     constructor(
         private authService: AuthService,
-        private storageService: StorageService,
+        public storageService: StorageService,
         private router: Router,
         public layoutService: LayoutService) { }
 

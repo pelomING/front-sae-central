@@ -17,16 +17,23 @@
 
                 <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2"
                     (click)="openNew()"></button>
- 
+
                 <!-- <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button> -->
 
             </ng-template>
         </p-toolbar>
 
 
-        <p-table #dt [value]="listaReportesDiarios" [columns]="cols" [rows]="10" [paginator]="true"
+        <p-table #dt [value]="listaReportesDiarios" 
+            selectionMode="single" 
+            [columns]="cols" 
+            [rows]="10"
+            [paginator]="true" 
+            styleClass="p-datatable-gridlines p-datatable-striped p-datatable-header"
             [globalFilterFields]="['id', 'id_obra', 'fecha_reporte', 'jefe_faena','sdi']"
-            [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
+            [tableStyle]="{ 'min-width': '75rem' }" 
+            [(selection)]="selectedProducts" 
+            [rowHover]="true" dataKey="id"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true">
 
@@ -67,19 +74,24 @@
                         <p-sortIcon field="sdi"></p-sortIcon>
                     </th>
 
-                    <th></th>
+                    <th>Editar</th>
+
+                    <th>Eliminar</th>
+
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-reportediario>
-                <tr>
+                <tr [pSelectableRow]="reportediario">
                     <td>{{ reportediario.id }}</td>
                     <td>{{ reportediario.id_obra.codigo_obra }}</td>
                     <td>{{ reportediario.fecha_reporte }}</td>
                     <td>{{ reportediario.jefe_faena.nombre }}</td>
                     <td>{{ reportediario.sdi }}</td>
-                    <td>
+                    <td style="text-align:center;" >
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
                             (click)="openEditReporteDiario(reportediario)"></button>
+                    </td>
+                    <td style="text-align:center;" >
                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
                             (click)="onEliminarClick(reportediario)"></button>
                     </td>
@@ -218,7 +230,7 @@
                                     </div>
                                 </div>
 
-                                
+
 
 
                                 <div class="col-3">
@@ -264,7 +276,7 @@
                                         </p-inputGroup>
                                     </div>
                                 </div>
-                                
+
 
                                 <div class="col-3">
                                     <div class="form-group p-field custom-spacing">
@@ -276,7 +288,7 @@
                                         </span>
                                     </div>
                                 </div>
-                            
+
                             </div>
 
                             <hr>
@@ -284,7 +296,7 @@
 
                             <div class="grid">
 
-                                <div class="col-3" style="margin-top:4px;" >
+                                <div class="col-3" style="margin-top:4px;">
                                     <div class="form-group p-field custom-spacing">
                                         <span class="p-float-label">
                                             <p-calendar id="fecha_hora_salida_base" formControlName="hora_salida_base"
@@ -295,7 +307,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-3" style="margin-top:4px;" >
+                                <div class="col-3" style="margin-top:4px;">
                                     <div class="form-group p-field custom-spacing">
                                         <span class="p-float-label">
                                             <p-calendar id="fecha_hora_llegada_terreno"
@@ -306,7 +318,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-3" style="margin-top:4px;" >
+                                <div class="col-3" style="margin-top:4px;">
                                     <div class="form-group p-field custom-spacing">
                                         <span class="p-float-label">
                                             <p-calendar id="fecha_hora_salida_terreno"
@@ -317,7 +329,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-3" style="margin-top:4px;" >
+                                <div class="col-3" style="margin-top:4px;">
                                     <div class="form-group p-field custom-spacing">
                                         <span class="p-float-label">
                                             <p-calendar id="fecha_hora_llegada_base" formControlName="hora_llegada_base"
@@ -592,8 +604,8 @@
                     <div class="col-4">
                         <span class="p-float-label">
                             <p-dropdown formControlName="obj_Tipoactividad" id="tipo_actividad" class="form-control"
-                                [options]="listaTipoactividad" optionLabel="descripcion"
-                                placeholder="Seleccionar" (onChange)="onTipoActividadSelected($event.value)" ></p-dropdown>
+                                [options]="listaTipoactividad" optionLabel="descripcion" placeholder="Seleccionar"
+                                (onChange)="onTipoActividadSelected($event.value)"></p-dropdown>
                             <label htmlFor="tipo_actividad">Tipo Actividad</label>
                         </span>
                     </div>

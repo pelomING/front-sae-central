@@ -1208,6 +1208,45 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
 
 
+    onEliminarClick(reportediario: ReporteDiario) {
+
+        this.confirmationService.confirm({
+            message: 'Estás seguro de que deseas eliminar reporte Id : ' + reportediario.id + ' ?',
+            header: 'Confirmar',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+
+                this.reporteDiarioService.Eliminareportediario(reportediario).subscribe(
+                    (response) => {
+
+                        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado', life: 3000 });
+                        this.cargarListadoReportesDiarios();
+
+                    },
+                    (error) => {
+
+                        // Manejar errores
+                        console.error('Error al eliminar reporte :', error);
+
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Error',
+                            detail: 'Por favor, intentar mas tarde problemas de servicio',
+                        });
+
+                    }
+                );
+
+            }
+        });
+
+    }
+
+
+
+
+
+
     // deleteSelectedProducts() {
     //     this.confirmationService.confirm({
     //         message: 'Are you sure you want to delete the selected products?',
