@@ -33,7 +33,7 @@ export class ConfigService {
 
           this.baseUrl = 'https://backend-pelom-desarrollo.up.railway.app';
 
-        } else if (currentUrl === 'https://testing-proyecto-obras.up.railway.app') {
+        } else if (currentUrl === 'https://pelom-ing-testobras.up.railway.app') {
 
           this.baseUrl = 'https://backend-pelom-testingobras.up.railway.app';
 
