@@ -23,7 +23,8 @@
 
 
 
-        <p-table #dt [value]="listaestadospago" [columns]="cols" [rows]="10" [paginator]="true"
+        <p-table #dt [value]="listaestadospago" selectionMode="single" [columns]="cols" [rows]="10" [paginator]="true"
+        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-header"
         [globalFilterFields]="['id', 'id_obra', 'fecha_reporte', 'jefe_faena','sdi']"
         [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -76,11 +77,11 @@
                     <p-sortIcon field="sdi"></p-sortIcon>
                 </th>
 
-                <th></th>
+                <th>PDF</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-estadopago>
-            <tr> 
+            <tr [pSelectableRow]="estadopago" > 
                 <td>{{ estadopago.codigo_pelom }}</td>
                 <td>{{ estadopago.codigo_obra }}</td>
                 <td>{{ estadopago.fecha_asignacion }}</td>
@@ -88,7 +89,7 @@
                 <td>{{ estadopago.segmento.nombre }}</td>
                 <td>{{ estadopago.solicitado_por }}</td>
                 <td>{{ estadopago.jefe_faena.nombre }}</td>
-                <td>
+                <td style="text-align: center;">
                     <button pButton pRipple icon="pi pi-file-pdf" class="p-button-rounded p-button-success mr-2"
                         (click)="openReporteEstadoPago(estadopago)"></button>
                 </td>

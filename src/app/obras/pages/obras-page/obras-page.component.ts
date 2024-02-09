@@ -417,7 +417,6 @@ export class ObrasPageComponent implements OnInit {
                         detail: 'Por favor, verifique los siguientes datos : ' + ObjError.error,
                     });
 
-
                 }
             );
 
@@ -467,13 +466,17 @@ export class ObrasPageComponent implements OnInit {
                     );
 
                 },
-                (error) => {
-                    // Manejar errores, por ejemplo, mostrar un mensaje de error
+                (ObjError) => {
+
+                    // Manejar errores
+                    console.error('Error al guardar la obra:', ObjError);
+
                     this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: 'No se pudo actualizar la obra. Inténtelo de nuevo.',
+                        severity: 'info',
+                        summary: 'Información : ' + ObjError.status,
+                        detail: 'Por favor, verifique los siguientes datos : ' + ObjError.error,
                     });
+
                 }
             );
         }
