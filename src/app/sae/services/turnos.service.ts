@@ -31,12 +31,12 @@ export class TurnosService {
 
     getJornada(): Observable<Turnos[]> {
         
-        return this.http.get<Turnos[]>(`${this.baseUrl}/alljornada`).pipe(
+        return this.http.get<Turnos[]>(`${this.baseUrl}/alljornada?vertodo=false`).pipe(
           map((response) => {
             if (response) {
               // Filtra los elementos que tienen estado 1
-              const filteredResponse = response.filter(item => item.estado === 1);
-              return filteredResponse;
+              //const filteredResponse = response.filter(item => item.estado === 1);
+              return response;
             } else {
               throw new Error('Respuesta inesperada del servidor');
             }
