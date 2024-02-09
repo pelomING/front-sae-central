@@ -28,12 +28,13 @@ export class EventoService {
 
     getEventos(): Observable<Eventos[]> {
 
-        return this.http.get<Eventos[]>(`${this.baseUrl}/alleventos`).pipe(
+        return this.http.get<Eventos[]>(`${this.baseUrl}/alleventos?vertodo=false`).pipe(
         map((response) => {
             if (response) {
+              //console.log('response', response);
               // Filtra los elementos que tienen estado 1
-              const filteredResponse = response.filter(item => item.estado === 1);
-              return filteredResponse;
+              // const filteredResponse = response.filter(item => item.estado === 1);
+              return response;
             } else {
               throw new Error('Respuesta inesperada del servidor');
             }
