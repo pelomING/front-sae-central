@@ -41,12 +41,12 @@ export class ObrasPageComponent implements OnInit {
     segmento: Segmento[] | undefined;
 
 
-    
-    oficinaSupervisor: OficinaSupervisor[] | undefined; 
-    
+
+    oficinaSupervisor: OficinaSupervisor[] | undefined;
+
     recargoPorDistancia: RecargoPorDistancia[] | undefined;
 
-    
+
 
 
     router: any;
@@ -212,7 +212,7 @@ export class ObrasPageComponent implements OnInit {
         // /api/obras/backoffice/general/v1/alloficinasupervisor
 
         this.obrasService.getAlloficinasupervisor().subscribe(
-            (oficinas_supervisor : any) => {
+            (oficinas_supervisor: any) => {
                 console.log("Esto es la oficinas:", oficinas_supervisor);
                 this.oficinaSupervisor = oficinas_supervisor;
             },
@@ -384,6 +384,8 @@ export class ObrasPageComponent implements OnInit {
 
             console.log('Nueva obra:', nuevaObra);
 
+
+
             this.obrasService.createObra(nuevaObra).subscribe(
                 (response) => {
                     // Manejar la respuesta exitosa
@@ -404,15 +406,15 @@ export class ObrasPageComponent implements OnInit {
                     );
 
                 },
-                (error) => {
+                (ObjError) => {
 
                     // Manejar errores
-                    console.error('Error al guardar la obra:', error);
+                    console.error('Error al guardar la obra:', ObjError);
 
                     this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: 'Por favor, intentar mas tarde problemas de servicio',
+                        severity: 'info',
+                        summary: 'Información : ' + ObjError.status,
+                        detail: 'Por favor, verifique los siguientes datos : ' + ObjError.error,
                     });
 
                 }
@@ -464,16 +466,64 @@ export class ObrasPageComponent implements OnInit {
                     );
 
                 },
-                (error) => {
-                    // Manejar errores, por ejemplo, mostrar un mensaje de error
+                (ObjError) => {
+
+                    // Manejar errores
+                    console.error('Error al guardar la obra:', ObjError);
+
                     this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: 'No se pudo actualizar la obra. Inténtelo de nuevo.',
+                        severity: 'info',
+                        summary: 'Información : ' + ObjError.status,
+                        detail: 'Por favor, verifique los siguientes datos : ' + ObjError.error,
                     });
+
                 }
             );
         }
+    }
+
+
+
+
+    codigoEmergencia: boolean = false;
+
+    onTipoObraSelected(selectedValue: any) {
+
+        console.log(selectedValue);
+
+        if (selectedValue.id == 7) {
+
+            // Llama a tu API con el valor seleccionado
+            this.obrasService.getCodigodeobraemergencia().subscribe(response => {
+
+                // Maneja la respuesta de la API
+                console.log(response[0].valor);
+
+                this.obraForm.patchValue({
+                    codigo_obra: '',
+                });
+
+                this.obraForm.patchValue({
+                    codigo_obra: response[0].valor,
+                });
+
+                this.codigoEmergencia = true; // Habilita el control del input
+
+            }, error => {
+                // Maneja el error si la llamada a la API falla
+                console.error(error);
+            });
+
+        } else {
+
+            this.obraForm.patchValue({
+                codigo_obra: '',
+            });
+
+            this.codigoEmergencia = false; // Deshabilita el control del input
+        
+        }
+
     }
 
 

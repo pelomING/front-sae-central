@@ -14,14 +14,13 @@ export class ObrasService {
 
   private baseUrl: string = '';
   private baseUrlObras: string = '';
-  
+
   private UrlApi = '/api/obras/backoffice/general/v1/';
 
   private UrlApiObras = '/api/obras/backoffice/v1/';
-  
 
-  constructor(private http: HttpClient,private configService: ConfigService) 
-  { 
+
+  constructor(private http: HttpClient, private configService: ConfigService) {
     this.baseUrl = this.configService.baseUrl + this.UrlApi;
     this.baseUrlObras = this.configService.baseUrl + this.UrlApiObras;
   }
@@ -34,12 +33,12 @@ export class ObrasService {
       numero_ot: newObra.numero_ot,
       nombre_obra: newObra.nombre_obra,
       zona: newObra.zona.id,
-      delegacion: newObra.delegacion.id, 
+      delegacion: newObra.delegacion.id,
       gestor_cliente: newObra.gestor_cliente,
-      numero_aviso:   newObra.numero_aviso,
+      numero_aviso: newObra.numero_aviso,
       numero_oc: newObra.numero_oc,
       monto: newObra.monto,
-      cantidad_uc:  newObra.cantidad_uc,  
+      cantidad_uc: newObra.cantidad_uc,
       fecha_llegada: newObra.fecha_llegada,
       fecha_inicio: newObra.fecha_inicio,
       fecha_termino: newObra.fecha_termino,
@@ -58,24 +57,11 @@ export class ObrasService {
       recargo_distancia: newObra.recargo_distancia
     };
 
-
-    console.log("data enviada",data);
+    console.log("data enviada", data);
 
     return this.http.post<any[]>(`${this.baseUrlObras}creaobra`, data, httpOptions).pipe(
       map((response) => {
-
-        if (response) {
-          return response;
-        } else {
-          throw new Error('Respuesta inesperada del servidor');
-        }
-
-      }),
-      catchError((error) => {
-
-        console.error('Error en la solicitud:', error);
-        return throwError('Ha ocurrido un error en la solicitud.');
-
+        return response;
       })
     );
 
@@ -88,12 +74,12 @@ export class ObrasService {
       numero_ot: Obra.numero_ot,
       nombre_obra: Obra.nombre_obra,
       zona: Obra.zona.id,
-      delegacion: Obra.delegacion.id, 
+      delegacion: Obra.delegacion.id,
       gestor_cliente: Obra.gestor_cliente,
-      numero_aviso:   Obra.numero_aviso,
+      numero_aviso: Obra.numero_aviso,
       numero_oc: Obra.numero_oc,
       monto: Obra.monto,
-      cantidad_uc:  Obra.cantidad_uc,  
+      cantidad_uc: Obra.cantidad_uc,
       fecha_llegada: Obra.fecha_llegada,
       fecha_inicio: Obra.fecha_inicio,
       fecha_termino: Obra.fecha_termino,
@@ -114,19 +100,7 @@ export class ObrasService {
 
     return this.http.put<any[]>(`${this.baseUrlObras}actualizaobra/${Obra.id}`, data, httpOptions).pipe(
       map((response) => {
-
-        if (response) {
-          return response;
-        } else {
-          throw new Error('Respuesta inesperada del servidor');
-        }
-
-      }),
-      catchError((error) => {
-
-        console.error('Error en la solicitud:', error);
-        return throwError('Ha ocurrido un error en la solicitud.');
-
+        return response;
       })
     );
 
@@ -137,27 +111,16 @@ export class ObrasService {
 
     return this.http.delete<any[]>(`${this.baseUrlObras}eliminaobra/${Obra.id}`, httpOptions).pipe(
       map((response) => {
- 
-        if (response) {
           return response;
-        } else {
-          throw new Error('Respuesta inesperada del servidor');
-        }
-
-      }),
-      catchError((error) => {
-
-        console.error('Error en la solicitud:', error);
-        return throwError('Ha ocurrido un error en la solicitud.');
-
-      })
-    );
+        })
+      );
 
   }
 
 
 
   getAllObras(): Observable<any> {
+
     return this.http.get(`${this.baseUrlObras}allobras`, httpOptions)
       .pipe(
         map((response) => {
@@ -178,8 +141,33 @@ export class ObrasService {
 
 
 
+  // /api/obras/backoffice/v1/codigodeobraemergencia
+  getCodigodeobraemergencia(): Observable<any> {
+
+    return this.http.get(`${this.baseUrlObras}codigodeobraemergencia`, httpOptions)
+      .pipe(
+        map((response) => {
+
+          if (response) {
+            return response;
+          } else {
+            throw new Error('Respuesta inesperada del servidor');
+          }
+
+        }),
+        catchError((error) => {
+          console.error('Error en la solicitud:', error);
+          return throwError('Ha ocurrido un error en la solicitud.');
+        })
+      );
+
+  }
+
+
+
   // /api/obras/backoffice/general/v1/alloficinasupervisor
   getAlloficinasupervisor(): Observable<any> {
+
     return this.http.get(`${this.baseUrl}alloficinasupervisor`, httpOptions)
       .pipe(
         map((response) => {
@@ -198,9 +186,10 @@ export class ObrasService {
       );
   }
 
- 
+
   //  /api/obras/backoffice/general/v1/allrecargospordistancia
   getAllrecargospordistancia(): Observable<any> {
+
     return this.http.get(`${this.baseUrl}allrecargospordistancia`, httpOptions)
       .pipe(
         map((response) => {
@@ -219,16 +208,11 @@ export class ObrasService {
       );
   }
 
-    
-
-        
-
-
-
 
 
 
   getAllTipoObras(): Observable<any> {
+
     return this.http.get(`${this.baseUrl}alltipoobras`, httpOptions)
       .pipe(
         map((response) => {
@@ -249,6 +233,7 @@ export class ObrasService {
 
 
   getAllZonas(): Observable<any> {
+
     return this.http.get(`${this.baseUrl}allzonales`, httpOptions)
       .pipe(
         map((response) => {
@@ -270,6 +255,7 @@ export class ObrasService {
 
 
   getAllDelegaciones(): Observable<any> {
+
     return this.http.get(`${this.baseUrl}alldelegaciones`, httpOptions)
       .pipe(
         map((response) => {
@@ -291,6 +277,7 @@ export class ObrasService {
 
 
   getAllTipoTrabajos(): Observable<any> {
+
     return this.http.get(`${this.baseUrl}alltipotrabajos`, httpOptions)
       .pipe(
         map((response) => {
@@ -311,6 +298,7 @@ export class ObrasService {
 
 
   getAllEmpresaContratistas(): Observable<any> {
+
     return this.http.get(`${this.baseUrl}allempresacontratistas`, httpOptions)
       .pipe(
         map((response) => {
@@ -331,6 +319,7 @@ export class ObrasService {
 
 
   getAllCoordinadorContratistas(): Observable<any> {
+
     return this.http.get(`${this.baseUrl}allcoordinadorcontratistas`, httpOptions)
       .pipe(
         map((response) => {
@@ -351,6 +340,7 @@ export class ObrasService {
 
 
   getAllComunas(): Observable<any> {
+
     return this.http.get(`${this.baseUrl}allcomunas`, httpOptions)
       .pipe(
         map((response) => {
@@ -371,6 +361,7 @@ export class ObrasService {
 
 
   getAllEstados(): Observable<any> {
+
     return this.http.get(`${this.baseUrl}allestados`, httpOptions)
       .pipe(
         map((response) => {
@@ -391,6 +382,7 @@ export class ObrasService {
 
 
   getAllSegmentos(): Observable<any> {
+    
     return this.http.get(`${this.baseUrl}allsegmentos`, httpOptions)
       .pipe(
         map((response) => {
