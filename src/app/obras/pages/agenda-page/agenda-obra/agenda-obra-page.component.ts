@@ -244,13 +244,15 @@ export class AgendaObraPageComponent implements OnInit {
                     );
 
                 },
-                (error) => {
+                (ObjError) => {
+
+                    // Manejar errores
+                    console.error('Error al eliminar reporte :', ObjError);
 
                     this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: 'No fue posible guardar el registro. ' + error.error.message,
-                        life: 4000
+                        severity: 'info',
+                        summary: 'Información : ' + ObjError.status,
+                        detail: 'Por favor, verifique los siguientes datos:' + ObjError.error,
                     });
 
                 }
@@ -299,18 +301,65 @@ export class AgendaObraPageComponent implements OnInit {
                     );
 
                 },
-                (error) => {
+                (ObjError) => {
+
+                    // Manejar errores
+                    console.error('Error al eliminar reporte :', ObjError);
 
                     this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: 'No se pudo actualizar el registro. ' + error.error.message,
-                        life: 4000
+                        severity: 'info',
+                        summary: 'Información : ' + ObjError.status,
+                        detail: 'Por favor, verifique los siguientes datos:' + ObjError.error,
                     });
+
                 }
             );
         }
     }
+
+
+
+    onEliminarClick(visitaterreno: VisitaTerreno) {
+
+        this.confirmationService.confirm({
+            message: 'Estás seguro de que deseas eliminar registro Id : ' + visitaterreno.id + ' ?',
+            header: 'Confirmar',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => { 
+
+                this.agendaService.eliminaVisitaTerreno(visitaterreno).subscribe(
+                    (response) => {
+
+                        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado', life: 3000 });
+
+                        this.obra = JSON.parse(localStorage.getItem('obra'));
+
+                        this.agendaService.getAllVisitasTerrenoPorObra(this.obra).subscribe(
+                            (VisitasTerreno: any) => {
+                                this.visitasterreno = VisitasTerreno;
+                            }
+                        );
+                       
+                    },
+                    (ObjError) => {
+
+                        // Manejar errores
+                        console.error('Error al eliminar reporte :', ObjError);
+
+                        this.messageService.add({
+                            severity: 'info',
+                            summary: 'Información : ' + ObjError.status,
+                            detail: 'Por favor, verifique los siguientes datos:' + ObjError.error,
+                        });
+
+                    }
+                );
+
+            }
+        });
+
+    }
+
 
 
     navegarAPagina2() {

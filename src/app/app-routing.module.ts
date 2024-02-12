@@ -20,17 +20,21 @@ import { PublicGuard } from './auth/guards/public.guard';
             {
                 path: '', component: AppLayoutComponent,
                 children: [
+                    
                     { path: 'dashboard', loadChildren: () => import('./demo/components/dashboard/dashboard.module').then(m => m.DashboardModule) },
+
                     { path: 'uikit', loadChildren: () => import('./demo/components/uikit/uikit.module').then(m => m.UIkitModule) },
                     { path: 'utilities', loadChildren: () => import('./demo/components/utilities/utilities.module').then(m => m.UtilitiesModule) },
                     { path: 'documentation', loadChildren: () => import('./demo/components/documentation/documentation.module').then(m => m.DocumentationModule) },
                     { path: 'blocks', loadChildren: () => import('./demo/components/primeblocks/primeblocks.module').then(m => m.PrimeBlocksModule) },
                     { path: 'pages', loadChildren: () => import('./demo/components/pages/pages.module').then(m => m.PagesModule) },
+                   
                     { path: 'jornada', loadChildren: () => import('./sae/components/jornada/jornada.module').then(m => m.JornadaModule) },
                     { path: 'evento', loadChildren: () => import('./sae/components/evento/evento.module').then(m => m.EventoModule) },
                     { path: 'persona', loadChildren: () => import('./sae/components/persona/persona.module').then(m => m.PersonaModule) },
                     { path: 'estado', loadChildren: () => import('./sae/components/estadoResultado/estadoresultado.module').then(m => m.EstadoResultadoModule) },
                     { path: 'NewEstado', loadChildren: () => import('./sae/components/newEstadoResultado/newestadoresultado.module').then(m => m.NewEstadoResultadoModule) },
+                    
                     
                     { path: 'detallepxq', loadChildren: () => import('./sae/components/detalle_pxq/detalle_pxq.module').then(m => m.Detalle_pxqModule) },
 
@@ -44,10 +48,12 @@ import { PublicGuard } from './auth/guards/public.guard';
 
 
                     {
-                        path: 'obras',
-                        loadChildren: () => import('./obras/obras.module').then(m => m.ObrasModule),
+                      path: 'obras',
+                      loadChildren: () => import('./obras/obras.module').then(m => m.ObrasModule),
                     },
+                    
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+
                 ],                       
                 canActivate: [ AuthGuard ],
                 canMatch: [ AuthGuard ]

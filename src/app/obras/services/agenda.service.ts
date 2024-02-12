@@ -15,12 +15,14 @@ const httpOptions = {
 export class AgendaService {
 
   private baseUrl: string = '';
+  private baseUrlGeneral: string = '';
   private UrlApi = '/api/obras/backoffice/v1/';
+  private UrlApiGeneral = '/api/obras/backoffice/general/v1/';
 
-  constructor(private http: HttpClient,private configService: ConfigService) {
 
+  constructor(private http: HttpClient, private configService: ConfigService) {
     this.baseUrl = this.configService.baseUrl + this.UrlApi;
-
+    this.baseUrlGeneral = this.configService.baseUrl + this.UrlApiGeneral;
   }
 
 
@@ -43,16 +45,9 @@ export class AgendaService {
 
     return this.http.post<any[]>(`${this.baseUrl}creavisitaterreno`, data, httpOptions).pipe(
       map((response) => {
-
-        if (response) {
-          return response;
-        } else {
-          throw new Error('Respuesta inesperada del servidor');
-        }
-
+        return response;
       })
     );
-
   }
 
   updateVisitaTerreno(newVisitaTerreno: VisitaTerreno): Observable<any[]> {
@@ -69,54 +64,26 @@ export class AgendaService {
       //fecha_modificacion: newVisitaTerreno.fecha_modificacion
     };
 
-
     console.log("id visita terreno", newVisitaTerreno.id);
 
     console.log("data enviada para actualizar", data);
 
-
     return this.http.put<any[]>(`${this.baseUrl}actualizavisitaterreno/${newVisitaTerreno.id}`, data, httpOptions).pipe(
       map((response) => {
-
-        if (response) {
-          return response;
-        } else {
-          throw new Error('Respuesta inesperada del servidor');
-        }
-
-      }),
-      catchError((error) => {
-
-        console.error('Error en la solicitud:', error);
-        return throwError('Ha ocurrido un error en la solicitud.');
-
+        return response;
       })
-
     );
-
   }
 
 
-  deleleObra(Obra: Obra): Observable<any[]> {
+  ///api/obras/backoffice/v1/eliminavisitaterreno/{id}
 
-    return this.http.delete<any[]>(`${this.baseUrl}eliminaobra/${Obra.id}`, httpOptions).pipe(
+  eliminaVisitaTerreno(visitaTerreno: VisitaTerreno): Observable<any[]> {
+    return this.http.delete<any[]>(`${this.baseUrl}eliminavisitaterreno/${visitaTerreno.id}`, httpOptions).pipe(
       map((response) => {
-
-        if (response) {
-          return response;
-        } else {
-          throw new Error('Respuesta inesperada del servidor');
-        }
-
-      }),
-      catchError((error) => {
-
-        console.error('Error en la solicitud:', error);
-        return throwError('Ha ocurrido un error en la solicitud.');
-
+        return response;
       })
     );
-
   }
 
 
@@ -166,7 +133,7 @@ export class AgendaService {
 
 
   getAllEstadosVisitas(): Observable<any> {
-    return this.http.get(`${this.baseUrl}allestadovisitas`, httpOptions)
+    return this.http.get(`${this.baseUrlGeneral}allestadovisitas`, httpOptions)
       .pipe(
         map((response) => {
 
@@ -185,7 +152,8 @@ export class AgendaService {
   }
 
 
-
+  /******************************************************************/
+  /******************************************************************/
 
   getAllTipoObras(): Observable<any> {
     return this.http.get(`${this.baseUrl}alltipoobras`, httpOptions)

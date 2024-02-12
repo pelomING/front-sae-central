@@ -22,11 +22,20 @@
             </ng-template>
         </p-toolbar>
 
-        <p-table #dt [value]="visitasterreno" [rows]="10" [paginator]="true"
-        [globalFilterFields]="['fecha_visita','direccion','persona_mandante','persona_contratista','estado.nombre']"
-            [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
+        <p-table #dt 
+            [value]="visitasterreno" 
+            selectionMode="single" 
+            [rows]="10" 
+            [paginator]="true"
+            styleClass="p-datatable-gridlines p-datatable-striped p-datatable-header"
+            [globalFilterFields]="['fecha_visita','direccion','persona_mandante','persona_contratista','estado.nombre']"
+            [tableStyle]="{ 'min-width': '75rem' }" 
+            [(selection)]="selectedProducts" 
+            [rowHover]="true" 
+            dataKey="id"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true">
+            
             <ng-template pTemplate="caption">
                 <div class="flex align-items-center justify-content-between">
                     <h5 class="m-0"></h5>
@@ -49,11 +58,12 @@
                             field="contratista"></p-sortIcon></th>
                     <th pSortableColumn="estado" style="min-width:15rem">Estado <p-sortIcon field="estado"></p-sortIcon>
                     </th>
-                    <th></th>
+                    <th>Edit</th>
+                    <th>Del</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-visitaterreno>
-                <tr>
+                <tr [pSelectableRow]="visitaterreno" >
                     <td>{{ formateoFecha(visitaterreno.fecha_visita) }}</td>
                     <td>{{ visitaterreno.direccion }}</td>
                     <td>{{ visitaterreno.persona_mandante }}</td>
@@ -62,9 +72,13 @@
                         <p-tag icon="pi pi-star" [severity]="getSeverity(visitaterreno.estado.nombre)"
                             [value]="visitaterreno.estado.nombre"></p-tag>
                     </td>
-                    <td>
+                    <td style="text-align:center;" >
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
                             (click)="editProduct(visitaterreno)"></button>
+                    </td>
+                    <td style="text-align:center;" >
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                            (click)="onEliminarClick(visitaterreno)"></button>
                     </td>
                 </tr>
             </ng-template>
