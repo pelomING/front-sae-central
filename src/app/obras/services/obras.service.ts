@@ -49,7 +49,6 @@ export class ObrasService {
       coordinador_contratista: newObra.coordinador_contratista.id,
       comuna: newObra.comuna.codigo,
       ubicacion: newObra.ubicacion,
-      estado: newObra.estado.id,
       tipo_obra: newObra.tipo_obra.id,
       segmento: newObra.segmento.id,
       jefe_delegacion: newObra.jefe_delegacion,
@@ -66,6 +65,29 @@ export class ObrasService {
     );
 
   }
+
+
+
+  ///api/obras/backoffice/v1/paralizaobra 
+  ParalizaObra(data: any): Observable<any[]> {
+    return this.http.post<any[]>(`${this.baseUrlObras}paralizaobra`, data, httpOptions).pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  }
+
+
+  // /api/obras/backoffice/v1/cierraobra
+  Cierraobra(data: any): Observable<any[]> {
+    return this.http.post<any[]>(`${this.baseUrlObras}cierraobra`, data, httpOptions).pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  }
+
+
 
   updateObra(Obra: Obra): Observable<any[]> {
 
@@ -90,7 +112,6 @@ export class ObrasService {
       coordinador_contratista: Obra.coordinador_contratista.id,
       comuna: Obra.comuna.codigo,
       ubicacion: Obra.ubicacion,
-      estado: Obra.estado.id,
       tipo_obra: Obra.tipo_obra.id,
       segmento: Obra.segmento.id,
       jefe_delegacion: Obra.jefe_delegacion,
@@ -119,9 +140,9 @@ export class ObrasService {
 
 
 
-  getAllObras(): Observable<any> {
+  getAllObras(codigo_vista:any): Observable<any> {
 
-    return this.http.get(`${this.baseUrlObras}allobras`, httpOptions)
+    return this.http.get(`${this.baseUrlObras}allobras?vista=${codigo_vista}`, httpOptions)
       .pipe(
         map((response) => {
 

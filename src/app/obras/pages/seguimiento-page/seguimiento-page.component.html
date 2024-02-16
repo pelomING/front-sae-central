@@ -1,4 +1,4 @@
-<p-card header="Agenda de Coordinación de visita a terreno por obra">
+<p-card header="Estados de obra">
     <div class="card">
       <p-toast></p-toast>
 
@@ -39,45 +39,32 @@
         </ng-template>
         <ng-template pTemplate="header">
           <tr>
+
             <th pSortableColumn="nombre_obra" style="min-width:10rem">Nombre Obra <p-sortIcon field="nombre_obra"></p-sortIcon></th>
             <th pSortableColumn="codigo_obra" style="min-width:10rem">Codigo <p-sortIcon field="codigo_obra"></p-sortIcon></th>
-            <th pSortableColumn="numero_ot">N° OT <p-sortIcon field="numero_ot"></p-sortIcon></th>
-            <th pSortableColumn="monto" style="min-width:10rem">Monto <p-sortIcon field="monto"></p-sortIcon></th>
-            <th pSortableColumn="estado.nombre" style="min-width:10rem">Estado <p-sortIcon field="estado.nombre"></p-sortIcon></th>
-
-            <th pSortableColumn="fecha_estado" style="min-width:10rem">Fecha Estado <p-sortIcon
-              field="fecha_estado"></p-sortIcon></th>
-
-
-            <th></th>
+            
+            <th pSortableColumn="estado.nombre" style="min-width:10rem">Estado Ingresada <p-sortIcon field="estado.nombre"></p-sortIcon></th>
+            <th pSortableColumn="estado.nombre" style="min-width:10rem">Estado Visita Agendada <p-sortIcon field="estado.nombre"></p-sortIcon></th>
+            <th pSortableColumn="estado.nombre" style="min-width:10rem">Estado Visita en Ejecución<p-sortIcon field="estado.nombre"></p-sortIcon></th>
+            <th pSortableColumn="estado.nombre" style="min-width:10rem">Estado Reporte Visita OK <p-sortIcon field="estado.nombre"></p-sortIcon></th>
+            <th pSortableColumn="estado.nombre" style="min-width:10rem">Estado En Faena<p-sortIcon field="estado.nombre"></p-sortIcon></th>
+            <th pSortableColumn="estado.nombre" style="min-width:10rem">Estado Faena Finalizada<p-sortIcon field="estado.nombre"></p-sortIcon></th>
+            
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-obra>
           <tr [pSelectableRow]="obra" >
-            <!-- <td>
-              <p-tableCheckbox [value]="obra"></p-tableCheckbox>
-            </td> -->
+            
             <td>{{ obra.nombre_obra }}</td>
             <td>{{ obra.codigo_obra }}</td>
-            <td>{{ obra.numero_ot }}</td>
-            <td>{{ obra.monto }}</td>
-            <!-- <td>
-              <p-rating [ngModel]="obra.id" [readonly]="true" [cancel]="false"></p-rating>
-            </td> -->
-            <td>
-
-              <p class="mi-p-tag" [style.background-color]="obra.estado.color">
-                <span class="pi pi-star" style="margin-right: 0.5rem;"></span>
-                {{ obra.estado.nombre }}
-              </p>
-  
-            </td>
-
-            <td style="text-align:center;">{{ obra.fecha_estado }}</td>
             
-            <td>
-                <button pButton pRipple icon="pi pi-book" class="p-button-rounded p-button-success mr-2" title="Navegar a la pagina" (click)="navegarAPagina2(obra)"></button>
-            </td>
+            <td><p-tag icon="pi pi-star" [value]="obra.estado.nombre" [severity]="getSeverity(obra.estado.nombre)"></p-tag></td>
+            <td><p-tag icon="pi pi-star" [value]="obra.estado.nombre" [severity]="getSeverity(obra.estado.nombre)"></p-tag></td>
+            <td><p-tag icon="pi pi-star" [value]="obra.estado.nombre" [severity]="getSeverity(obra.estado.nombre)"></p-tag></td>
+            <td><p-tag icon="pi pi-star" [value]="obra.estado.nombre" [severity]="getSeverity(obra.estado.nombre)"></p-tag></td>
+            <td><p-tag icon="pi pi-star" [value]="obra.estado.nombre" [severity]="getSeverity(obra.estado.nombre)"></p-tag></td>
+            <td><p-tag icon="pi pi-star" [value]="obra.estado.nombre" [severity]="getSeverity(obra.estado.nombre)"></p-tag></td>
+            
           </tr>
         </ng-template>
         <ng-template pTemplate="summary">

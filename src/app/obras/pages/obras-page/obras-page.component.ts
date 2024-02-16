@@ -10,6 +10,7 @@ import { Product } from '../../interfaces/product.interface';
 import { Obra, Zona, Delegacion, Tipotrabajos, Empresacontratistas, Coordinadorcontratistas, Comuna, Estado, Tipo_obra, Segmento, OficinaSupervisor, RecargoPorDistancia } from '../../interfaces/obra.interface';
 
 import { ProductService } from '../../services/productservice';
+
 import { ObrasService } from '../../services/obras.service';
 
 @Component({
@@ -21,6 +22,8 @@ import { ObrasService } from '../../services/obras.service';
 export class ObrasPageComponent implements OnInit {
 
     obraForm: FormGroup;
+    paralizarForm: FormGroup;
+
     formObraDialog: boolean;
     products: Product[];
     product: Product;
@@ -40,21 +43,25 @@ export class ObrasPageComponent implements OnInit {
     tipo_obra: Tipo_obra[] | undefined;
     segmento: Segmento[] | undefined;
 
-
-
     oficinaSupervisor: OficinaSupervisor[] | undefined;
-
     recargoPorDistancia: RecargoPorDistancia[] | undefined;
 
-
-
+    OBRA: any;
 
     router: any;
-
     cols: any[] = [];
 
+
     mostrarGuardar: boolean = true; // Mostrar el botón por defecto
+
     mostrarActualizar: boolean = true;
+
+    mostrarParalizarObra: boolean = true;
+
+    mostrarTabParalizarObra: boolean = true;
+
+    mostrarDeleteObra: boolean = true;
+
 
 
     constructor(private productService: ProductService,
@@ -86,7 +93,6 @@ export class ObrasPageComponent implements OnInit {
             coordinador_contratista: ['', Validators.required],
             comuna: ['', Validators.required],
             ubicacion: ['', Validators.required],
-            estado: ['', Validators.required],
             tipo_obra: ['', Validators.required],
             segmento: ['', Validators.required],
             jefe_delegacion: ['', Validators.required],
@@ -94,12 +100,24 @@ export class ObrasPageComponent implements OnInit {
             recargo_distancia: ['', Validators.required]
         });
 
+
+        this.paralizarForm = this.fb.group({
+            id: [''],
+            id_obra: ['', Validators.required],
+            fecha_hora: ['', Validators.required],
+            responsable: ['', Validators.required],
+            motivo: ['', Validators.required],
+            observacion: ['', Validators.required],
+        });
+
     }
 
-    ngOnInit() {
 
+    private codigo_vista = 111;
 
-        this.obrasService.getAllObras().subscribe(
+    listadoObras() {
+
+        this.obrasService.getAllObras(this.codigo_vista).subscribe(
             (Obras: any) => {
                 console.log("Esto es la Obras:", Obras);
                 this.obras = Obras;
@@ -109,6 +127,14 @@ export class ObrasPageComponent implements OnInit {
             }
         );
 
+    }
+
+
+
+    ngOnInit() {
+
+
+        this.listadoObras();
 
         this.obrasService.getAllZonas().subscribe(
             (Zonas: any) => {
@@ -266,25 +292,23 @@ export class ObrasPageComponent implements OnInit {
 
 
     openNew() {
+
+        this.OBRA = 'Registar Nueva Obra';
+
         this.mostrarGuardar = true;
         this.mostrarActualizar = false;
+
+        this.mostrarTabParalizarObra = false;
+
         this.obraForm.reset();
+        this.paralizarForm.reset();
+
         this.formObraDialog = true;
+
     }
 
 
-    deleteSelectedProducts() {
-        this.confirmationService.confirm({
-            message: 'Are you sure you want to delete the selected products?',
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.products = this.products.filter((val) => !this.selectedProducts.includes(val));
-                this.selectedProducts = null;
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
-            }
-        });
-    }
+
 
 
     formateoFecha(fechaOriginal: string): string {
@@ -299,9 +323,16 @@ export class ObrasPageComponent implements OnInit {
     }
 
 
-    editProduct(obra: Obra) {
+    id_obra_paraliza = 0;
+
+    editObra(obra: any) {
 
         this.obraForm.reset();
+        this.paralizarForm.reset();
+
+        this.id_obra_paraliza = obra.id;
+
+        this.OBRA = 'Modificar registros Obra Código : ' + obra.codigo_obra;
 
         this.mostrarGuardar = false;
         this.mostrarActualizar = true;
@@ -310,16 +341,81 @@ export class ObrasPageComponent implements OnInit {
         obra.fecha_llegada = this.formateoFecha(obra.fecha_llegada);
         obra.fecha_termino = this.formateoFecha(obra.fecha_termino);
 
+
+        this.mostrarTabParalizarObra = true;
+
+        // Verifica si obra y obra_paralizada están definidos y si id es diferente de null o undefined
+        if (obra && obra.obra_paralizada && obra.obra_paralizada.id_obra != null) {
+            this.mostrarParalizarObra = false;
+        } else {
+            this.mostrarParalizarObra = true;
+        }
+
+
+        this.paralizarForm.patchValue({
+            id_obra: obra?.id || '',
+            fecha_hora: this.formateoFecha(obra?.obra_paralizada?.fecha_hora) || '',
+            responsable: obra?.obra_paralizada?.responsable || '',
+            motivo: obra?.obra_paralizada?.motivo || '',
+            observacion: obra?.obra_paralizada?.observacion || ''
+        });
+
         this.obraForm.patchValue(obra);
+
         this.formObraDialog = true;
 
     }
 
 
-    onEliminarClick(obra: Obra) {
+    verObra(obra: any) {
+
+        this.obraForm.reset();
+        this.paralizarForm.reset();
+
+        this.id_obra_paraliza = obra.id;
+
+        this.OBRA = 'Registros Obra Código : ' + obra.codigo_obra;
+
+        this.mostrarGuardar = false;
+        this.mostrarActualizar = false;
+
+        obra.fecha_inicio = this.formateoFecha(obra.fecha_inicio);
+        obra.fecha_llegada = this.formateoFecha(obra.fecha_llegada);
+        obra.fecha_termino = this.formateoFecha(obra.fecha_termino);
+
+
+        // Verifica si obra y obra_paralizada están definidos y si id es diferente de null o undefined
+        if (obra && obra.obra_paralizada && obra.obra_paralizada.id_obra != null) {
+
+            this.mostrarTabParalizarObra = true;
+            this.mostrarParalizarObra = false;
+
+        } else {
+
+            this.mostrarTabParalizarObra = false;
+
+        }
+
+
+        this.paralizarForm.patchValue({
+            id_obra: obra?.id || '',
+            fecha_hora: this.formateoFecha(obra?.obra_paralizada?.fecha_hora) || '',
+            responsable: obra?.obra_paralizada?.responsable || '',
+            motivo: obra?.obra_paralizada?.motivo || '',
+            observacion: obra?.obra_paralizada?.observacion || ''
+        });
+
+        this.obraForm.patchValue(obra);
+
+        this.formObraDialog = true;
+
+    }
+
+
+    deleteObra(obra: Obra) {
 
         this.confirmationService.confirm({
-            message: 'Estás seguro de que deseas eliminar ' + obra.nombre_obra + '?',
+            message: 'Estás seguro de que deseas eliminar Obra Código : ' + obra.codigo_obra + '?',
             header: 'Confirmar',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
@@ -329,15 +425,7 @@ export class ObrasPageComponent implements OnInit {
 
                         this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado', life: 3000 });
 
-                        this.obrasService.getAllObras().subscribe(
-                            (Obras: any) => {
-                                console.log("Esto es la Obras:", Obras);
-                                this.obras = Obras;
-                            },
-                            (error) => {
-                                console.error('Error al obtener las obras:', error);
-                            }
-                        );
+                        this.listadoObras();
 
                     },
                     (error) => {
@@ -384,8 +472,6 @@ export class ObrasPageComponent implements OnInit {
 
             console.log('Nueva obra:', nuevaObra);
 
-
-
             this.obrasService.createObra(nuevaObra).subscribe(
                 (response) => {
                     // Manejar la respuesta exitosa
@@ -395,15 +481,7 @@ export class ObrasPageComponent implements OnInit {
 
                     this.formObraDialog = false;
 
-                    this.obrasService.getAllObras().subscribe(
-                        (Obras: any) => {
-                            console.log("Esto es la Obras:", Obras);
-                            this.obras = Obras;
-                        },
-                        (error) => {
-                            console.error('Error al obtener las obras:', error);
-                        }
-                    );
+                    this.listadoObras();
 
                 },
                 (ObjError) => {
@@ -433,6 +511,73 @@ export class ObrasPageComponent implements OnInit {
     }
 
 
+    loading_Paraliza: boolean = false;
+
+
+    onParalizarObraClick() {
+
+
+        this.loading_Paraliza = true;
+
+        setTimeout(() => {
+            this.loading_Paraliza = false
+        }, 2000);
+
+
+        if (this.paralizarForm.valid) {
+
+            const registroParalizar = this.paralizarForm.value;
+
+            console.log('paralizarForm:', registroParalizar);
+
+            this.obrasService.ParalizaObra(registroParalizar).subscribe(
+                (response) => {
+                    // Manejar la respuesta exitosa
+                    console.log('Obra paralizada con éxito:', response);
+
+                    this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
+
+                    this.loading_Paraliza = false
+
+                    this.formObraDialog = false;
+
+                    this.listadoObras();
+
+                },
+                (ObjError) => {
+
+                    // Manejar errores
+                    console.error('Error al guardar la obra:', ObjError);
+
+                    this.loading_Paraliza = false
+
+                    this.messageService.add({
+                        severity: 'info',
+                        summary: 'Información : ' + ObjError.status,
+                        detail: 'Por favor, verifique los siguientes datos : ' + ObjError.error,
+                    });
+
+                }
+            )
+
+        } else {
+
+
+            this.loading_Paraliza = false
+
+            // El formulario es inválido, muestra errores si es necesario
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Por favor, completa el formulario correctamente',
+            });
+
+        }
+
+    }
+
+
+
 
     onActualizarClick() {
 
@@ -455,15 +600,7 @@ export class ObrasPageComponent implements OnInit {
 
                     this.formObraDialog = false;
 
-                    this.obrasService.getAllObras().subscribe(
-                        (Obras: any) => {
-                            console.log("Esto es la Obras:", Obras);
-                            this.obras = Obras;
-                        },
-                        (error) => {
-                            console.error('Error al obtener las obras:', error);
-                        }
-                    );
+                    this.listadoObras();
 
                 },
                 (ObjError) => {
@@ -521,58 +658,13 @@ export class ObrasPageComponent implements OnInit {
             });
 
             this.codigoEmergencia = false; // Deshabilita el control del input
-        
+
         }
 
     }
 
 
 
-    findIndexById(id: string): number {
-        let index = -1;
-        for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id === id) {
-                index = i;
-                break;
-            }
-        }
-
-        return index;
-    }
-
-    createId(): string {
-        let id = '';
-        var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        for (var i = 0; i < 5; i++) {
-            id += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return id;
-    }
-
-    getSeverity(status: string) {
-
-        switch (status) {
-            case 'activo':
-                return 'primary';
-            case 'Visita Terreno coordinada':
-                return 'success';
-            case 'Lista para Iniciar faena':
-                return 'help';
-            case 'En Faena':
-                return 'info';
-            case 'Paralizada':
-                return 'warning';
-            case 'Estado Pago Enviado':
-                return 'help';
-            case 'Factura Emitida':
-                return 'warning';
-            case 'Factura Pagada':
-                return 'warning';
-
-        }
-
-        return '';
-    }
 
 
     onGlobalFilter(table: Table, event: Event) {

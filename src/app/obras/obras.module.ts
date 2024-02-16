@@ -33,6 +33,16 @@ import { MaterialesfaltantesPageComponent } from './pages/materialesfaltantes-pa
 
 /* Informe de Cuadratura de Materiales */
 import { CuadraturamaterialesPageComponent } from './pages/cuadraturamateriales-page/cuadraturamateriales-page.component';
+
+
+/* Cierre de Obra */
+import { CierrePageComponent } from './pages/cierre-page/cierre-page.component';
+
+
+/* Seguimiento Estados de Obra */
+//import { SeguimientoPageComponent } from './pages/seguimiento-page/seguimiento-page.component';
+
+
  
 /* Estado Pago */
 import { EstadopagoPageComponent } from './pages/estadopago-page/estadopago-page.component';
@@ -62,6 +72,8 @@ import { CommaToDotPipe } from './pipes/comma-to-dot.pipe';
     HistoricoEstadoPagoPageComponent,
     GenerarEstadoPagoObrasPageComponent,
     EstadoobraPageComponent,
+    CierrePageComponent,
+    //SeguimientoPageComponent,
     CommaToDotPipe
   ],
   imports: [

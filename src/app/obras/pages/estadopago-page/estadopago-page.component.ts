@@ -12,6 +12,9 @@ import { NavigationExtras, Router } from '@angular/router';
 import { ReporteDiarioService } from '../../services/reporte-diario.service';
 
 
+import { ObrasService } from '../../services/obras.service';
+
+
 
 @Component({
     selector: 'app-estadopago-page',
@@ -39,6 +42,7 @@ export class EstadopagoPageComponent implements OnInit {
         private messageService: MessageService,
         private router: Router,
         private reporteDiarioService: ReporteDiarioService,
+        private obrasService: ObrasService,
         private confirmationService: ConfirmationService) {
 
 
@@ -46,17 +50,13 @@ export class EstadopagoPageComponent implements OnInit {
 
     }
 
-    ngOnInit() {
 
-        this.productService.getProducts().then((data) => (this.products = data));
 
-        this.statuses = [
-            { label: 'INSTOCK', value: 'instock' },
-            { label: 'LOWSTOCK', value: 'lowstock' },
-            { label: 'OUTOFSTOCK', value: 'outofstock' }
-        ];
+    private codigo_vista = 444
 
-        this.reporteDiarioService.getAllObras().subscribe(
+    listadoObras() {
+
+        this.obrasService.getAllObras(this.codigo_vista).subscribe(
             (Obras: any) => {
                 console.log("Esto es la Obras:", Obras);
                 this.obras = Obras;
@@ -66,6 +66,15 @@ export class EstadopagoPageComponent implements OnInit {
             }
         );
 
+    }
+
+
+    ngOnInit() {
+
+        this.productService.getProducts().then((data) => (this.products = data));
+
+        this.listadoObras();
+
         this.cols = [
             { field: 'nombre_obra', header: 'Nombre Obra' },
             { field: 'codigo_obra', header: 'Codigo' },
@@ -73,8 +82,14 @@ export class EstadopagoPageComponent implements OnInit {
             { field: 'monto', header: 'Monto' },
             { field: 'estado.nombre', header: 'Estado' }
         ];
-
-    }
+        
+        this.statuses = [
+            { label: 'INSTOCK', value: 'instock' },
+            { label: 'LOWSTOCK', value: 'lowstock' },
+            { label: 'OUTOFSTOCK', value: 'outofstock' }
+        ];
+        
+    } 
 
 
     navegarAPagina2(obra: Obra) {

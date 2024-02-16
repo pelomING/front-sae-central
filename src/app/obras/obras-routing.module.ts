@@ -23,6 +23,12 @@ import { GenerarEstadoPagoObrasPageComponent } from './pages/estadopago-page/gen
 
 import { EstadoobraPageComponent } from './pages/estadoobra-page/estadoobra-page.component';
 
+import { CierrePageComponent } from './pages/cierre-page/cierre-page.component';
+
+//import { SeguimientoPageComponent } from './pages/seguimiento-page/seguimiento-page.component';
+
+
+
 // localhost:4200/obras
 const routes: Routes = [
   {
@@ -46,7 +52,12 @@ const routes: Routes = [
       { path: 'historicoestadopago', component: HistoricoEstadoPagoPageComponent },
       { path: 'generarestadopagoobras', component: GenerarEstadoPagoObrasPageComponent },
             
-      { path: 'estadoobra', component: EstadoobraPageComponent }
+      { path: 'estadoobra', component: EstadoobraPageComponent },
+
+      { path: 'cierre', component: CierrePageComponent },
+
+      // { path: 'seguimiento', component: SeguimientoPageComponent }
+
     ]
   }
 ];
