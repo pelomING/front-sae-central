@@ -33,6 +33,5 @@ export interface VisitaTerreno {
     cargo_mandante: string | null;
     persona_contratista: string | null;
     cargo_contratista: string | null;
-    observacion: string | null;
-    estado: Estado | null;
+    observacion: string | null
   }

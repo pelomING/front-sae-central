@@ -36,9 +36,7 @@ export class AgendaService {
       cargo_mandante: newVisitaTerreno.cargo_mandante,
       persona_contratista: newVisitaTerreno.persona_contratista,
       cargo_contratista: newVisitaTerreno.cargo_contratista,
-      observacion: newVisitaTerreno.observacion,
-      estado: newVisitaTerreno.estado.id
-      //fecha_modificacion: newVisitaTerreno.fecha_modificacion
+      observacion: newVisitaTerreno.observacion
     };
 
     console.log("data enviada", data);
@@ -59,13 +57,10 @@ export class AgendaService {
       cargo_mandante: newVisitaTerreno.cargo_mandante,
       persona_contratista: newVisitaTerreno.persona_contratista,
       cargo_contratista: newVisitaTerreno.cargo_contratista,
-      observacion: newVisitaTerreno.observacion,
-      estado: newVisitaTerreno.estado.id
-      //fecha_modificacion: newVisitaTerreno.fecha_modificacion
+      observacion: newVisitaTerreno.observacion
     };
 
     console.log("id visita terreno", newVisitaTerreno.id);
-
     console.log("data enviada para actualizar", data);
 
     return this.http.put<any[]>(`${this.baseUrl}actualizavisitaterreno/${newVisitaTerreno.id}`, data, httpOptions).pipe(

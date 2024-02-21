@@ -67,6 +67,7 @@ export class AgendaObraPageComponent implements OnInit {
         private fb: FormBuilder,
         private confirmationService: ConfirmationService) {
 
+
         this.visitaTerrenoForm = this.fb.group({
             id: [''],  
             id_obra: ['', Validators.required],
@@ -76,8 +77,7 @@ export class AgendaObraPageComponent implements OnInit {
             cargo_mandante: ['', Validators.required],
             persona_contratista: ['', Validators.required],
             cargo_contratista: ['', Validators.required],
-            observacion: ['', Validators.required],
-            estado: ['', Validators.required]
+            observacion: ['', Validators.required]
         });
 
 
@@ -157,8 +157,7 @@ export class AgendaObraPageComponent implements OnInit {
             cargo_mandante: null,
             persona_contratista: null,
             cargo_contratista: null,
-            observacion: null,
-            estado: null
+            observacion: null
         };
 
         this.visitaTerrenoForm.patchValue(newVisitaTerreno);
@@ -178,7 +177,7 @@ export class AgendaObraPageComponent implements OnInit {
         const mes = partes[1];
         const dia = partes[2];
 
-        const fechaFormateada = `${dia}/${mes}/${anio}`;
+        const fechaFormateada = `${dia}-${mes}-${anio}`;
         return fechaFormateada;
 
     }
@@ -199,12 +198,10 @@ export class AgendaObraPageComponent implements OnInit {
             cargo_mandante: visitaterreno.cargo_mandante,
             persona_contratista: visitaterreno.persona_contratista,
             cargo_contratista: visitaterreno.cargo_contratista,
-            observacion: visitaterreno.observacion,
-            estado: visitaterreno.estado
+            observacion: visitaterreno.observacion
         };
 
         this.visitaTerrenoForm.patchValue(newVisitaTerreno);
-
         this.productDialog = true;
 
     }
@@ -225,6 +222,10 @@ export class AgendaObraPageComponent implements OnInit {
             const nuevaVisitaTerreno = this.visitaTerrenoForm.value;
 
             console.log('Nueva Visita Terreno:', nuevaVisitaTerreno);
+
+            nuevaVisitaTerreno.fecha_visita = this.formateoFechaEnviar(nuevaVisitaTerreno.fecha_visita);
+
+
 
             this.agendaService.createVisitaTerreno(nuevaVisitaTerreno).subscribe(
                 (response) => {
@@ -272,6 +273,44 @@ export class AgendaObraPageComponent implements OnInit {
 
 
 
+    fechaFormateada: string;
+
+    formateoFechaEnviar(fechaOriginal: string | number | Date) {
+
+        this.fechaFormateada = '';
+
+        if (typeof fechaOriginal === 'string') {
+
+            // El campo es de tipo texto (string)
+            //console.log('Es una cadena de texto');
+
+            let arrayFecha = fechaOriginal.split("-");
+
+            // Formatea la fecha en el formato deseado
+            this.fechaFormateada = `${arrayFecha[2]}-${arrayFecha[1]}-${arrayFecha[0]}`;
+
+        } else if (fechaOriginal instanceof Date) {
+
+            // El campo es de tipo Date
+            //console.log('Es un objeto Date');
+
+            const fechaParseada = new Date(fechaOriginal);
+
+            const dia = fechaParseada.getDate().toString().padStart(2, '0');
+            const mes = (fechaParseada.getMonth() + 1).toString().padStart(2, '0');
+            const año = fechaParseada.getFullYear();
+
+            this.fechaFormateada = `${año}-${mes}-${dia}`;
+
+        }
+
+        console.log("fechaFormateada", this.fechaFormateada);
+
+        return this.fechaFormateada;
+
+    }
+
+
     onActualizarClick() {
 
         this.loading = true;
@@ -283,9 +322,11 @@ export class AgendaObraPageComponent implements OnInit {
 
         if (this.visitaTerrenoForm.valid) {
 
-            const updatedObra = this.visitaTerrenoForm.value;
+            const updatedVisitaTerreno = this.visitaTerrenoForm.value;
 
-            this.agendaService.updateVisitaTerreno(updatedObra).subscribe(
+            updatedVisitaTerreno.fecha_visita = this.formateoFechaEnviar(updatedVisitaTerreno.fecha_visita);
+
+            this.agendaService.updateVisitaTerreno(updatedVisitaTerreno).subscribe(
                 (response) => {
 
                     this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro actualizado', life: 3000 });
@@ -305,6 +346,12 @@ export class AgendaObraPageComponent implements OnInit {
 
                     // Manejar errores
                     console.error('Error al eliminar reporte :', ObjError);
+
+                    let arrayFecha = updatedVisitaTerreno.fecha_visita.split("-");
+
+                    updatedVisitaTerreno.fecha_visita = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0]
+
+                    this.visitaTerrenoForm.patchValue(updatedVisitaTerreno);
 
                     this.messageService.add({
                         severity: 'info',
