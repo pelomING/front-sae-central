@@ -421,6 +421,16 @@
 
                   <input type="hidden" pInputhidden id="id_obra" class="form-control" formControlName="id_obra">
 
+                  <div class="col-12" *ngIf="paralizarForm.get('responsable').value" >
+                    <div class="form-group p-field custom-spacing">
+                      <span class="p-float-label">
+                        <input type="text" [readonly]="true" pInputText id="responsable" class="form-control"
+                          formControlName="responsable">
+                        <label htmlFor="responsable">Responsable</label>
+                      </span>
+                    </div>
+                  </div>
+
                   <div class="col-4">
                     <div class="form-group p-field custom-spacing">
                       <div class="calendar-container">
@@ -429,16 +439,6 @@
                             <label htmlFor="fecha_hora">Fecha cuando se paraliza la obra</label>
                         </span>
                       </div>
-                    </div>
-                  </div>
-
-                  <div class="col-12">
-                    <div class="form-group p-field custom-spacing">
-                      <span class="p-float-label">
-                        <input type="text" pInputText id="responsable" class="form-control"
-                          formControlName="responsable">
-                        <label htmlFor="responsable">Responsable</label>
-                      </span>
                     </div>
                   </div>
 
@@ -496,15 +496,15 @@
                         </div>
                     </div>
           
-                    <div class="col-4">
-                      <div class="form-group p-field custom-spacing">
-                        <span class="p-float-label">
-                          <input type="text" pInputText id="supervisor_responsable" class="form-control"
-                            formControlName="supervisor_responsable">
-                          <label htmlFor="supervisor_responsable">Supervisor Responsable</label>
-                        </span>
+                      <div class="col-4">
+                        <div class="form-group p-field custom-spacing">
+                          <span class="p-float-label">
+                            <input type="text" pInputText id="supervisor_responsable" class="form-control"
+                              formControlName="supervisor_responsable">
+                            <label htmlFor="supervisor_responsable">Supervisor Responsable</label>
+                          </span>
+                        </div>
                       </div>
-                    </div>
           
                     <div class="col-4">
                       <div class="form-group p-field custom-spacing">

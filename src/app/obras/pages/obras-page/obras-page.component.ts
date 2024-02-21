@@ -110,7 +110,7 @@ export class ObrasPageComponent implements OnInit {
             id: [''],
             id_obra: ['', Validators.required],
             fecha_hora: ['', Validators.required],
-            responsable: ['', Validators.required],
+            responsable: [''],
             motivo: ['', Validators.required],
             observacion: ['', Validators.required],
         });
@@ -511,6 +511,7 @@ export class ObrasPageComponent implements OnInit {
 
             this.obrasService.createObra(nuevaObra).subscribe(
                 (response) => {
+
                     // Manejar la respuesta exitosa
                     console.log('Obra guardada con éxito:', response);
 
