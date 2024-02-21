@@ -413,7 +413,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
             this.loading = false;
 
-            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
+            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Se agrego Actividad al reporte', life: 3000 });
 
             this.actividadesDialog = false;
 
@@ -441,7 +441,7 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
             this.loading = false;
 
-            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
+            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Se actualizo la Actividad', life: 3000 });
 
             this.OtraActividadForm.reset();
 

@@ -24,16 +24,10 @@
         </p-toolbar>
 
 
-        <p-table #dt [value]="listaReportesDiarios" 
-            selectionMode="single" 
-            [columns]="cols" 
-            [rows]="10"
-            [paginator]="true" 
-            styleClass="p-datatable-gridlines p-datatable-striped p-datatable-header"
+        <p-table #dt [value]="listaReportesDiarios" selectionMode="single" [columns]="cols" [rows]="10"
+            [paginator]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-header"
             [globalFilterFields]="['id', 'id_obra', 'fecha_reporte', 'jefe_faena','sdi']"
-            [tableStyle]="{ 'min-width': '75rem' }" 
-            [(selection)]="selectedProducts" 
-            [rowHover]="true" dataKey="id"
+            [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true">
 
@@ -90,13 +84,14 @@
 
                     <td>{{ reportediario.sdi }}</td>
 
-                    <td style="text-align:center;" >
-                        <button  *ngIf="reportediario.id_estado_pago === null" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                    <td style="text-align:center;">
+                        <button *ngIf="reportediario.id_estado_pago === null" pButton pRipple icon="pi pi-pencil"
+                            class="p-button-rounded p-button-success mr-2"
                             (click)="openEditReporteDiario(reportediario)"></button>
                     </td>
-                    <td style="text-align:center;" >
-                        <button *ngIf="reportediario.id_estado_pago === null" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                            (click)="onEliminarClick(reportediario)"></button>
+                    <td style="text-align:center;">
+                        <button *ngIf="reportediario.id_estado_pago === null" pButton pRipple icon="pi pi-trash"
+                            class="p-button-rounded p-button-warning" (click)="onEliminarClick(reportediario)"></button>
                     </td>
                 </tr>
             </ng-template>
@@ -120,16 +115,16 @@
 
         <ng-template pTemplate="content">
 
-            <p-tabView>
 
-                <p-tabPanel header="Datos Principales">
+            <form [formGroup]="ReporteDiarioForm">
 
-                    <form [formGroup]="ReporteDiarioForm">
+                <p-tabView>
+
+                    <p-tabPanel header="Datos Principales">
 
                         <input type="hidden" pInputhidden id="id" class="form-control" formControlName="id">
 
-                        <div class="card" style="height:650px; padding-top: 65px;">
-
+                        <div class="card" style="height:520px; padding-top: 65px;">
 
                             <div class="grid">
 
@@ -345,228 +340,229 @@
 
                             </div>
 
+                        </div>
 
-                            <div class="grid" style="margin-top:5%;">
-                                <div class="col-3"></div>
-                                <div class="col-6">
+                    </p-tabPanel>
 
-                                    <button *ngIf="mostrarGuardar" pButton pRipple label="Guardar" type="button"
-                                        (click)="onGuardarReporteDiarioClick()" visible="false" [loading]="loading"
-                                        [disabled]="ReporteDiarioForm.invalid"
-                                        class="p-button-rounded p-button-outlined p-mt-10"></button>
+                    <p-tabPanel header="Actividades">
 
-                                    <button *ngIf="mostrarActualizar" pButton pRipple label="Actualizar" type="button"
-                                        (click)="onActualizarReporteDiarioClick()" [loading]="loading"
-                                        [disabled]="ReporteDiarioForm.invalid"
-                                        class="p-button-rounded p-button-success p-button-outlined p-mt-10"></button>
+                        <div class="card">
 
-                                </div>
-                                <div class="col-3"></div>
-                            </div>
+                            <p-toolbar styleClass="mb-4 gap-2">
 
+                                <ng-template pTemplate="left">
+
+                                    <button pButton pRipple label="Agregar Actividad" icon="pi pi-plus"
+                                        class="p-button-success mr-2" (click)="openNewActividades()"></button>
+
+                                </ng-template>
+
+                                <ng-template pTemplate="right">
+
+                                </ng-template>
+                            </p-toolbar>
+
+
+                            <p-table #dt1 [value]="listaTablaActividades" [columns]="colslistaTablaActividades"
+                                [rows]="4" [paginator]="true" [globalFilterFields]="" responsiveLayout="scroll"
+                                [rowHover]="true" [totalRecords]="listaTablaActividades.length" dataKey="id"
+                                [tableStyle]="{ 'min-width': '75rem' }"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                [showCurrentPageReport]="true">
+
+                                <ng-template pTemplate="caption">
+
+                                    <div class="flex justify-content-between flex-wrap">
+                                        <div>
+                                            <h5 class="m-0">Listado de Actividades</h5>
+                                        </div>
+
+                                        <div>
+                                            <span class="p-input-icon-left">
+                                                <i class="pi pi-search"></i>
+                                                <input pInputText type="text"
+                                                    (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                                    placeholder="Search..." />
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+
+                                        <th style="min-width:10rem"> Clase </th>
+
+                                        <th style="min-width:10rem"> Tipo </th>
+
+                                        <th>
+                                            <div style="width:5%; white-space:nowrap;">
+                                                Actividad
+                                            </div>
+                                        </th>
+
+                                        <th style="min-width:10rem"> Unidad </th>
+
+                                        <th style="min-width:10rem"> Cantidad </th>
+
+                                        <th style="min-width:10rem"> Unitario </th>
+
+                                        <th style="min-width:10rem"> Total </th>
+
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-Actividad>
+                                    <tr>
+                                        <td>{{ Actividad.tipoOperacion.nombre }}</td>
+                                        <td>{{ Actividad.tipoActividad.descripcion }}</td>
+                                        <td>{{ Actividad.maestroActividad.actividad }}</td>
+                                        <td>{{ Actividad.maestroActividad.unidad.nombre }}</td>
+                                        <td>{{ Actividad.cantidad }}</td>
+                                        <td>{{ Actividad.ucUnitaria }}</td>
+                                        <td>{{ Actividad.ucTotal }}</td>
+                                        <td>
+                                            <button pButton pRipple icon="pi pi-pencil"
+                                                class="p-button-rounded p-button-success mr-2"
+                                                (click)="openEditActividad(Actividad)"></button>
+                                        </td>
+                                        <td>
+                                            <button pButton pRipple icon="pi pi-trash"
+                                                class="p-button-rounded p-button-warning"
+                                                (click)="openDeleteActividad(Actividad)"></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="summary">
+
+                                    <div class="flex align-items-center justify-content-between">
+                                        Cantidad de actividades registradas : {{
+                                        listaTablaActividades?listaTablaActividades.length : 0 }}
+                                    </div>
+
+                                </ng-template>
+                            </p-table>
 
                         </div>
 
-                    </form>
+                    </p-tabPanel>
 
-                </p-tabPanel>
+                    <p-tabPanel header="Otras Actividades">
 
-                <p-tabPanel header="Actividades">
+                        <div class="card">
 
-                    <div class="card">
+                            <p-toolbar styleClass="mb-4 gap-2">
 
-                        <p-toolbar styleClass="mb-4 gap-2">
+                                <ng-template pTemplate="left">
 
-                            <ng-template pTemplate="left">
+                                    <button pButton pRipple label="Agregar Otras Actividades" icon="pi pi-plus"
+                                        class="p-button-success mr-2" (click)="openNewOtrasActividades()"></button>
 
-                                <button pButton pRipple label="Agregar Actividad" icon="pi pi-plus"
-                                    class="p-button-success mr-2" (click)="openNewActividades()"></button>
+                                </ng-template>
 
-                            </ng-template>
+                                <ng-template pTemplate="right">
 
-                            <ng-template pTemplate="right">
-
-                            </ng-template>
-                        </p-toolbar>
+                                </ng-template>
+                            </p-toolbar>
 
 
-                        <p-table #dt1 [value]="listaTablaActividades" [columns]="colslistaTablaActividades" [rows]="4"
-                            [paginator]="true" [globalFilterFields]="" responsiveLayout="scroll" [rowHover]="true"
-                            [totalRecords]="listaTablaActividades.length" dataKey="id"
-                            [tableStyle]="{ 'min-width': '75rem' }"
-                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                            [showCurrentPageReport]="true">
+                            <p-table #dt1 [value]="listaTablaOtrasActividades"
+                                [columns]="colslistaTablaOtrasActividades" [rows]="4" [paginator]="true"
+                                [globalFilterFields]="" responsiveLayout="scroll" [rowHover]="true"
+                                [totalRecords]="listaTablaOtrasActividades.length" dataKey="id"
+                                [tableStyle]="{ 'min-width': '75rem' }"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                [showCurrentPageReport]="true">
 
-                            <ng-template pTemplate="caption">
+                                <ng-template pTemplate="caption">
 
-                                <div class="flex justify-content-between flex-wrap">
-                                    <div>
-                                        <h5 class="m-0">Listado de Actividades</h5>
-                                    </div>
-
-                                    <div>
-                                        <span class="p-input-icon-left">
-                                            <i class="pi pi-search"></i>
-                                            <input pInputText type="text"
-                                                (input)="dt.filterGlobal($event.target.value, 'contains')"
-                                                placeholder="Search..." />
-                                        </span>
-                                    </div>
-                                </div>
-
-                            </ng-template>
-                            <ng-template pTemplate="header">
-                                <tr>
-
-                                    <th style="min-width:10rem"> Clase </th>
-
-                                    <th style="min-width:10rem"> Tipo </th>
-
-                                    <th>
-                                        <div style="width:5%; white-space:nowrap;">
-                                            Actividad
+                                    <div class="flex justify-content-between flex-wrap">
+                                        <div>
+                                            <h5 class="m-0">Listado de Otras Actividades</h5>
                                         </div>
-                                    </th>
 
-                                    <th style="min-width:10rem"> Unidad </th>
-
-                                    <th style="min-width:10rem"> Cantidad </th>
-
-                                    <th style="min-width:10rem"> Unitario </th>
-
-                                    <th style="min-width:10rem"> Total </th>
-
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-Actividad>
-                                <tr>
-                                    <td>{{ Actividad.tipoOperacion.nombre }}</td>
-                                    <td>{{ Actividad.tipoActividad.descripcion }}</td>
-                                    <td>{{ Actividad.maestroActividad.actividad }}</td>
-                                    <td>{{ Actividad.maestroActividad.unidad.nombre }}</td>
-                                    <td>{{ Actividad.cantidad }}</td>
-                                    <td>{{ Actividad.ucUnitaria }}</td>
-                                    <td>{{ Actividad.ucTotal }}</td>
-                                    <td>
-                                        <button pButton pRipple icon="pi pi-pencil"
-                                            class="p-button-rounded p-button-success mr-2"
-                                            (click)="openEditActividad(Actividad)"></button>
-                                    </td>
-                                    <td>
-                                        <button pButton pRipple icon="pi pi-trash"
-                                            class="p-button-rounded p-button-warning"
-                                            (click)="openDeleteActividad(Actividad)"></button>
-                                    </td>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="summary">
-
-                                <div class="flex align-items-center justify-content-between">
-                                    Cantidad de actividades registradas : {{
-                                    listaTablaActividades?listaTablaActividades.length : 0 }}
-                                </div>
-
-                            </ng-template>
-                        </p-table>
-
-                    </div>
-
-                </p-tabPanel>
-
-                <p-tabPanel header="Otras Actividades">
-
-                    <div class="card">
-
-                        <p-toolbar styleClass="mb-4 gap-2">
-
-                            <ng-template pTemplate="left">
-
-                                <button pButton pRipple label="Agregar Otras Actividades" icon="pi pi-plus"
-                                    class="p-button-success mr-2" (click)="openNewOtrasActividades()"></button>
-
-                            </ng-template>
-
-                            <ng-template pTemplate="right">
-
-                            </ng-template>
-                        </p-toolbar>
-
-
-                        <p-table #dt1 [value]="listaTablaOtrasActividades" [columns]="colslistaTablaOtrasActividades"
-                            [rows]="4" [paginator]="true" [globalFilterFields]="" responsiveLayout="scroll"
-                            [rowHover]="true" [totalRecords]="listaTablaOtrasActividades.length" dataKey="id"
-                            [tableStyle]="{ 'min-width': '75rem' }"
-                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                            [showCurrentPageReport]="true">
-
-                            <ng-template pTemplate="caption">
-
-                                <div class="flex justify-content-between flex-wrap">
-                                    <div>
-                                        <h5 class="m-0">Listado de Otras Actividades</h5>
+                                        <div>
+                                            <span class="p-input-icon-left">
+                                                <i class="pi pi-search"></i>
+                                                <input pInputText type="text"
+                                                    (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                                    placeholder="Search..." />
+                                            </span>
+                                        </div>
                                     </div>
 
-                                    <div>
-                                        <span class="p-input-icon-left">
-                                            <i class="pi pi-search"></i>
-                                            <input pInputText type="text"
-                                                (input)="dt.filterGlobal($event.target.value, 'contains')"
-                                                placeholder="Search..." />
-                                        </span>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+
+                                        <th style="min-width:10rem"> Glosa </th>
+                                        <th style="min-width:10rem"> Uc_unitaria </th>
+                                        <th style="min-width:10rem"> Cantidad </th>
+                                        <th style="min-width:10rem"> Uc_Total </th>
+                                        <th></th>
+                                        <th></th>
+
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-OtrasActividad>
+                                    <tr>
+                                        <td>{{ OtrasActividad.glosa }}</td>
+                                        <td>{{ OtrasActividad.uc_unitaria }}</td>
+                                        <td>{{ OtrasActividad.cantidad }}</td>
+                                        <td>{{ OtrasActividad.uc_total }}</td>
+
+                                        <td>
+                                            <button pButton pRipple icon="pi pi-pencil"
+                                                class="p-button-rounded p-button-success mr-2"
+                                                (click)="openEditOtraActividad(OtrasActividad)"></button>
+                                        </td>
+
+                                        <td>
+                                            <button pButton pRipple icon="pi pi-trash"
+                                                class="p-button-rounded p-button-warning"
+                                                (click)="openDeleteOtraActividad(OtrasActividad)"></button>
+                                        </td>
+
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="summary">
+
+                                    <div class="flex align-items-center justify-content-between">
+                                        Cantidad de otras actividades registradas : {{
+                                        listaTablaOtrasActividades?listaTablaOtrasActividades.length : 0 }}
                                     </div>
-                                </div>
 
-                            </ng-template>
-                            <ng-template pTemplate="header">
-                                <tr>
+                                </ng-template>
+                            </p-table>
 
-                                    <th style="min-width:10rem"> Glosa </th>
-                                    <th style="min-width:10rem"> Uc_unitaria </th>
-                                    <th style="min-width:10rem"> Cantidad </th>
-                                    <th style="min-width:10rem"> Uc_Total </th>
-                                    <th></th>
-                                    <th></th>
+                        </div>
 
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-OtrasActividad>
-                                <tr>
-                                    <td>{{ OtrasActividad.glosa }}</td>
-                                    <td>{{ OtrasActividad.uc_unitaria }}</td>
-                                    <td>{{ OtrasActividad.cantidad }}</td>
-                                    <td>{{ OtrasActividad.uc_total }}</td>
+                    </p-tabPanel>
 
-                                    <td>
-                                        <button pButton pRipple icon="pi pi-pencil"
-                                            class="p-button-rounded p-button-success mr-2"
-                                            (click)="openEditOtraActividad(OtrasActividad)"></button>
-                                    </td>
+                </p-tabView>
 
-                                    <td>
-                                        <button pButton pRipple icon="pi pi-trash"
-                                            class="p-button-rounded p-button-warning"
-                                            (click)="openDeleteOtraActividad(OtrasActividad)"></button>
-                                    </td>
 
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="summary">
+                <div class="grid" style="margin-top:5%;">
+                    <div class="col-3"></div>
+                    <div class="col-6">
 
-                                <div class="flex align-items-center justify-content-between">
-                                    Cantidad de otras actividades registradas : {{
-                                    listaTablaOtrasActividades?listaTablaOtrasActividades.length : 0 }}
-                                </div>
+                        <button *ngIf="mostrarGuardar" pButton pRipple label="Guardar Reporte" type="button"
+                            (click)="onGuardarReporteDiarioClick()" visible="false" [loading]="loading"
+                            [disabled]="ReporteDiarioForm.invalid"
+                            class="p-button-rounded p-button-outlined p-mt-10"></button>
 
-                            </ng-template>
-                        </p-table>
+                        <button *ngIf="mostrarActualizar" pButton pRipple label="Actualizar Reporte" type="button"
+                            (click)="onActualizarReporteDiarioClick()" [loading]="loading"
+                            [disabled]="ReporteDiarioForm.invalid"
+                            class="p-button-rounded p-button-success p-button-outlined p-mt-10"></button>
 
                     </div>
+                    <div class="col-3"></div>
+                </div>
 
-                </p-tabPanel>
 
-            </p-tabView>
+            </form>
 
 
         </ng-template>
@@ -651,12 +647,12 @@
                     <div class="col-3"></div>
                     <div class="col-6">
 
-                        <button *ngIf="mostrarGuardarActividad" pButton pRipple label="Guardar" type="button"
+                        <button *ngIf="mostrarGuardarActividad" pButton pRipple label="Guardar Actividad" type="button"
                             (click)="onGuardarActividadClick()" visible="false" [loading]="loadingActividad"
                             [disabled]="ActividadForm.invalid"
                             class="p-button-rounded p-button-outlined p-mt-10"></button>
 
-                        <button *ngIf="mostrarActualizarActividad" pButton pRipple label="Actualizar" type="button"
+                        <button *ngIf="mostrarActualizarActividad" pButton pRipple label="Actualizar Actividad" type="button"
                             (click)="onActualizarActividadClick()" [loading]="loadingActividad"
                             [disabled]="ActividadForm.invalid"
                             class="p-button-rounded p-button-success p-button-outlined p-mt-10"></button>
