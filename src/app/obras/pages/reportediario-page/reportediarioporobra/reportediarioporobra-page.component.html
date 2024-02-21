@@ -85,14 +85,17 @@
                     <td>{{ reportediario.id }}</td>
                     <td>{{ reportediario.id_obra.codigo_obra }}</td>
                     <td>{{ reportediario.fecha_reporte }}</td>
-                    <td>{{ reportediario.jefe_faena.nombre }}</td>
+
+                    <td>{{ reportediario.jefe_faena ? reportediario.jefe_faena.nombre : null }}</td>
+
                     <td>{{ reportediario.sdi }}</td>
+
                     <td style="text-align:center;" >
-                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                        <button  *ngIf="reportediario.id_estado_pago === null" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
                             (click)="openEditReporteDiario(reportediario)"></button>
                     </td>
                     <td style="text-align:center;" >
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                        <button *ngIf="reportediario.id_estado_pago === null" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
                             (click)="onEliminarClick(reportediario)"></button>
                     </td>
                 </tr>

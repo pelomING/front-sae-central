@@ -166,7 +166,7 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
 
                 this.LISTA_ACTIVIDADES_CONHORASEXTRA = data.actividades_hora_extra;
 
-                this.AVANCESESTADOPAGO = data.avances;
+                this.AVANCESESTADOPAGO = data.avances_estado_pago;
 
                 this.TOTALESESTADOPAGO = data.totales;
 

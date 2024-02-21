@@ -23,6 +23,7 @@ export class ObrasPageComponent implements OnInit {
 
     obraForm: FormGroup;
     paralizarForm: FormGroup;
+    cerrar_Obra_Form: FormGroup;
 
     formObraDialog: boolean;
     products: Product[];
@@ -59,6 +60,10 @@ export class ObrasPageComponent implements OnInit {
     mostrarParalizarObra: boolean = true;
 
     mostrarTabParalizarObra: boolean = true;
+
+    mostrarTabCerradoObra: boolean = true;
+
+    mostrarBottonCerrarObra: boolean = true;
 
     mostrarDeleteObra: boolean = true;
 
@@ -109,6 +114,20 @@ export class ObrasPageComponent implements OnInit {
             motivo: ['', Validators.required],
             observacion: ['', Validators.required],
         });
+
+
+
+        this.cerrar_Obra_Form = this.fb.group({
+            id: [''],
+            id_obra: [null, Validators.required],
+            fecha_hora: [null, Validators.required],
+            supervisor_responsable: [null, Validators.required],
+            coordinador_responsable: [null, Validators.required],
+            ito_mandante: [null, Validators.required],
+            observacion: [null, Validators.required]
+        });
+
+
 
     }
 
@@ -291,17 +310,20 @@ export class ObrasPageComponent implements OnInit {
 
 
 
-    openNew() {
+    openNew() 
+    {
 
         this.OBRA = 'Registar Nueva Obra';
-
+ 
         this.mostrarGuardar = true;
         this.mostrarActualizar = false;
 
         this.mostrarTabParalizarObra = false;
-
+        this.mostrarTabCerradoObra = false;
+ 
         this.obraForm.reset();
         this.paralizarForm.reset();
+        this.cerrar_Obra_Form.reset();
 
         this.formObraDialog = true;
 
@@ -342,22 +364,22 @@ export class ObrasPageComponent implements OnInit {
         obra.fecha_termino = this.formateoFecha(obra.fecha_termino);
 
 
+        this.mostrarTabCerradoObra = false;
+
         this.mostrarTabParalizarObra = true;
 
-        // Verifica si obra y obra_paralizada están definidos y si id es diferente de null o undefined
-        if (obra && obra.obra_paralizada && obra.obra_paralizada.id_obra != null) {
-            this.mostrarParalizarObra = false;
-        } else {
-            this.mostrarParalizarObra = true;
-        }
+        this.mostrarParalizarObra = true;
 
+
+        // Verifica si obra y obra_paralizada están definidos y si id es diferente de null o undefined
+        // if (obra && obra.obra_paralizada && obra.obra_paralizada.id_obra != null) {
+        //     this.mostrarParalizarObra = false;
+        // } else {
+        //     this.mostrarParalizarObra = true;
+        // }
 
         this.paralizarForm.patchValue({
-            id_obra: obra?.id || '',
-            fecha_hora: this.formateoFecha(obra?.obra_paralizada?.fecha_hora) || '',
-            responsable: obra?.obra_paralizada?.responsable || '',
-            motivo: obra?.obra_paralizada?.motivo || '',
-            observacion: obra?.obra_paralizada?.observacion || ''
+            id_obra: obra?.id || ''
         });
 
         this.obraForm.patchValue(obra);
@@ -386,16 +408,11 @@ export class ObrasPageComponent implements OnInit {
 
         // Verifica si obra y obra_paralizada están definidos y si id es diferente de null o undefined
         if (obra && obra.obra_paralizada && obra.obra_paralizada.id_obra != null) {
-
             this.mostrarTabParalizarObra = true;
             this.mostrarParalizarObra = false;
-
         } else {
-
             this.mostrarTabParalizarObra = false;
-
         }
-
 
         this.paralizarForm.patchValue({
             id_obra: obra?.id || '',
@@ -404,6 +421,26 @@ export class ObrasPageComponent implements OnInit {
             motivo: obra?.obra_paralizada?.motivo || '',
             observacion: obra?.obra_paralizada?.observacion || ''
         });
+
+
+
+        // Verifica si obra y obra_paralizada están definidos y si id es diferente de null o undefined
+        if (obra && obra.obras_cierres && obra.obras_cierres.id_obra != null) {
+            this.mostrarTabCerradoObra = true;
+            this.mostrarBottonCerrarObra = false;
+        } else {
+            this.mostrarTabCerradoObra = false;
+        }
+
+        this.cerrar_Obra_Form.patchValue({
+            id_obra: obra?.id || '',
+            fecha_hora: this.formateoFecha(obra?.obras_cierres?.fecha_hora) || '',
+            supervisor_responsable: obra?.obras_cierres?.supervisor_responsable || '',
+            coordinador_responsable: obra?.obras_cierres?.coordinador_responsable || '',
+            ito_mandante: obra?.obras_cierres?.ito_mandante || '',
+            observacion: obra?.obras_cierres?.observacion || ''
+        });
+
 
         this.obraForm.patchValue(obra);
 

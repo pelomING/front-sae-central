@@ -1,4 +1,4 @@
-<p-card header="Ingreso de Obras">
+<p-card header="Obras">
   <div class="card">
     <p-toast></p-toast>
     <p-toolbar styleClass="mb-4 gap-2">
@@ -45,18 +45,17 @@
           <th pSortableColumn="nombre_obra" style="min-width:10rem">Nombre Obra <p-sortIcon
               field="nombre_obra"></p-sortIcon></th>
 
-          <th pSortableColumn="codigo_obra" style="min-width:10rem">Codigo <p-sortIcon field="codigo_obra"></p-sortIcon>
-          </th>
+          <th pSortableColumn="codigo_obra" style="min-width:10rem">Codigo <p-sortIcon field="codigo_obra"></p-sortIcon></th>
 
-          <th pSortableColumn="numero_ot">N° OT <p-sortIcon field="numero_ot"></p-sortIcon></th>
+          <th pSortableColumn="coordinador_contratista"> Coordinador <p-sortIcon field="coordinador_contratista"></p-sortIcon></th>
 
-          <th pSortableColumn="monto" style="min-width:10rem">Monto <p-sortIcon field="monto"></p-sortIcon></th>
+          <th pSortableColumn="tipo_obra" style="min-width:10rem">Tipo Obra <p-sortIcon field="tipo_obra"></p-sortIcon></th>
 
-          <th pSortableColumn="cantidad_estados_pago" style="min-width:10rem">Estados de Pago<p-sortIcon
-              field="cantidad_estados_pago"></p-sortIcon></th>
-
-          <th pSortableColumn="cantidad_reportes" style="min-width:10rem">Reportes diarios<p-sortIcon
-              field="cantidad_reportes"></p-sortIcon></th>
+          <th pSortableColumn="cantidad_estados_pago" style="min-width:10rem">Estados de Pago<p-sortIcon field="cantidad_estados_pago"></p-sortIcon></th>
+ 
+          <th pSortableColumn="cantidad_reportes" style="min-width:10rem">Reportes Diarios<p-sortIcon field="cantidad_reportes"></p-sortIcon></th>
+ 
+          <th pSortableColumn="reportes_pendientes" style="min-width:10rem">Reportes Pendientes<p-sortIcon field="reportes_pendientes"></p-sortIcon></th>
 
           <th pSortableColumn="estado.nombre" style="min-width:10rem">Estado <p-sortIcon
               field="estado.nombre"></p-sortIcon></th>
@@ -74,12 +73,17 @@
       </ng-template>
       <ng-template pTemplate="body" let-obra>
         <tr [pSelectableRow]="obra">
+
           <td>{{ obra.nombre_obra }}</td>
           <td>{{ obra.codigo_obra }}</td>
-          <td>{{ obra.numero_ot }}</td>
-          <td style="text-align:center;">{{ obra.monto }}</td>
+          
+          <td>{{ obra.coordinador_contratista.nombre }}</td>
+
+          <td style="text-align:center;">{{ obra.tipo_obra.descripcion }}</td>
+
           <td style="text-align:center;">{{ obra.cantidad_estados_pago }}</td>
           <td style="text-align:center;">{{ obra.cantidad_reportes }}</td>
+          <td style="text-align:center;">{{ obra.reportes_pendientes }}</td>
           <td>
             <p class="mi-p-tag" [style.background-color]="obra.estado.color">
               <span class="pi pi-star" style="margin-right: 0.5rem;"></span>
@@ -88,18 +92,14 @@
           </td>
           <td style="text-align:center;">{{ obra.fecha_estado }}</td>
 
-
-          
           <td style="text-align:center;">
             <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-help mr-2" (click)="verObra(obra)"></button>
-          </td>
-          
+          </td>          
           <td style="text-align:center;">
-            <button *ngIf="obra.estado.id === 1" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editObra(obra)"></button>
+            <button *ngIf="obra.estado.id != 7" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editObra(obra)"></button>
           </td>
-          
           <td style="text-align:center;">
-            <button  *ngIf="obra.estado.id === 1" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteObra(obra)"></button>
+            <button  *ngIf="obra.estado.id != 7" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteObra(obra)"></button>
           </td>
 
         </tr>
@@ -121,6 +121,7 @@
  
         <div class="card" style="height:450px;">
           <p-tabView>
+            
             <p-tabPanel header="Datos Principales">
 
               <div class="grid" style="height:100px;margin-top:2%;">
@@ -268,6 +269,7 @@
               </div>
 
             </p-tabPanel>
+            
             <p-tabPanel header="Fechas y Responsables">
 
               <div class="grid" style="height:100px;margin-top:2%;">
@@ -358,6 +360,7 @@
               </div>
 
             </p-tabPanel>
+            
             <p-tabPanel header="Ubicación">
 
               <div class="grid" style="height:100px;margin-top:2%;">
@@ -409,6 +412,7 @@
               </div>
 
             </p-tabPanel>
+
             <p-tabPanel header="Paralizar" *ngIf="mostrarTabParalizarObra" >
 
               <form [formGroup]="paralizarForm">
@@ -470,8 +474,83 @@
                 </div>
 
               </form>
+            </p-tabPanel>
+
+            <p-tabPanel header="Finalización Faena" *ngIf="mostrarTabCerradoObra" >
+
+              <form [formGroup]="cerrar_Obra_Form">
+          
+                  <div class="grid" style="height:100px;margin-top:2%;" >
+          
+                    <input type="hidden" pInputText id="id" class="form-control" formControlName="id" />
+          
+                    <input type="hidden" pInputText id="id_obra" class="form-control" formControlName="id_obra" />
+          
+                    <div class="col-4">
+                        <div class="calendar-container">
+                          <span class="p-float-label">
+                            <p-calendar id="fecha_hora" formControlName="fecha_hora" class="form-control"
+                              [showIcon]="true"></p-calendar>
+                            <label htmlFor="fecha_hora">Fecha cuando se cierra la obra</label>
+                          </span>
+                        </div>
+                    </div>
+          
+                    <div class="col-4">
+                      <div class="form-group p-field custom-spacing">
+                        <span class="p-float-label">
+                          <input type="text" pInputText id="supervisor_responsable" class="form-control"
+                            formControlName="supervisor_responsable">
+                          <label htmlFor="supervisor_responsable">Supervisor Responsable</label>
+                        </span>
+                      </div>
+                    </div>
+          
+                    <div class="col-4">
+                      <div class="form-group p-field custom-spacing">
+                        <span class="p-float-label">
+                          <input type="text" pInputText id="coordinador_responsable" class="form-control"
+                            formControlName="coordinador_responsable">
+                          <label htmlFor="coordinador_responsable">Coordinador Responsable</label>
+                        </span>
+                      </div>
+                    </div>
+          
+                    <div class="col-12">
+                      <div class="form-group p-field custom-spacing">
+                        <span class="p-float-label">
+                          <input type="text" pInputText id="ito_mandante" class="form-control" formControlName="ito_mandante">
+                          <label htmlFor="ito_mandante">Ito Mandante</label>
+                        </span>
+                      </div>
+                    </div>
+          
+                    <div class="col-12">
+                      <div class="form-group p-field custom-spacing">
+                        <span class="p-float-label">
+                          <textarea id="observacion" pInputTextarea formControlName="observacion"></textarea>
+                          <label for="observacion">Observación</label>
+                        </span>
+                      </div>
+                    </div>
+          
+                    <div class="col-4"></div>
+                    <div class="col-4">
+          
+                      <button pButton pRipple *ngIf="mostrarBottonCerrarObra" label="Cerrar Obra" [loading]="loading_cerrar_Obra_Form"
+                        (click)="onCerrarObraClick()" [disabled]="cerrar_Obra_Form.invalid"
+                        class="p-button-rounded p-button-warning p-button-outlined p-mt-5">
+                      </button>
+          
+                    </div>
+                    <div class="col-4"></div>
+          
+                  </div>
+          
+              </form>
 
             </p-tabPanel>
+
           </p-tabView>
         </div>
 
