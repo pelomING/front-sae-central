@@ -68,6 +68,8 @@
                         <p-sortIcon field="sdi"></p-sortIcon>
                     </th>
 
+                    <th>View</th>
+
                     <th>Editar</th>
 
                     <th>Eliminar</th>
@@ -79,15 +81,14 @@
                     <td>{{ reportediario.id }}</td>
                     <td>{{ reportediario.id_obra.codigo_obra }}</td>
                     <td>{{ reportediario.fecha_reporte }}</td>
-
                     <td>{{ reportediario.jefe_faena ? reportediario.jefe_faena.nombre : null }}</td>
-
                     <td>{{ reportediario.sdi }}</td>
-
+                    <td style="text-align:center;">
+                        <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-help mr-2" (click)="verReporteDiario(reportediario)"></button>
+                    </td>  
                     <td style="text-align:center;">
                         <button *ngIf="reportediario.id_estado_pago === null" pButton pRipple icon="pi pi-pencil"
-                            class="p-button-rounded p-button-success mr-2"
-                            (click)="openEditReporteDiario(reportediario)"></button>
+                            class="p-button-rounded p-button-success mr-2" (click)="openEditReporteDiario(reportediario)"></button>
                     </td>
                     <td style="text-align:center;">
                         <button *ngIf="reportediario.id_estado_pago === null" pButton pRipple icon="pi pi-trash"
@@ -96,10 +97,7 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary">
-                <div class="flex align-items-center justify-content-between">In total there are {{ listaReportesDiarios
-                    ?
-                    listaReportesDiarios.length : 0 }}
-                    Reportes Diarios.</div>
+                <div class="flex align-items-center justify-content-between">In total there are {{ listaReportesDiarios?listaReportesDiarios.length : 0 }} Reportes Diarios.</div>
             </ng-template>
         </p-table>
 
@@ -352,7 +350,7 @@
 
                                 <ng-template pTemplate="left">
 
-                                    <button pButton pRipple label="Agregar Actividad" icon="pi pi-plus"
+                                    <button pButton pRipple label="Agregar Actividad" icon="pi pi-plus" *ngIf="nomostrar"
                                         class="p-button-success mr-2" (click)="openNewActividades()"></button>
 
                                 </ng-template>
@@ -423,12 +421,12 @@
                                         <td>{{ Actividad.ucUnitaria }}</td>
                                         <td>{{ Actividad.ucTotal }}</td>
                                         <td>
-                                            <button pButton pRipple icon="pi pi-pencil"
+                                            <button pButton pRipple icon="pi pi-pencil" *ngIf="nomostrar"
                                                 class="p-button-rounded p-button-success mr-2"
                                                 (click)="openEditActividad(Actividad)"></button>
                                         </td>
                                         <td>
-                                            <button pButton pRipple icon="pi pi-trash"
+                                            <button pButton pRipple icon="pi pi-trash" *ngIf="nomostrar"
                                                 class="p-button-rounded p-button-warning"
                                                 (click)="openDeleteActividad(Actividad)"></button>
                                         </td>
@@ -456,7 +454,7 @@
 
                                 <ng-template pTemplate="left">
 
-                                    <button pButton pRipple label="Agregar Otras Actividades" icon="pi pi-plus"
+                                    <button pButton pRipple label="Agregar Otras Actividades" icon="pi pi-plus" *ngIf="nomostrar"
                                         class="p-button-success mr-2" (click)="openNewOtrasActividades()"></button>
 
                                 </ng-template>
@@ -513,13 +511,13 @@
                                         <td>{{ OtrasActividad.uc_total }}</td>
 
                                         <td>
-                                            <button pButton pRipple icon="pi pi-pencil"
+                                            <button pButton pRipple icon="pi pi-pencil" *ngIf="nomostrar"
                                                 class="p-button-rounded p-button-success mr-2"
                                                 (click)="openEditOtraActividad(OtrasActividad)"></button>
                                         </td>
 
                                         <td>
-                                            <button pButton pRipple icon="pi pi-trash"
+                                            <button pButton pRipple icon="pi pi-trash" *ngIf="nomostrar"
                                                 class="p-button-rounded p-button-warning"
                                                 (click)="openDeleteOtraActividad(OtrasActividad)"></button>
                                         </td>

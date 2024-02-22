@@ -1049,6 +1049,106 @@ export class ReportediarioporobraPageComponent implements OnInit {
     }
 
 
+    nomostrar: boolean = true;
+    
+    verReporteDiario(reporteDiario: ReporteDiario) {
+
+        console.log("Edit reporteDiario", reporteDiario);
+
+        this.reporteDiarioCopia = { ...reporteDiario };
+
+        this.mostrarGuardar = false;
+        
+        this.mostrarActualizar = false;
+
+        this.nomostrar = false;
+        
+
+        // let fechaParseada0 = new Date(this.reporteDiarioCopia.fecha_reporte);
+        // let dia0 = fechaParseada0.getDate().toString().padStart(2, '0');
+        // let mes0 = (fechaParseada0.getMonth() + 1).toString().padStart(2, '0');
+        // let año0 = fechaParseada0.getFullYear();
+        // let fechaFormateada0 = `${dia0}-${mes0}-${año0}`;
+
+        let arrayFecha = this.reporteDiarioCopia.fecha_reporte.split("-");
+
+        this.reporteDiarioCopia.fecha_reporte = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0]
+
+
+        if (this.reporteDiarioCopia.det_actividad && Array.isArray(this.reporteDiarioCopia.det_actividad)) {
+
+            // La lista det_actividad existe y es un array, entonces procedemos con la transformación
+            this.listaTablaActividades = this.reporteDiarioCopia.det_actividad.map((actividad: any) => {
+                const tabla: TablaActividades = {
+                    id: actividad.id,
+                    tipoOperacion: actividad.tipo_operacion,
+                    tipoActividad: actividad.tipo_actividad,
+                    maestroActividad: actividad.actividad,
+                    cantidad: actividad.cantidad,
+                    ucUnitaria: actividad.unitario,
+                    ucTotal: actividad.total
+                };
+                return tabla;
+            });
+
+        } else {
+
+            // La lista det_actividad es null o no es un array
+            console.error('La lista det_actividad es nula o no es un array.');
+            // Puedes manejar este caso según tus necesidades, por ejemplo, asignar una lista vacía:
+            this.listaTablaActividades = [];
+
+        }
+
+
+
+        if (this.reporteDiarioCopia.det_otros && Array.isArray(this.reporteDiarioCopia.det_otros)) {
+            // La lista det_otros existe y es un array, entonces procedemos con la transformación
+            this.listaTablaOtrasActividades = this.reporteDiarioCopia.det_otros.map((otrosActividad: any) => {
+                const tabla: TablaOtrasActividades = {
+                    id: otrosActividad.id,
+                    glosa: otrosActividad.glosa,
+                    uc_unitaria: otrosActividad.uc_unitaria,
+                    cantidad: otrosActividad.cantidad,
+                    uc_total: otrosActividad.total_uc
+                };
+                return tabla;
+            });
+        } else {
+            // La lista det_otros es null o no es un array
+            console.error('La lista det_otros es nula o no es un array.');
+            // Puedes manejar este caso según tus necesidades, por ejemplo, asignar una lista vacía:
+            this.listaTablaOtrasActividades = [];
+        }
+
+
+
+        this.reporteDiarioCopia.hora_salida_base = this.formateoFechaDMAHM(this.reporteDiarioCopia.hora_salida_base);
+        this.reporteDiarioCopia.hora_llegada_terreno = this.formateoFechaDMAHM(this.reporteDiarioCopia.hora_llegada_terreno);
+        this.reporteDiarioCopia.hora_salida_terreno = this.formateoFechaDMAHM(this.reporteDiarioCopia.hora_salida_terreno);
+        this.reporteDiarioCopia.hora_llegada_base = this.formateoFechaDMAHM(this.reporteDiarioCopia.hora_llegada_base);
+
+
+        this.ReporteDiarioForm.reset();
+
+
+        // Utilizar el método find para buscar en la lista
+        const objetoEncontrado = this.listaBrigadas.find((item) => item.id === this.reporteDiarioCopia.brigada_pesada.id);
+
+
+        // Asigna los valores iniciales al formulario
+        this.ReporteDiarioForm.patchValue({
+            id_obra: this.obra?.id || '',
+            nombre_proyecto: this.obra?.nombre_obra || '',
+            // Otros campos iniciales si es necesario
+            brigada: objetoEncontrado
+        });
+
+        this.ReporteDiarioForm.patchValue(this.reporteDiarioCopia);
+
+        this.productDialog = true;
+
+    }
 
 
     openEditActividad(Actividad: TablaActividades) {
@@ -1078,7 +1178,6 @@ export class ReportediarioporobraPageComponent implements OnInit {
     }
 
 
-
     openEditOtraActividad(Otra_Actividad: TablaOtrasActividades) {
 
         this.mostrarGuardarOtraActividad = false;
@@ -1091,9 +1190,6 @@ export class ReportediarioporobraPageComponent implements OnInit {
         this.OtrasActividadesDialog = true;
 
     }
-
-
-
 
 
     openDeleteActividad(Actividad: TablaActividades) {
