@@ -366,10 +366,19 @@ export class ObrasPageComponent implements OnInit {
 
         this.mostrarTabCerradoObra = false;
 
-        this.mostrarTabParalizarObra = true;
 
-        this.mostrarParalizarObra = true;
+        console.log("obra.estado.nombre",obra.estado.nombre);
 
+
+        this.mostrarTabParalizarObra = false;
+        this.mostrarParalizarObra = false;
+
+        
+        if(obra.estado.nombre != "Ingresada")
+        {
+            this.mostrarTabParalizarObra = true;
+            this.mostrarParalizarObra = true;
+        }
 
         // Verifica si obra y obra_paralizada están definidos y si id es diferente de null o undefined
         // if (obra && obra.obra_paralizada && obra.obra_paralizada.id_obra != null) {
@@ -383,7 +392,6 @@ export class ObrasPageComponent implements OnInit {
         });
 
         this.obraForm.patchValue(obra);
-
         this.formObraDialog = true;
 
     }
@@ -570,10 +578,11 @@ export class ObrasPageComponent implements OnInit {
 
             this.obrasService.ParalizaObra(registroParalizar).subscribe(
                 (response) => {
+
                     // Manejar la respuesta exitosa
                     console.log('Obra paralizada con éxito:', response);
 
-                    this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro guardado', life: 3000 });
+                    this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Obra Paralizada', life: 3000 });
 
                     this.loading_Paraliza = false
 
