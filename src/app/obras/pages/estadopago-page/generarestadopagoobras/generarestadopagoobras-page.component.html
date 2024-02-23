@@ -480,12 +480,21 @@
                                                 </ng-template>
 
                                             </tbody>
-                                            <tfoot>
+                                            <!-- <tfoot>
                                                 <tr>
                                                     <td colspan="2" style="padding-right:1%;font-size:9px;" ><strong>TOTAL</strong></td>
                                                     <td style="font-size:9px;padding-right:10%;" >{{ ('100000') | currency:'CLP':'$':'1.0-0' | commaToDot }} </td>
                                                 </tr>
+                                            </tfoot> -->
+
+                                            <tfoot>
+                                                <tr>
+                                                   <td colspan="2" style="padding-right:1%;font-size:9px;" ><strong>Total</strong></td>
+                                                   <td style="font-size:9px;padding-right:10%;"  *ngIf="TOTALESESTADOPAGO" > {{ (TOTALESESTADOPAGO?.descuentoAvance !== null ? TOTALESESTADOPAGO?.descuentoAvance : '0') | currency:'CLP':'$':'1.0-0' | commaToDot }} </td>
+                                                   <td *ngIf="!(TOTALESESTADOPAGO)">sin dato</td>
+                                                </tr>
                                             </tfoot>
+
                                         </table>
                                     </div>
 

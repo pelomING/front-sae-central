@@ -23,14 +23,23 @@ import { GenerarEstadoPagoObrasPageComponent } from './pages/estadopago-page/gen
 
 import { EstadoobraPageComponent } from './pages/estadoobra-page/estadoobra-page.component';
 
+import { CierrePageComponent } from './pages/cierre-page/cierre-page.component';
+
+import { GestionEDPPageComponent } from './pages/gestionedp-page/gestionedp-page.component';
+
+
+
 // localhost:4200/obras
 const routes: Routes = [
   {
     path: '',
     component: LayoutPageComponent,
     children: [
+      
       { path: '', component: ObrasPageComponent },
+
       { path: 'dashboard', component: DashboardPageComponent },
+      
       { path: 'materiales', component: MaterialesPageComponent },
       
       { path: 'agendas', component: AgendasPageComponent },
@@ -46,7 +55,17 @@ const routes: Routes = [
       { path: 'historicoestadopago', component: HistoricoEstadoPagoPageComponent },
       { path: 'generarestadopagoobras', component: GenerarEstadoPagoObrasPageComponent },
             
-      { path: 'estadoobra', component: EstadoobraPageComponent }
+      { path: 'estadoobra', component: EstadoobraPageComponent },
+
+      { path: 'cierre', component: CierrePageComponent },
+
+
+      { path: 'gestionedp', component: GestionEDPPageComponent },
+
+
+
+      // { path: 'seguimiento', component: SeguimientoPageComponent }
+
     ]
   }
 ];

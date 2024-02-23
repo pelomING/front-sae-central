@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
-import { Product } from '../../../interfaces/product.interface';
-import { VisitaTerreno } from '../../../interfaces/visita-terreno.interface';
+import { Product } from '../../interfaces/product.interface';
+import { VisitaTerreno } from '../../interfaces/visita-terreno.interface';
 
-import { ProductService } from '../../../services/productservice';
-import { AgendaService } from '../../../services/agenda.service';
+import { ProductService } from '../../services/productservice';
+import { AgendaService } from '../../services/agenda.service';
 
-import { ObrasService } from '../../../services/obras.service';
+import { ObrasService } from '../../services/obras.service';
 
-import { Obra } from '../../../interfaces/obra.interface';
+import { Obra } from '../../interfaces/obra.interface';
 
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -19,34 +19,26 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 
 
 @Component({
-    selector: 'app-agendas-page',
-    templateUrl: './agendas-page.component.html',
-    styleUrls: ['./agendas-page.component.scss']
+    selector: 'app-seguimiento-page',
+    templateUrl: './seguimiento-page.component.html',
+    styleUrls: ['./seguimiento-page.component.scss']
 })
 
-export class AgendasPageComponent implements OnInit {
+
+export class SeguimientoPageComponent implements OnInit {
+
 
     productDialog: boolean;
-
     products: Product[];
-
     product: Product;
-
     selectedProducts: Product[];
-
     submitted: boolean;
-
     statuses: any[];
-
     visitasterreno: VisitaTerreno[];
-
     cols: any[] = [];
-
     visitaTerrenoForm: FormGroup;
-
     mostrarGuardar: boolean = true; // Mostrar el botón por defecto
     mostrarActualizar: boolean = true;
-
     obras: Obra[];
 
 
@@ -74,13 +66,9 @@ export class AgendasPageComponent implements OnInit {
 
     }
 
+    ngOnInit() {
 
-
-    private codigo_vista = 222;
-
-    listadoObras() {
-
-        this.obrasService.getAllObras(this.codigo_vista).subscribe(
+        this.obrasService.getAllObras().subscribe(
             (Obras: any) => {
                 console.log("Esto es la Obras:", Obras);
                 this.obras = Obras;
@@ -89,13 +77,6 @@ export class AgendasPageComponent implements OnInit {
                 console.error('Error al obtener las obras:', error);
             }
         );
-
-    }
-
-
-    ngOnInit() {
-
-        this.listadoObras();
 
         this.cols = [
             { field: 'nombre_obra', header: 'Nombre Obra' },

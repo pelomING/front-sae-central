@@ -3,10 +3,8 @@ import { NgModule } from '@angular/core';
 import { PrimeNGModule } from '../_primeng/primeng.module';
 import { NgxPrintModule } from 'ngx-print';
 
-
 import { ObrasRoutingModule } from './obras-routing.module';
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
-
 
 /* Dashboard */
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
@@ -22,22 +20,25 @@ import { MaterialesPageComponent } from './pages/materiales-page/materiales-page
 import { AgendasPageComponent } from './pages/agenda-page/agendas/agendas-page.component';
 import { AgendaObraPageComponent } from './pages/agenda-page/agenda-obra/agenda-obra-page.component';
 
-
 /* Reporte Diario */
 import { ReportediarioPageComponent } from './pages/reportediario-page/reportediario-page.component';
 import { ReportediarioporobraPageComponent } from './pages/reportediario-page/reportediarioporobra/reportediarioporobra-page.component';
-
 
 /* Informe Materiales Faltantes*/ 
 import { MaterialesfaltantesPageComponent } from './pages/materialesfaltantes-page/materialesfaltantes-page.component';
 
 /* Informe de Cuadratura de Materiales */
 import { CuadraturamaterialesPageComponent } from './pages/cuadraturamateriales-page/cuadraturamateriales-page.component';
+
+/* Cierre de Obra */
+import { CierrePageComponent } from './pages/cierre-page/cierre-page.component';
+
+/* Gestion Estados de Pago */
+import { GestionEDPPageComponent } from './pages/gestionedp-page/gestionedp-page.component';
  
 /* Estado Pago */
 import { EstadopagoPageComponent } from './pages/estadopago-page/estadopago-page.component';
 import { HistoricoEstadoPagoPageComponent } from './pages/estadopago-page/historicoestadopagoobras/historicoestadopago-page.component';
-
 
 /* Estado Obra */
 import { EstadoobraPageComponent } from './pages/estadoobra-page/estadoobra-page.component';
@@ -62,6 +63,8 @@ import { CommaToDotPipe } from './pipes/comma-to-dot.pipe';
     HistoricoEstadoPagoPageComponent,
     GenerarEstadoPagoObrasPageComponent,
     EstadoobraPageComponent,
+    CierrePageComponent,
+    GestionEDPPageComponent,
     CommaToDotPipe
   ],
   imports: [

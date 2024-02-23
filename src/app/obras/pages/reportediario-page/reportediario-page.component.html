@@ -46,6 +46,10 @@
                     <th pSortableColumn="estado.nombre" style="min-width:10rem">Estado <p-sortIcon
                             field="estado.nombre"></p-sortIcon></th>
 
+                            <th pSortableColumn="fecha_estado" style="min-width:10rem">Fecha Estado <p-sortIcon
+                                field="fecha_estado"></p-sortIcon></th>
+
+
                     <th>
                         Pagina de Reportes
                     </th>
@@ -59,10 +63,18 @@
                     <td style="text-align: center;" >{{ obra.monto }}</td>
                     <td style="text-align: center;" >{{ obra.cantidad_estados_pago }}</td>
                     <td style="text-align: center;" >{{ obra.cantidad_reportes }}</td>
+                    
                     <td>
-                        <p-tag icon="pi pi-star" [value]="obra.estado.nombre"
-                            [severity]="getSeverity(obra.estado.nombre)"></p-tag>
-                    </td>
+
+                        <p class="mi-p-tag" [style.background-color]="obra.estado.color">
+                          <span class="pi pi-star" style="margin-right: 0.5rem;"></span>
+                          {{ obra.estado.nombre }}
+                        </p>
+            
+                      </td>
+
+                      <td style="text-align:center;">{{ obra.fecha_estado }}</td>
+
                     <td style="padding: 15px;text-align: center;">
                         <!-- <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-help mr-2" (click)="editProduct(obra)"></button> -->
                         <button pButton pRipple icon="pi pi-book" class="p-button-rounded p-button-success mr-2" title="Ir a LIstado de reportes" (click)="navegarAPagina2(obra)"></button>

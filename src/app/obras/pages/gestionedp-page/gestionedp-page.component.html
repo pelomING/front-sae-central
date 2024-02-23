@@ -1,0 +1,279 @@
+<p-card header="Gestión Estados de Pago">
+    <div class="card">
+        <p-toast></p-toast>
+
+        <!-- <p-toolbar styleClass="mb-4 gap-2">
+          <ng-template pTemplate="left">
+            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+              (click)="openNew()"></button>
+              <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger"
+              (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button>
+          </ng-template>
+    
+          <ng-template pTemplate="right">
+            <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import"
+              class="mr-2 inline-block"></p-fileUpload> 
+              <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
+          </ng-template>
+        </p-toolbar> -->
+
+        <p-table #dt [value]="obras" selectionMode="single" [columns]="cols" [rows]="10" [paginator]="true"
+            styleClass="p-datatable-gridlines p-datatable-striped p-datatable-header"
+            [globalFilterFields]="['nombre_obra', 'codigo_obra', 'numero_ot', 'monto','estado.nombre']"
+            [tableStyle]="{ 'min-width': '75rem' }" [rowHover]="true" dataKey="id"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true">
+
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                    <h4 class="m-0">Estados de Pago en Proceso</h4>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                            placeholder="Search..." />
+                    </span>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="nombre_obra" style="min-width:10rem">Nombre Obra <p-sortIcon
+                            field="nombre_obra"></p-sortIcon></th>
+                    <th pSortableColumn="codigo_obra" style="min-width:10rem">Codigo <p-sortIcon
+                            field="codigo_obra"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="numero_ot">N° OT <p-sortIcon field="numero_ot"></p-sortIcon></th>
+                    <th pSortableColumn="monto" style="min-width:10rem">Monto <p-sortIcon field="monto"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="estado.nombre" style="min-width:10rem">Estado <p-sortIcon
+                            field="estado.nombre"></p-sortIcon></th>
+
+                    <th pSortableColumn="fecha_estado" style="min-width:10rem">Fecha Estado <p-sortIcon
+                            field="fecha_estado"></p-sortIcon></th>
+
+                    <th> Cerrar Obra</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-obra>
+                <tr [pSelectableRow]="obra">
+                    <td>{{ obra.nombre_obra }}</td>
+                    <td>{{ obra.codigo_obra }}</td>
+                    <td>{{ obra.numero_ot }}</td>
+                    <td>{{ obra.monto }}</td>
+                    <td>
+                        <p class="mi-p-tag" [style.background-color]="obra.estado.color">
+                            <span class="pi pi-star" style="margin-right: 0.5rem;"></span>
+                            {{ obra.estado.nombre }}
+                        </p>
+                    </td>
+
+                    <td style="text-align:center;">{{ obra.fecha_estado }}</td>
+
+
+                    <td style="text-align:center;">
+                        <button pButton pRipple icon="pi pi-cog" class="p-button-rounded p-button-danger  mr-2"
+                            title="Cerrar Obra" (click)="OpenFormCerrarObra(obra)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">In total there are {{ obras ? obras.length
+                    : 0 }}
+                    obras.</div>
+            </ng-template>
+        </p-table>
+    </div>
+</p-card>
+
+
+
+<p-dialog [(visible)]="cerrarObraDialog" [style]="{ width: '850px' , height: '800px' }" header="Gestión Proceso Estado de Pago"
+    [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+
+        <div class="card" style="height:550px;">
+            <div class="grid">
+
+                <div class="col-6">
+                    <div class="calendar-container">
+                        <span class="p-float-label">
+                            <p-calendar id="fecha_hora" class="form-control" [showIcon]="true"></p-calendar>
+                            <label htmlFor="fecha_hora">Fecha presentación EEPP</label>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <span class="p-float-label">
+                        <input type="text" pInputText id="Detalle" class="form-control">
+                        <label htmlFor="supervisor_responsable">Detalle</label>
+                    </span>
+                </div>
+
+
+                <div class="col-6">
+                    <div class="calendar-container">
+                        <span class="p-float-label">
+                            <p-calendar id="fecha_hora" class="form-control" [showIcon]="true"></p-calendar>
+                            <label htmlFor="fecha_hora">Fecha entrega de OC</label>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <span class="p-float-label">
+                        <input type="text" pInputText id="Detalle" class="form-control">
+                        <label htmlFor="supervisor_responsable">N° OC</label>
+                    </span>
+                </div>
+
+
+                <div class="col-6">
+                    <div class="calendar-container">
+                        <span class="p-float-label">
+                            <p-calendar id="fecha_hora" class="form-control" [showIcon]="true"></p-calendar>
+                            <label htmlFor="fecha_hora">Fecha Subido EDP a Portal</label>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <span class="p-float-label">
+                        <input type="text" pInputText id="Detalle" class="form-control">
+                        <label htmlFor="supervisor_responsable">FOLIO</label>
+                    </span>
+                </div>
+
+
+                <div class="col-6">
+                    <div class="calendar-container">
+                        <span class="p-float-label">
+                            <p-calendar id="fecha_hora" class="form-control" [showIcon]="true"></p-calendar>
+                            <label htmlFor="fecha_hora">Fecha entrega HES</label>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <span class="p-float-label">
+                        <input type="text" pInputText id="Detalle" class="form-control">
+                        <label htmlFor="supervisor_responsable">NUMERO HES</label>
+                    </span>
+                </div>
+
+
+                <div class="col-6">
+                    <div class="calendar-container">
+                        <span class="p-float-label">
+                            <p-calendar id="fecha_hora" class="form-control" [showIcon]="true"></p-calendar>
+                            <label htmlFor="fecha_hora">Fecha Solicita Factura</label>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <span class="p-float-label">
+                        <input type="text" pInputText id="Detalle" class="form-control">
+                        <label htmlFor="supervisor_responsable">a quien solicita factura</label>
+                    </span>
+                </div>
+
+
+                <div class="col-6">
+                    <div class="calendar-container">
+                        <span class="p-float-label">
+                            <p-calendar id="fecha_hora" class="form-control" [showIcon]="true"></p-calendar>
+                            <label htmlFor="fecha_hora">Fecha entrega factura</label>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <span class="p-float-label">
+                        <input type="text" pInputText id="Detalle" class="form-control">
+                        <label htmlFor="supervisor_responsable">N° FACTURA</label>
+                    </span>
+                </div>
+
+                <div class="col-4"></div>
+                <div class="col-4" style="padding-top: 55px;">
+
+                    <button pButton pRipple label="Cambiar Estado" class="p-button-rounded p-button-outlined"></button>  
+
+                </div>
+                <div class="col-4"></div>
+
+            </div>
+        </div>
+
+        <!-- <form [formGroup]="cerrar_Obra_Form">
+
+            <div class="card" style="height:450px;">
+
+                <div class="grid">
+
+                    <input type="hidden" pInputText id="id" class="form-control" formControlName="id" />
+
+                    <input type="hidden" pInputText id="id_obra" class="form-control" formControlName="id_obra" />
+
+                    <div class="col-6">
+                        <div class="calendar-container">
+                            <span class="p-float-label">
+                                <p-calendar id="fecha_hora" formControlName="fecha_hora" class="form-control"
+                                    [showIcon]="true"></p-calendar>
+                                <label htmlFor="fecha_hora">Fecha cuando se cierra la obra</label>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <span class="p-float-label">
+                            <input type="text" pInputText id="supervisor_responsable" class="form-control"
+                                formControlName="supervisor_responsable">
+                            <label htmlFor="supervisor_responsable">Supervisor Responsable</label>
+                        </span>
+                    </div>
+
+                    <div class="col-12">
+                        <span class="p-float-label">
+                            <input type="text" pInputText id="coordinador_responsable" class="form-control"
+                                formControlName="coordinador_responsable">
+                            <label htmlFor="coordinador_responsable">Coordinador Responsable</label>
+                        </span>
+                    </div>
+
+                    <div class="col-12">
+                        <span class="p-float-label">
+                            <input type="text" pInputText id="ito_mandante" class="form-control"
+                                formControlName="ito_mandante">
+                            <label htmlFor="ito_mandante">Ito Mandante</label>
+                        </span>
+                    </div>
+
+                    <div class="col-12">
+                        <span class="p-float-label">
+                            <textarea id="observacion" pInputTextarea formControlName="observacion"></textarea>
+                            <label for="observacion">Observación</label>
+                        </span>
+                    </div>
+
+                    <div class="col-4"></div>
+                    <div class="col-4">
+
+                        <button pButton pRipple label="Cerrar Obra" [loading]="loading_cerrar_Obra_Form"
+                            (click)="onCerrarObraClick()" [disabled]="cerrar_Obra_Form.invalid"
+                            class="p-button-rounded p-button-warning p-button-outlined p-mt-5">
+                        </button>
+
+                    </div>
+                    <div class="col-4"></div>
+
+                </div>
+
+            </div>
+
+        </form> -->
+
+
+    </ng-template>
+</p-dialog>

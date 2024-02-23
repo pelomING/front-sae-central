@@ -388,6 +388,9 @@ export class EventoComponent implements OnInit, AfterViewInit {
       next: (data) => {
         this.eventos = data;
         this.eventos.sort((a, b) => b.id - a.id);
+
+        console.log(this.eventos);
+        
       }, error: (e) => console.error(e)
     });
   }

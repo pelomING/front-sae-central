@@ -3,12 +3,14 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 
 import { Obra, Zona, Delegacion, Tipotrabajos, Empresacontratistas, Coordinadorcontratistas, Comuna, Estado, Tipo_obra, Segmento } from '../../interfaces/obra.interface';
 
-
 import { Product } from '../../interfaces/product.interface';
 import { ProductService } from '../../services/productservice';
 
+import { ObrasService } from '../../services/obras.service';
+
 import { ReporteDiarioService } from '../../services/reporte-diario.service';
 import { NavigationExtras, Router } from '@angular/router';
+
 
 @Component({
     selector: 'app-reportediario-page',
@@ -38,14 +40,16 @@ export class ReportediarioPageComponent implements OnInit {
     constructor(private productService: ProductService,
         private messageService: MessageService,
         private router: Router,
+        private obrasService: ObrasService,
         private reporteDiarioService: ReporteDiarioService,
         private confirmationService: ConfirmationService) { }
 
-    ngOnInit() {
-        this.productService.getProducts().then((data) => (this.products = data));
 
+    private codigo_vista = 333;
 
-        this.reporteDiarioService.getAllObras().subscribe(
+    listadoObras() {
+
+        this.obrasService.getAllObras(this.codigo_vista).subscribe(
             (Obras: any) => {
                 console.log("Esto es la Obras:", Obras);
                 this.obras = Obras;
@@ -55,6 +59,15 @@ export class ReportediarioPageComponent implements OnInit {
             }
         );
 
+    }
+
+
+    
+    ngOnInit() {
+
+        this.productService.getProducts().then((data) => (this.products = data));
+
+        this.listadoObras();
 
         this.cols = [
             { field: 'nombre_obra', header: 'Nombre Obra' },
@@ -63,7 +76,6 @@ export class ReportediarioPageComponent implements OnInit {
             { field: 'monto', header: 'Monto' },
             { field: 'estado.nombre', header: 'Estado' }
         ];
-
 
         this.statuses = [
             { label: 'INSTOCK', value: 'instock' },
@@ -95,6 +107,8 @@ export class ReportediarioPageComponent implements OnInit {
         this.productDialog = true;
     }
 
+
+
     deleteSelectedProducts() {
         this.confirmationService.confirm({
             message: 'Are you sure you want to delete the selected products?',
@@ -108,10 +122,14 @@ export class ReportediarioPageComponent implements OnInit {
         });
     }
 
+
+
     editProduct(product: Product) {
         this.product = { ...product };
         this.productDialog = true;
     }
+
+
 
     deleteProduct(product: Product) {
         this.confirmationService.confirm({
@@ -126,10 +144,13 @@ export class ReportediarioPageComponent implements OnInit {
         });
     }
 
+
+
     hideDialog() {
         this.productDialog = false;
         this.submitted = false;
     }
+
 
     saveProduct() {
         this.submitted = true;
@@ -151,6 +172,8 @@ export class ReportediarioPageComponent implements OnInit {
         }
     }
 
+
+
     findIndexById(id: string): number {
         let index = -1;
         for (let i = 0; i < this.products.length; i++) {
@@ -162,6 +185,7 @@ export class ReportediarioPageComponent implements OnInit {
 
         return index;
     }
+
 
     createId(): string {
         let id = '';

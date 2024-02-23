@@ -276,7 +276,7 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Error : ' + error.status,
-                    detail: 'Por favor, intentar mas tarde problemas de servicio : ' + error.error.message,
+                    detail: 'Por favor, intentar mas tarde problemas de servicio : ' + error.error,
                 });
 
             }
