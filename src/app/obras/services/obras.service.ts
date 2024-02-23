@@ -132,15 +132,15 @@ export class ObrasService {
 
     return this.http.delete<any[]>(`${this.baseUrlObras}eliminaobra/${Obra.id}`, httpOptions).pipe(
       map((response) => {
-          return response;
-        })
-      );
+        return response;
+      })
+    );
 
   }
 
 
 
-  getAllObras(codigo_vista:any): Observable<any> {
+  getAllObras(codigo_vista: any): Observable<any> {
 
     return this.http.get(`${this.baseUrlObras}allobras?vista=${codigo_vista}`, httpOptions)
       .pipe(
@@ -212,6 +212,29 @@ export class ObrasService {
   getAllrecargospordistancia(): Observable<any> {
 
     return this.http.get(`${this.baseUrl}allrecargospordistancia`, httpOptions)
+      .pipe(
+        map((response) => {
+
+          if (response) {
+            return response;
+          } else {
+            throw new Error('Respuesta inesperada del servidor');
+          }
+
+        }),
+        catchError((error) => {
+          console.error('Error en la solicitud:', error);
+          return throwError('Ha ocurrido un error en la solicitud.');
+        })
+      );
+
+  }
+
+
+  // /api/obras/backoffice/v1/resumenobras
+  getResumenObras(): Observable<any> {
+
+    return this.http.get(`${this.baseUrlObras}resumenobras`, httpOptions)
       .pipe(
         map((response) => {
 
@@ -403,7 +426,7 @@ export class ObrasService {
 
 
   getAllSegmentos(): Observable<any> {
-    
+
     return this.http.get(`${this.baseUrl}allsegmentos`, httpOptions)
       .pipe(
         map((response) => {
