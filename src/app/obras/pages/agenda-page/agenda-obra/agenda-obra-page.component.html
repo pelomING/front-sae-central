@@ -1,22 +1,13 @@
 <p-card header="Reporte de Visita Terreno para Obra Codigo: {{obra?.codigo_obra}}">
 
     <div class="card">
-
         <p-toast></p-toast>
         <p-toolbar styleClass="mb-4 gap-2">
-
             <ng-template pTemplate="left">
-
-                <button pButton pRipple (click)="goBack()" label="Volver" icon="pi pi-arrow-left"
-                    class="p-button-danger mr-2"></button>
-
+                <button pButton pRipple (click)="goBack()" label="Volver" icon="pi pi-arrow-left" class="p-button-danger mr-2"></button>
             </ng-template>
-
             <ng-template pTemplate="right">
-
-                <button pButton pRipple label="Nuevo registro" icon="pi pi-plus" class="p-button-success mr-2"
-                    (click)="openNew()"></button>
-
+                <button pButton pRipple *ngIf="visitasterreno.length == 0" label="Formulario Registro Visita Terreno" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
             </ng-template>
         </p-toolbar>
 
@@ -46,43 +37,51 @@
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th pSortableColumn="fecha_visita" style="min-width:15rem">Fecha Visita <p-sortIcon
-                            field="fecha_visita"></p-sortIcon></th>
-                    <th pSortableColumn="direccion" style="min-width:15rem">Direccion <p-sortIcon
-                            field="direccion"></p-sortIcon></th>
-                    <th pSortableColumn="mandante" style="min-width:15rem">Mandante <p-sortIcon
-                            field="mandante"></p-sortIcon></th>
-                    <th pSortableColumn="contratista" style="min-width:15rem">Contratista <p-sortIcon
-                            field="contratista"></p-sortIcon></th>
-                    <th pSortableColumn="estado" style="min-width:15rem">Estado <p-sortIcon field="estado"></p-sortIcon>
-                    </th>
+                    <th pSortableColumn="fecha_visita" style="min-width:15rem">Fecha Visita <p-sortIcon field="fecha_visita"></p-sortIcon></th>
+                    <th pSortableColumn="direccion" style="min-width:15rem">Direccion <p-sortIcon field="direccion"></p-sortIcon></th>
+                    <th pSortableColumn="mandante" style="min-width:15rem">Mandante <p-sortIcon field="mandante"></p-sortIcon></th>
+                    <th pSortableColumn="contratista" style="min-width:15rem">Contratista <p-sortIcon field="contratista"></p-sortIcon></th>                  
+                    <th pSortableColumn="estado" style="min-width:15rem">Estado <p-sortIcon field="estado"></p-sortIcon></th>
+                    <th>View</th>
                     <th>Edit</th>
                     <th>Del</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-visitaterreno>
                 <tr [pSelectableRow]="visitaterreno" >
+                    
                     <td>{{ formateoFecha(visitaterreno.fecha_visita) }}</td>
+                    
                     <td>{{ visitaterreno.direccion }}</td>
+                    
                     <td>{{ visitaterreno.persona_mandante }}</td>
+                    
                     <td>{{ visitaterreno.persona_contratista }}</td>
+                    
                     <td>
                         <p-tag icon="pi pi-star" [severity]="getSeverity(visitaterreno.estado.nombre)"
                             [value]="visitaterreno.estado.nombre"></p-tag>
                     </td>
+                    
+                    <td style="text-align:center;">
+                        <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-help mr-2" (click)="verVisitaTerreno(visitaterreno)"></button>
+                    </td>  
+                    
                     <td style="text-align:center;" >
-                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                        <button pButton pRipple *ngIf="obra.estado.id == 1 || obra.estado.id == 4" icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
                             (click)="editProduct(visitaterreno)"></button>
                     </td>
+
                     <td style="text-align:center;" >
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                        <button pButton pRipple *ngIf="obra.estado.id == 1 || obra.estado.id == 4" icon="pi pi-trash" class="p-button-rounded p-button-warning"
                             (click)="onEliminarClick(visitaterreno)"></button>
                     </td>
+
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary">
-                <div class="flex align-items-center justify-content-between">In total there are {{ products ?
-                    products.length : 0 }} products.</div>
+                <div class="flex align-items-center justify-content-between">In total there are {{ visitasterreno ?
+                    visitasterreno.length : 0 }} Visitas.</div>
             </ng-template>
         </p-table>
     </div>

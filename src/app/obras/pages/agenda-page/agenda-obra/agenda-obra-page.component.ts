@@ -206,6 +206,33 @@ export class AgendaObraPageComponent implements OnInit {
 
     }
 
+
+    nomostrar: boolean = true;
+    
+    verVisitaTerreno(visitaterreno: VisitaTerreno) {
+
+        this.visitaTerrenoForm.reset();
+        this.mostrarGuardar = false;
+        this.mostrarActualizar = false;
+
+        const newVisitaTerreno: VisitaTerrenoCrear = {
+            id: visitaterreno.id,
+            id_obra: visitaterreno.id_obra.id,
+            fecha_visita: this.formateoFecha(visitaterreno.fecha_visita),
+            direccion: visitaterreno.direccion,
+            persona_mandante: visitaterreno.persona_mandante,
+            cargo_mandante: visitaterreno.cargo_mandante,
+            persona_contratista: visitaterreno.persona_contratista,
+            cargo_contratista: visitaterreno.cargo_contratista,
+            observacion: visitaterreno.observacion
+        };
+
+        this.visitaTerrenoForm.patchValue(newVisitaTerreno);
+        this.productDialog = true;
+
+    }
+
+
     loading: boolean = false;
 
     onGuardarClick() {
