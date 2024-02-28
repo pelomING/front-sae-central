@@ -2,6 +2,8 @@
 import { NgModule } from '@angular/core';
 import { PrimeNGModule } from '../_primeng/primeng.module';
 import { NgxPrintModule } from 'ngx-print';
+import { NgChartsModule } from 'ng2-charts';
+
 
 import { ObrasRoutingModule } from './obras-routing.module';
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
@@ -47,6 +49,7 @@ import { GenerarEstadoPagoObrasPageComponent } from './pages/estadopago-page/gen
 import { CommaToDotPipe } from './pipes/comma-to-dot.pipe';
 
 
+
 @NgModule({
   declarations: [
     LayoutPageComponent,
@@ -71,7 +74,8 @@ import { CommaToDotPipe } from './pipes/comma-to-dot.pipe';
     PrimeNGModule,
     ObrasRoutingModule,
     ReactiveFormsModule,
-    NgxPrintModule
+    NgxPrintModule,
+    NgChartsModule
   ],
   providers: [ProductService]
 })
