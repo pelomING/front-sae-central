@@ -227,17 +227,17 @@ export class DashboardPageComponent implements OnInit {
 
 
 
-        this.chartOptionsHighcharts = {
-            chart: {
-                type: 'line'
-            },
-            title: {
-                text: 'My Chart'
-            },
-            series: [{
-                data: [1, 2, 3, 4, 5]
-            }]
-        };
+        // this.chartOptionsHighcharts = {
+        //     chart: {
+        //         type: 'line'
+        //     },
+        //     title: {
+        //         text: 'My Chart'
+        //     },
+        //     series: [{
+        //         data: [1, 2, 3, 4, 5]
+        //     }]
+        // };
 
         
 

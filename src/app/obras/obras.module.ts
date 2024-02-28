@@ -41,6 +41,12 @@ import { CierrePageComponent } from './pages/cierre-page/cierre-page.component';
 /* Gestion Estados de Pago */
 import { GestionEDPPageComponent } from './pages/gestionedp-page/gestionedp-page.component';
  
+
+
+import { ManualUsuarioComponent } from './pages/manualusuario-page/manualusuario-page.component';
+
+
+
 /* Estado Pago */
 import { EstadopagoPageComponent } from './pages/estadopago-page/estadopago-page.component';
 import { HistoricoEstadoPagoPageComponent } from './pages/estadopago-page/historicoestadopagoobras/historicoestadopago-page.component';
@@ -71,6 +77,7 @@ import { CommaToDotPipe } from './pipes/comma-to-dot.pipe';
     EstadoobraPageComponent,
     CierrePageComponent,
     GestionEDPPageComponent,
+    ManualUsuarioComponent,
     CommaToDotPipe
   ],
   imports: [
