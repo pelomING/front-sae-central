@@ -249,7 +249,7 @@
 
         <div class="card flex flex-column align-items-center" *ngIf="graficas_resumen_maule_sur">
             <h5>Estados Maule Sur</h5>
-            <p-chart type="pie" [data]="chartDataPie_maule_sur" [options]="chartDataPie_maule_sur"></p-chart>
+            <p-chart type="pie" [data]="chartDataPie_maule_sur" [options]="chartOptionsPie"></p-chart>
         </div>
         <div *ngIf="!graficas_resumen_maule_sur">
             <!-- Opcional: mensaje de carga o spinner mientras se cargan los datos -->

@@ -27,7 +27,7 @@ import { CierrePageComponent } from './pages/cierre-page/cierre-page.component';
 
 import { GestionEDPPageComponent } from './pages/gestionedp-page/gestionedp-page.component';
 
-
+import { ManualUsuarioComponent } from './pages/manualusuario-page/manualusuario-page.component';
 
 // localhost:4200/obras
 const routes: Routes = [
@@ -59,9 +59,9 @@ const routes: Routes = [
 
       { path: 'cierre', component: CierrePageComponent },
 
-
       { path: 'gestionedp', component: GestionEDPPageComponent },
 
+      { path: 'manualusuario', component: ManualUsuarioComponent },
 
 
       // { path: 'seguimiento', component: SeguimientoPageComponent }
