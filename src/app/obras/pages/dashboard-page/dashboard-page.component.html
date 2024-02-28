@@ -1,68 +1,378 @@
-<p-card header="Panel de Control - Servicio Obras">
-    
-    <div class="surface-ground px-4 py-5 md:px-6 lg:px-8">
-        <div class="grid">
-            <div class="col-12 md:col-6 lg:col-3">
-                <div class="surface-card shadow-2 p-3 border-round">
-                    <div class="flex justify-content-between mb-3">
-                        <div>
-                            <span class="block text-500 font-medium mb-3">Orders</span>
-                            <div class="text-900 font-medium text-xl">152</div>
-                        </div>
-                        <div class="flex align-items-center justify-content-center bg-blue-100 border-round" style="width:2.5rem;height:2.5rem">
-                            <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
-                        </div>
-                    </div>
-                    <span class="text-green-500 font-medium">24 new </span>
-                    <span class="text-500">since last visit</span>
+<!-- <p-card header="Panel de Control - Servicio Obras">
+    <div class="surface-ground px-4 py-5 md:px-6 lg:px-8"> -->
+
+
+<div class="grid">
+
+    <div class="col-12 lg:col-6 xl:col-3">
+
+
+
+        <div class="card" *ngIf="obras_estados_total">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span *ngIf="obras_estados_total && obras_estados_total.estado"
+                        class="block text-500 font-medium mb-3">{{
+                        obras_estados_total.estado }}</span>
+                    <div class="text-900 font-medium text-xl"> {{ obras_estados_total.cantidad }} </div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-chart-line text-blue-500 text-xl"></i>
                 </div>
             </div>
-            <div class="col-12 md:col-6 lg:col-3">
-                <div class="surface-card shadow-2 p-3 border-round">
-                    <div class="flex justify-content-between mb-3">
-                        <div>
-                            <span class="block text-500 font-medium mb-3">Revenue</span>
-                            <div class="text-900 font-medium text-xl">$2.100</div>
-                        </div>
-                        <div class="flex align-items-center justify-content-center bg-orange-100 border-round" style="width:2.5rem;height:2.5rem">
-                            <i class="pi pi-map-marker text-orange-500 text-xl"></i>
-                        </div>
-                    </div>
-                    <span class="text-green-500 font-medium">%52+ </span>
-                    <span class="text-500">since last week</span>
-                </div>
-            </div>
-            <div class="col-12 md:col-6 lg:col-3">
-                <div class="surface-card shadow-2 p-3 border-round">
-                    <div class="flex justify-content-between mb-3">
-                        <div>
-                            <span class="block text-500 font-medium mb-3">Customers</span>
-                            <div class="text-900 font-medium text-xl">28441</div>
-                        </div>
-                        <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" style="width:2.5rem;height:2.5rem">
-                            <i class="pi pi-inbox text-cyan-500 text-xl"></i>
-                        </div>
-                    </div>
-                    <span class="text-green-500 font-medium">520  </span>
-                    <span class="text-500">newly registered</span>
-                </div>
-            </div>
-            <div class="col-12 md:col-6 lg:col-3">
-                <div class="surface-card shadow-2 p-3 border-round">
-                    <div class="flex justify-content-between mb-3">
-                        <div>
-                            <span class="block text-500 font-medium mb-3">Comments</span>
-                            <div class="text-900 font-medium text-xl">152 Unread</div>
-                        </div>
-                        <div class="flex align-items-center justify-content-center bg-purple-100 border-round" style="width:2.5rem;height:2.5rem">
-                            <i class="pi pi-comment text-purple-500 text-xl"></i>
-                        </div>
-                    </div>
-                    <span class="text-green-500 font-medium">85 </span>
-                    <span class="text-500">responded</span>
-                </div>
-            </div>
+            <span class="text-green-500 font-medium"> {{ obras_estados_total.porcentaje }}% </span>
+            <span class="text-500">de obras</span>
         </div>
+        <div *ngIf="!obras_estados_total">
+            <!-- Opcional: mensaje de carga o spinner mientras se cargan los datos -->
+            <p>Cargando...</p>
+        </div>
+
+        <div class="card" *ngIf="obras_ingresadas">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span *ngIf="obras_ingresadas && obras_ingresadas.estado" class="block text-500 font-medium mb-3">{{
+                        obras_ingresadas.estado }}</span>
+                    <div class="text-900 font-medium text-xl"> {{ obras_ingresadas.cantidad }} </div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-chart-line text-blue-500 text-xl"></i>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium"> {{ obras_ingresadas.porcentaje }}% </span>
+            <span class="text-500">de obras ingresadas</span>
+        </div>
+        <div *ngIf="!obras_ingresadas">
+            <!-- Opcional: mensaje de carga o spinner mientras se cargan los datos -->
+            <p>Cargando...</p>
+        </div>
+
+        <div class="card" *ngIf="obras_visita_exitosa">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span *ngIf="obras_visita_exitosa && obras_visita_exitosa.estado"
+                        class="block text-500 font-medium mb-3">{{
+                        obras_visita_exitosa.estado }}</span>
+
+                    <div class="text-900 font-medium text-xl">{{ obras_visita_exitosa.cantidad }}</div>
+
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-chart-line text-orange-500 text-xl"></i>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium"> {{ obras_visita_exitosa.porcentaje }}% </span>
+            <span class="text-500"> de obras con visita exitosa</span>
+        </div>
+        <div *ngIf="!obras_visita_exitosa">
+            <!-- Opcional: mensaje de carga o spinner mientras se cargan los datos -->
+            <p>Cargando...</p>
+        </div>
+
+        <div class="card" *ngIf="obras_enfaena">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span *ngIf="obras_enfaena && obras_enfaena.estado" class="block text-500 font-medium mb-3">{{
+                        obras_enfaena.estado }}</span>
+                    <div class="text-900 font-medium text-xl">{{ obras_enfaena.cantidad }}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-purple-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-chart-line text-purple-500 text-xl"></i>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium"> {{ obras_enfaena.porcentaje }} % </span>
+            <span class="text-500"> de obras finalizadas </span>
+        </div>
+        <div *ngIf="!obras_enfaena">
+            <!-- Opcional: mensaje de carga o spinner mientras se cargan los datos -->
+            <p>Cargando...</p>
+        </div>
+
+
+        <div class="card" *ngIf="obras_paralizadas">
+            <div class="flex justify-content-between mb-3">
+                <div>
+
+                    <span *ngIf="obras_paralizadas && obras_paralizadas.estado"
+                        class="block text-500 font-medium mb-3">{{ obras_paralizadas.estado }}</span>
+
+                    <div class="text-900 font-medium text-xl">{{ obras_paralizadas.cantidad }}</div>
+
+                </div>
+                <div class="flex align-items-center justify-content-center bg-cyan-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-chart-line text-cyan-500 text-xl"></i>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium"> {{ obras_paralizadas.porcentaje }}% </span>
+            <span class="text-500"> de obras paralizadas </span>
+        </div>
+        <div *ngIf="!obras_paralizadas">
+            <!-- Opcional: mensaje de carga o spinner mientras se cargan los datos -->
+            <p>Cargando...</p>
+        </div>
+
+        <div class="card" *ngIf="obras_finalizadas">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span *ngIf="obras_finalizadas && obras_finalizadas.estado"
+                        class="block text-500 font-medium mb-3">{{ obras_finalizadas.estado }}</span>
+                    <div class="text-900 font-medium text-xl">{{ obras_finalizadas.cantidad }}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-purple-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-chart-line text-purple-500 text-xl"></i>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium"> {{ obras_finalizadas.porcentaje }} % </span>
+            <span class="text-500"> de obras finalizadas </span>
+        </div>
+        <div *ngIf="!obras_finalizadas">
+            <!-- Opcional: mensaje de carga o spinner mientras se cargan los datos -->
+            <p>Cargando...</p>
+        </div>
+
+        <div class="card" *ngIf="obras_eliminadas">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span *ngIf="obras_eliminadas && obras_eliminadas.estado" class="block text-500 font-medium mb-3">{{
+                        obras_eliminadas.estado }}</span>
+
+                    <div class="text-900 font-medium text-xl">{{ obras_eliminadas.cantidad }}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-purple-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-chart-line text-purple-500 text-xl"></i>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium"> {{ obras_eliminadas.porcentaje }} % </span>
+            <span class="text-500"> de obras eliminadas </span>
+        </div>
+        <div *ngIf="!obras_eliminadas">
+            <!-- Opcional: mensaje de carga o spinner mientras se cargan los datos -->
+            <p>Cargando...</p>
+        </div>
+
     </div>
 
-</p-card>
+    <div class="col-12 lg:col-6 xl:col-3">
+
+        <div class="card flex flex-column align-items-center" *ngIf="graficas_resumen_estados">
+            <h5>Estados</h5>
+            <p-chart type="pie" [data]="chartDataPie" [options]="chartOptionsPie"></p-chart>
+        </div>
+        <div *ngIf="!graficas_resumen_estados">
+            <!-- Opcional: mensaje de carga o spinner mientras se cargan los datos -->
+            <p>Cargando...</p>
+        </div>
+
+        <div class="card">
+
+            <div class="flex justify-content-between align-items-center mb-5">
+                <h5>Tipos de Obras</h5>
+            </div>
+
+            <ul class="list-none p-0 m-0">
+                <li *ngFor="let item of graficas_resumen_tipos_obra"
+                    class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <div>
+                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ item.tipo_obra }}</span>
+                        <div class="mt-1 text-600">Cantidad: {{ item.cantidad }}</div>
+                    </div>
+                    <div class="mt-2 md:mt-0 flex align-items-center">
+                        <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                            [ngStyle]="{ height: '8px' }">
+                            <div class="{{ item['bg-color'] }} h-full" [ngStyle]="{ width: item.porcentaje + '%' }">
+                            </div>
+                        </div>
+                        <span class="{{ item['text-color'] }} ml-3 font-medium">{{ item.porcentaje }} %</span>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 lg:col-6 xl:col-3">
+
+        <div class="card flex flex-column align-items-center" *ngIf="graficas_resumen_maule_norte">
+            <h5>Estados Maule Norte</h5>
+            <p-chart type="pie" [data]="chartDataPie_maule_norte" [options]="chartOptionsPie"></p-chart>
+        </div>
+        <div *ngIf="!graficas_resumen_maule_norte">
+            <!-- Opcional: mensaje de carga o spinner mientras se cargan los datos -->
+            <p>Cargando...</p>
+        </div>
+
+        <div class="card">
+            <div class="flex justify-content-between align-items-center mb-5">
+                <h5>Tipos de Obras Maule Norte</h5>
+            </div>
+
+            <ul class="list-none p-0 m-0">
+                <li *ngFor="let item of graficas_resumen_tipos_obra"
+                    class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <div>
+                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ item.tipo_obra }}</span>
+                        <div class="mt-1 text-600">Cantidad: {{ item.cantidad }}</div>
+                    </div>
+                    <div class="mt-2 md:mt-0 flex align-items-center">
+                        <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                            [ngStyle]="{ height: '8px' }">
+                            <div class="{{ item['bg-color'] }} h-full" [ngStyle]="{ width: item.porcentaje + '%' }">
+                            </div>
+                        </div>
+                        <span class="{{ item['text-color'] }} ml-3 font-medium">{{ item.porcentaje }} %</span>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 lg:col-6 xl:col-3">
+
+        <div class="card flex flex-column align-items-center" *ngIf="graficas_resumen_maule_sur">
+            <h5>Estados Maule Sur</h5>
+            <p-chart type="pie" [data]="chartDataPie_maule_sur" [options]="chartDataPie_maule_sur"></p-chart>
+        </div>
+        <div *ngIf="!graficas_resumen_maule_sur">
+            <!-- Opcional: mensaje de carga o spinner mientras se cargan los datos -->
+            <p>Cargando...</p>
+        </div>
+
+        <div class="card">
+            <div class="flex justify-content-between align-items-center mb-5">
+                <h5>Tipos de Obras Maule Sur</h5>
+            </div>
+
+            <ul class="list-none p-0 m-0">
+                <li *ngFor="let item of graficas_resumen_tipos_obra"
+                    class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <div>
+                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ item.tipo_obra }}</span>
+                        <div class="mt-1 text-600">Cantidad: {{ item.cantidad }}</div>
+                    </div>
+                    <div class="mt-2 md:mt-0 flex align-items-center">
+                        <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                            [ngStyle]="{ height: '8px' }">
+                            <div class="{{ item['bg-color'] }} h-full" [ngStyle]="{ width: item.porcentaje + '%' }">
+                            </div>
+                        </div>
+                        <span class="{{ item['text-color'] }} ml-3 font-medium">{{ item.porcentaje }} %</span>
+                    </div>
+                </li>
+            </ul>
+
+            <ul class="list-none p-0 m-0">
+                <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <div>
+                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">VENTA</span>
+                        <div class="mt-1 text-600">Cantidad:</div>
+                    </div>
+                    <div class="mt-2 md:mt-0 flex align-items-center">
+                        <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                            [ngStyle]="{height: '8px'}">
+                            <div class="bg-orange-500 h-full" [ngStyle]="{width: '50%'}"></div>
+                        </div>
+                        <span class="text-orange-500 ml-3 font-medium">%50</span>
+                    </div>
+                </li>
+                <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <div>
+                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">INVERSIÓN</span>
+                        <div class="mt-1 text-600">Cantidad:</div>
+                    </div>
+                    <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                        <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                            [ngStyle]="{height: '8px'}">
+                            <div class="bg-cyan-500 h-full" [ngStyle]="{width: '16%'}"></div>
+                        </div>
+                        <span class="text-cyan-500 ml-3 font-medium">%16</span>
+                    </div>
+                </li>
+                <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <div>
+                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">NT 20</span>
+                        <div class="mt-1 text-600">Cantidad:</div>
+                    </div>
+                    <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                        <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                            [ngStyle]="{height: '8px'}">
+                            <div class="bg-pink-500 h-full" [ngStyle]="{width: '67%'}"></div>
+                        </div>
+                        <span class="text-pink-500 ml-3 font-medium">%67</span>
+                    </div>
+                </li>
+                <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <div>
+                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">NT 90</span>
+                        <div class="mt-1 text-600">Cantidad:</div>
+                    </div>
+                    <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                        <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                            [ngStyle]="{height: '8px'}">
+                            <div class="bg-green-500 h-full" [ngStyle]="{width: '35%'}"></div>
+                        </div>
+                        <span class="text-green-500 ml-3 font-medium">%35</span>
+                    </div>
+                </li>
+                <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <div>
+                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">NT 180</span>
+                        <div class="mt-1 text-600">Cantidad:</div>
+                    </div>
+                    <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                        <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                            [ngStyle]="{height: '8px'}">
+                            <div class="bg-purple-500 h-full" [ngStyle]="{width: '75%'}"></div>
+                        </div>
+                        <span class="text-purple-500 ml-3 font-medium">%75</span>
+                    </div>
+                </li>
+                <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <div>
+                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">HALLAZGO</span>
+                        <div class="mt-1 text-600">Cantidad:</div>
+                    </div>
+                    <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                        <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                            [ngStyle]="{height: '8px'}">
+                            <div class="bg-teal-500 h-full" [ngStyle]="{width: '40%'}"></div>
+                        </div>
+                        <span class="text-teal-500 ml-3 font-medium">%40</span>
+                    </div>
+                </li>
+
+                <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <div>
+                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">EMERGENCIA</span>
+                        <div class="mt-1 text-600">Cantidad:</div>
+                    </div>
+                    <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                        <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                            [ngStyle]="{height: '8px'}">
+                            <div class="bg-blue-500 h-full" [ngStyle]="{width: '40%'}"></div>
+                        </div>
+                        <span class="text-blue-500 ml-3 font-medium">%40</span>
+                    </div>
+                </li>
+
+            </ul>
+
+            
+        </div>
+
+    </div>
+
+
+</div>
+
+<!-- </div>
+</p-card> -->

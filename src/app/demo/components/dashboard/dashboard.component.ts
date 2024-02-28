@@ -5,6 +5,8 @@ import { ProductService } from '../../service/product.service';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
+
+
 @Component({
     templateUrl: './dashboard.component.html',
 })
@@ -34,6 +36,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             { label: 'Add New', icon: 'pi pi-fw pi-plus' },
             { label: 'Remove', icon: 'pi pi-fw pi-minus' }
         ];
+
     }
 
     initChart() {
@@ -94,6 +97,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
             }
         };
     }
+
+
+
+
 
     ngOnDestroy() {
         if (this.subscription) {
