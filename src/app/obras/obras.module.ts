@@ -4,6 +4,9 @@ import { PrimeNGModule } from '../_primeng/primeng.module';
 import { NgxPrintModule } from 'ngx-print';
 import { NgChartsModule } from 'ng2-charts';
 
+import * as Highcharts from 'highcharts';
+import { HighchartsChartModule } from 'highcharts-angular';
+
 
 import { ObrasRoutingModule } from './obras-routing.module';
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
@@ -75,7 +78,8 @@ import { CommaToDotPipe } from './pipes/comma-to-dot.pipe';
     ObrasRoutingModule,
     ReactiveFormsModule,
     NgxPrintModule,
-    NgChartsModule
+    NgChartsModule,
+    HighchartsChartModule
   ],
   providers: [ProductService]
 })
