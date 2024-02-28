@@ -5,6 +5,16 @@ import { Product } from '../../interfaces/product.interface';
 import { ProductService } from '../../services/productservice';
 import { ObrasService } from '../../services/obras.service';
 
+
+import * as Highcharts from 'highcharts';
+
+import HC_exporting from 'highcharts/modules/exporting';
+HC_exporting(Highcharts);
+
+
+
+
+
 @Component({
     selector: 'app-dashboard-page',
     templateUrl: './dashboard-page.component.html',
@@ -12,6 +22,10 @@ import { ObrasService } from '../../services/obras.service';
 })
 
 export class DashboardPageComponent implements OnInit {
+
+
+    Highcharts: typeof Highcharts = Highcharts; // required
+
 
     productDialog: boolean;
     products: Product[];
@@ -72,6 +86,8 @@ export class DashboardPageComponent implements OnInit {
     obras_finalizadas: any;
     obras_eliminadas: any;
 
+    chartOptionsHighcharts: any;
+
     listadoObras() {
         this.obrasService.getResumenObras().subscribe(
             (Respuesta: any) => {
@@ -81,7 +97,7 @@ export class DashboardPageComponent implements OnInit {
 
                 this.graficas_resumen_estados = Respuesta.resumen_estados;
 
-                
+
                 this.graficas_resumen_tipos_obra = Respuesta.resumen_tipos_obra;
                 
                 this.graficas_resumen_mnorte_tipo_obra = Respuesta.resumen_mnorte_tipo_obra;
@@ -209,6 +225,21 @@ export class DashboardPageComponent implements OnInit {
 
 
 
+
+
+        this.chartOptionsHighcharts = {
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: 'My Chart'
+            },
+            series: [{
+                data: [1, 2, 3, 4, 5]
+            }]
+        };
+
+        
 
 
     }
