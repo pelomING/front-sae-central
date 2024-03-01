@@ -679,7 +679,7 @@ export class ObrasPageComponent implements OnInit {
 
         console.log(selectedValue);
 
-        if (selectedValue.descripcion == "VENTA") {
+        if (selectedValue.descripcion == "EMERGENCIA") {
 
             // Llama a tu API con el valor seleccionado
             this.obrasService.getCodigodeobraemergencia().subscribe(response => {
