@@ -7,23 +7,370 @@
 
 
     <p-accordion [activeIndex]="0">
-        <p-accordionTab header="Introduccion Gestión Obra">
+        <p-accordionTab header="Introduccion">
+
+            El sistema de gestión de obras SIGO ofrece a sus usuarios funcionalidades dirigidas principalmente a
+            controlar lo siguiente:<br>
+            <ul>
+                <li>físico de una obra</li>
+                <li>Control de materiales</li>
+                <li>Seguimiento a la facturación de las obras ejecutadas</li>
+
+            </ul>
+
+            En las siguientes secciones se describen estas funcionalidades.
+
+
+        </p-accordionTab>
+        <p-accordionTab header="Interfaz de usuario">
             <p>
-               <a href="assets/layout/manual/obras/Manual_Sigo V0.9.1.docx" target="_blank">Abrir Manual</a>
+                La interfaz de usuario está compuesta por el panel izquierdo y el panel central, como se muestra en la
+                figura N° 1.
+                En el panel izquierdo se muestran las actividades del negocio y en el panel central se desarrolla la
+                actividad seleccionada,
+                mostrando información relevante de las obras e iconos circulares para realizar acciones visualización,
+                edición, borrado, etc.
+            </p>
+            <br>
+            <div align='center'>
+                <p-card [style]="{ width: '400px' }" >
+                    <p-image src="assets/layout/images/manual_obras/image001.png" alt="Image" width="350"
+                    [preview]="true"></p-image>
+                </p-card>
+                <br>
+                Figura N° 1. Interfaz de usuario del sistema.
+                <br>
+            </div>
+        </p-accordionTab>
+        <p-accordionTab header="Estados de una obra">
+            <p>Las obras pueden estar en alguno de los siguientes 6 estados:</p>
+            <ol>
+                <li>Ingresada</li>
+                <p>
+                    Estado inicial de una obra. Queda en este estado cuando sólo
+                    se han ingresados los datos que describen a la obra, por ejemplo, valores de código CGED, tipo de
+                    obra, fechas, responsables etc.
+                </p>
+                <li>Visita reportada exitosa</li>
+                <p>
+                    La obra pasa a este estado manualmente. En el menú Reporte Visita a Terreno, se selecciona la obra y
+                    se modifica el estado a este valor.
+                </p>
+                <li>En faena</li>
+                <p>
+                    La obra pasa a este estado cuando se ingresa un reporte diario, en el menú Reporte diario. Cabe señalar
+                    que para que a una obra se le pueda ingresar un reporte diario, debe estar en estado Visita reportada exitosa
+                </p>
+                <li>Paralizada</li>
+                <p>
+                    Este estado representa que la obra se encuentra paralizada en cualquiera de sus fases, excepto cuando 
+                    esta se encuentra en estado Ingresada. La asignación de este estado se realiza en el menú Obras, 
+                    seleccionando la acción editar y suministrando la información solicitada en la pestaña Paralizar. 
+                    La obra sale de este estado cuando se ingresa un reporte diario.
+                </p>
+                <li>Faena finalizada</li>
+                <p>
+                    Este estado representa la finalización de los trabajos en terreno de una obra. Para que una obra 
+                    llegue a este estado se debe ingresar la información solicitada en el menú Finalización de faenas.   
+                </p>
+                <li>Eliminada</li>
+                <p>
+                    Las obras eliminadas permanecen en este estado.
+                </p>
+                <p>
+                    En la Figura N° 2 se muestras el diagrama de transición de estado de una obra. En este diagrama se 
+                    puede ver cuáles son los posibles siguientes estados de una obra, dado el estado actual.
+                </p>    
+            </ol>
+            <br>
+            <br>
+            <div align='center'>
+                <p-card [style]="{ width: '400px' }" >
+                   
+                    <p-image src="assets/layout/images/manual_obras/estados.jpg" alt="Image" width="350"
+                    [preview]="true"></p-image>
+
+                </p-card>
+                <br>
+                Figura N° 2. Diagrama de transición de estados de una obra.
+                <br>
+            </div>
+
+        </p-accordionTab>
+
+        <p-accordionTab header="Funcionalidad">
+            <p>
+                En este apartado se describe los pasos para gestionar 
+                una obra a través del sistema. La Figura N° 3 muestra la 
+                secuencia que se debe seguir en los menú del panel izquierdo de la interfaz de usuario.
+            </p>
+
+
+            <div align='center'>
+                <p-card [style]="{ width: '400px' }" >
+                    <p-image src="assets/layout/images/manual_obras/image006.jpg" alt="Image" width="350"
+                    [preview]="true"></p-image>
+                </p-card>
+                    Figura N° 3. Flujo normal de trabajo para procesar una obra. En los círculos se 
+                    muestran los menú del panel izquierdo de la interfaz de usuario. La flecha que 
+                    sale y entra en el Reporte diario representa que en una obra se puede ingresar 
+                    más de un reporte diario.
+                <br>
+                <br>
+            </div>
+
+        </p-accordionTab>
+
+        <p-accordionTab header="Ingreso de una obra al sistema">
+            <p>
+                Como paso inicial se debe ingresar la obra al sistema. El ingreso se hace a 
+                través del menú Obras. En el panel central se muestran todas obras en curso. 
+                Se debe hacer clic en el botón llamado Nuevo que se presenta en la Figura N° 4 
+                y proceder con el ingreso de los datos solicitados.
+            </p>
+            <p>    
+                En la Figura N° 4 se presenta el formulario con los datos que se deben suministrar para 
+                ingresar una nueva obra. Todos los campos son requeridos. Si al momento de hacer el ingreso 
+                de datos no se cuenta alguna información solicitada, se debe ingresar el valor 0. A medida 
+                que se va disponiendo de la información, esta puede debe ser agregada a la obra, usando la 
+                opción editar del menú Obras (circulo verde con ícono de lápiz).
+            </p>
+            <div align='center'>
+                <p-card [style]="{ width: '400px' }" >
+                    <p-image src="assets/layout/images/manual_obras/image008.jpg" alt="Image" width="350"
+                    [preview]="true"></p-image>
+                </p-card>
+                <br>
+                Figura N° 4. Ingreso de nueva obra al sistema. En marco rojo se muestra el botón que permite ingresar una nueva obra.
+                <br>
+            </div>
+
+            <div align='center'>
+                <p-card [style]="{ width: '400px' }" >
+                    <p-image src="assets/layout/images/manual_obras/image010.png" alt="Image" width="350"
+                    [preview]="true"></p-image>
+                </p-card>
+                    Figura N° 5. Formulario de ingreso de nueva obra.
+                <br>
+            </div>
+
+            <br>
+            <p>
+                Cuando se completa la información del formulario de la Figura N° 5, se 
+                habilita el botón guardar, al cual se debe hacer clic para salvar la información ingresada.
+            </p>
+            <p>
+                Se debe poner atención al código de la obra, el cual debe ser ingresado con el formato 
+                CGED-número. El guion es obligatorio. Un ejemplo de código de obra es CGED-1742655. 
+                El valor CGED1742655 no es aceptado por el sistema.
+            </p>
+            <p>    
+                En este punto la obra está en estado Ingresada. Esto se puede comprobar en el 
+                menú Obras, en el panel central, columna Estado.
+            </p>
+
+
+        </p-accordionTab>
+
+        <p-accordionTab header="Reporte Visita Terreno">
+            <p>
+                Luego de ingresar una obra, se debe registrar el resultado de la visita 
+                a terreno que realiza el Coordinar Pelom junto al encargado por parte 
+                del mandante. Esto se hace en el menú Reporte Visita Terreno.
+            </p>
+
+            <div align='center'>
+                <p-card [style]="{ width: '400px' }" >
+                    <p-image src="assets/layout/images/manual_obras/image011.png" alt="Image" width="350"
+                    [preview]="true"></p-image>
+                </p-card>
+                    Figura N° 6. Ingreso Reporte de Visita a Terreno.
+                </div>
+                <br>
+                <br>
+                <p>
+                    En al panel central se muestras solos las obras en estado ingresado y Visita reportada exitosa. 
+                    Para ingresar los datos obtenidos de en la visita a terreno, se debe hacer clic sobre 
+                    el ícono circular de color verde, en la fila de la obra que se está trabajando, 
+                    según se muestra en la Figura N° 6.
+                </p>
+                <div align='center'>
+                    <p-card [style]="{ width: '400px' }" >
+                        <p-image src="assets/layout/images/manual_obras/image013.png" alt="Image" width="350"
+                        [preview]="true"></p-image>
+                    </p-card>
+                        Figura N° 7. Botón Nuevo Registro.
+                    <br>
+                    <br>
+                </div>
+                <p>
+                    A continuación, se debe hacer clic en el botón de color verde (Figura N° 7), 
+                    llamado Nuevo Registro. Inmediatamente se despliega el formulario (Figura N° 8) 
+                    para ingresar los datos requeridos de la visita a terreno.
+                </p>
+
+                <div align='center'>
+                    <p-card [style]="{ width: '400px' }" >
+                        <p-image src="assets/layout/images/manual_obras/image015.png" alt="Image" width="350"
+                        [preview]="true"></p-image>
+                    </p-card>
+                    Figura N° 8. Formulario con datos requeridos de la visita a terreno.
+                    <br>
+                    <br>
+                </div>
+                
+        </p-accordionTab>
+
+        <p-accordionTab header="Reportes Diarios">
+            <p>
+                Los reportes diarios contienen información general de un día de faena y principalmente se 
+                registran en él las actividades que se realizaron durante el día.
+            </p>
+            <p>    
+                Los reportes diarios son fundamentales para generar estados de pagos de una obra, de hecho, 
+                los estados de pagos son una consolidación reportes diarios. Si alguna actividad se omite 
+                en los reportes diarios, no será incluida en los estados de pago.
+            </p>
+            <p>    
+                Para ingresar un reporte diario a una obra se debe seleccionar el menú Reporte Diario 
+                (Figura N° 9), en el panel central se muestran las obras que están en los siguientes estados:
+            </p>
+            <ul>    
+                <li>Visita Reportada Exitosa</li>
+                <li>>En Faena</li>
+                <li>Paralizada</li>
+                <li>Faena Finalizada</li>
+            </ul>
+            <p>Se incluyen las obras que se encuentran en estado Faena Finalizada para dar la posibilidad 
+                de editarlas y eventualmente incluir alguna actividad que no se registró con anterioridad.
+            </p>
+            <p>Quedan excluidas las obras que se encuentran en estado Ingresada, debido a que en este 
+                estado aun no tienen el Reporte de visita a terreno.
+            </p>
+            <p>
+                Cuando un reporte diario es incluido en un estado de pago, deja de ser posible su edición y borrado.
+            </p>
+            <div align='center'>
+                <p-card [style]="{ width: '400px' }" >
+                    <p-image src="assets/layout/images/manual_obras/image017.png" alt="Image" width="350"
+                    [preview]="true"></p-image>
+                </p-card>
+                Figura N° 9. Ingreso de reportes diarios.
+                <br>
+                <br>
+            </div>
+            <p>
+                Para ingresar a la página donde se encuentran los reportes diarios de una obra, 
+                se debe hacer clic en el ícono en la columna Página de Reporte, en la fila correspondientes 
+                a la obra a la que se desea agregar un reporte diario, ahora en el panel central se muestran 
+                los reportes diarios asociados a una obra especifica (Figura N° 10). 
+            </p>
+
+            <div align='center'>
+                <p-card [style]="{ width: '400px' }" >
+                    <p-image src="assets/layout/images/manual_obras/image019.png" alt="Image" width="350"
+                    [preview]="true"></p-image>
+                </p-card>
+                Figura N° 10. Listado de reportes diarios para la obra CGED-890088888.
+                <br>
+                <br>
+            </div>
+            <p>
+                Para acceder al formulario de ingreso de reporte diario se debe hacer clic al 
+                botón Nuevo mostrado en la Figura N° 10, desplegándose el formulario mostrado en la Figura N° 11
+            </p>
+
+            <div align='center'>
+                <p-card [style]="{ width: '400px' }" >
+                    <p-image src="assets/layout/images/manual_obras/image021.png" alt="Image" width="350"
+                    [preview]="true"></p-image>
+                </p-card>
+                Figura N° 11. Formulario de ingreso de reporte de actividades diarias.
+                <br>
+                <br>
+            </div>
+                <p>
+                    Para ingresar las actividades diarias se debe hacer clic en la pestaña Actividades y luego 
+                    seleccionar Agregar Actividad (Figura N° 12)
+                </p>
+            <div align='center'>
+                <p-card [style]="{ width: '400px' }" >
+                    <p-image src="assets/layout/images/manual_obras/image023.png" alt="Image" width="350"
+                    [preview]="true"></p-image>
+                </p-card>
+                Figura N° 12. Ingreso de actividades.
+                <br>
+                <br>
+            </div>
+
+        </p-accordionTab>
+
+        <p-accordionTab header="Estado de Pago">
+            <p>
+                Para generar un estado asociado a una obra se debe seleccionar el menú Estado de 
+                Pago (Figura N° 13). En el panel central se muestran las obras a la que es posible 
+                realizarles estados de pago, estas corresponden a las que están en los 
+                siguientes estados:
+            </p>
+            <ul>
+                <li>En Faena</li>
+                <li>Paralizada</li>
+                <li>Faena Finalizada</li>
+            </ul>
+            <p>
+                A continuación, se debe hacer clic en el ícono de color verde que se encuentra en la 
+                fila de la obra a la que se quiere hacer un estado de pago, luego de esto, el panel 
+                central se muestran todos los estados de pagos que se han realizado para la obra. 
+                En la parte superior derecha se encuentra el botón Crear Estado de Pago (Figura N° 14).
+            </p>
+            <div align='center'>
+                <p-card [style]="{ width: '400px' }" >
+                    <p-image src="assets/layout/images/manual_obras/image025.png" alt="Image" width="350"
+                    [preview]="true"></p-image>
+                </p-card>
+                Figura N° 13. Generación de estados de pago.
+                <br>
+                <br>
+            </div>
+            <div align='center'>
+                <p-card [style]="{ width: '400px' }" >
+                    <p-image src="assets/layout/images/manual_obras/image027.png" alt="Image" width="350"
+                    [preview]="true"></p-image>
+                </p-card>
+                Figura N° 14. Estados de pagos emitidos para una obra y generación de nuevo estado de pago. 
+                En el recuadro Listado de Informes, se muestran todos los estados de pago de pago 
+                de la obra. En caso de que la obra no tenga estados de pagos esta sección se muestra 
+                vacía. En el recuadro superior, a la derecha se muestra el botón para crear un nuevo 
+                estado de pago para la obra.
+                <br>
+                <br>
+            </div>
+            <p>
+                Al crear un estado de pago, se consolidan para cobro todos los informes diarios que 
+                aún no han sido considerados en los estados de pagos anteriores. Si todos los 
+                informes diarios de la obra seleccionada ya están incluidos en estados de pagos 
+                previos, se generará un nuevo estado de pago con cobro cero.
+            </p>
+            <div align='center'>
+                <p-card [style]="{ width: '400px' }" >
+                    <p-image src="assets/layout/images/manual_obras/image029.png" alt="Image" width="350"
+                    [preview]="true"></p-image>
+                </p-card>
+                Figura N° 15. Estado de Pago
+                <br>
+                <br>
+            </div>
+            <p>
+                Finalmente, para asociar y guardar un estado de pago a la obra se debe hacer clic 
+                en el botón azul ubicado en la esquina superior izquierda (Figura N° 15). 
+            </p>
+            <p>
+                En los estados de pago, siempre se incluyen para cobro, todas las actividades realizadas 
+                en la obra. Las actividades cobradas en estados de pagos anteriores son descotadas y 
+                consolidadas en la sección Avance de estados de pagos.
             </p>
         </p-accordionTab>
-        <p-accordionTab header="Header II">
-            <p>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
-                ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
-            </p>
-        </p-accordionTab>
-        <p-accordionTab header="Header III">
-            <p>
-                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa
-                qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
-            </p>
-        </p-accordionTab>
+
     </p-accordion>
 
 </p-card>

@@ -41,6 +41,8 @@ export interface Estado {
 export interface Tipo_obra {
     id: number;
     descripcion: string;
+    bg_color: string;
+    txt_color: string;
 }
 
 export interface Segmento {

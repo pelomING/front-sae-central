@@ -79,21 +79,21 @@ export class ObrasPageComponent implements OnInit {
         this.obraForm = this.fb.group({
             id: [''],
             codigo_obra: ['', Validators.required],
-            numero_ot: ['', Validators.required],
+            //numero_ot: ['', Validators.required],
             nombre_obra: ['', Validators.required],
             zona: ['', Validators.required],
             delegacion: ['', Validators.required],
             gestor_cliente: ['', Validators.required],
             numero_aviso: ['', Validators.required],
             numero_oc: ['', Validators.required],
-            monto: ['', Validators.required],
+            //monto: ['', Validators.required],
             cantidad_uc: ['', Validators.required],
             fecha_llegada: ['', Validators.required],
             fecha_inicio: ['', Validators.required],
             fecha_termino: ['', Validators.required],
             tipo_trabajo: ['', Validators.required],
-            persona_envia_info: ['', Validators.required],
-            cargo_persona_envia_info: ['', Validators.required],
+            //persona_envia_info: ['', Validators.required],
+            //cargo_persona_envia_info: ['', Validators.required],
             empresa_contratista: ['', Validators.required],
             coordinador_contratista: ['', Validators.required],
             comuna: ['', Validators.required],
@@ -391,9 +391,13 @@ export class ObrasPageComponent implements OnInit {
             id_obra: obra?.id || ''
         });
 
+
         this.obraForm.patchValue(obra);
+
+
         this.formObraDialog = true;
 
+ 
     }
 
 
@@ -675,7 +679,7 @@ export class ObrasPageComponent implements OnInit {
 
         console.log(selectedValue);
 
-        if (selectedValue.id == 7) {
+        if (selectedValue.descripcion == "VENTA") {
 
             // Llama a tu API con el valor seleccionado
             this.obrasService.getCodigodeobraemergencia().subscribe(response => {
