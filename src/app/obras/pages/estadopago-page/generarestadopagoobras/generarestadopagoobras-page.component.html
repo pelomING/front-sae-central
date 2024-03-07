@@ -10,7 +10,7 @@
                     <button pButton pRipple (click)="goBack()" label="Volver" icon="pi pi-arrow-left"
                         class="p-button-danger mr-2"></button>
 
-                    <button pButton pRipple label="Crear Estado de Pago" icon="pi pi-save"
+                    <button pButton pRipple label="Generar Estado de Pago Final" icon="pi pi-save"
                         *ngIf="TOTALESESTADOPAGO?.totalNeto > 0" class="p-button-primary mr-2"
                         (click)="onCrearEstadoPago(NUEVOENCABEZADO)">
                     </button>
@@ -51,7 +51,7 @@
 
                     <button download="ESTADO_DE_PAGO_OBRAS.pdf" printTitle="Estado de Pago"
                         styleSheetFile="assets/pdf_estado_pago_obras.css" printSectionId="pdfContainer" ngxPrint pButton
-                        pRipple label="Generar PDF" icon="pi pi-file-pdf" class="p-button-help">
+                        pRipple label="Generar PDF ( E.D.P.-PRELIMINAR )" icon="pi pi-file-pdf" class="p-button-help">
                     </button>
 
                     <!-- <button  (click)="print()"  pButton pRipple label="Generar PDF" icon="pi pi-search" class="p-button-help"></button> -->
@@ -86,8 +86,11 @@
 
                                 <div class="titu1">
                                     <h5 style="text-align:center;color:black;">
-                                        E.D.P. - OBRAS DE MANTENIMIENTO Y CONSTRUCCIÓN : {{obra?.codigo_obra}}
+                                        Estado de Pago - PRELIMINAR
                                     </h5>
+                                    <h6 style="text-align:center;color:black;" >
+                                        OBRAS DE MANTENIMIENTO Y CONSTRUCCIÓN : <strong> {{obra?.codigo_obra}} </strong>    
+                                    </h6>
                                 </div>
 
                                 <hr>

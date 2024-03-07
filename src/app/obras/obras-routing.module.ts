@@ -19,6 +19,9 @@ import { EstadopagoPageComponent } from './pages/estadopago-page/estadopago-page
 
 import { HistoricoEstadoPagoPageComponent } from './pages/estadopago-page/historicoestadopagoobras/historicoestadopago-page.component';
 
+import { SelecionarReportediarioporobraPageComponent } from './pages/estadopago-page/selecionarreportesdiarios/selecionarreportediarioporobra-page.component';
+
+
 import { GenerarEstadoPagoObrasPageComponent } from './pages/estadopago-page/generarestadopagoobras/generarestadopagoobras-page.component';
 
 import { EstadoobraPageComponent } from './pages/estadoobra-page/estadoobra-page.component';
@@ -54,6 +57,7 @@ const routes: Routes = [
       { path: 'estadopago', component: EstadopagoPageComponent },
       { path: 'historicoestadopago', component: HistoricoEstadoPagoPageComponent },
       { path: 'generarestadopagoobras', component: GenerarEstadoPagoObrasPageComponent },
+      { path: 'selecionarreportediarioobras', component: SelecionarReportediarioporobraPageComponent },
             
       { path: 'estadoobra', component: EstadoobraPageComponent },
 

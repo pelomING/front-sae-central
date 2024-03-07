@@ -46,13 +46,15 @@ export interface ReporteDiario {
     flexiapp: string[];
     det_actividad: DetActividad[];
     det_otros: DetOtros[];
-    recargo_hora: RecargosHora
+    recargo_hora: RecargosHora;
+    seleccionado?: boolean;
+    id_estado_pago?: number;
 }
 
 export interface Tipooperacion {
     id: number,
     nombre: string,
-    clase : string,
+    clase: string,
 }
 
 export interface Tipoactividad {
@@ -107,13 +109,13 @@ export interface Area {
 
 export interface Brigada {
     id: number,
-    valor: boolean, 
+    valor: boolean,
     descripcion: string
 }
 
 export interface RecargosHora {
     id: number,
-    nombre: string, 
-    porcentaje: number   
+    nombre: string,
+    porcentaje: number
 }
 
