@@ -3,23 +3,39 @@ body {
     color: #000;
 }
 
-.grid1 {
-    display: flex;
+table {
+    font-family: "Times New Roman", serif;
+    border-collapse: collapse;
+    width: 100%;
 }
 
-.col1 {
-    flex: 1;
-    /* border-color: #000;
-    border-style: solid;
-    border-width: 1px; */
+td,
+th {
+    text-align: right;
+    padding: 0px;
+    width: 100px;
 }
 
-.col1 {
-    flex: 1;
-    margin: 0 10px;
-    text-align: left;
-    /* Alinea el texto a la izquierda */
+.estiloTotalesEstadoDePago_2 {
+    font-size:9px;
+    width:400px;
+ }
+
+ 
+
+ .tabla_cabecera table {
+  border-collapse: collapse;
 }
+
+.tabla_cabecera table td,
+.tabla_cabecera table tr {
+  border: 0px;
+  text-align:left;
+  padding-left:4%;
+}
+
+
+
 
 .logo-col {
     /* flex-basis: 80px; */
@@ -47,5 +63,94 @@ body {
     font-size: 12px;
     text-align: right;
     /* Alinea el texto a la derecha */
+}
+
+
+
+/* Clase para la rejilla principal */
+.grid_pdf_total {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto auto; /* Define tres columnas */
+    grid-column-gap: 1px; /* Espacio entre columnas */
+    /* align-items: center; /* Centra los elementos verticalmente */
+  }
+  
+  /* Clase para la columna fija izquierda */
+  .col-fixed_pdf_total {
+    width: 350px; /* Ancho fijo del 60% */
+  }
+  
+  /* Clase para la columna fija derecha */
+  .col-fixed_pdf_total:last-child {
+    width: 1%; /* Ancho fijo del 1% */
+  }
+
+  
+  .col_pdf_total {
+    text-align: right;
+  }
+
+
+
+  /* .footer {
+    position: absolute;
+    bottom: 0;
+    width: 500px;
+    text-align: center;
+    height: 10px;
+  }
+  
+  .footer hr {
+    margin: 5px 0;
+  }
+  
+  .footer p {
+    margin: 5px 0;
+  } */
+
+
+.grid_footer {
+    display: flex;
+    text-align:center;
+    font-size:9px;
+    padding:0%; 
+    padding-left: 45px;
+}
+
+.col_footer {
+    flex: 1;
+    flex: 1;
+    margin: 0 10px;
+    text-align: left;
+    /* border-color: #000;
+    border-style: solid;
+    border-width: 1px;  */
+}
+
+
+
+
+/* Clase para la rejilla principal */
+.grid_pdf_avances {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto auto; /* Define tres columnas */
+  grid-column-gap: 1px; /* Espacio entre columnas */
+  /* align-items: center; /* Centra los elementos verticalmente */
+}
+
+/* Clase para la columna fija izquierda */
+.col_pdf_avances {
+  width: 350px; /* Ancho fijo del 60% */
+}
+
+/* Clase para la columna fija derecha */
+.col_pdf_avances:last-child {
+  width: 1%; /* Ancho fijo del 1% */
+}
+
+.col_pdf_avances {
+  text-align: right;
 }
 

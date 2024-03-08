@@ -114,3 +114,44 @@ th {
   padding-left:4%;
 }
  
+
+.estiloTotalesEstadoDePago_1 {
+  font-size:9px;
+  width:100%;
+  border:1px;
+}
+
+
+
+
+  /* Clase para la columna fija izquierda */
+  .col_pdf_avances {
+    width: 50%; /* Ancho fijo del 60% */
+  }
+
+
+
+.grid_footer {
+  display: flex;
+  text-align:center;
+  font-size:9px;
+  padding:0%; 
+}
+
+// style="text-align:center;font-size:9px;padding:0%;" 
+
+
+/* Clase para la columna fija izquierda */
+.col-fixed_pdf_total {
+  width: 65%; /* Ancho fijo del 60% */
+}
+
+  /* Clase para la columna fija derecha */
+  .col-fixed_pdf_total:last-child {
+    width: 1%; /* Ancho fijo del 1% */
+  }
+
+  
+  .col_pdf_total {
+    text-align: right;
+  }
