@@ -176,9 +176,9 @@ export class EstadoPagoObrasService {
 
 
     ///api/obras/backoffice/estadopago/v1/creaestadopago
-    postcreaEstadoPagoObras(NUEVOENCABEZADO: any): Observable<any[]> {
+    postcreaEstadoPagoObras(ENCABEZADO_OBRAS: any): Observable<any[]> {
         // Realiza la solicitud GET con los parámetros en la URL
-        return this.http.post<any[]>(`${this.baseUrl}creaestadopago`, NUEVOENCABEZADO[0], httpOptions);
+        return this.http.post<any[]>(`${this.baseUrl}creaestadopago`, ENCABEZADO_OBRAS, httpOptions);
     }
 
 

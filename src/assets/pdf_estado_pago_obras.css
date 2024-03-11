@@ -18,10 +18,16 @@ th {
 
 .estiloTotalesEstadoDePago_2 {
     font-size:9px;
-    width:400px;
+    width:350px;
  }
 
  
+ .estiloTotalesEstadoDePago_3 {
+  font-size:9px;
+  width:450px;
+}
+
+
 
  .tabla_cabecera table {
   border-collapse: collapse;
@@ -78,7 +84,7 @@ th {
   
   /* Clase para la columna fija izquierda */
   .col-fixed_pdf_total {
-    width: 350px; /* Ancho fijo del 60% */
+    width: 450px; /* Ancho fijo del 60% */
   }
   
   /* Clase para la columna fija derecha */
@@ -142,7 +148,7 @@ th {
 
 /* Clase para la columna fija izquierda */
 .col_pdf_avances {
-  width: 350px; /* Ancho fijo del 60% */
+  width: 250px; /* Ancho fijo del 60% */
 }
 
 /* Clase para la columna fija derecha */

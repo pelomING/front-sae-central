@@ -256,9 +256,13 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
 
     Confirma_CrearEstadoPago(NUEVOENCABEZADO: any) {
 
-        console.log("this.NUEVOENCABEZADO", NUEVOENCABEZADO);
+        console.log("this.NUEVOENCABEZADO", NUEVOENCABEZADO[0]);
 
-        this.estadoPagoObrasService.postcreaEstadoPagoObras(NUEVOENCABEZADO).subscribe(
+        const ENCABEZADO_OBRAS =  NUEVOENCABEZADO[0]
+
+        ENCABEZADO_OBRAS.ids_reporte = this.reportesdiariosseleccionados.toString();
+
+        this.estadoPagoObrasService.postcreaEstadoPagoObras(ENCABEZADO_OBRAS).subscribe(
             (response: any) => {
                 
                 // Manejar la respuesta exitosa
@@ -268,7 +272,7 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
 
                 // Recargar la página después de un breve retraso (3000 milisegundos en este ejemplo)
                 setTimeout(() => {
-                    this.router.navigate(['/'], { replaceUrl: true });  // Cambia '/'' por la ruta que desees
+                    this.router.navigate(['/obras/estadopago'], { replaceUrl: true });  // Cambia '/'' por la ruta que desees
                 }, 3000);              
             
             },
