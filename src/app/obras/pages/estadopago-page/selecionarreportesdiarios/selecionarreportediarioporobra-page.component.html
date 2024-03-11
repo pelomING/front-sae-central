@@ -101,7 +101,7 @@
                     </td>
 
                     <td style="text-align:center;">
-                        <p-checkbox *ngIf="!reportediario.seleccionado"  [binary]="true" [inputId]="reportediario.id.toString()" [(ngModel)]="reportediario.seleccionado" [checked]="reportediario.seleccionado" ></p-checkbox>
+                        <p-checkbox *ngIf="reportediario.id_estado_pago == null"  [binary]="true" [inputId]="reportediario.id.toString()" [(ngModel)]="reportediario.seleccionado" [checked]="reportediario.seleccionado" ></p-checkbox>
                     </td>
 
                 </tr>
