@@ -49,6 +49,7 @@ export interface ReporteDiario {
     recargo_hora: RecargosHora;
     seleccionado?: boolean;
     id_estado_pago?: number;
+    codigo_pelom?: string;
 }
 
 export interface Tipooperacion {

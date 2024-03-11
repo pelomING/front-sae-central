@@ -73,6 +73,11 @@
                         <p-sortIcon field="sdi"></p-sortIcon>
                     </th>
 
+                    <th pSortableColumn="codigo_pelom" style="min-width:10rem">
+                        Codigo Pelom
+                        <p-sortIcon field="codigo_pelom"></p-sortIcon>
+                    </th>
+
                     <th>View</th>
                     <th>Selecionar</th>
 
@@ -87,14 +92,16 @@
                     <td>{{ reportediario.fecha_reporte }}</td>
                     <td>{{ reportediario.jefe_faena ? reportediario.jefe_faena.nombre : null }}</td>
                     <td>{{ reportediario.sdi }}</td>
+
+                    <td>{{ reportediario.codigo_pelom }}</td>
+
                     <td style="text-align:center;">
                         <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-help mr-2"
                             (click)="verReporteDiario(reportediario)"></button>
                     </td>
 
-                    <!-- *ngIf="!reportediario.seleccionado" -->
                     <td style="text-align:center;">
-                        <p-checkbox  [binary]="true" [inputId]="reportediario.id.toString()" [(ngModel)]="reportediario.seleccionado" [checked]="reportediario.seleccionado" ></p-checkbox>
+                        <p-checkbox *ngIf="!reportediario.seleccionado"  [binary]="true" [inputId]="reportediario.id.toString()" [(ngModel)]="reportediario.seleccionado" [checked]="reportediario.seleccionado" ></p-checkbox>
                     </td>
 
                 </tr>
