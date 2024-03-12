@@ -307,9 +307,22 @@
         </p-accordionTab>
 
         <p-accordionTab header="Estado de Pago">
+            <br>
             <p>
                 Para generar un estado de pago asociado a una obra se debe seleccionar la opción Estado de Pago 
-                en la barra de menú izquerda, como se muestra en la Figura N° 13. En el panel central se muestran
+                en la barra de menú izquerda, como se muestra en la Figura N° 13. 
+            </p>    
+                <div align='center'>
+                    <p-card [style]="{ width: '400px' }" >
+                        <p-image src="assets/layout/images/manual_obras/Figura013.png" alt="Image" width="350"
+                        [preview]="true"></p-image>
+                    </p-card>
+                    Figura N° 13. Generación de estados de pago.
+                    <br>
+                    <br>
+                </div>
+            <p>
+                En el panel central se muestran
                 las obras a la que son posibles realizarles estados de pago, estas corresponden a las que están en los 
                 siguientes estados:
             </p>
@@ -318,27 +331,36 @@
                 <li>Paralizada</li>     
                 <li>Faena Finalizada</li>
             </ul>
+            
+            
             <p>
                 A continuación, se debe hacer clic en el ícono de color verde que se encuentra en la 
-                fila de la obra a la que se quiere hacer un estado de pago, luego de esto, el panel 
-                central se muestran todos los estados de pagos que se han realizado para la obra. 
-                En la parte superior derecha se encuentra el botón Crear Estado de Pago (Figura N° 14).
+                fila de la obra a la que se quiere hacer un estado de pago, luego de esto, en el panel 
+                central se muestran todos los estados de pagos que se han realizado para la obra. (Figura N° 14).
             </p>
+
             <div align='center'>
                 <p-card [style]="{ width: '400px' }" >
-                    <p-image src="assets/layout/images/manual_obras/Figura013.png" alt="Image" width="350"
+                    <p-image src="assets/layout/images/manual_obras/Figura14.png" alt="Image" width="350"
                     [preview]="true"></p-image>
                 </p-card>
-                Figura N° 13. Generación de estados de pago.
+                Figura N° 14. Panel cetral, mostrando las obras candidatas a emisión de estado de pago. 
                 <br>
                 <br>
             </div>
+
+            <p>
+                A continuación se muestra en el panel central los estados de pago previamente emitidos,
+                para esta obra. En la parte superior derecha del formulario se encuentra el botón
+                Crear Estado de Pago (Figura N°15)    
+            </p>
+           
             <div align='center'>
                 <p-card [style]="{ width: '400px' }" >
                     <p-image src="assets/layout/images/manual_obras/image014.png" alt="Image" width="350"
                     [preview]="true"></p-image>
                 </p-card>
-                Figura N° 14. Estados de pagos emitidos para una obra y generación de nuevo estado de pago. 
+                Figura N° 15. Estados de pagos emitidos para una obra y generación de nuevo estado de pago. 
                 En el recuadro Listado de Informes, se muestran todos los estados emitidos para la obra.
                 En caso de que la obra no tenga estados de pagos emitidos, esta sección se muestra 
                 vacía. En el recuadro superior, a la derecha se muestra el botón para crear un nuevo 
@@ -347,9 +369,25 @@
                 <br>
             </div>
             <p>
-                Al crear un estado de pago, se consolidan para cobro todos los informes diarios que 
-                aún no han sido considerados en los estados de pagos anteriores. Si todos los 
-                informes diarios de la obra seleccionada ya están incluidos en estados de pagos 
+                Al hacer clic el boton Crear Estado de Pago, se presenta en el panel central los informes
+                diarios de la obra. Los que son seleccionables en la columna seleccionar, significa que estos 
+                informes diarios no han sido incluido en un estado de pago anterior. Por el contrario,
+                los no son seleccionablbes (en la columna seleccionar), es porque ya fueron incluido en un 
+                estado de pago eleborado con anterioridad (Figura N°16) 
+            </p>
+            <div align='center'>
+                <p-card [style]="{ width: '400px' }" >
+                    <p-image src="assets/layout/images/manual_obras/Figura16.png" alt="Image" width="350"
+                    [preview]="true"></p-image>
+                </p-card>
+                Figura N° 16. Selección de informes diarios a incluir en estado de pago.
+                <br>
+                <br>
+            </div>
+
+            <p>
+                Al crear un estado de pago, se consolidan para cobro todos los informes diarios seleccionados. 
+                Si todos los informes diarios de la obra seleccionada ya están incluidos en estados de pagos 
                 previos, se generará un nuevo estado de pago con cobro cero.
             </p>
             <div align='center'>
@@ -357,13 +395,13 @@
                     <p-image src="assets/layout/images/manual_obras/image015.png" alt="Image" width="350"
                     [preview]="true"></p-image>
                 </p-card>
-                Figura N° 15. Estado de Pago
+                Figura N° 16. Estado de Pago
                 <br>
                 <br>
             </div>
             <p>
                 Finalmente, para asociar y guardar un estado de pago a la obra se debe hacer clic 
-                en el botón azul ubicado en la esquina superior izquierda (Figura N° 15). 
+                en el botón azul ubicado en la esquina superior izquierda (Figura N° 16). 
             </p>
             <p>
                 En los estados de pago, siempre se incluyen para cobro, todas las actividades realizadas 
