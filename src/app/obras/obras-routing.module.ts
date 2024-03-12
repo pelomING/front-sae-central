@@ -21,7 +21,6 @@ import { HistoricoEstadoPagoPageComponent } from './pages/estadopago-page/histor
 
 import { SelecionarReportediarioporobraPageComponent } from './pages/estadopago-page/selecionarreportesdiarios/selecionarreportediarioporobra-page.component';
 
-
 import { GenerarEstadoPagoObrasPageComponent } from './pages/estadopago-page/generarestadopagoobras/generarestadopagoobras-page.component';
 
 import { EstadoobraPageComponent } from './pages/estadoobra-page/estadoobra-page.component';
@@ -66,7 +65,6 @@ const routes: Routes = [
       { path: 'gestionedp', component: GestionEDPPageComponent },
 
       { path: 'manualusuario', component: ManualUsuarioComponent },
-
 
       // { path: 'seguimiento', component: SeguimientoPageComponent }
 

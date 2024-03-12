@@ -33,6 +33,7 @@ import { PublicGuard } from './auth/guards/public.guard';
                     { path: 'sae/dashboard', loadChildren: () => import('./sae/components/dashboard/dashboard.module').then(m => m.DashboardModule) },
 
                     { path: 'jornada', loadChildren: () => import('./sae/components/jornada/jornada.module').then(m => m.JornadaModule) },
+                    
                     { path: 'evento', loadChildren: () => import('./sae/components/evento/evento.module').then(m => m.EventoModule) },
                     { path: 'persona', loadChildren: () => import('./sae/components/persona/persona.module').then(m => m.PersonaModule) },
                     { path: 'estado', loadChildren: () => import('./sae/components/estadoResultado/estadoresultado.module').then(m => m.EstadoResultadoModule) },
@@ -48,7 +49,7 @@ import { PublicGuard } from './auth/guards/public.guard';
                       loadChildren: () => import('./obras/obras.module').then(m => m.ObrasModule),
                     },
                     
-                    { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+                    { path: '', redirectTo: 'obras/dashboard', pathMatch: 'full' }
 
                 ],                       
                 canActivate: [ AuthGuard ],

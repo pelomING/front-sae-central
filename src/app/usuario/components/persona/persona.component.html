@@ -1,0 +1,115 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="Agregar Persona" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                    </div>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="personas" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['rut','apellido_1','apellido_2','nombres']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedPersonas" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Personas</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="buscar..."  class="w-full sm:w-auto"/>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="rut">Rut <p-sortIcon field="rut"></p-sortIcon></th>
+                        <th pSortableColumn="apellido_1">Primer Apellido <p-sortIcon field="apellido_1"></p-sortIcon></th>
+                        <th pSortableColumn="apellido_1">Segundo Apellido <p-sortIcon field="apellido_1"></p-sortIcon></th>
+                        <th pSortableColumn="nombres">Nombres <p-sortIcon field="nombres"></p-sortIcon></th>
+                        <th pSortableColumn="base">Oficina <p-sortIcon field="base"></p-sortIcon></th>
+                        <th pSortableColumn="id_funcion">Funcion <p-sortIcon field="id_funcion"></p-sortIcon></th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-persona>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="persona"></p-tableCheckbox>
+                        </td>
+                        <td style="width:14%; min-width:10rem;"><span class="p-column-title">Rut</span>
+                            {{persona.rut}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Primer Apellido</span>
+                            {{persona.apellido_1}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Segundo Apellido</span>
+                            {{persona.apellido_2}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Nombres</span>
+                            {{persona.nombres}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Oficina</span>
+                            {{persona.oficina}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Funcion</span>
+                            {{persona.nom_funcion}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="personaDialog" [style]="{width: '450px'}" header="Agregar Persona" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field">
+                    <label for="rut">Rut</label>
+                    <input type="text" pInputText id="rut" [(ngModel)]="persona.rut" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !persona.rut}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !persona.rut">El rut es requerido</small>
+                </div>
+                <div class="field">
+                    <label for="apellido_1">Primer Apellido</label>
+                    <input type="text" pInputText id="apellido_1" [(ngModel)]="persona.apellido_1" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !persona.apellido_1}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !persona.apellido_1">El primer apellido es requerido</small>
+                </div>
+                <div class="field">
+                    <label for="apellido_2">Segundo Apellido</label>
+                    <input type="text" pInputText id="apellido_2" [(ngModel)]="persona.apellido_2" autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !persona.apellido_2}"/>
+                </div>
+                <div class="field">
+                    <label for="nombres">Nombres</label>
+                    <input type="text" pInputText id="nombres" [(ngModel)]="persona.nombres" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !persona.nombres}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !persona.nombres">El nombre es requerido</small>
+                </div>
+                <div class="field">
+                    <label for="base">Oficina</label>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedOficina">[ La Oficina es requerida ]</small>
+                    <p-dropdown [options]="oficinas" [(ngModel)]="selectedOficina" optionLabel="nombre" [showClear]="true" placeholder="Seleccione Oficina"
+                    [ngClass]="{'ng-invalid ng-dirty' : submitted && !selectedOficina}"></p-dropdown>
+                    <!--<input type="text" pInputText id="base" [(ngModel)]="persona.base" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !persona.base}"/>-->
+
+                </div>
+                <div class="field">
+                    <label for="id_funcion">Funcion</label>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedTipoFuncion">[ La función es requerida ]</small>
+                    <p-dropdown [options]="tipoFuncions" [(ngModel)]="selectedTipoFuncion" optionLabel="nombre" [showClear]="true" placeholder="Seleccione Tipo Función"
+                    [ngClass]="{'ng-invalid ng-dirty' : submitted && !selectedTipoFuncion}"></p-dropdown>
+                    <!--<input type="text" pInputText id="id_funcion" [(ngModel)]="persona.id_funcion" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !persona.id_funcion}"/>-->
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <p-messages [(value)]="messages1" [enableService]="false"></p-messages>
+                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="grabaPersona()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>
