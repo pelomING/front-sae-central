@@ -13,7 +13,7 @@
             El sistema de gestión de obras SIGO ofrece a sus usuarios funcionalidades dirigidas principalmente a
             controlar lo siguiente:<br>
             <ul>
-                <li>físico de una obra</li>
+                <li>Avance físico de una obra</li>
                 <li>Control de materiales</li>
                 <li>Seguimiento a la facturación de las obras ejecutadas</li>
 
@@ -29,7 +29,7 @@
                 figura N° 1.
                 En el panel izquierdo se muestran las actividades del negocio y en el panel central se desarrolla la
                 actividad seleccionada,
-                mostrando información relevante de las obras e iconos circulares para realizar acciones visualización,
+                mostrando información relevante de las obras e iconos circulares para realizar acciones, por ejemplo, visualización,
                 edición, borrado, etc.
             </p>
             <br>
@@ -54,7 +54,7 @@
                 </p>
                 <li>Visita reportada exitosa</li>
                 <p>
-                    La obra pasa a este estado manualmente. En el menú Reporte Visita a Terreno, se selecciona la obra y
+                    La obra pasa a este estado manualmente. En el menus Reporte Visita a Terreno, se selecciona la obra y
                     se modifica el estado a este valor.
                 </p>
                 <li>En faena</li>
@@ -88,7 +88,7 @@
             <div align='center'>
                 <p-card [style]="{ width: '400px' }" >
                    
-                    <p-image src="assets/layout/images/manual_obras/estados.jpg" alt="Image" width="350"
+                    <p-image src="assets/layout/images/manual_obras/image002.jpg" alt="Image" width="350"
                     [preview]="true"></p-image>
 
                 </p-card>
@@ -109,7 +109,7 @@
 
             <div align='center'>
                 <p-card [style]="{ width: '400px' }" >
-                    <p-image src="assets/layout/images/manual_obras/image006.jpg" alt="Image" width="350"
+                    <p-image src="assets/layout/images/manual_obras/image003.jpg" alt="Image" width="350"
                     [preview]="true"></p-image>
                 </p-card>
                     Figura N° 3. Flujo normal de trabajo para procesar una obra. En los círculos se 
@@ -130,7 +130,7 @@
                 y proceder con el ingreso de los datos solicitados.
             </p>
             <p>    
-                En la Figura N° 4 se presenta el formulario con los datos que se deben suministrar para 
+                En la Figura N° 5 se presenta el formulario con los datos que se deben suministrar para 
                 ingresar una nueva obra. Todos los campos son requeridos. Si al momento de hacer el ingreso 
                 de datos no se cuenta alguna información solicitada, se debe ingresar el valor 0. A medida 
                 que se va disponiendo de la información, esta puede debe ser agregada a la obra, usando la 
@@ -138,7 +138,7 @@
             </p>
             <div align='center'>
                 <p-card [style]="{ width: '400px' }" >
-                    <p-image src="assets/layout/images/manual_obras/image008.jpg" alt="Image" width="350"
+                    <p-image src="assets/layout/images/manual_obras/image004.png" alt="Image" width="350"
                     [preview]="true"></p-image>
                 </p-card>
                 <br>
@@ -148,7 +148,7 @@
 
             <div align='center'>
                 <p-card [style]="{ width: '400px' }" >
-                    <p-image src="assets/layout/images/manual_obras/image010.png" alt="Image" width="350"
+                    <p-image src="assets/layout/images/manual_obras/image005.png" alt="Image" width="350"
                     [preview]="true"></p-image>
                 </p-card>
                     Figura N° 5. Formulario de ingreso de nueva obra.
@@ -163,7 +163,8 @@
             <p>
                 Se debe poner atención al código de la obra, el cual debe ser ingresado con el formato 
                 CGED-número. El guion es obligatorio. Un ejemplo de código de obra es CGED-1742655. 
-                El valor CGED1742655 no es aceptado por el sistema.
+                El valor CGED1742655 no es aceptado por el sistema. Otros formatos de códigos vólidos
+                son E-número. Tabién son validos los codigos AMI-número de orden-número correlativo.
             </p>
             <p>    
                 En este punto la obra está en estado Ingresada. Esto se puede comprobar en el 
@@ -182,7 +183,7 @@
 
             <div align='center'>
                 <p-card [style]="{ width: '400px' }" >
-                    <p-image src="assets/layout/images/manual_obras/image011.png" alt="Image" width="350"
+                    <p-image src="assets/layout/images/manual_obras/image006.png" alt="Image" width="350"
                     [preview]="true"></p-image>
                 </p-card>
                     Figura N° 6. Ingreso Reporte de Visita a Terreno.
@@ -197,7 +198,7 @@
                 </p>
                 <div align='center'>
                     <p-card [style]="{ width: '400px' }" >
-                        <p-image src="assets/layout/images/manual_obras/image013.png" alt="Image" width="350"
+                        <p-image src="assets/layout/images/manual_obras/image007.png" alt="Image" width="350"
                         [preview]="true"></p-image>
                     </p-card>
                         Figura N° 7. Botón Nuevo Registro.
@@ -212,7 +213,7 @@
 
                 <div align='center'>
                     <p-card [style]="{ width: '400px' }" >
-                        <p-image src="assets/layout/images/manual_obras/image015.png" alt="Image" width="350"
+                        <p-image src="assets/layout/images/manual_obras/image008.png" alt="Image" width="350"
                         [preview]="true"></p-image>
                     </p-card>
                     Figura N° 8. Formulario con datos requeridos de la visita a terreno.
@@ -229,7 +230,7 @@
             </p>
             <p>    
                 Los reportes diarios son fundamentales para generar estados de pagos de una obra, de hecho, 
-                los estados de pagos son una consolidación reportes diarios. Si alguna actividad se omite 
+                los estados de pagos son una consolidación de reportes diarios. Si alguna actividad se omite 
                 en los reportes diarios, no será incluida en los estados de pago.
             </p>
             <p>    
@@ -238,7 +239,7 @@
             </p>
             <ul>    
                 <li>Visita Reportada Exitosa</li>
-                <li>>En Faena</li>
+                <li>En Faena</li>
                 <li>Paralizada</li>
                 <li>Faena Finalizada</li>
             </ul>
@@ -253,7 +254,7 @@
             </p>
             <div align='center'>
                 <p-card [style]="{ width: '400px' }" >
-                    <p-image src="assets/layout/images/manual_obras/image017.png" alt="Image" width="350"
+                    <p-image src="assets/layout/images/manual_obras/image009.png" alt="Image" width="350"
                     [preview]="true"></p-image>
                 </p-card>
                 Figura N° 9. Ingreso de reportes diarios.
@@ -269,7 +270,7 @@
 
             <div align='center'>
                 <p-card [style]="{ width: '400px' }" >
-                    <p-image src="assets/layout/images/manual_obras/image019.png" alt="Image" width="350"
+                    <p-image src="assets/layout/images/manual_obras/image010.png" alt="Image" width="350"
                     [preview]="true"></p-image>
                 </p-card>
                 Figura N° 10. Listado de reportes diarios para la obra CGED-890088888.
@@ -283,7 +284,7 @@
 
             <div align='center'>
                 <p-card [style]="{ width: '400px' }" >
-                    <p-image src="assets/layout/images/manual_obras/image021.png" alt="Image" width="350"
+                    <p-image src="assets/layout/images/manual_obras/image011.png" alt="Image" width="350"
                     [preview]="true"></p-image>
                 </p-card>
                 Figura N° 11. Formulario de ingreso de reporte de actividades diarias.
@@ -296,7 +297,7 @@
                 </p>
             <div align='center'>
                 <p-card [style]="{ width: '400px' }" >
-                    <p-image src="assets/layout/images/manual_obras/image023.png" alt="Image" width="350"
+                    <p-image src="assets/layout/images/manual_obras/image012.png" alt="Image" width="350"
                     [preview]="true"></p-image>
                 </p-card>
                 Figura N° 12. Ingreso de actividades.
@@ -307,63 +308,101 @@
         </p-accordionTab>
 
         <p-accordionTab header="Estado de Pago">
+            <br>
             <p>
-                Para generar un estado asociado a una obra se debe seleccionar el menú Estado de 
-                Pago (Figura N° 13). En el panel central se muestran las obras a la que es posible 
-                realizarles estados de pago, estas corresponden a las que están en los 
+                Para generar un estado de pago asociado a una obra se debe seleccionar la opción Estado de Pago 
+                en la barra de menú izquerda, como se muestra en la Figura N° 13. 
+            </p>    
+                <div align='center'>
+                    <p-card [style]="{ width: '400px' }" >
+                        <p-image src="assets/layout/images/manual_obras/Figura013.png" alt="Image" width="250"
+                        [preview]="true"></p-image>
+                    </p-card>
+                    Figura N° 13. Generación de estados de pago.
+                    <br>
+                    <br>
+                </div>
+            <p>
+                En el panel central se muestran
+                las obras a la que son posibles realizarles estados de pago, estas corresponden a las que están en los 
                 siguientes estados:
             </p>
             <ul>
                 <li>En Faena</li>
-                <li>Paralizada</li>
+                <li>Paralizada</li>     
                 <li>Faena Finalizada</li>
             </ul>
+            
+            
             <p>
                 A continuación, se debe hacer clic en el ícono de color verde que se encuentra en la 
-                fila de la obra a la que se quiere hacer un estado de pago, luego de esto, el panel 
-                central se muestran todos los estados de pagos que se han realizado para la obra. 
-                En la parte superior derecha se encuentra el botón Crear Estado de Pago (Figura N° 14).
+                fila de la obra a la que se quiere hacer un estado de pago, luego de esto, en el panel 
+                central se muestran todos los estados de pagos que se han realizado para la obra. (Figura N° 14).
             </p>
+
             <div align='center'>
                 <p-card [style]="{ width: '400px' }" >
-                    <p-image src="assets/layout/images/manual_obras/image025.png" alt="Image" width="350"
+                    <p-image src="assets/layout/images/manual_obras/Figura14.png" alt="Image" width="350"
                     [preview]="true"></p-image>
                 </p-card>
-                Figura N° 13. Generación de estados de pago.
+                Figura N° 14. Panel cetral, mostrando las obras candidatas a emisión de estado de pago. 
                 <br>
                 <br>
             </div>
+
+            <p>
+                A continuación se muestra en el panel central los estados de pago previamente emitidos,
+                para esta obra. En la parte superior derecha del formulario se encuentra el botón
+                Crear Estado de Pago (Figura N°15)    
+            </p>
+           
             <div align='center'>
                 <p-card [style]="{ width: '400px' }" >
-                    <p-image src="assets/layout/images/manual_obras/image027.png" alt="Image" width="350"
+                    <p-image src="assets/layout/images/manual_obras/image014.png" alt="Image" width="350"
                     [preview]="true"></p-image>
                 </p-card>
-                Figura N° 14. Estados de pagos emitidos para una obra y generación de nuevo estado de pago. 
-                En el recuadro Listado de Informes, se muestran todos los estados de pago de pago 
-                de la obra. En caso de que la obra no tenga estados de pagos esta sección se muestra 
+                Figura N° 15. Estados de pagos emitidos para una obra y generación de nuevo estado de pago. 
+                En el recuadro Listado de Informes, se muestran todos los estados emitidos para la obra.
+                En caso de que la obra no tenga estados de pagos emitidos, esta sección se muestra 
                 vacía. En el recuadro superior, a la derecha se muestra el botón para crear un nuevo 
                 estado de pago para la obra.
                 <br>
                 <br>
             </div>
             <p>
-                Al crear un estado de pago, se consolidan para cobro todos los informes diarios que 
-                aún no han sido considerados en los estados de pagos anteriores. Si todos los 
-                informes diarios de la obra seleccionada ya están incluidos en estados de pagos 
+                Al hacer clic el boton Crear Estado de Pago, se presenta en el panel central los informes
+                diarios de la obra. Los que son seleccionables en la columna seleccionar, significa que estos 
+                informes diarios no han sido incluido en un estado de pago anterior. Por el contrario,
+                los no son seleccionablbes (en la columna seleccionar), es porque ya fueron incluido en un 
+                estado de pago eleborado con anterioridad (Figura N°16) 
+            </p>
+            <div align='center'>
+                <p-card [style]="{ width: '400px' }" >
+                    <p-image src="assets/layout/images/manual_obras/Figura16.png" alt="Image" width="350"
+                    [preview]="true"></p-image>
+                </p-card>
+                Figura N° 16. Selección de informes diarios a incluir en estado de pago.
+                <br>
+                <br>
+            </div>
+
+            <p>
+                Al crear un estado de pago, se consolidan para cobro todos los informes diarios seleccionados. 
+                Si todos los informes diarios de la obra seleccionada ya están incluidos en estados de pagos 
                 previos, se generará un nuevo estado de pago con cobro cero.
             </p>
             <div align='center'>
                 <p-card [style]="{ width: '400px' }" >
-                    <p-image src="assets/layout/images/manual_obras/image029.png" alt="Image" width="350"
+                    <p-image src="assets/layout/images/manual_obras/image015.png" alt="Image" width="350"
                     [preview]="true"></p-image>
                 </p-card>
-                Figura N° 15. Estado de Pago
+                Figura N° 16. Estado de Pago
                 <br>
                 <br>
             </div>
             <p>
                 Finalmente, para asociar y guardar un estado de pago a la obra se debe hacer clic 
-                en el botón azul ubicado en la esquina superior izquierda (Figura N° 15). 
+                en el botón azul ubicado en la esquina superior izquierda (Figura N° 16). 
             </p>
             <p>
                 En los estados de pago, siempre se incluyen para cobro, todas las actividades realizadas 

@@ -10,18 +10,18 @@ import { ReporteDiario, Tipooperacion, Tipoactividad, Maestroactividad, TablaAct
 
 import { ReporteDiarioService } from '../../../services/reporte-diario.service';
 
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ObrasService } from 'src/app/obras/services/obras.service';
 
 
 @Component({
-    selector: 'app-reportediarioporobra-page',
-    templateUrl: './reportediarioporobra-page.component.html',
-    styleUrls: ['./reportediarioporobra-page.component.scss'],
+    selector: 'app-selecionarreportediarioporobra-page',
+    templateUrl: './selecionarreportediarioporobra-page.component.html',
+    styleUrls: ['./selecionarreportediarioporobra-page.component.scss'],
 })
 
-export class ReportediarioporobraPageComponent implements OnInit {
+export class SelecionarReportediarioporobraPageComponent implements OnInit {
 
     products: Product[];
     product: Product;
@@ -128,6 +128,8 @@ export class ReportediarioporobraPageComponent implements OnInit {
             recargo_hora: ['']
         });
 
+
+
         this.ActividadForm = this.fb.group({
             id: [''],
             cantidad: ['', Validators.required],
@@ -135,6 +137,8 @@ export class ReportediarioporobraPageComponent implements OnInit {
             obj_Tipoactividad: ['', Validators.required],
             obj_Maestroactividad: ['', Validators.required],
         });
+
+
 
         this.OtraActividadForm = this.fb.group({
             id: [''],
@@ -144,9 +148,13 @@ export class ReportediarioporobraPageComponent implements OnInit {
             uc_total: ['', Validators.required]
         });
 
+
+
         this.FlexiAppForm = this.fb.group({
             flexiappAgregar: ['', Validators.required]
         });
+
+
 
         if (!this.ejecutado) {
             this.route.queryParams.subscribe(params => {
@@ -158,6 +166,8 @@ export class ReportediarioporobraPageComponent implements OnInit {
                 this.ejecutado = true;
             });
         }
+
+
 
     }
 
@@ -280,6 +290,33 @@ export class ReportediarioporobraPageComponent implements OnInit {
 
 
 
+
+    enviarDatos() {
+
+        const reportesSeleccionados = this.listaReportesDiarios
+            .filter(reportediario => reportediario.seleccionado)
+            .map(reportediario => reportediario.id)
+            .join(',');
+
+        console.log("reportesSeleccionados=>", reportesSeleccionados);
+
+
+        const navigationExtras: NavigationExtras = {
+            state: {
+                obra: this.obra,
+                reportesdiariosseleccionados: reportesSeleccionados
+            }
+        };
+
+        this.router.navigate(['/obras/generarestadopagoobras'], navigationExtras);
+
+    }
+
+
+
+
+
+
     originalListaMaestroactividad: any[] = [];  // Guarda la lista original
     filteredMaestroactividad: any[] = [];
 
@@ -310,7 +347,12 @@ export class ReportediarioporobraPageComponent implements OnInit {
             (LISTADO: any) => {
 
                 console.log("REPORTES DIARIOS POR OBRA", LISTADO);
+
                 this.listaReportesDiarios = LISTADO.sort((a, b) => b.id - a.id);
+
+                this.listaReportesDiarios.forEach(item => {
+                    item.seleccionado = item.id_estado_pago === null ? false : true;
+                });
 
             },
             (error) => {

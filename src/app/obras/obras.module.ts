@@ -3,11 +3,8 @@ import { NgModule } from '@angular/core';
 import { PrimeNGModule } from '../_primeng/primeng.module';
 import { NgxPrintModule } from 'ngx-print';
 import { NgChartsModule } from 'ng2-charts';
-
 import * as Highcharts from 'highcharts';
 import { HighchartsChartModule } from 'highcharts-angular';
-
-
 import { ObrasRoutingModule } from './obras-routing.module';
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
 
@@ -40,16 +37,15 @@ import { CierrePageComponent } from './pages/cierre-page/cierre-page.component';
 
 /* Gestion Estados de Pago */
 import { GestionEDPPageComponent } from './pages/gestionedp-page/gestionedp-page.component';
- 
-
 
 import { ManualUsuarioComponent } from './pages/manualusuario-page/manualusuario-page.component';
-
 
 
 /* Estado Pago */
 import { EstadopagoPageComponent } from './pages/estadopago-page/estadopago-page.component';
 import { HistoricoEstadoPagoPageComponent } from './pages/estadopago-page/historicoestadopagoobras/historicoestadopago-page.component';
+import { SelecionarReportediarioporobraPageComponent } from './pages/estadopago-page/selecionarreportesdiarios/selecionarreportediarioporobra-page.component';
+
 
 /* Estado Obra */
 import { EstadoobraPageComponent } from './pages/estadoobra-page/estadoobra-page.component';
@@ -78,6 +74,7 @@ import { CommaToDotPipe } from './pipes/comma-to-dot.pipe';
     CierrePageComponent,
     GestionEDPPageComponent,
     ManualUsuarioComponent,
+    SelecionarReportediarioporobraPageComponent,
     CommaToDotPipe
   ],
   imports: [

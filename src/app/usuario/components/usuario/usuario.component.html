@@ -1,0 +1,469 @@
+<p-card header="Modulo de Eventos">
+  <div class="card">
+    <p-toast></p-toast>
+    <p-toolbar styleClass="mb-4 gap-2">
+      <ng-template pTemplate="left">
+        <!-- <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button> -->
+
+        <button pButton pRipple label="Ingresar evento" icon="pi pi-plus" class="p-button-success mr-2"
+          (click)="openNew()"></button>
+
+      </ng-template>
+      <ng-template pTemplate="right">
+        <!-- <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+
+        <button pButton pRipple label="Exportar a Excel" icon="pi pi-upload" class="p-button-help"
+          (click)="exportToExcel1()"></button>
+
+      </ng-template>
+    </p-toolbar>
+
+
+    <p-table #dt [value]="eventos" selectionMode="single" [columns]="cols" [rows]="10" [paginator]="true"
+      
+    styleClass="p-datatable-gridlines p-datatable-striped p-datatable-header"
+
+      [globalFilterFields]="['despachador','numero_ot','tipo_evento','nombre_maestro','nombre_ayudante','brigada','tipo_turno','trabajo_solicitado','trabajo_realizado' ,'direccion','comuna','fecha_hora']"
+      [tableStyle]="{ 'min-width': '40rem' }" 
+      responsiveLayout="scroll" 
+      [rowHover]="true" 
+      dataKey="id"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+      [showCurrentPageReport]="true">
+
+      <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+          <h4 class="m-0">Listado de eventos</h4>
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+              placeholder="Search..." />
+          </span>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <!-- <th pSortableColumn="id">
+            <div style="width: auto; white-space: nowrap;">
+              Id
+              <p-sortIcon field="id"></p-sortIcon>
+            </div>
+          </th> -->
+          <!-- <th pSortableColumn="despachador">
+            <div style="width: auto; white-space: nowrap;">
+              Despachador
+              <p-sortIcon field="despachador"></p-sortIcon>
+            </div>
+          </th> -->
+          <th pSortableColumn="numero_ot">
+            <div style="width: auto; white-space: nowrap;">
+              N° Ot
+              <p-sortIcon field="numero_ot"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="direccion">
+            <div style="width: auto; white-space: nowrap;">
+              Dirección<p-sortIcon field="direccion"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="comuna">
+            <div style="width: auto; white-space: nowrap;">
+              Comuna<p-sortIcon field="comuna"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="trabajo_solicitado">
+            <div style="width: auto; white-space: nowrap;">
+              Trabajo Solicitado<p-sortIcon field="trabajo_solicitado"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="trabajo_realizado">
+            <div style="width: auto; white-space: nowrap;">
+              Trabajo Realizado<p-sortIcon field="trabajo_realizado"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="nombre_maestro">
+            <div style="width: auto; white-space: nowrap;">
+              Maestro<p-sortIcon field="nombre_maestro"></p-sortIcon>
+            </div>
+          </th>
+          <!-- <th pSortableColumn="nombre_ayudante">
+            <div style="width: auto; white-space: nowrap;">
+              Ayudante <p-sortIcon field="nombre_ayudante"></p-sortIcon>
+            </div>
+          </th> -->
+          <th pSortableColumn="brigada">
+            <div style="width: auto; white-space: nowrap;">
+              Turno<p-sortIcon field="brigada"></p-sortIcon>
+            </div>
+          </th>
+          <!-- <th pSortableColumn="tipo_turno">
+            <div style="width: auto; white-space: nowrap;">
+              Tipo Turno<p-sortIcon field="tipo_turno"></p-sortIcon>
+            </div>
+          </th> -->
+          <th pSortableColumn="tipo_evento">
+            <div style="width: auto; white-space: nowrap;">
+              Tipo Evento <p-sortIcon field="tipo_evento"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="fecha_hora">
+            <div style="width: auto; white-space: nowrap;">
+              Fecha Hora Ejecución<p-sortIcon field="fecha_hora"></p-sortIcon>
+            </div>
+          </th>
+          <!-- <th pSortableColumn="hora_inicio">
+            <div style="width: auto; white-space: nowrap;">
+              Hora inicio<p-sortIcon field="hora_inicio"></p-sortIcon>
+            </div>
+          </th> -->
+          <!-- <th pSortableColumn="hora_termino">
+            <div style="width: auto; white-space: nowrap;">
+              Hora termino<p-sortIcon field="hora_termino"></p-sortIcon>
+            </div>
+          </th> -->
+          <th> <div style="width: auto; white-space: nowrap;">Map</div> </th>
+          <th> <div style="width: auto; white-space: nowrap;">Edi</div> </th>
+          <th> <div style="width: auto; white-space: nowrap;">Eli</div> </th>
+        </tr>
+
+        <tr>
+          <th>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'numero_ot', 'contains')"
+                [value]="dt.filters['numero_ot']?.value" placeholder="Numero OT" class="w-full">
+            </span>
+          </th>
+          <th>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'direccion', 'contains')"
+                [value]="dt.filters['direccion']?.value" placeholder="Dirección" class="w-full">
+            </span>
+          </th>
+          <th>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'comuna', 'contains')"
+                [value]="dt.filters['comuna']?.value" placeholder="Comuna" class="w-full">
+            </span>
+          </th>
+          <th>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'trabajo_solicitado', 'contains')"
+                [value]="dt.filters['trabajo_solicitado']?.value" placeholder="Trabajo Solicitado" class="w-full">
+            </span>
+          </th>
+          <th>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'trabajo_realizado', 'contains')"
+                [value]="dt.filters['trabajo_realizado']?.value" placeholder="Trabajo Realizado" class="w-full">
+            </span>
+          </th>
+          <th>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'nombre_maestro', 'contains')"
+                [value]="dt.filters['nombre_maestro']?.value" placeholder="Maestro" class="w-full">
+            </span>
+          </th>
+          <th>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'brigada', 'contains')"
+                [value]="dt.filters['brigada']?.value" placeholder="Turno" class="w-full">
+            </span>
+          </th>
+          <th>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipo_evento', 'contains')"
+                [value]="dt.filters['tipo_evento']?.value" placeholder="Tipo Evento" class="w-full">
+            </span>
+          </th>
+          <th>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'fecha_hora', 'contains')"
+                [value]="dt.filters['fecha_hora']?.value" placeholder="Fecha Hora" class="w-full">
+            </span>
+          </th>
+          <th>
+            &nbsp;
+          </th>
+          <th>
+            &nbsp;
+          </th>
+          <th>
+            &nbsp;
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-evento>
+        <tr [pSelectableRow]="evento">
+
+          <!-- <td class="font-bold">{{evento.id}}</td> -->
+
+          <!-- <td>{{evento.despachador}}</td> -->
+
+          <td> <span class="p-column-title">N° Ot</span> {{evento.numero_ot}}</td>
+
+          <td> <span class="p-column-title">Dirección</span> {{evento.direccion}}</td>
+
+          <td> <span class="p-column-title">Comuna</span> {{evento.comuna}}</td>
+
+          <td> <span class="p-column-title">Trabajo Solicitado</span> {{evento.trabajo_solicitado}} </td>
+
+          <td> <span class="p-column-title">Trabajo Realizado</span> {{evento.trabajo_realizado}}</td>
+
+          <td> <span class="p-column-title">Maestro</span> {{evento.nombre_maestro}}</td>
+
+          <!-- <td>{{evento.nombre_ayudante}}</td> -->
+
+          <td> <span class="p-column-title">Turno</span> {{evento.brigada}} </td>
+
+          <!-- <td>{{evento.tipo_turno}}</td> -->
+
+          <td> <span class="p-column-title">Tipo Evento</span> {{evento.tipo_evento}}</td>
+
+          <td> <span class="p-column-title">Fecha Hora Ejecución</span> {{ filtrarFecha(evento.fecha_hora) }}</td>
+
+          <!-- <td>{{evento.hora_inicio }}</td> -->
+
+          <!-- <td>{{evento.hora_termino}}</td> -->
+
+          <td>
+
+            <button pButton pRipple icon="pi pi-map-marker" class="p-button-rounded p-button-info mr-2"
+              (click)="showDialog(evento)"></button>
+
+          </td>
+
+          <td>
+
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+              (click)="editEvento(evento)"></button>
+
+          </td>
+
+          <td>
+
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+              (click)="onEliminarClick(evento)"></button>
+
+          </td>
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">In total there are {{ eventos ? eventos.length :
+          0}}eventos.</div>
+      </ng-template>
+    </p-table>
+  </div>
+
+
+
+  <p-dialog header="Mapa" [style]="{ width: '655px', height: '655px' }" [(visible)]="display" (onHide)="hideDialog()"
+    (onShow)="onDialogShow()">
+
+    <div #map id="map" style="height: 100%;"></div>
+
+  </p-dialog>
+
+
+
+
+  <p-dialog [(visible)]="eventoDialog" [style]="{ width: '955px' , height: '1555px' }" header="{{ titulo_formulario }}"
+    [modal]="true" styleClass="p-fluid">
+
+    <ng-template pTemplate="content">
+
+      <form [formGroup]="EventosForm">
+
+        <h1>{{OT}}</h1>
+
+        <hr>
+
+        <input type="hidden" pInputhidden id="id" class="form-control" formControlName="id">
+
+        <div class="grid" style="margin-top:1%;">
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <input type="text" pInputText id="numero_ot" class="form-control" formControlName="numero_ot">
+              <label htmlFor="numero_ot">Numero Ot</label>
+            </span>
+
+          </div>
+          <div class="col-8">
+
+            <span class="p-float-label">
+              <input type="text" pInputText id="despachador" class="form-control" formControlName="despachador">
+              <label htmlFor="despachador">Despachador</label>
+            </span>
+
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top:1%;">
+          <div class="col-8">
+
+            <span class="p-float-label">
+              <input type="text" pInputText id="direccion" class="form-control" formControlName="direccion">
+              <label htmlFor="direccion">Dirección</label>
+            </span>
+
+          </div>
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-dropdown formControlName="obj_comuna" id="comuna" class="form-control" [options]="lista_obj_comuna"
+                optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
+              <label htmlFor="comuna">Comuna</label>
+            </span>
+
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top:1%;">
+          <div class="col-6">
+
+            <span class="p-float-label">
+              <textarea rows="3" cols="30" pInputTextarea formControlName="trabajo_solicitado"></textarea>
+              <label htmlFor="trabajo_solicitado">Trabajo Solicitado</label>
+            </span>
+
+          </div>
+          <div class="col-6">
+
+            <span class="p-float-label">
+              <textarea rows="3" cols="30" pInputTextarea formControlName="trabajo_realizado"></textarea>
+              <label htmlFor="trabajo_realizado">Trabajo Realizado</label>
+            </span>
+
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top:1%;">
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-calendar id="fecha_hora" formControlName="fecha_hora" class="form-control" dateFormat="dd-mm-yy"
+                [showIcon]="true" [showTime]="true"></p-calendar>
+              <label htmlFor="fecha_hora">Fecha y Hora</label>
+            </span>
+
+          </div>
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-inputMask mask="99:99" formControlName="hora_inicio"></p-inputMask>
+              <label htmlFor="hora_inicio">Hora Inicio</label>
+            </span>
+
+          </div>
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-inputMask mask="99:99" formControlName="hora_termino"></p-inputMask>
+              <label htmlFor="hora_termino">Hora Termino</label>
+            </span>
+
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top:1%;">
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-dropdown formControlName="obj_brigada" id="brigada" class="form-control"
+                [options]="lista_objs_brigadas" optionLabel="brigada" placeholder="Seleccionar"></p-dropdown>
+              <label htmlFor="brigada">Turnos</label>
+            </span>
+
+          </div>
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-dropdown formControlName="obj_tipo_turno" id="tipo_turno" class="form-control"
+                [options]="lista_objs_tipoTurno" optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
+              <label htmlFor="tipo_turno">Tipo Turno</label>
+            </span>
+
+          </div>
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-dropdown formControlName="obj_tipo_evento" id="tipoevento" class="form-control"
+                [options]="lista_obj_tipo_evento" optionLabel="descripcion" placeholder="Seleccionar"></p-dropdown>
+              <label htmlFor="tipoevento">Tipo Evento</label>
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="grid" style="margin-top:1%;">
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-dropdown formControlName="obj_maestro" id="nombre_maestro" class="form-control"
+                [options]="lista_objs_maestros" optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
+              <label htmlFor="nombre_maestro">Nombre Maestro</label>
+            </span>
+
+          </div>
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-dropdown formControlName="obj_ayudante" id="nombre_ayudante" class="form-control"
+                [options]="lista_objs_ayudantes" optionLabel="nombre" placeholder="Seleccionar"></p-dropdown>
+              <label htmlFor="nombre_ayudante">Nombre Ayudante</label>
+            </span>
+
+          </div>
+          <div class="col-4">
+
+            <span class="p-float-label">
+              <p-dropdown formControlName="obj_camionetas" id="camionetas" class="form-control"
+                [options]="lista_objs_camionetas" optionLabel="patente" placeholder="Seleccionar"></p-dropdown>
+              <label htmlFor="camionetas">Camionetas</label>
+            </span>
+
+          </div>
+        </div>
+
+
+        <div class="grid" style="margin-top:5%;">
+          <div class="col-3"></div>
+          <div class="col-6">
+
+            <button *ngIf="mostrarGuardar" pButton pRipple label="Guardar" (click)="onGuardarClick()" visible="false"
+              [loading]="loading" [disabled]="EventosForm.invalid"
+              class="p-button-rounded p-button-outlined p-mt-10"></button>
+
+            <button *ngIf="mostrarActualizar" pButton pRipple label="Actualizar" (click)="onActualizarClick()"
+              [loading]="loading" [disabled]="EventosForm.invalid"
+              class="p-button-rounded p-button-success p-button-outlined p-mt-10"></button>
+          </div>
+          <div class="col-3"></div>
+        </div>
+
+      </form>
+
+    </ng-template>
+
+    <!-- <ng-template pTemplate="footer">
+      <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+      <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+    </ng-template> -->
+
+  </p-dialog>
+
+  <p-confirmDialog [style]="{ width: '650px' }"></p-confirmDialog>
+
+</p-card>

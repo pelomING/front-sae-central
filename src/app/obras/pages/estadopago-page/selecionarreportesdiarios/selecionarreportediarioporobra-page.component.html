@@ -15,8 +15,13 @@
 
             <ng-template pTemplate="right">
 
-                <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2"
-                    (click)="openNew()"></button>
+                <!-- <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2"
+                    (click)="openNew()"></button> -->
+
+                <button pButton pRipple label="Ver ( E.D.P.-PRELIMINAR )" icon="pi pi-eye" class="p-button-success mr-2"
+                    (click)="enviarDatos()"></button>
+
+                <!-- (click)="openNewEstadodePago(obra)" -->
 
                 <!-- <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button> -->
 
@@ -33,7 +38,7 @@
 
             <ng-template pTemplate="caption">
                 <div class="flex align-items-center justify-content-between">
-                    <h4 class="m-0">Listado de reportes</h4>
+                    <h4 class="m-0">Listado de reportes diarios</h4>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
@@ -68,44 +73,47 @@
                         <p-sortIcon field="sdi"></p-sortIcon>
                     </th>
 
+                    <th pSortableColumn="codigo_pelom" style="min-width:10rem">
+                        Codigo Pelom
+                        <p-sortIcon field="codigo_pelom"></p-sortIcon>
+                    </th>
+
                     <th>View</th>
-
-                    <th>Editar</th>
-
-                    <th>Eliminar</th>
+                    <th>Selecionar</th>
 
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-reportediario>
+
                 <tr [pSelectableRow]="reportediario">
+
                     <td>{{ reportediario.id }}</td>
                     <td>{{ reportediario.id_obra.codigo_obra }}</td>
                     <td>{{ reportediario.fecha_reporte }}</td>
                     <td>{{ reportediario.jefe_faena ? reportediario.jefe_faena.nombre : null }}</td>
                     <td>{{ reportediario.sdi }}</td>
+
+                    <td>{{ reportediario.codigo_pelom }}</td>
+
                     <td style="text-align:center;">
-                        <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-help mr-2" (click)="verReporteDiario(reportediario)"></button>
-                    </td>  
-                    <td style="text-align:center;">
-                        <button *ngIf="reportediario.id_estado_pago === null" pButton pRipple icon="pi pi-pencil"
-                            class="p-button-rounded p-button-success mr-2" (click)="openEditReporteDiario(reportediario)"></button>
+                        <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-help mr-2"
+                            (click)="verReporteDiario(reportediario)"></button>
                     </td>
+
                     <td style="text-align:center;">
-                        <button *ngIf="reportediario.id_estado_pago === null" pButton pRipple icon="pi pi-trash"
-                            class="p-button-rounded p-button-warning" (click)="onEliminarClick(reportediario)"></button>
+                        <p-checkbox *ngIf="reportediario.id_estado_pago == null"  [binary]="true" [inputId]="reportediario.id.toString()" [(ngModel)]="reportediario.seleccionado" [checked]="reportediario.seleccionado" ></p-checkbox>
                     </td>
+
                 </tr>
+
             </ng-template>
             <ng-template pTemplate="summary">
-                <div class="flex align-items-center justify-content-between">In total there are {{ listaReportesDiarios?listaReportesDiarios.length : 0 }} Reportes Diarios.</div>
+                <div class="flex align-items-center justify-content-between">In total there are {{
+                    listaReportesDiarios?listaReportesDiarios.length : 0 }} Reportes Diarios.</div>
             </ng-template>
         </p-table>
 
     </div>
-
-
-
-
 
 
     <p-dialog [(visible)]="productDialog" [style]="{ width: '1550px', height: '850px' }"
@@ -291,8 +299,9 @@
 
                                 <ng-template pTemplate="left">
 
-                                    <button pButton pRipple label="Agregar Actividad" icon="pi pi-plus" *ngIf="nomostrar"
-                                        class="p-button-success mr-2" (click)="openNewActividades()"></button>
+                                    <button pButton pRipple label="Agregar Actividad" icon="pi pi-plus"
+                                        *ngIf="nomostrar" class="p-button-success mr-2"
+                                        (click)="openNewActividades()"></button>
 
                                 </ng-template>
 
@@ -395,8 +404,9 @@
 
                                 <ng-template pTemplate="left">
 
-                                    <button pButton pRipple label="Agregar Otras Actividades" icon="pi pi-plus" *ngIf="nomostrar"
-                                        class="p-button-success mr-2" (click)="openNewOtrasActividades()"></button>
+                                    <button pButton pRipple label="Agregar Otras Actividades" icon="pi pi-plus"
+                                        *ngIf="nomostrar" class="p-button-success mr-2"
+                                        (click)="openNewOtrasActividades()"></button>
 
                                 </ng-template>
 
@@ -591,8 +601,8 @@
                             [disabled]="ActividadForm.invalid"
                             class="p-button-rounded p-button-outlined p-mt-10"></button>
 
-                        <button *ngIf="mostrarActualizarActividad" pButton pRipple label="Actualizar Actividad" type="button"
-                            (click)="onActualizarActividadClick()" [loading]="loadingActividad"
+                        <button *ngIf="mostrarActualizarActividad" pButton pRipple label="Actualizar Actividad"
+                            type="button" (click)="onActualizarActividadClick()" [loading]="loadingActividad"
                             [disabled]="ActividadForm.invalid"
                             class="p-button-rounded p-button-success p-button-outlined p-mt-10"></button>
 
@@ -686,7 +696,6 @@
     </ng-template>
 
 </p-dialog>
-
 
 
 

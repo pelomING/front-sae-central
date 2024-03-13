@@ -1,0 +1,15 @@
+.ancho-columna {
+  width: 100px;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+/* Estilo personalizado para el marcador */
+.custom-marker {
+  border: none !important;
+}

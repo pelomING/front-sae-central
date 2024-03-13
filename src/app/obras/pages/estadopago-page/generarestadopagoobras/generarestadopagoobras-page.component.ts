@@ -24,9 +24,7 @@ import { EstadoPagoObrasService } from 'src/app/obras/services/estadopagoobras.s
 
 export class GenerarEstadoPagoObrasPageComponent implements OnInit {
 
-
     @ViewChild('pdfContainer') pdfContainer!: ElementRef;
-
 
     products: Product[];
     product: Product;
@@ -40,8 +38,10 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
     cols: any[] = [];
     ejecutado: boolean = false;
 
-
     listaReportesDiarios: ReporteDiario[];
+
+    reportesdiariosseleccionados: ReporteDiario[];
+
 
     LISTA_ACTIVIDADES: [];
     LISTA_ACTIVIDADES_ADICIONALES: [];
@@ -89,8 +89,13 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
             this.route.queryParams.subscribe(params => {
                 const navigationExtras = this.router.getCurrentNavigation()?.extras;
                 if (navigationExtras && navigationExtras.state) {
+                    
                     this.obra = this.router.getCurrentNavigation().extras.state['obra'];
                     localStorage.setItem('obra', JSON.stringify(this.obra));
+
+                    this.reportesdiariosseleccionados = this.router.getCurrentNavigation().extras.state['reportesdiariosseleccionados'];
+                    localStorage.setItem('reportesdiariosseleccionados', JSON.stringify(this.reportesdiariosseleccionados));
+
                 }
                 this.ejecutado = true;
             });
@@ -103,8 +108,12 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
     ngOnInit() {
 
         this.productService.getProducts().then((data) => (this.products = data));
+
         this.obra = JSON.parse(localStorage.getItem('obra'));
         console.log("obra", this.obra);
+
+        this.reportesdiariosseleccionados = JSON.parse(localStorage.getItem('reportesdiariosseleccionados'));
+        console.log("reportesdiariosseleccionados", this.reportesdiariosseleccionados);
 
 
         this.estadoPagoObrasService.getNuevoencabezado(this.obra.id).subscribe(
@@ -123,21 +132,18 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
             }
         );
 
-        this.estadoPagoObrasService.getAllactividadesporobra(this.obra.id).subscribe(
+        this.estadoPagoObrasService.getAllactividadesporobra(this.obra.id,this.reportesdiariosseleccionados.toString()).subscribe(
             (respuesta: any) => {
-
                 this.LISTA_ACTIVIDADES = respuesta;
                 //console.log("this.LISTA_ACTIVIDADES",this.LISTA_ACTIVIDADES);
-
             },
             (error) => {
                 console.error('Error al obtener listado de reportes diarios:', error);
             }
         );
 
-        this.estadoPagoObrasService.getAllactividadesadicionales(this.obra.id).subscribe(
+        this.estadoPagoObrasService.getAllactividadesadicionales(this.obra.id,this.reportesdiariosseleccionados.toString()).subscribe(
             (respuesta: any) => {
-
                 this.LISTA_ACTIVIDADES_ADICIONALES = respuesta;
                 //console.log("this.LISTA_ACTIVIDADES_ADICIONALES",this.LISTA_ACTIVIDADES_ADICIONALES);
             },
@@ -146,9 +152,8 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
             }
         );
 
-        this.estadoPagoObrasService.getAllactividadesconhoraextra(this.obra.id).subscribe(
+        this.estadoPagoObrasService.getAllactividadesconhoraextra(this.obra.id,this.reportesdiariosseleccionados.toString()).subscribe(
             (respuesta: any) => {
-
                 this.LISTA_ACTIVIDADES_CONHORASEXTRA = respuesta;
                 //console.log("this.LISTA_ACTIVIDADES_CONHORASEXTRA",this.LISTA_ACTIVIDADES_CONHORASEXTRA);
             },
@@ -170,7 +175,7 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
         );
 
 
-        this.estadoPagoObrasService.getTotalesestadopago(this.obra.id).subscribe(
+        this.estadoPagoObrasService.getTotalesestadopago(this.obra.id,this.reportesdiariosseleccionados.toString()).subscribe(
             (respuesta: any) => {
 
                 this.TOTALESESTADOPAGO = respuesta;
@@ -251,9 +256,13 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
 
     Confirma_CrearEstadoPago(NUEVOENCABEZADO: any) {
 
-        console.log("this.NUEVOENCABEZADO", NUEVOENCABEZADO);
+        console.log("this.NUEVOENCABEZADO", NUEVOENCABEZADO[0]);
 
-        this.estadoPagoObrasService.postcreaEstadoPagoObras(NUEVOENCABEZADO).subscribe(
+        const ENCABEZADO_OBRAS =  NUEVOENCABEZADO[0]
+
+        ENCABEZADO_OBRAS.ids_reporte = this.reportesdiariosseleccionados.toString();
+
+        this.estadoPagoObrasService.postcreaEstadoPagoObras(ENCABEZADO_OBRAS).subscribe(
             (response: any) => {
                 
                 // Manejar la respuesta exitosa
@@ -263,7 +272,7 @@ export class GenerarEstadoPagoObrasPageComponent implements OnInit {
 
                 // Recargar la página después de un breve retraso (3000 milisegundos en este ejemplo)
                 setTimeout(() => {
-                    this.router.navigate(['/'], { replaceUrl: true });  // Cambia '/'' por la ruta que desees
+                    this.router.navigate(['/obras/estadopago'], { replaceUrl: true });  // Cambia '/'' por la ruta que desees
                 }, 3000);              
             
             },

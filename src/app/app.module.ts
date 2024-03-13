@@ -16,7 +16,6 @@ import { HomeComponent } from './home/home.component';
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
 import { EstadoResultadoService } from 'src/app/sae/services/estadoResultado.service';
 
-
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es'; // importa la localización que necesitas

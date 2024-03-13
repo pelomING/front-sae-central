@@ -128,6 +128,24 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
 
 
 
+    openSelecionarReportesDiariosPorObra(obra: Obra) {
+
+        console.log("OBRA", obra)
+
+        const navigationExtras: NavigationExtras = {
+            state: {
+                obra: obra
+            }
+        };
+
+        this.router.navigate(['/obras/selecionarreportediarioobras'], navigationExtras);
+
+    }
+
+
+    
+
+
     NUEVOENCABEZADO: any;
     LISTA_ACTIVIDADES: [];
     LISTA_ACTIVIDADES_ADICIONALES: [];
@@ -152,7 +170,6 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
 
     onDialogShow() {
 
-
         this.estadoPagoObrasService.getHistoricoestadopagoporid(this.IDESTADOPAGO).subscribe({
             next: (data) => {
       
@@ -172,7 +189,6 @@ export class HistoricoEstadoPagoPageComponent implements OnInit {
 
             }, error: (e) => console.error(e)
           });
-
 
     }   
 
