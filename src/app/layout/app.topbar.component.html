@@ -15,7 +15,9 @@
     <div #topbarmenu class="layout-topbar-menu" style="width: 400px;" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
 
         <button class="p-link layout-topbar-button" style="width: 100%; margin-right: 15%; ">
-           ROL: {{ storageService.getUser().funcion }} <br> USUARIO : {{ storageService.getUser().nombre }} 
+           ROL: {{ storageService.getUser().funcion }} &nbsp;&nbsp;&nbsp;&nbsp;
+           <br> 
+           USUARIO : {{ storageService.getUser().nombre }} 
         </button>
 
         <button (click)="logout()" class="p-link layout-topbar-button">

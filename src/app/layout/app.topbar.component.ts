@@ -2,10 +2,8 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from "./service/app.layout.service";
 import { Router } from '@angular/router';
-
 import { AuthService } from '../auth/services/auth.service';
 import { StorageService } from '../auth/services/storage.service';
-
 
 @Component({
     selector: 'app-topbar',
@@ -14,11 +12,8 @@ import { StorageService } from '../auth/services/storage.service';
 export class AppTopBarComponent {
 
     items!: MenuItem[];
-
     @ViewChild('menubutton') menuButton!: ElementRef;
-
     @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
-
     @ViewChild('topbarmenu') menu!: ElementRef;
 
     constructor(
@@ -26,7 +21,6 @@ export class AppTopBarComponent {
         public storageService: StorageService,
         private router: Router,
         public layoutService: LayoutService) { }
-
 
     logout(): void {
         this.authService.logout().subscribe({
@@ -40,5 +34,4 @@ export class AppTopBarComponent {
           }
         });
       }
-      
 }

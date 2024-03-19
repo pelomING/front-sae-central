@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TipoFuncion } from '../model/tipoFuncion.model';
+import { TipoFuncion } from '../models/tipoFuncion.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ConfigService } from '../../_services/config.service';

@@ -1,19 +1,18 @@
 
 import { NgModule } from '@angular/core';
 import { PrimeNGModule } from '../_primeng/primeng.module';
-import { NgxPrintModule } from 'ngx-print';
-import { NgChartsModule } from 'ng2-charts';
-import * as Highcharts from 'highcharts';
-import { HighchartsChartModule } from 'highcharts-angular';
+
 import { ObrasRoutingModule } from './obras-routing.module';
+
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
+
 
 /* Dashboard */
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
 
 /* Listado de Obras */
 import { ObrasPageComponent } from './pages/obras-page/obras-page.component';
-import { ProductService } from './services/productservice';
+
 
 /* Materiales Obras */
 import { MaterialesPageComponent } from './pages/materiales-page/materiales-page.component';
@@ -49,10 +48,11 @@ import { SelecionarReportediarioporobraPageComponent } from './pages/estadopago-
 
 /* Estado Obra */
 import { EstadoobraPageComponent } from './pages/estadoobra-page/estadoobra-page.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { GenerarEstadoPagoObrasPageComponent } from './pages/estadopago-page/generarestadopagoobras/generarestadopagoobras-page.component';
+
 import { CommaToDotPipe } from './pipes/comma-to-dot.pipe';
 
+import { ProductService } from 'src/app/obras/services/productservice';
 
 
 @NgModule({
@@ -79,11 +79,7 @@ import { CommaToDotPipe } from './pipes/comma-to-dot.pipe';
   ],
   imports: [
     PrimeNGModule,
-    ObrasRoutingModule,
-    ReactiveFormsModule,
-    NgxPrintModule,
-    NgChartsModule,
-    HighchartsChartModule
+    ObrasRoutingModule
   ],
   providers: [ProductService]
 })

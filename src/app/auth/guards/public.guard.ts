@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanMatch, CanActivate, Router, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable, tap, map } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { StorageService } from '../services/storage.service';
 
 
 @Injectable({providedIn: 'root'})
@@ -9,6 +10,7 @@ export class PublicGuard implements CanMatch, CanActivate {
 
   constructor(
     private authService: AuthService,
+    private storageService: StorageService,
     private router: Router,
   ) { }
 
@@ -18,8 +20,15 @@ export class PublicGuard implements CanMatch, CanActivate {
       .pipe(
         tap( isAuthenticated => console.log('Authenticated Public:', isAuthenticated ) ),
         tap( isAuthenticated => {
-          if ( isAuthenticated ) {
-            this.router.navigate(['./'])
+          if ( isAuthenticated ) { 
+            
+            const user = this.storageService.getUser();
+            if (user && user.homepage) 
+            {
+              console.log('url AppLayoutComponent',user.homepage.routerlink)   
+              this.router.navigate([user.homepage.routerlink]);
+            }
+
           }
         }),
         map( isAuthenticated => !isAuthenticated )

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Eventos } from '../model/eventos.model';
+import { Eventos } from '../models/eventos.model';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ConfigService } from '../../_services/config.service';

@@ -11,16 +11,20 @@ import { StorageService } from '../auth/services/storage.service';
 export class AppMenuComponent implements OnInit {
 
   model: any[] = [];
+  panelMenuItems: any[] = [];
+
 
   constructor(public layoutService: LayoutService,
     private storageService: StorageService) { }
 
-  ngOnInit() {
+      ngOnInit() {
 
-    let user = this.storageService.getUser();
+        let user = this.storageService.getUser();
 
-    this.model = user.menu
+        this.model = user.menu
 
-  }
+        this.panelMenuItems = user.menu
+
+      }
  
 }

@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-
-import { Product } from '../../../interfaces/product.interface';
-import { VisitaTerreno, Estado, VisitaTerrenoCrear } from '../../../interfaces/visita-terreno.interface';
-
-import { ProductService } from '../../../services/productservice';
-import { AgendaService } from '../../../services/agenda.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
-
 import { Router, ActivatedRoute, NavigationEnd, NavigationExtras } from '@angular/router';
 import { Observable, filter, take } from 'rxjs';
 
+import { Product } from '../../../interfaces/product.interface';
+import { VisitaTerreno, Estado, VisitaTerrenoCrear } from '../../../interfaces/visita-terreno.interface';
 import { Obra } from '../../../interfaces/obra.interface';
+
+import { AgendaService } from '../../../services/agenda.service';
+import { ProductService } from 'src/app/obras/services/productservice';
+
 
 @Component({
     selector: 'app-agenda-obra-page',
@@ -23,43 +22,36 @@ import { Obra } from '../../../interfaces/obra.interface';
 export class AgendaObraPageComponent implements OnInit {
 
     productDialog: boolean;
-
     products: Product[];
-
     product: Product;
-
     selectedProducts: Product[];
-
     submitted: boolean;
-
     statuses: any[];
-
     visitasterreno: VisitaTerreno[];
-
     cols: any[] = [];
-
     visitaTerrenoForm: FormGroup;
 
     mostrarGuardar: boolean = true; // Mostrar el botón por defecto
     mostrarActualizar: boolean = true;
-
     visitaterreno: VisitaTerreno;
+
+    mostrarIngresarNuevoRegistro: boolean = false; 
+
 
     currentState$: Observable<any>;
     detailProduct: any;
 
     private ejecutado = false;
 
-
     estadosvisitasterreno: Estado[] | undefined;
-
     obra: Obra;
-
     newVisitaTerreno: VisitaTerrenoCrear;
 
 
     constructor(
+
         private productService: ProductService,
+        
         public route: ActivatedRoute,
         private router: Router,
         private agendaService: AgendaService,
@@ -101,7 +93,11 @@ export class AgendaObraPageComponent implements OnInit {
 
         this.agendaService.getAllVisitasTerrenoPorObra(this.obra).subscribe(
             (VisitasTerreno: any) => {
+
                 this.visitasterreno = VisitasTerreno;
+
+                if(this.visitasterreno.length > 0) this.mostrarIngresarNuevoRegistro = false; else this.mostrarIngresarNuevoRegistro = true; 
+
             },
             (error) => {
                 console.error('Error al obtener las obras:', error);

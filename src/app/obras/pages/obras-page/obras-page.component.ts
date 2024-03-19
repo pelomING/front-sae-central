@@ -1,15 +1,10 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
-
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
 
-import { Product } from '../../interfaces/product.interface';
-
 import { Obra, Zona, Delegacion, Tipotrabajos, Empresacontratistas, Coordinadorcontratistas, Comuna, Estado, Tipo_obra, Segmento, OficinaSupervisor, RecargoPorDistancia } from '../../interfaces/obra.interface';
-
-import { ProductService } from '../../services/productservice';
 
 import { ObrasService } from '../../services/obras.service';
 
@@ -26,9 +21,7 @@ export class ObrasPageComponent implements OnInit {
     cerrar_Obra_Form: FormGroup;
 
     formObraDialog: boolean;
-    products: Product[];
-    product: Product;
-    selectedProducts: Product[];
+        
     submitted: boolean;
     statuses: any[];
     obras: Obra[];
@@ -69,7 +62,7 @@ export class ObrasPageComponent implements OnInit {
 
 
 
-    constructor(private productService: ProductService,
+    constructor(
         private el: ElementRef,
         private fb: FormBuilder,
         private obrasService: ObrasService,
@@ -255,7 +248,6 @@ export class ObrasPageComponent implements OnInit {
 
 
         // /api/obras/backoffice/general/v1/alloficinasupervisor
-
         this.obrasService.getAlloficinasupervisor().subscribe(
             (oficinas_supervisor: any) => {
                 console.log("Esto es la oficinas:", oficinas_supervisor);
@@ -265,7 +257,6 @@ export class ObrasPageComponent implements OnInit {
                 console.error('Error al obtener las oficinas:', error);
             }
         );
-
 
 
         //  /api/obras/backoffice/general/v1/allrecargospordistancia
@@ -278,8 +269,6 @@ export class ObrasPageComponent implements OnInit {
                 console.error('Error al obtener las recargos:', error);
             }
         );
-
-
 
 
 
