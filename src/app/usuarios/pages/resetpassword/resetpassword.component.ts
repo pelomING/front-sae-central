@@ -76,12 +76,12 @@ export class ResetPasswordComponent implements OnInit {
                 (ObjError) => {
 
                     // Manejar errores
-                    console.error('Error al eliminar reporte :', ObjError);
+                    console.error('Error :', ObjError);
 
                     this.messageService.add({
                         severity: 'info',
-                        summary: 'Información : ' + ObjError.status,
-                        detail: 'Por favor, verifique los siguientes datos:' + ObjError.error,
+                        summary: 'Código : ' + ObjError.status,
+                        detail: ObjError.error.message,
                     });
 
                 }

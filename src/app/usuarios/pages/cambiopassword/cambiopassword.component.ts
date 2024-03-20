@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { StorageService } from 'src/app/_services/storage.service';
-import { AuthService } from 'src/app/_services/auth.service';
+import { AuthService } from '../../../auth/services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -119,8 +119,8 @@ export class CambioPasswordComponent implements OnInit {
 
             this.messageService.add({
               severity: 'info',
-              summary: 'Información : ' + error.status,
-              detail: 'Por favor, verifique los siguientes datos:' + error.error,
+              summary: 'Código : ' + error.status,
+              detail: 'Por favor, verifique los siguientes datos:' + error.error.message,
             });
 
           },

@@ -129,7 +129,7 @@ export class DashboardPageComponent implements OnInit {
 
         
         let porcentajes = this.graficas_resumen_estados.filter((item: { estado: string; }) => item.estado !== "TOTAL");
-        let estados = porcentajes.map((item: { estado: any; }) => item.estado);
+        let estados = porcentajes.map((item: { estado: any; cantidad: string; }) => item.estado +':'+item.cantidad );
         porcentajes = porcentajes.map((item: { porcentaje: string; }) => parseFloat(item.porcentaje));
 
         this.chartDataPie = {
@@ -163,9 +163,9 @@ export class DashboardPageComponent implements OnInit {
 
 
         porcentajes = this.graficas_resumen_maule_norte.filter((item: { estado: string; }) => item.estado !== "TOTAL");
-        estados = porcentajes.map((item: { estado: any; }) => item.estado);
-        porcentajes = porcentajes.map((item: { porcentaje: string; }) => parseFloat(item.porcentaje));
-        
+        estados = porcentajes.map((item: { estado: any; cantidad: string; }) => item.estado +':'+item.cantidad );
+        porcentajes = porcentajes.map((item: { porcentaje: string; }) => item.porcentaje );
+
         this.chartDataPie_maule_norte = {
             labels: estados,
             datasets: [{
@@ -186,7 +186,7 @@ export class DashboardPageComponent implements OnInit {
 
 
         porcentajes = this.graficas_resumen_maule_sur.filter((item: { estado: string; }) => item.estado !== "TOTAL");
-        estados = porcentajes.map((item: { estado: any; }) => item.estado);
+        estados = porcentajes.map((item: { estado: any; cantidad: string; }) => item.estado +':'+item.cantidad );
         porcentajes = porcentajes.map((item: { porcentaje: string; }) => parseFloat(item.porcentaje));
         
         this.chartDataPie_maule_sur = {
