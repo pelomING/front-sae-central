@@ -10,6 +10,8 @@ import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
 /* Dashboard */
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
 
+import { UsoSistemaComponent } from './pages/usosistema/usosistema.component';
+
 /* Listado de Obras */
 import { ObrasPageComponent } from './pages/obras-page/obras-page.component';
 
@@ -59,6 +61,7 @@ import { ProductService } from 'src/app/obras/services/productservice';
   declarations: [
     LayoutPageComponent,
     DashboardPageComponent,
+    UsoSistemaComponent,
     ObrasPageComponent,
     MaterialesPageComponent,
     AgendasPageComponent,

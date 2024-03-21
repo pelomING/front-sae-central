@@ -101,7 +101,6 @@ import { BlockUIModule } from 'primeng/blockui';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
-
 @NgModule({
   imports: [
     CommonModule,

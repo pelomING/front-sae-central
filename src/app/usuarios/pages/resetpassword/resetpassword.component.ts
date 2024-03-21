@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -6,6 +6,7 @@ import { StorageService } from 'src/app/_services/storage.service';
 import { AuthService } from 'src/app/_services/auth.service';
 import { Router } from '@angular/router';
 import { Table } from 'primeng/table';
+
 
 @Component({
   selector: 'app-resetpassword',
@@ -15,6 +16,9 @@ import { Table } from 'primeng/table';
 
 export class ResetPasswordComponent implements OnInit {
 
+  @ViewChild('dt') table: Table;
+
+  searchTerm: string = '';
   changePasswordForm: FormGroup;
   loading: boolean = false;
   listado_Usuarios: any[];
@@ -49,48 +53,48 @@ export class ResetPasswordComponent implements OnInit {
       },
       error: (error) => {
         // Manejar errores
-      },
-      complete: () => {
-        // Realizar acciones cuando la operación haya finalizado (opcional)
       }
     });
   }
 
 
+  resetSearch() {
+    this.searchTerm = '';
+    this.table.filterGlobal('', 'contains');
+  }
+
+
+
   OpenResetPassword(usuario: any) {
 
     this.confirmationService.confirm({
-        message: 'Estás seguro de que deseas resetear password para usuario Id : ' + usuario.id + ' ?',
-        header: 'Confirmar',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => { 
+      message: 'Estás seguro de que deseas resetear password para usuario Id : ' + usuario.id + ' ?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
 
-            this.usuarioService.ResetPassword(usuario.username).subscribe(
-                (response) => {
+        this.usuarioService.ResetPassword(usuario.username).subscribe(
+          (response) => {
+            console.info(response);
+            this.messageService.add({ severity: 'success', summary: 'Ok', detail: 'Reset Password', life: 3000 });
+            this.listadoUsuarios();
+            this.resetSearch();
+          },
+          (ObjError) => {
+            // Manejar errores
+            console.error('Error :', ObjError);
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Código : ' + ObjError.status,
+              detail: ObjError.error.message,
+            });
+          }
+        );
 
-                  console.info(response);
-                  this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Registro eliminado', life: 3000 });
-                  this.listadoUsuarios();
-
-                },
-                (ObjError) => {
-
-                    // Manejar errores
-                    console.error('Error :', ObjError);
-
-                    this.messageService.add({
-                        severity: 'info',
-                        summary: 'Código : ' + ObjError.status,
-                        detail: ObjError.error.message,
-                    });
-
-                }
-            );
-
-        }
+      }
     });
 
-}
+  }
 
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');

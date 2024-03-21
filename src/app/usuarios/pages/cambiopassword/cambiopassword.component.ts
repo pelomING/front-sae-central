@@ -97,21 +97,10 @@ export class CambioPasswordComponent implements OnInit {
 
             this.messageService.add({ severity: 'success', summary: 'Ok', detail: 'Contraseña Cambiada', life: 3000 });
 
-            setTimeout(() => {
+            this.showDialog();
 
-              this.authService.logout().subscribe({
-                next: res => {
-                  console.log(res);
-                  this.storageService.clean();
-                  this.router.navigate(['/auth']);
-                },
-                error: err => {
-                  console.log(err);
-                }
-              });           
+            this.cerrarapp();
             
-            }, 2000);
-
           },
           error: (error) => {
             // Manejar errores
@@ -140,5 +129,35 @@ export class CambioPasswordComponent implements OnInit {
       console.log('Formulario inválido');
     }
   }
+
+
+  visible: boolean = false;
+
+  showDialog() {
+    this.visible = true;
+  }
+
+
+  
+  cerrarapp() {
+
+    setTimeout(() => {
+
+      this.authService.logout().subscribe({
+        next: res => {
+          console.log(res);
+          this.storageService.clean();
+          this.router.navigate(['/auth']);
+        },
+        error: err => {
+          console.log(err);
+        }
+      });
+
+    }, 1000);
+
+  }
+
+
 
 }
