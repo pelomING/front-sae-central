@@ -90,13 +90,13 @@ export class DashboardPageComponent implements OnInit {
 
                 console.log("this.graficas_resumen_estados",this.graficas_resumen_estados);
 
-                this.obras_estados_total = this.graficas_resumen_estados.find((item: { estado: string; }) => item.estado === "TOTAL");
-                this.obras_ingresadas = this.graficas_resumen_estados.find((item: { estado: string; }) => item.estado === "Ingresada");
-                this.obras_visita_exitosa = this.graficas_resumen_estados.find((item: { estado: string; }) => item.estado === "Visita Reportada Exitosa");
-                this.obras_enfaena = this.graficas_resumen_estados.find((item: { estado: string; }) => item.estado === "En Faena");
-                this.obras_paralizadas = this.graficas_resumen_estados.find((item: { estado: string; }) => item.estado === "Paralizada");
-                this.obras_finalizadas = this.graficas_resumen_estados.find((item: { estado: string; }) => item.estado === "Faena Finalizada");
-                this.obras_eliminadas = this.graficas_resumen_estados.find((item: { estado: string; }) => item.estado === "Eliminada");
+                this.obras_estados_total = this.graficas_resumen_estados.find((item: { id: number; }) => item.id == 999);
+                this.obras_ingresadas = this.graficas_resumen_estados.find((item: { id: number; }) => item.id == 1);
+                this.obras_visita_exitosa = this.graficas_resumen_estados.find((item: { id: number; }) => item.id == 4);
+                this.obras_enfaena = this.graficas_resumen_estados.find((item: { id: number; }) => item.id == 5);
+                this.obras_paralizadas = this.graficas_resumen_estados.find((item: { id: number; }) => item.id == 6);
+                this.obras_finalizadas = this.graficas_resumen_estados.find((item: { id: number; }) => item.id == 7);
+                this.obras_eliminadas = this.graficas_resumen_estados.find((item: { id: number; }) => item.id == 8);
 
                 
                 this.graficas_resumen_maule_norte = Respuesta.resumen_maule_norte;  
@@ -107,7 +107,7 @@ export class DashboardPageComponent implements OnInit {
                 this.graficas_resumen_maule_sur = Respuesta.resumen_maule_sur;
 
                 console.log("this.graficas_resumen_maule_sur",this.graficas_resumen_maule_sur);
-
+ 
 
                 this.initChart();
 
