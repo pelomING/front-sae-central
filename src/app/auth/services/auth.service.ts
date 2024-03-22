@@ -1,15 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
 import { Observable, tap, of, map, catchError, throwError, timeout } from 'rxjs';
-
 import { environment } from '../../../environments/environment';
-
 import { ConfigService } from '../../_services/config.service';
-
-
 import { User } from '../interfaces/user.interface';
-
 import { StorageService } from '../services/storage.service';
 
 const httpOptions = {
@@ -23,10 +17,8 @@ export class AuthService {
   private user?: User;
 
   constructor(private http: HttpClient,private storageService: StorageService,private configService: ConfigService) {
-
     console.log("environment.baseUrl",environment.baseUrl)
     this.baseUrl = this.configService.baseUrl;
-
   }
 
   get currentUser(): User | undefined {

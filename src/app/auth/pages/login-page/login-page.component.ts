@@ -66,8 +66,26 @@ export class LoginPageComponent {
 
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.maxLength(12), validateUsername]],
-      password: ['', [Validators.required, Validators.maxLength(12), validateUsername]]
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]]
     });
+    
+  }
+
+
+  passwordValidator() {
+    return (control: { value: string; }) => {
+      const value = control.value;
+      const hasNumber = /[0-9]/.test(value);
+      const hasCapital = /[A-Z]/.test(value);
+      const hasLowerCase = /[a-z]/.test(value);
+      const hasSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+
+      const valid = hasNumber && hasCapital && hasLowerCase && hasSpecialCharacter;
+      if (!valid) {
+        return { invalidPassword: true };
+      }
+      return null;
+    };
   }
 
 
@@ -100,6 +118,10 @@ export class LoginPageComponent {
                 
                 this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Bienvenido', life: 2000 })
                 this.storageService.saveUser(data);
+
+
+                console.log('data',data)
+
 
                 setTimeout(() => {
                   this.router.navigate(['/']);

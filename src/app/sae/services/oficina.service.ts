@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Oficina } from '../model/oficina.model';
+import { Oficina } from '../models/oficina.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ConfigService } from '../../_services/config.service';

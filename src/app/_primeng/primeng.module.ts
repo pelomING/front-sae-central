@@ -5,6 +5,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
+import { NgxPrintModule } from 'ngx-print';
+import { NgChartsModule } from 'ng2-charts';
+import * as Highcharts from 'highcharts';
+import { HighchartsChartModule } from 'highcharts-angular';
+
+
+
 // Import PrimeNG modules
 import { AccordionModule } from 'primeng/accordion';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -93,7 +100,6 @@ import { CardModule } from 'primeng/card';
 import { BlockUIModule } from 'primeng/blockui';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ConfirmationService, MessageService } from 'primeng/api';
-
 
 @NgModule({
   imports: [
@@ -188,7 +194,11 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     TreeSelectModule,
     TreeTableModule,
     AnimateModule,
-    CardModule
+    CardModule,
+    ReactiveFormsModule,
+    NgxPrintModule,
+    NgChartsModule,
+    HighchartsChartModule
   ],
   exports: [
     CommonModule,
@@ -282,7 +292,11 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     TreeSelectModule,
     TreeTableModule,
     AnimateModule,
-    CardModule
+    CardModule,
+    ReactiveFormsModule,
+    NgxPrintModule,
+    NgChartsModule,
+    HighchartsChartModule
   ],
   providers: [MessageService,ConfirmationService]
 })

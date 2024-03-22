@@ -253,6 +253,75 @@ export class ObrasService {
   }
 
 
+  // /api/obras/backoffice/usosistema/v1/alllogin
+  getalllogin(): Observable<any> {
+
+    return this.http.get(`${this.configService.baseUrl}/api/obras/backoffice/usosistema/v1/alllogin`, httpOptions)
+      .pipe(
+        map((response) => {
+
+          if (response) {
+            return response;
+          } else {
+            throw new Error('Respuesta inesperada del servidor');
+          }
+
+        }),
+        catchError((error) => {
+          console.error('Error en la solicitud:', error);
+          return throwError('Ha ocurrido un error en la solicitud.');
+        })
+      );
+
+  }
+
+  
+  // /api/obras/backoffice/usosistema/v1/resumenobrasrecientes
+  getResumenobrasrecientes(): Observable<any> {
+
+    return this.http.get(`${this.configService.baseUrl}/api/obras/backoffice/usosistema/v1/resumenobrasrecientes`, httpOptions)
+      .pipe(
+        map((response) => {
+
+          if (response) {
+            return response;
+          } else {
+            throw new Error('Respuesta inesperada del servidor');
+          }
+
+        }),
+        catchError((error) => {
+          console.error('Error en la solicitud:', error);
+          return throwError('Ha ocurrido un error en la solicitud.');
+        })
+      );
+      
+  }
+
+  // /api/obras/backoffice/usosistema/v1/resumenobrasinreportes
+  getResumenobrasinreportes(): Observable<any> {
+
+    return this.http.get(`${this.configService.baseUrl}/api/obras/backoffice/usosistema/v1/resumenobrasinreportes`, httpOptions)
+      .pipe(
+        map((response) => {
+
+          if (response) {
+            return response;
+          } else {
+            throw new Error('Respuesta inesperada del servidor');
+          }
+
+        }),
+        catchError((error) => {
+          console.error('Error en la solicitud:', error);
+          return throwError('Ha ocurrido un error en la solicitud.');
+        })
+      );
+      
+  }
+
+
+
 
 
   getAllTipoObras(): Observable<any> {

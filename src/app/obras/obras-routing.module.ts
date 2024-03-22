@@ -3,6 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
+
+import { UsoSistemaComponent } from './pages/usosistema/usosistema.component';
+
 import { ObrasPageComponent } from './pages/obras-page/obras-page.component';
 import { MaterialesPageComponent } from './pages/materiales-page/materiales-page.component';
 
@@ -41,6 +44,8 @@ const routes: Routes = [
       { path: '', component: ObrasPageComponent },
 
       { path: 'dashboard', component: DashboardPageComponent },
+
+      { path: 'usosistema', component: UsoSistemaComponent },
       
       { path: 'materiales', component: MaterialesPageComponent },
       

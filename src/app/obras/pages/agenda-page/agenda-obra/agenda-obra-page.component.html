@@ -7,7 +7,13 @@
                 <button pButton pRipple (click)="goBack()" label="Volver" icon="pi pi-arrow-left" class="p-button-danger mr-2"></button>
             </ng-template>
             <ng-template pTemplate="right">
-                <button pButton pRipple *ngIf="visitasterreno.length == 0" label="Formulario Registro Visita Terreno" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+
+                <button pButton pRipple *ngIf="mostrarIngresarNuevoRegistro" label="Formulario Registro Visita Terreno" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+            
+                <!-- <div *ngIf="!mostrarIngresarNuevoRegistro">
+                    <p>Cargando...</p>
+                </div> -->
+                
             </ng-template>
         </p-toolbar>
 
@@ -85,9 +91,6 @@
             </ng-template>
         </p-table>
     </div>
-
-
-
 
     <p-dialog [(visible)]="productDialog" [style]="{ width: '650px' }" header="Reporte Visita Terreno" [modal]="true"
         styleClass="p-fluid">
@@ -195,7 +198,6 @@
         </ng-template> -->
 
     </p-dialog>
-
 
     <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
 

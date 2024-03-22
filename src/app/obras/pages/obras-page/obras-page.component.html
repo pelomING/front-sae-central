@@ -26,7 +26,7 @@
     <p-table #dt [value]="obras" selectionMode="single" [columns]="cols" [rows]="10" [paginator]="true"
       styleClass="p-datatable-gridlines p-datatable-striped p-datatable-header"
       [globalFilterFields]="['nombre_obra', 'codigo_obra', 'numero_ot', 'monto','estado.nombre']"
-      [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
+      [tableStyle]="{ 'min-width': '75rem' }"  [rowHover]="true" dataKey="id"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
 
       <ng-template pTemplate="caption">

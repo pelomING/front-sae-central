@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Product } from '../model/product.model';
-import { EstadoResultado } from '../model/estadoResultado.model'
+import { Product } from '../models/product.model';
+import { EstadoResultado } from '../models/estadoResultado.model'
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ConfigService } from '../../_services/config.service';
@@ -92,9 +92,7 @@ interface Zona {
 }
 
 
-
-
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class EstadoResultadoService {
 
     private baseUrl: string = '';
