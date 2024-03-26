@@ -1,16 +1,9 @@
-<p-card header="Manual de Usuario">
+<p-card header="Manual de Usuario para la gestión de obras">
+    <!-- comentario  -->
+    <p-accordion [activeIndex]="-1">
+        <p-accordionTab header="Introducción">
 
-
-
-<!-- comentario  -->
-
-
-
-
-    <p-accordion [activeIndex]="0">
-        <p-accordionTab header="Introduccion">
-
-            El sistema de gestión de obras SIGO ofrece a sus usuarios funcionalidades dirigidas principalmente a
+            El Sistema de Gestión de Obras (SGO) ofrece a sus usuarios funcionalidades dirigidas principalmente a
             controlar lo siguiente:<br>
             <ul>
                 <li>Avance físico de una obra</li>
@@ -27,10 +20,9 @@
             <p>
                 La interfaz de usuario está compuesta por el panel izquierdo y el panel central, como se muestra en la
                 figura N° 1.
-                En el panel izquierdo se muestran las actividades del negocio y en el panel central se desarrolla la
-                actividad seleccionada,
-                mostrando información relevante de las obras e iconos circulares para realizar acciones, por ejemplo, visualización,
-                edición, borrado, etc.
+                En el panel izquierdo se muestran los negocios con sus respectivas actividades.En el panel central se usa como 
+                ingreso y presentacion de información relativa a las obras, ademas de iconos circulares que ejecuran
+                acciones sobre los datos seleccionados.
             </p>
             <br>
             <div align='center'>
@@ -46,41 +38,44 @@
         <p-accordionTab header="Estados de una obra">
             <p>Las obras pueden estar en alguno de los siguientes 6 estados:</p>
             <ol>
-                <li>Ingresada</li>
+                <li><b>Ingresada</b></li>
                 <p>
                     Estado inicial de una obra. Queda en este estado cuando sólo
                     se han ingresados los datos que describen a la obra, por ejemplo, valores de código CGED, tipo de
                     obra, fechas, responsables etc.
                 </p>
-                <li>Visita reportada exitosa</li>
+                <li><b>Visita reportada exitosa</b></li>
                 <p>
                     La obra pasa a este estado manualmente. En el menus Reporte Visita a Terreno, se selecciona la obra y
                     se modifica el estado a este valor.
                 </p>
-                <li>En faena</li>
+                <li><b>En faena</b></li>
                 <p>
                     La obra pasa a este estado cuando se ingresa un reporte diario, en el menú Reporte diario. Cabe señalar
                     que para que a una obra se le pueda ingresar un reporte diario, debe estar en estado Visita reportada exitosa
                 </p>
-                <li>Paralizada</li>
+                <li><b>Paralizada</b></li>
                 <p>
                     Este estado representa que la obra se encuentra paralizada en cualquiera de sus fases, excepto cuando 
                     esta se encuentra en estado Ingresada. La asignación de este estado se realiza en el menú Obras, 
                     seleccionando la acción editar y suministrando la información solicitada en la pestaña Paralizar. 
                     La obra sale de este estado cuando se ingresa un reporte diario.
                 </p>
-                <li>Faena finalizada</li>
+                <li><b>Faena finalizada</b></li>
                 <p>
                     Este estado representa la finalización de los trabajos en terreno de una obra. Para que una obra 
                     llegue a este estado se debe ingresar la información solicitada en el menú Finalización de faenas.   
                 </p>
-                <li>Eliminada</li>
+                <li><b>Eliminada</b></li>
                 <p>
                     Las obras eliminadas permanecen en este estado.
                 </p>
                 <p>
-                    En la Figura N° 2 se muestras el diagrama de transición de estado de una obra. En este diagrama se 
-                    puede ver cuáles son los posibles siguientes estados de una obra, dado el estado actual.
+                    En la Figura N° 2 se muestras el diagrama de transición de estado de una obra. Los circulos representan 
+                    los estados, las flechas indican el o los siguientes estados posibles. La leyenda ubicada en las flechas
+                    hacen referencia al evento que debe ocurrir en el sistema para que la obra pase al siguinte estado. Por ejemplo,
+                    cuando una obra se encuentra en estado Visita reportada OK y se ingresa un reporte diario a la obra, esta
+                    pasa al estado En Faena.
                 </p>    
             </ol>
             <br>
@@ -413,4 +408,57 @@
 
     </p-accordion>
 
+</p-card>
+
+<p-card header="Gestión de usuario">
+
+    <p-accordion [activeIndex]="-1">
+        <p-accordionTab header="Introducción">
+            En el panel izquierdo, bajo el nombre Gestión de usuario se encuentran las funciones
+            para cambiar la contraseña y también para resetearla.
+        </p-accordionTab>
+        <p-accordionTab header="Cambio de password">
+            Cuando se selecciona esta opción desde el panel izquierdo, en el panel central se despliega el formulario mostrado
+            en la Figura N° 17. El usuario debe suministrar la contraseña actual, la nueva contraseña, mas la confirmación
+            de esta. Cuando la nueva contraseña se digita dos veces en forma idéntica y cumple con las restricciones
+            indicadas en el formulario, se habilita el botón "Cambiar contraseña". Cuando se hace clic en este botón se 
+            realiza el cambio deseado.
+
+            <div align='center'>
+                <p-card [style]="{ width: '400px' }" >
+                    <p-image src="assets/layout/images/manual_obras/image017.jpg" alt="Image" width="350"
+                    [preview]="true"></p-image>
+                </p-card>
+                Figura N° 17. Formulario de cambio de password.
+            </div>    
+        </p-accordionTab>
+
+
+        <p-accordionTab header="Reset de password">
+           Cuando un usuario a olvidado su contraseña, es posible asignar una contraseña temporal con un valor por defecto.
+           El valor de la contraseña es el número de rut del usuario, digitado sin puntos y con guion mas el
+           dígito verificador. En el caso que el digito verificador sea la letra K, esta debe ingresarse en
+           mayúsculas.
+
+           Para entrar a esta funcionalidad, se debe seleccionar desde el panel izquierdo el link Reset de Pasword.
+           En el panel central aparece la lista de todos los usuarios. Es posible usar la herramienta de búsqueda
+           para encontrar a un usuario en particular, puede ser a través de su RUT. Una vez encontrado el usuario al cual 
+           se desea resetear su contraseña, se debe hacer clic en el círculo azul, ubicado en la última columna
+           de la grilla del panel central. Cuando el usuario ingrese nuevamente al sistema, será direccionado al
+           formulario de cambio de pasword. 
+           
+           
+
+            <div align='center'>
+                <p-card [style]="{ width: '400px' }" >
+                    <p-image src="assets/layout/images/manual_obras/image017.jpg" alt="Image" width="350"
+                    [preview]="true"></p-image>
+                </p-card>
+                Figura N° 17. Formulario de cambio de password.
+            </div>    
+        </p-accordionTab>
+
+
+
+    </p-accordion>
 </p-card>
