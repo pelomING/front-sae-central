@@ -1,104 +1,311 @@
+<p-tabView  (onChange)="onTabChange($event)" >
 
-<div class="grid">
+  <p-tabPanel header="Accesos de usuarios al sistema" >
 
-<div class="col-12 lg:col-6 xl:col-3">
+      <div class="grid flex align-items-center justify-content-center">
 
-  <div class="card" *ngIf="x" >
-
-      <div class="flex justify-content-between align-items-center mb-5">
-          <h5>x</h5>
+        <div class="col-12 lg:col-6 xl:col-4">
+      
+          <div class="card flex flex-column align-items-center" >  
+            <p-chart type="line" [data]="data_line_1" ></p-chart>
+          </div>
+          
+          <div class="card">
+      
+            <p-table #dt [value]="all_login_total">
+      
+              <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                  <h5 class="m-0">Total Ingresos al sistema</h5>
+                </div>
+              </ng-template>
+      
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Día</th>
+                  <th>Fecha</th>
+                  <th>Cantidad</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData>
+                <tr>
+                  <td>{{rowData.dia}}</td>
+                  <td>{{rowData.fecha}}</td>
+                  <td>
+                    <div
+                      class="flex align-items-center justify-content-center w-2rem h-2rem {{ rowData['bg-color'] }} font-bold border-round">
+                      {{rowData.cantidad}}</div>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+      
+          </div>
+      
+        </div>
+            
+        <div class="col-12 lg:col-6 xl:col-4">
+      
+          <div class="card flex flex-column align-items-center" >
+            <p-chart type="line" [data]="data_line_2" ></p-chart>
+          </div>
+      
+          <div class="card">
+      
+            <p-table #dt [value]="all_login_maule_norte">
+      
+              <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                  <h5 class="m-0">Ingresos al sistema Maule Norte</h5>
+                </div>
+              </ng-template>
+      
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Día</th>
+                  <th>Fecha</th>
+                  <th>Cantidad</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData>
+                <tr>
+                  <td>{{rowData.dia}}</td>
+                  <td>{{rowData.fecha}}</td>
+                  <td>
+                    <div
+                      class="flex align-items-center justify-content-center w-2rem h-2rem {{ rowData['bg-color'] }} font-bold border-round">
+                      {{rowData.cantidad}}</div>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+      
+          </div>
+      
+        </div>
+            
+        <div class="col-12 lg:col-6 xl:col-4">
+      
+          <div class="card flex flex-column align-items-center" >
+            <p-chart type="line" [data]="data_line_3" ></p-chart>
+          </div>
+      
+          <div class="card">
+      
+            <p-table #dt [value]="all_login_maule_sur">
+      
+              <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                  <h5 class="m-0">Ingresos al sistema Maule Sur</h5>
+                </div>
+              </ng-template>
+      
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Día</th>
+                  <th>Fecha</th>
+                  <th>Cantidad</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData>
+                <tr>
+                  <td>{{rowData.dia}}</td>
+                  <td>{{rowData.fecha}}</td>
+                  <td>
+                    <div
+                      class="flex align-items-center justify-content-center w-2rem h-2rem {{ rowData['bg-color'] }} font-bold border-round">
+                      {{rowData.cantidad}}</div>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+      
+          </div>
+      
+        </div>
+            
       </div>
 
-      <ul class="list-none p-0 m-0">
-          <li *ngFor="let item of x"
-              class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-              <div>
-                  <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ item.fecha }}</span>
-                  <div class="mt-1 text-600">Cantidad: {{ item.cantidad }}</div>
+  </p-tabPanel>
+
+  <p-tabPanel header="Obras registradas por día" >
+
+    <div class="grid flex align-items-center justify-content-center">
+
+      <div class="col-12 lg:col-6 xl:col-4">
+    
+        <div class="card flex flex-column align-items-center" >  
+          <p-chart  type="line" [data]="data_line_1_resumen_obras" ></p-chart>
+        </div>
+        
+        <div class="card">
+    
+          <p-table #dt [value]="resumen_obras_recientes_total">
+    
+            <ng-template pTemplate="caption">
+              <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Total Obras registradas</h5>
               </div>
-              <div class="mt-2 md:mt-0 flex align-items-center">
-                  <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
-                      [ngStyle]="{ height: '8px' }">
-                      <div class="{{ item['bg-color'] }} h-full" [ngStyle]="{ width: item.cantidad + '%' }">
-                      </div>
-                  </div>
-                  <span class="{{ item['text-color'] }} ml-3 font-medium">{{ item.cantidad }} %</span>
-              </div>
-          </li>
-      </ul>
-
-  </div>
-  <div *ngIf="!x">
-      <!-- Opcional: mensaje de carga o spinner mientras se cargan los datos -->
-      <p>Cargando...</p>
-  </div>
-
-</div>
-<div class="col-12 lg:col-6 xl:col-3">
-
-  <div class="card" *ngIf="y" >
-
-      <div class="flex justify-content-between align-items-center mb-5">
-          <h5>y</h5>
+            </ng-template>
+    
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Día</th>
+                <th>Fecha</th>
+                <th>Cantidad</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData>
+              <tr>
+                <td>{{rowData.dia}}</td>
+                <td>{{rowData.fecha}}</td>
+                <td>
+                  <div
+                    class="flex align-items-center justify-content-center w-2rem h-2rem {{ rowData['bg-color'] }} font-bold border-round">
+                    {{rowData.cantidad}}</div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+    
+        </div>
+    
       </div>
-
-      <ul class="list-none p-0 m-0">
-          <li *ngFor="let item of y"
-              class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-              <div>
-                  <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ item.fecha }}</span>
-                  <div class="mt-1 text-600">Cantidad: {{ item.cantidad }}</div>
+          
+      <div class="col-12 lg:col-6 xl:col-4">
+    
+        <div class="card flex flex-column align-items-center" >
+          <p-chart type="line" [data]="data_line_2_resumen_obras" ></p-chart>
+        </div>
+    
+        <div class="card">
+    
+          <p-table #dt [value]="resumen_obras_recientes_maule_norte">
+    
+            <ng-template pTemplate="caption">
+              <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Obras Maule Norte</h5>
               </div>
-              <div class="mt-2 md:mt-0 flex align-items-center">
-                  <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
-                      [ngStyle]="{ height: '8px' }">
-                      <div class="{{ item['bg-color'] }} h-full" [ngStyle]="{ width: item.cantidad + '%' }">
-                      </div>
-                  </div>
-                  <span class="{{ item['text-color'] }} ml-3 font-medium">{{ item.cantidad }} %</span>
-              </div>
-          </li>
-      </ul>
-
-  </div>
-  <div *ngIf="!y">
-      <!-- Opcional: mensaje de carga o spinner mientras se cargan los datos -->
-      <p>Cargando...</p>
-  </div>
-
-</div>
-<div class="col-12 lg:col-6 xl:col-3">
-
-  <div class="card" *ngIf="r" >
-
-      <div class="flex justify-content-between align-items-center mb-5">
-          <h5>r</h5>
+            </ng-template>
+    
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Día</th>
+                <th>Fecha</th>
+                <th>Cantidad</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData>
+              <tr>
+                <td>{{rowData.dia}}</td>
+                <td>{{rowData.fecha}}</td>
+                <td>
+                  <div
+                    class="flex align-items-center justify-content-center w-2rem h-2rem {{ rowData['bg-color'] }} font-bold border-round">
+                    {{rowData.cantidad}}</div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+    
+        </div>
+    
       </div>
-
-      <ul class="list-none p-0 m-0">
-          <li *ngFor="let item of r.detalle"
-              class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-              <div>
-                  <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ item.codigo_obra }}</span>
-                  <div class="mt-1 text-600">Cantidad: {{ item.dias_sin_rep }}</div>
+          
+      <div class="col-12 lg:col-6 xl:col-4">
+    
+        <div class="card flex flex-column align-items-center" >
+          <p-chart type="line" [data]="data_line_3_resumen_obras" ></p-chart>
+        </div>
+    
+        <div class="card">
+    
+          <p-table #dt [value]="resumen_obras_recientes_maule_sur">
+    
+            <ng-template pTemplate="caption">
+              <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Obras Maule Sur</h5>
               </div>
-              <div class="mt-2 md:mt-0 flex align-items-center">
-                  <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
-                      [ngStyle]="{ height: '8px' }">
-                      <div class="{{ item['bg-color'] }} h-full" [ngStyle]="{ width: item.fecha_ultimo + '%' }">
-                      </div>
-                  </div>
-                  <span class="{{ item['text-color'] }} ml-3 font-medium">{{ item.codigo_obra }} %</span>
+            </ng-template>
+    
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Día</th>
+                <th>Fecha</th>
+                <th>Cantidad</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData>
+              <tr>
+                <td>{{rowData.dia}}</td>
+                <td>{{rowData.fecha}}</td>
+                <td>
+                  <div
+                    class="flex align-items-center justify-content-center w-2rem h-2rem {{ rowData['bg-color'] }} font-bold border-round">
+                    {{rowData.cantidad}}</div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+    
+        </div>
+    
+      </div>
+          
+    </div>
+
+  </p-tabPanel>
+
+  <p-tabPanel header="Obras que no registran reportes diarios">
+    <div class="grid flex align-items-center justify-content-center">
+
+      <div class="col-12 lg:col-6 xl:col-3">
+      </div>
+          
+      <div class="col-12 lg:col-6 xl:col-6">
+    
+        <div class="card">
+    
+          <p-table #dt [value]="resumen_obra_sin_reportes">
+    
+            <ng-template pTemplate="caption">
+              <div class="flex align-items-center justify-content-between">
+                <!-- <h5 class="m-0">Obras sin activiadad</h5> -->
               </div>
-          </li>
-      </ul>
+            </ng-template>
+    
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Codigo Obra</th>
+                <th>Fecha ultimo reporte</th>
+                <th>Días sin reportes</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData>
+              <tr>
+                <td>{{rowData.codigo_obra}}</td>
+                <td>{{rowData.fecha_ultimo}}</td>
+                <td>
+                  <div
+                    class="flex align-items-center justify-content-center w-2rem h-2rem font-bold border-round">
+                    {{rowData.dias_sin_rep}}</div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+    
+        </div>
+    
+      </div>
+          
+      <div class="col-12 lg:col-6 xl:col-3">
+      </div>
+          
+    </div>
+  </p-tabPanel>
 
-  </div>
-  <div *ngIf="!r">
-      <!-- Opcional: mensaje de carga o spinner mientras se cargan los datos -->
-      <p>Cargando...</p>
-  </div>
+</p-tabView>
 
-</div>
 
-</div>
+
+

@@ -1,6 +1,7 @@
 <div class="layout-topbar">
+
     <a class="layout-topbar-logo" routerLink="">
-        <img src="assets/layout/images/logo_pelom_new.png" alt="logo" height="10">
+        <img src="assets/layout/images/logo_pelom_new.png" alt="logo" height="5">
     </a>
 
     <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
@@ -12,19 +13,45 @@
         <i class="pi pi-ellipsis-v"></i>
     </button>
 
-    <div #topbarmenu class="layout-topbar-menu" style="width: 400px;" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
 
-        <button class="p-link layout-topbar-button" style="width: 100%; margin-right: 15%; ">
+    <div class="layout-topbar-menu grid" style="width:100%;" >
+        <div class="col-2" style="width:60%;padding-top:25px;padding-left:20px;" >
+
+            <h5> Sistema integral de gestion de operaciones  (SIGO)</h5>
+
+        </div>
+        <div class="col-6" style="width:35%;padding-top:35px;padding-left:20px;" >
+                           
+            USUARIO : {{ storageService.getUser().nombre }}  &nbsp;&nbsp;
+            ROL: {{ storageService.getUser().funcion }} 
+            
+        </div>
+        <div #topbarmenu class="col-4" style="width:5%;" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}" >
+
+            <button class="p-link layout-topbar-button" (click)="logout()" pTooltip="cerrar sistema" tooltipPosition="left" >
+                <i class="pi pi-fw pi-power-off"></i>
+            </button>
+
+        </div>
+    </div> 
+    
+
+
+    <!-- <div class="layout-topbar-menu" style="width:100%;"> -->
+
+        <!-- <div style="width:100%;margin-right:1%;">
+          Sistema integral de gestion de operaciones 
+        </div>
+
+        <div class="layout-topbar-button" style="width:100%;margin-right:15%;">
            ROL: {{ storageService.getUser().funcion }} &nbsp;&nbsp;&nbsp;&nbsp;
-           <br> 
            USUARIO : {{ storageService.getUser().nombre }} 
-        </button>
+        </div>
 
-        <button (click)="logout()" pTooltip="cerrar sistema" tooltipPosition="right" class="p-link layout-topbar-button">
+        <button (click)="logout()" pTooltip="cerrar sistema" style="width:5%;margin-right:1%;" tooltipPosition="left" >
             <i class="pi pi-fw pi-power-off"></i>
-        </button>
-
-    </div>
+        </button> -->
+    <!-- </div> -->
 
 </div>
 
